@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/c-bata/go-prompt"
 	. "github.com/logrusorgru/aurora"
+	"github.com/spf13/viper"
 	"os"
 	"strings"
 )
@@ -32,9 +33,28 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "exit", Description: "quit the application"},
 		{Text: "quit", Description: "quit the application"},
 		{Text: "bye", Description: "quit the application"},
+		{Text: "list", Description: "list resources (clusters, configurations)"},
 	}
+
+	empty_s := []prompt.Suggest{}
+
+	list_s := []prompt.Suggest{
+		{Text: "clusters", Description: "show list of all clusters available"},
+		{Text: "configurations", Description: "show list all configurations"},
+	}
+
 	blocks := strings.Split(in.TextBeforeCursor(), " ")
 
+	if len(blocks) == 2 {
+		switch blocks[0] {
+		case "ls":
+			fallthrough
+		case "list":
+			return prompt.FilterHasPrefix(list_s, blocks[1], true)
+		default:
+			return empty_s
+		}
+	}
 	if in.GetWordBeforeCursor() == "" {
 		return nil
 	} else {
@@ -43,6 +63,12 @@ func completer(in prompt.Document) []prompt.Suggest {
 }
 
 func main() {
+	viper.SetConfigName("config")
+	viper.AddConfigPath(".")
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+	}
 	p := prompt.New(executor, completer)
 	p.Run()
 }
