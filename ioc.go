@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/c-bata/go-prompt"
 	. "github.com/logrusorgru/aurora"
+	"github.com/spf13/viper"
 	"os"
 	"strings"
 )
@@ -43,6 +44,12 @@ func completer(in prompt.Document) []prompt.Suggest {
 }
 
 func main() {
+	viper.SetConfigName("config")
+	viper.AddConfigPath(".")
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+	}
 	p := prompt.New(executor, completer)
 	p.Run()
 }
