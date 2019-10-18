@@ -20,12 +20,24 @@ import (
 	"github.com/c-bata/go-prompt"
 	. "github.com/logrusorgru/aurora"
 	"github.com/spf13/viper"
+	"golang.org/x/crypto/ssh/terminal"
 	"os"
 	"strings"
 )
 
+func loginCompleter(in prompt.Document) []prompt.Suggest {
+	return nil
+}
+
 func executor(t string) {
 	switch t {
+	case "login":
+		s := prompt.Input("login: ", loginCompleter)
+		fmt.Println(s)
+		fmt.Print("password: ")
+		q, err := terminal.ReadPassword(0)
+		fmt.Println(string(q), err)
+
 	case "list clusters":
 		fmt.Println(Magenta("List of clusters"))
 	case "bye":
@@ -44,6 +56,7 @@ func executor(t string) {
 
 func completer(in prompt.Document) []prompt.Suggest {
 	s := []prompt.Suggest{
+		{Text: "login", Description: "provide login info"},
 		{Text: "help", Description: "show help with all commands"},
 		{Text: "exit", Description: "quit the application"},
 		{Text: "quit", Description: "quit the application"},

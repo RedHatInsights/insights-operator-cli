@@ -10,3 +10,25 @@ A simple CLI client for managing the Insights operator. Currently this client su
 * `quit`
 * `bye`
   * exit from the client
+
+## How to build the CLI client
+
+Use the standard Go command:
+
+```
+go build
+```
+
+This command should create an executable file named `insights-operator-cli`.
+
+## Start
+
+Just run the executable file created by `go build`:
+
+```
+./insights-operator-cli
+```
+
+## Configuration
+
+No further configuration is needed at this moment.
