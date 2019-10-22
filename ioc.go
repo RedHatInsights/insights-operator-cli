@@ -25,6 +25,10 @@ import (
 	"strings"
 )
 
+func printHelp() {
+	fmt.Println("HELP:\nexit\nquit")
+}
+
 func loginCompleter(in prompt.Document) []prompt.Suggest {
 	return nil
 }
@@ -39,7 +43,6 @@ func executor(t string) {
 		fmt.Println(string(q), err)
 
 	case "list clusters":
-		fmt.Println(Magenta("List of clusters"))
 	case "bye":
 		fallthrough
 	case "exit":
@@ -48,7 +51,7 @@ func executor(t string) {
 		fmt.Println(Magenta("Quitting"))
 		os.Exit(0)
 	case "help":
-		fmt.Println("HELP:\nexit\nquit")
+		printHelp()
 	default:
 		fmt.Println("Command not found")
 	}
@@ -61,13 +64,14 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "exit", Description: "quit the application"},
 		{Text: "quit", Description: "quit the application"},
 		{Text: "bye", Description: "quit the application"},
-		{Text: "list", Description: "list resources (clusters, configurations)"},
+		{Text: "list", Description: "list resources (clusters, profiles, configurations)"},
 	}
 
 	empty_s := []prompt.Suggest{}
 
 	list_s := []prompt.Suggest{
 		{Text: "clusters", Description: "show list of all clusters available"},
+		{Text: "profiles", Description: "show list of all configuration profiles"},
 		{Text: "configurations", Description: "show list all configurations"},
 	}
 
