@@ -50,6 +50,16 @@ type ConfigurationProfile struct {
 	Description   string `json:"description"`
 }
 
+type ClusterConfiguration struct {
+	Id            int    `json:"id"`
+	Cluster       string `json:"cluster"`
+	Configuration string `json:"configuration"`
+	ChangedAt     string `json:"changed_at"`
+	ChangedBy     string `json:"changed_by"`
+	Active        string `json:"active"`
+	Reason        string `json:"reason"`
+}
+
 func readListOfClusters(controllerUrl string, apiPrefix string) ([]Cluster, error) {
 	clusters := []Cluster{}
 
@@ -102,6 +112,32 @@ func readListOfConfigurationProfiles(controllerUrl string, apiPrefix string) ([]
 	return profiles, nil
 }
 
+func readListOfConfigurations(controllerUrl string, apiPrefix string) ([]ClusterConfiguration, error) {
+	configurations := []ClusterConfiguration{}
+
+	url := controllerUrl + apiPrefix + "client/configuration"
+	response, err := http.Get(url)
+	if err != nil {
+		return configurations, fmt.Errorf("Communication error with the server %v", err)
+	}
+	if response.StatusCode != http.StatusOK {
+		return configurations, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
+	}
+
+	body, readErr := ioutil.ReadAll(response.Body)
+	defer response.Body.Close()
+
+	if readErr != nil {
+		return configurations, fmt.Errorf("Unable to read response body")
+	}
+
+	err = json.Unmarshal(body, &configurations)
+	if err != nil {
+		return configurations, err
+	}
+	return configurations, nil
+}
+
 func listOfClusters() {
 	clusters, err := readListOfClusters(controllerUrl, API_PREFIX)
 	if err != nil {
@@ -132,6 +168,21 @@ func listOfProfiles() {
 	}
 }
 
+func listOfConfigurations() {
+	configurations, err := readListOfConfigurations(controllerUrl, API_PREFIX)
+	if err != nil {
+		fmt.Println(Red("Error reading list of configurations"))
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(Magenta("List of configurations"))
+	fmt.Printf("%4s %4s %-20s %-20s %-10s %-12s %s\n", "#", "ID", "Cluster", "ChangedAt", "ChangedBy", "Active", "Reason")
+	for i, configuration := range configurations {
+		fmt.Printf("%4d %4d %-20s %-20s %-10s %-12s %s\n", i, configuration.Id, configuration.Cluster, configuration.ChangedAt, configuration.ChangedBy, configuration.Active, configuration.Reason)
+	}
+}
+
 func printHelp() {
 	fmt.Println("HELP:\nexit\nquit")
 }
@@ -156,6 +207,8 @@ func executor(t string) {
 		listOfClusters()
 	case "list profiles":
 		listOfProfiles()
+	case "list configurations":
+		listOfConfigurations()
 	case "bye":
 		fallthrough
 	case "exit":
@@ -182,6 +235,7 @@ func completer(in prompt.Document) []prompt.Suggest {
 
 	empty_s := []prompt.Suggest{}
 
+	// list operations
 	list_s := []prompt.Suggest{
 		{Text: "clusters", Description: "show list of all clusters available"},
 		{Text: "profiles", Description: "show list of all configuration profiles"},
