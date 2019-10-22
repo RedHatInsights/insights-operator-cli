@@ -42,6 +42,14 @@ type Cluster struct {
 	Name string `json:"name"`
 }
 
+type ConfigurationProfile struct {
+	Id            int    `json:"id"`
+	Configuration string `json:"configuration"`
+	ChangedAt     string `json:"changed_at"`
+	ChangedBy     string `json:"changed_by"`
+	Description   string `json:"description"`
+}
+
 func readListOfClusters(controllerUrl string, apiPrefix string) ([]Cluster, error) {
 	clusters := []Cluster{}
 
@@ -68,6 +76,32 @@ func readListOfClusters(controllerUrl string, apiPrefix string) ([]Cluster, erro
 	return clusters, nil
 }
 
+func readListOfConfigurationProfiles(controllerUrl string, apiPrefix string) ([]ConfigurationProfile, error) {
+	profiles := []ConfigurationProfile{}
+
+	url := controllerUrl + apiPrefix + "client/profile"
+	response, err := http.Get(url)
+	if err != nil {
+		return profiles, fmt.Errorf("Communication error with the server %v", err)
+	}
+	if response.StatusCode != http.StatusOK {
+		return profiles, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
+	}
+
+	body, readErr := ioutil.ReadAll(response.Body)
+	defer response.Body.Close()
+
+	if readErr != nil {
+		return profiles, fmt.Errorf("Unable to read response body")
+	}
+
+	err = json.Unmarshal(body, &profiles)
+	if err != nil {
+		return profiles, err
+	}
+	return profiles, nil
+}
+
 func listOfClusters() {
 	clusters, err := readListOfClusters(controllerUrl, API_PREFIX)
 	if err != nil {
@@ -80,6 +114,21 @@ func listOfClusters() {
 	fmt.Printf("%4s %4s %-s\n", "#", "ID", "Name")
 	for i, cluster := range clusters {
 		fmt.Printf("%4d %4d %-s\n", i, cluster.Id, cluster.Name)
+	}
+}
+
+func listOfProfiles() {
+	profiles, err := readListOfConfigurationProfiles(controllerUrl, API_PREFIX)
+	if err != nil {
+		fmt.Println(Red("Error reading list of configuration profiles"))
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(Magenta("List of configuration profiles"))
+	fmt.Printf("%4s %4s %-20s %-20s %s\n", "#", "ID", "ChangedAt", "ChangedBy", "Description")
+	for i, profile := range profiles {
+		fmt.Printf("%4d %4d %-20s %-20s %-s\n", i, profile.Id, profile.ChangedAt, profile.ChangedBy, profile.Description)
 	}
 }
 
@@ -105,6 +154,8 @@ func executor(t string) {
 		}
 	case "list clusters":
 		listOfClusters()
+	case "list profiles":
+		listOfProfiles()
 	case "bye":
 		fallthrough
 	case "exit":
