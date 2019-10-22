@@ -25,6 +25,12 @@ import (
 	"strings"
 )
 
+var username string
+var password string
+
+func tryToLogin(username string, password string) {
+}
+
 func printHelp() {
 	fmt.Println("HELP:\nexit\nquit")
 }
@@ -36,11 +42,15 @@ func loginCompleter(in prompt.Document) []prompt.Suggest {
 func executor(t string) {
 	switch t {
 	case "login":
-		s := prompt.Input("login: ", loginCompleter)
-		fmt.Println(s)
+		username = prompt.Input("login: ", loginCompleter)
 		fmt.Print("password: ")
-		q, err := terminal.ReadPassword(0)
-		fmt.Println(string(q), err)
+		p, err := terminal.ReadPassword(0)
+		if err != nil {
+			fmt.Println(Red("Password is not set"))
+		} else {
+			password = string(p)
+			tryToLogin(username, password)
+		}
 
 	case "list clusters":
 	case "bye":
