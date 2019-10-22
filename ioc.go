@@ -16,19 +16,71 @@ limitations under the License.
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/c-bata/go-prompt"
 	. "github.com/logrusorgru/aurora"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/ssh/terminal"
+	"io/ioutil"
+	"net/http"
 	"os"
 	"strings"
 )
 
+const API_PREFIX = "/api/v1/"
+
+var controllerUrl string
 var username string
 var password string
 
 func tryToLogin(username string, password string) {
+}
+
+type Cluster struct {
+	Id   int    `json:"id"`
+	Name string `json:"name"`
+}
+
+func readListOfClusters(controllerUrl string, apiPrefix string) ([]Cluster, error) {
+	clusters := []Cluster{}
+
+	url := controllerUrl + apiPrefix + "client/cluster"
+	response, err := http.Get(url)
+	if err != nil {
+		return clusters, err
+	}
+	if response.StatusCode != http.StatusOK {
+		return clusters, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
+	}
+
+	body, readErr := ioutil.ReadAll(response.Body)
+	defer response.Body.Close()
+
+	if readErr != nil {
+		return clusters, fmt.Errorf("Unable to read response body")
+	}
+
+	err = json.Unmarshal(body, &clusters)
+	if err != nil {
+		return clusters, err
+	}
+	return clusters, nil
+}
+
+func listOfClusters() {
+	clusters, err := readListOfClusters(controllerUrl, API_PREFIX)
+	if err != nil {
+		fmt.Println(Red("Error reading list of clusters"))
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(Magenta("List of clusters"))
+	fmt.Printf("%4s %4s %-s\n", "#", "ID", "Name")
+	for i, cluster := range clusters {
+		fmt.Printf("%4d %4d %-s\n", i, cluster.Id, cluster.Name)
+	}
 }
 
 func printHelp() {
@@ -51,8 +103,8 @@ func executor(t string) {
 			password = string(p)
 			tryToLogin(username, password)
 		}
-
 	case "list clusters":
+		listOfClusters()
 	case "bye":
 		fallthrough
 	case "exit":
