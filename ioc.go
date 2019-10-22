@@ -93,10 +93,13 @@ func completer(in prompt.Document) []prompt.Suggest {
 func main() {
 	viper.SetConfigName("config")
 	viper.AddConfigPath(".")
+
 	err := viper.ReadInConfig()
 	if err != nil {
 		panic(fmt.Errorf("Fatal error config file: %s \n", err))
 	}
+
+	controllerUrl = viper.GetString("CONTROLLER_URL")
 	p := prompt.New(executor, completer)
 	p.Run()
 }
