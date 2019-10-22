@@ -16,14 +16,176 @@ limitations under the License.
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/c-bata/go-prompt"
 	. "github.com/logrusorgru/aurora"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/ssh/terminal"
+	"io/ioutil"
+	"net/http"
 	"os"
 	"strings"
 )
+
+const API_PREFIX = "/api/v1/"
+
+var controllerUrl string
+var username string
+var password string
+
+func tryToLogin(username string, password string) {
+}
+
+type Cluster struct {
+	Id   int    `json:"id"`
+	Name string `json:"name"`
+}
+
+type ConfigurationProfile struct {
+	Id            int    `json:"id"`
+	Configuration string `json:"configuration"`
+	ChangedAt     string `json:"changed_at"`
+	ChangedBy     string `json:"changed_by"`
+	Description   string `json:"description"`
+}
+
+type ClusterConfiguration struct {
+	Id            int    `json:"id"`
+	Cluster       string `json:"cluster"`
+	Configuration string `json:"configuration"`
+	ChangedAt     string `json:"changed_at"`
+	ChangedBy     string `json:"changed_by"`
+	Active        string `json:"active"`
+	Reason        string `json:"reason"`
+}
+
+func readListOfClusters(controllerUrl string, apiPrefix string) ([]Cluster, error) {
+	clusters := []Cluster{}
+
+	url := controllerUrl + apiPrefix + "client/cluster"
+	response, err := http.Get(url)
+	if err != nil {
+		return clusters, err
+	}
+	if response.StatusCode != http.StatusOK {
+		return clusters, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
+	}
+
+	body, readErr := ioutil.ReadAll(response.Body)
+	defer response.Body.Close()
+
+	if readErr != nil {
+		return clusters, fmt.Errorf("Unable to read response body")
+	}
+
+	err = json.Unmarshal(body, &clusters)
+	if err != nil {
+		return clusters, err
+	}
+	return clusters, nil
+}
+
+func readListOfConfigurationProfiles(controllerUrl string, apiPrefix string) ([]ConfigurationProfile, error) {
+	profiles := []ConfigurationProfile{}
+
+	url := controllerUrl + apiPrefix + "client/profile"
+	response, err := http.Get(url)
+	if err != nil {
+		return profiles, fmt.Errorf("Communication error with the server %v", err)
+	}
+	if response.StatusCode != http.StatusOK {
+		return profiles, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
+	}
+
+	body, readErr := ioutil.ReadAll(response.Body)
+	defer response.Body.Close()
+
+	if readErr != nil {
+		return profiles, fmt.Errorf("Unable to read response body")
+	}
+
+	err = json.Unmarshal(body, &profiles)
+	if err != nil {
+		return profiles, err
+	}
+	return profiles, nil
+}
+
+func readListOfConfigurations(controllerUrl string, apiPrefix string) ([]ClusterConfiguration, error) {
+	configurations := []ClusterConfiguration{}
+
+	url := controllerUrl + apiPrefix + "client/configuration"
+	response, err := http.Get(url)
+	if err != nil {
+		return configurations, fmt.Errorf("Communication error with the server %v", err)
+	}
+	if response.StatusCode != http.StatusOK {
+		return configurations, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
+	}
+
+	body, readErr := ioutil.ReadAll(response.Body)
+	defer response.Body.Close()
+
+	if readErr != nil {
+		return configurations, fmt.Errorf("Unable to read response body")
+	}
+
+	err = json.Unmarshal(body, &configurations)
+	if err != nil {
+		return configurations, err
+	}
+	return configurations, nil
+}
+
+func listOfClusters() {
+	clusters, err := readListOfClusters(controllerUrl, API_PREFIX)
+	if err != nil {
+		fmt.Println(Red("Error reading list of clusters"))
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(Magenta("List of clusters"))
+	fmt.Printf("%4s %4s %-s\n", "#", "ID", "Name")
+	for i, cluster := range clusters {
+		fmt.Printf("%4d %4d %-s\n", i, cluster.Id, cluster.Name)
+	}
+}
+
+func listOfProfiles() {
+	profiles, err := readListOfConfigurationProfiles(controllerUrl, API_PREFIX)
+	if err != nil {
+		fmt.Println(Red("Error reading list of configuration profiles"))
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(Magenta("List of configuration profiles"))
+	fmt.Printf("%4s %4s %-20s %-20s %s\n", "#", "ID", "ChangedAt", "ChangedBy", "Description")
+	for i, profile := range profiles {
+		fmt.Printf("%4d %4d %-20s %-20s %-s\n", i, profile.Id, profile.ChangedAt, profile.ChangedBy, profile.Description)
+	}
+}
+
+func listOfConfigurations() {
+	configurations, err := readListOfConfigurations(controllerUrl, API_PREFIX)
+	if err != nil {
+		fmt.Println(Red("Error reading list of configurations"))
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(Magenta("List of configurations"))
+	fmt.Printf("%4s %4s %-20s %-20s %-10s %-12s %s\n", "#", "ID", "Cluster", "ChangedAt", "ChangedBy", "Active", "Reason")
+	for i, configuration := range configurations {
+		fmt.Printf("%4d %4d %-20s %-20s %-10s %-12s %s\n", i, configuration.Id, configuration.Cluster, configuration.ChangedAt, configuration.ChangedBy, configuration.Active, configuration.Reason)
+	}
+}
+
+func printHelp() {
+	fmt.Println("HELP:\nexit\nquit")
+}
 
 func loginCompleter(in prompt.Document) []prompt.Suggest {
 	return nil
@@ -32,14 +194,21 @@ func loginCompleter(in prompt.Document) []prompt.Suggest {
 func executor(t string) {
 	switch t {
 	case "login":
-		s := prompt.Input("login: ", loginCompleter)
-		fmt.Println(s)
+		username = prompt.Input("login: ", loginCompleter)
 		fmt.Print("password: ")
-		q, err := terminal.ReadPassword(0)
-		fmt.Println(string(q), err)
-
+		p, err := terminal.ReadPassword(0)
+		if err != nil {
+			fmt.Println(Red("Password is not set"))
+		} else {
+			password = string(p)
+			tryToLogin(username, password)
+		}
 	case "list clusters":
-		fmt.Println(Magenta("List of clusters"))
+		listOfClusters()
+	case "list profiles":
+		listOfProfiles()
+	case "list configurations":
+		listOfConfigurations()
 	case "bye":
 		fallthrough
 	case "exit":
@@ -48,7 +217,7 @@ func executor(t string) {
 		fmt.Println(Magenta("Quitting"))
 		os.Exit(0)
 	case "help":
-		fmt.Println("HELP:\nexit\nquit")
+		printHelp()
 	default:
 		fmt.Println("Command not found")
 	}
@@ -61,13 +230,15 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "exit", Description: "quit the application"},
 		{Text: "quit", Description: "quit the application"},
 		{Text: "bye", Description: "quit the application"},
-		{Text: "list", Description: "list resources (clusters, configurations)"},
+		{Text: "list", Description: "list resources (clusters, profiles, configurations)"},
 	}
 
 	empty_s := []prompt.Suggest{}
 
+	// list operations
 	list_s := []prompt.Suggest{
 		{Text: "clusters", Description: "show list of all clusters available"},
+		{Text: "profiles", Description: "show list of all configuration profiles"},
 		{Text: "configurations", Description: "show list all configurations"},
 	}
 
@@ -93,10 +264,13 @@ func completer(in prompt.Document) []prompt.Suggest {
 func main() {
 	viper.SetConfigName("config")
 	viper.AddConfigPath(".")
+
 	err := viper.ReadInConfig()
 	if err != nil {
 		panic(fmt.Errorf("Fatal error config file: %s \n", err))
 	}
+
+	controllerUrl = viper.GetString("CONTROLLER_URL")
 	p := prompt.New(executor, completer)
 	p.Run()
 }
