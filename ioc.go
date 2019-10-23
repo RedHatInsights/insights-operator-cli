@@ -224,7 +224,7 @@ func executor(t string) {
 }
 
 func completer(in prompt.Document) []prompt.Suggest {
-	s := []prompt.Suggest{
+	firstWord := []prompt.Suggest{
 		{Text: "login", Description: "provide login info"},
 		{Text: "help", Description: "show help with all commands"},
 		{Text: "exit", Description: "quit the application"},
@@ -233,31 +233,30 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "list", Description: "list resources (clusters, profiles, configurations)"},
 	}
 
-	empty_s := []prompt.Suggest{}
+	secondWord := make(map[string][]prompt.Suggest)
 
 	// list operations
-	list_s := []prompt.Suggest{
+	secondWord["list"] = []prompt.Suggest{
 		{Text: "clusters", Description: "show list of all clusters available"},
 		{Text: "profiles", Description: "show list of all configuration profiles"},
-		{Text: "configurations", Description: "show list all configurations"},
+		{Text: "configurations", Description: "show list all cluster configurations"},
 	}
+	empty_s := []prompt.Suggest{}
 
 	blocks := strings.Split(in.TextBeforeCursor(), " ")
 
 	if len(blocks) == 2 {
-		switch blocks[0] {
-		case "ls":
-			fallthrough
-		case "list":
-			return prompt.FilterHasPrefix(list_s, blocks[1], true)
-		default:
+		sec, ok := secondWord[blocks[0]]
+		if ok {
+			return prompt.FilterHasPrefix(sec, blocks[1], true)
+		} else {
 			return empty_s
 		}
 	}
 	if in.GetWordBeforeCursor() == "" {
 		return nil
 	} else {
-		return prompt.FilterHasPrefix(s, blocks[0], true)
+		return prompt.FilterHasPrefix(firstWord, blocks[0], true)
 	}
 }
 
