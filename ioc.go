@@ -22,6 +22,7 @@ import (
 	. "github.com/logrusorgru/aurora"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/ssh/terminal"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -76,6 +77,24 @@ func performReadRequest(url string) ([]byte, error) {
 	}
 
 	return body, nil
+}
+
+func performWriteRequest(url string, method string, payload io.Reader) error {
+	var client http.Client
+
+	request, err := http.NewRequest("PUT", url, payload)
+	if err != nil {
+		return fmt.Errorf("Error creating request %v", err)
+	}
+
+	response, err := client.Do(request)
+	if err != nil {
+		return fmt.Errorf("Communication error with the server %v", err)
+	}
+	if response.StatusCode != http.StatusOK {
+		return fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
+	}
+	return nil
 }
 
 func readListOfClusters(controllerUrl string, apiPrefix string) ([]Cluster, error) {
@@ -221,6 +240,33 @@ func describeConfiguration(clusterId string) {
 	fmt.Println(*configuration)
 }
 
+func enableClusterConfiguration(configurationId string) {
+	url := controllerUrl + API_PREFIX + "client/configuration/" + configurationId + "/enable"
+	err := performWriteRequest(url, "PUT", nil)
+	if err != nil {
+		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Print(Blue("Configuration " + configurationId + " has been "))
+		fmt.Println(Green("disabled"))
+	}
+}
+
+func disableClusterConfiguration(configurationId string) {
+	// TODO: refactoring needed - almost the same code as in previous function
+	url := controllerUrl + API_PREFIX + "client/configuration/" + configurationId + "/disable"
+	err := performWriteRequest(url, "PUT", nil)
+	if err != nil {
+		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Print(Blue("Configuration " + configurationId + " has been "))
+		fmt.Println(Red("disabled"))
+	}
+}
+
 func printHelp() {
 	fmt.Println("HELP:\nexit\nquit")
 }
@@ -230,15 +276,20 @@ func loginCompleter(in prompt.Document) []prompt.Suggest {
 }
 
 func executor(t string) {
+	blocks := strings.Split(t, " ")
 	// commands with variable parts
 	switch {
 	case strings.HasPrefix(t, "describe profile "):
-		blocks := strings.Split(t, " ")
 		describeProfile(blocks[2])
 		return
 	case strings.HasPrefix(t, "describe configuration "):
-		blocks := strings.Split(t, " ")
 		describeConfiguration(blocks[2])
+		return
+	case strings.HasPrefix(t, "enable "):
+		enableClusterConfiguration(blocks[1])
+		return
+	case strings.HasPrefix(t, "disable "):
+		disableClusterConfiguration(blocks[1])
 		return
 	}
 
@@ -266,6 +317,12 @@ func executor(t string) {
 	case "describe configuration":
 		configuration := prompt.Input("configuration: ", loginCompleter)
 		describeConfiguration(configuration)
+	case "enable":
+		configuration := prompt.Input("configuration: ", loginCompleter)
+		enableClusterConfiguration(configuration)
+	case "disable":
+		configuration := prompt.Input("configuration: ", loginCompleter)
+		disableClusterConfiguration(configuration)
 	case "bye":
 		fallthrough
 	case "exit":
@@ -289,6 +346,9 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "bye", Description: "quit the application"},
 		{Text: "list", Description: "list resources (clusters, profiles, configurations)"},
 		{Text: "describe", Description: "describe the selected resource"},
+		{Text: "add", Description: "add resource (cluster, profile, configuration)"},
+		{Text: "enable", Description: "enable selected cluster profile"},
+		{Text: "disable", Description: "disable selected cluster profile"},
 	}
 
 	secondWord := make(map[string][]prompt.Suggest)
@@ -298,6 +358,12 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "clusters", Description: "show list of all clusters available"},
 		{Text: "profiles", Description: "show list of all configuration profiles"},
 		{Text: "configurations", Description: "show list all cluster configurations"},
+	}
+	// add operations
+	secondWord["add"] = []prompt.Suggest{
+		{Text: "cluster", Description: "add/register new cluster"},
+		{Text: "profile", Description: "add new configuration profile"},
+		{Text: "configuration", Description: "add new cluster configuration"},
 	}
 	// descripbe operations
 	secondWord["describe"] = []prompt.Suggest{
