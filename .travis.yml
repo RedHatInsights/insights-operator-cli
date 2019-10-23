@@ -1,0 +1,9 @@
+language: go
+go:
+- 1.13
+before_install:
+  - go build
+script:
+  - go test ./...
+after_success:
+  - echo "Tests passed"
