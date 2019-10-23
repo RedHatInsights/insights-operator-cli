@@ -138,6 +138,30 @@ func readListOfConfigurations(controllerUrl string, apiPrefix string) ([]Cluster
 	return configurations, nil
 }
 
+func readConfigurationProfile(controllerUrl string, apiPrefix string, profileId string) (*ConfigurationProfile, error) {
+	var profile ConfigurationProfile
+	url := controllerUrl + apiPrefix + "client/profile/" + profileId
+	response, err := http.Get(url)
+	if err != nil {
+		return nil, fmt.Errorf("Communication error with the server %v", err)
+	}
+	if response.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
+	}
+	body, readErr := ioutil.ReadAll(response.Body)
+	defer response.Body.Close()
+
+	if readErr != nil {
+		return nil, fmt.Errorf("Unable to read response body")
+	}
+
+	err = json.Unmarshal(body, &profile)
+	if err != nil {
+		return nil, err
+	}
+	return &profile, nil
+}
+
 func listOfClusters() {
 	clusters, err := readListOfClusters(controllerUrl, API_PREFIX)
 	if err != nil {
@@ -183,6 +207,18 @@ func listOfConfigurations() {
 	}
 }
 
+func describeProfile(profileId string) {
+	profile, err := readConfigurationProfile(controllerUrl, API_PREFIX, profileId)
+	if err != nil {
+		fmt.Println(Red("Error reading configuration profile"))
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(Magenta("Configuration profile"))
+	fmt.Println(profile.Configuration)
+}
+
 func printHelp() {
 	fmt.Println("HELP:\nexit\nquit")
 }
@@ -192,6 +228,15 @@ func loginCompleter(in prompt.Document) []prompt.Suggest {
 }
 
 func executor(t string) {
+	// commands with variable parts
+	switch {
+	case strings.HasPrefix(t, "describe profile "):
+		blocks := strings.Split(t, " ")
+		describeProfile(blocks[2])
+		return
+	}
+
+	// fixed commands
 	switch t {
 	case "login":
 		username = prompt.Input("login: ", loginCompleter)
