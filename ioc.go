@@ -16,6 +16,7 @@ limitations under the License.
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/c-bata/go-prompt"
@@ -25,7 +26,9 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -34,8 +37,10 @@ const API_PREFIX = "/api/v1/"
 var controllerUrl string
 var username string
 var password string
+var files []prompt.Suggest
 
 func tryToLogin(username string, password string) {
+	fmt.Println(Blue("\nDone"))
 }
 
 type Cluster struct {
@@ -82,7 +87,7 @@ func performReadRequest(url string) ([]byte, error) {
 func performWriteRequest(url string, method string, payload io.Reader) error {
 	var client http.Client
 
-	request, err := http.NewRequest("PUT", url, payload)
+	request, err := http.NewRequest(method, url, payload)
 	if err != nil {
 		return fmt.Errorf("Error creating request %v", err)
 	}
@@ -191,11 +196,13 @@ func listOfProfiles() {
 	fmt.Println(Magenta("List of configuration profiles"))
 	fmt.Printf("%4s %4s %-20s %-20s %s\n", "#", "ID", "Changed at", "Changed by", "Description")
 	for i, profile := range profiles {
-		fmt.Printf("%4d %4d %-20s %-20s %-s\n", i, profile.Id, profile.ChangedAt, profile.ChangedBy, profile.Description)
+		changedAt := profile.ChangedAt[0:19]
+		fmt.Printf("%4d %4d %-20s %-20s %-s\n", i, profile.Id, changedAt, profile.ChangedBy, profile.Description)
 	}
 }
 
-func listOfConfigurations() {
+func listOfConfigurations(filter string) {
+	// TODO: filter in query?
 	configurations, err := readListOfConfigurations(controllerUrl, API_PREFIX)
 	if err != nil {
 		fmt.Println(Red("Error reading list of configurations"))
@@ -206,13 +213,17 @@ func listOfConfigurations() {
 	fmt.Println(Magenta("List of configuration for all clusters"))
 	fmt.Printf("%4s %4s %-20s %-20s %-10s %-12s %s\n", "#", "ID", "Cluster", "Changed at", "Changed by", "Active", "Reason")
 	for i, configuration := range configurations {
-		var active Value
-		if configuration.Active == "1" {
-			active = Green("yes")
-		} else {
-			active = Red("no")
+		// poor man's filtering
+		if strings.Contains(configuration.Cluster, filter) {
+			var active Value
+			if configuration.Active == "1" {
+				active = Green("yes")
+			} else {
+				active = Red("no")
+			}
+			changedAt := configuration.ChangedAt[0:19]
+			fmt.Printf("%4d %4d %-20s %-20s %-10s %-12s %s\n", i, configuration.Id, configuration.Cluster, changedAt, configuration.ChangedBy, active, configuration.Reason)
 		}
-		fmt.Printf("%4d %4d %-20s %-20s %-10s %-12s %s\n", i, configuration.Id, configuration.Cluster, configuration.ChangedAt, configuration.ChangedBy, active, configuration.Reason)
 	}
 }
 
@@ -267,12 +278,91 @@ func disableClusterConfiguration(configurationId string) {
 	}
 }
 
+func addClusterConfiguration() {
+	if username == "" {
+		fmt.Println(Red("Not logged in"))
+		return
+	}
+
+	cluster := prompt.Input("cluster: ", loginCompleter)
+	if cluster == "" {
+		fmt.Println(Red("Cancelled"))
+		return
+	}
+
+	reason := prompt.Input("reason: ", loginCompleter)
+	if reason == "" {
+		fmt.Println(Red("Cancelled"))
+		return
+	}
+
+	description := prompt.Input("description: ", loginCompleter)
+	if description == "" {
+		fmt.Println(Red("Cancelled"))
+		return
+	}
+
+	// TODO: make the directory fully configurable
+	err := fillInConfigurationList("configurations")
+	if err != nil {
+		fmt.Println(Red("Cannot read any configuration file"))
+		fmt.Println(err)
+	}
+
+	configurationFileName := prompt.Input("configuration file (TAB to complete): ", configFileCompleter)
+	if configurationFileName == "" {
+		fmt.Println(Red("Cancelled"))
+		return
+	}
+
+	// TODO: make the directory fully configurable
+	configuration, err := ioutil.ReadFile("configurations/" + configurationFileName)
+	if err != nil {
+		fmt.Println(Red("Cannot read configuration file"))
+		fmt.Println(err)
+	}
+
+	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&description=" + url.QueryEscape(description)
+	url := controllerUrl + API_PREFIX + "client/cluster/" + url.PathEscape(cluster) + "/configuration?" + query
+
+	err = performWriteRequest(url, "POST", bytes.NewReader(configuration))
+	if err != nil {
+		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(Blue("Configuration has been created"))
+	}
+}
+
+func fillInConfigurationList(directory string) error {
+	files = []prompt.Suggest{}
+
+	root := directory
+	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+		if !info.IsDir() {
+			suggest := prompt.Suggest{
+				Text: info.Name()}
+			files = append(files, suggest)
+		}
+		return nil
+	})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func printHelp() {
 	fmt.Println("HELP:\nexit\nquit")
 }
 
 func loginCompleter(in prompt.Document) []prompt.Suggest {
 	return nil
+}
+
+func configFileCompleter(in prompt.Document) []prompt.Suggest {
+	return prompt.FilterHasPrefix(files, in.Text, true)
 }
 
 func executor(t string) {
@@ -290,6 +380,9 @@ func executor(t string) {
 		return
 	case strings.HasPrefix(t, "disable "):
 		disableClusterConfiguration(blocks[1])
+		return
+	case strings.HasPrefix(t, "list configurations "):
+		listOfConfigurations(blocks[2])
 		return
 	}
 
@@ -310,7 +403,9 @@ func executor(t string) {
 	case "list profiles":
 		listOfProfiles()
 	case "list configurations":
-		listOfConfigurations()
+		listOfConfigurations("")
+	case "add configuration":
+		addClusterConfiguration()
 	case "describe profile":
 		profile := prompt.Input("profile: ", loginCompleter)
 		describeProfile(profile)
