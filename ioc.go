@@ -60,28 +60,33 @@ type ClusterConfiguration struct {
 	Reason        string `json:"reason"`
 }
 
-func readListOfClusters(controllerUrl string, apiPrefix string) ([]Cluster, error) {
-	clusters := []Cluster{}
-
-	url := controllerUrl + apiPrefix + "client/cluster"
+func performReadRequest(url string) ([]byte, error) {
 	response, err := http.Get(url)
 	if err != nil {
-		return clusters, err
+		return nil, fmt.Errorf("Communication error with the server %v", err)
 	}
 	if response.StatusCode != http.StatusOK {
-		return clusters, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
+		return nil, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
 	}
-
 	body, readErr := ioutil.ReadAll(response.Body)
 	defer response.Body.Close()
 
 	if readErr != nil {
-		return clusters, fmt.Errorf("Unable to read response body")
+		return nil, fmt.Errorf("Unable to read response body")
 	}
+
+	return body, nil
+}
+
+func readListOfClusters(controllerUrl string, apiPrefix string) ([]Cluster, error) {
+	clusters := []Cluster{}
+
+	url := controllerUrl + apiPrefix + "client/cluster"
+	body, err := performReadRequest(url)
 
 	err = json.Unmarshal(body, &clusters)
 	if err != nil {
-		return clusters, err
+		return nil, err
 	}
 	return clusters, nil
 }
@@ -90,24 +95,11 @@ func readListOfConfigurationProfiles(controllerUrl string, apiPrefix string) ([]
 	profiles := []ConfigurationProfile{}
 
 	url := controllerUrl + apiPrefix + "client/profile"
-	response, err := http.Get(url)
-	if err != nil {
-		return profiles, fmt.Errorf("Communication error with the server %v", err)
-	}
-	if response.StatusCode != http.StatusOK {
-		return profiles, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
-	}
-
-	body, readErr := ioutil.ReadAll(response.Body)
-	defer response.Body.Close()
-
-	if readErr != nil {
-		return profiles, fmt.Errorf("Unable to read response body")
-	}
+	body, err := performReadRequest(url)
 
 	err = json.Unmarshal(body, &profiles)
 	if err != nil {
-		return profiles, err
+		return nil, err
 	}
 	return profiles, nil
 }
@@ -116,26 +108,42 @@ func readListOfConfigurations(controllerUrl string, apiPrefix string) ([]Cluster
 	configurations := []ClusterConfiguration{}
 
 	url := controllerUrl + apiPrefix + "client/configuration"
-	response, err := http.Get(url)
+	body, err := performReadRequest(url)
 	if err != nil {
-		return configurations, fmt.Errorf("Communication error with the server %v", err)
-	}
-	if response.StatusCode != http.StatusOK {
-		return configurations, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
-	}
-
-	body, readErr := ioutil.ReadAll(response.Body)
-	defer response.Body.Close()
-
-	if readErr != nil {
-		return configurations, fmt.Errorf("Unable to read response body")
+		return nil, err
 	}
 
 	err = json.Unmarshal(body, &configurations)
 	if err != nil {
-		return configurations, err
+		return nil, err
 	}
 	return configurations, nil
+}
+
+func readConfigurationProfile(controllerUrl string, apiPrefix string, profileId string) (*ConfigurationProfile, error) {
+	var profile ConfigurationProfile
+	url := controllerUrl + apiPrefix + "client/profile/" + profileId
+	body, err := performReadRequest(url)
+	if err != nil {
+		return nil, err
+	}
+
+	err = json.Unmarshal(body, &profile)
+	if err != nil {
+		return nil, err
+	}
+	return &profile, nil
+}
+
+func readClusterConfigurationById(controllerUrl string, apiPrefix string, configurationId string) (*string, error) {
+	url := controllerUrl + apiPrefix + "client/configuration/" + configurationId
+	body, err := performReadRequest(url)
+	if err != nil {
+		return nil, err
+	}
+
+	str := string(body)
+	return &str, nil
 }
 
 func listOfClusters() {
@@ -162,7 +170,7 @@ func listOfProfiles() {
 	}
 
 	fmt.Println(Magenta("List of configuration profiles"))
-	fmt.Printf("%4s %4s %-20s %-20s %s\n", "#", "ID", "ChangedAt", "ChangedBy", "Description")
+	fmt.Printf("%4s %4s %-20s %-20s %s\n", "#", "ID", "Changed at", "Changed by", "Description")
 	for i, profile := range profiles {
 		fmt.Printf("%4d %4d %-20s %-20s %-s\n", i, profile.Id, profile.ChangedAt, profile.ChangedBy, profile.Description)
 	}
@@ -176,11 +184,41 @@ func listOfConfigurations() {
 		return
 	}
 
-	fmt.Println(Magenta("List of configurations"))
-	fmt.Printf("%4s %4s %-20s %-20s %-10s %-12s %s\n", "#", "ID", "Cluster", "ChangedAt", "ChangedBy", "Active", "Reason")
+	fmt.Println(Magenta("List of configuration for all clusters"))
+	fmt.Printf("%4s %4s %-20s %-20s %-10s %-12s %s\n", "#", "ID", "Cluster", "Changed at", "Changed by", "Active", "Reason")
 	for i, configuration := range configurations {
-		fmt.Printf("%4d %4d %-20s %-20s %-10s %-12s %s\n", i, configuration.Id, configuration.Cluster, configuration.ChangedAt, configuration.ChangedBy, configuration.Active, configuration.Reason)
+		var active Value
+		if configuration.Active == "1" {
+			active = Green("yes")
+		} else {
+			active = Red("no")
+		}
+		fmt.Printf("%4d %4d %-20s %-20s %-10s %-12s %s\n", i, configuration.Id, configuration.Cluster, configuration.ChangedAt, configuration.ChangedBy, active, configuration.Reason)
 	}
+}
+
+func describeProfile(profileId string) {
+	profile, err := readConfigurationProfile(controllerUrl, API_PREFIX, profileId)
+	if err != nil {
+		fmt.Println(Red("Error reading configuration profile"))
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(Magenta("Configuration profile"))
+	fmt.Println(profile.Configuration)
+}
+
+func describeConfiguration(clusterId string) {
+	configuration, err := readClusterConfigurationById(controllerUrl, API_PREFIX, clusterId)
+	if err != nil {
+		fmt.Println(Red("Error reading cluster configuration"))
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(Magenta("Configuration for cluster " + clusterId))
+	fmt.Println(*configuration)
 }
 
 func printHelp() {
@@ -192,6 +230,19 @@ func loginCompleter(in prompt.Document) []prompt.Suggest {
 }
 
 func executor(t string) {
+	// commands with variable parts
+	switch {
+	case strings.HasPrefix(t, "describe profile "):
+		blocks := strings.Split(t, " ")
+		describeProfile(blocks[2])
+		return
+	case strings.HasPrefix(t, "describe configuration "):
+		blocks := strings.Split(t, " ")
+		describeConfiguration(blocks[2])
+		return
+	}
+
+	// fixed commands
 	switch t {
 	case "login":
 		username = prompt.Input("login: ", loginCompleter)
@@ -209,6 +260,12 @@ func executor(t string) {
 		listOfProfiles()
 	case "list configurations":
 		listOfConfigurations()
+	case "describe profile":
+		profile := prompt.Input("profile: ", loginCompleter)
+		describeProfile(profile)
+	case "describe configuration":
+		configuration := prompt.Input("configuration: ", loginCompleter)
+		describeConfiguration(configuration)
 	case "bye":
 		fallthrough
 	case "exit":
@@ -224,40 +281,46 @@ func executor(t string) {
 }
 
 func completer(in prompt.Document) []prompt.Suggest {
-	s := []prompt.Suggest{
+	firstWord := []prompt.Suggest{
 		{Text: "login", Description: "provide login info"},
 		{Text: "help", Description: "show help with all commands"},
 		{Text: "exit", Description: "quit the application"},
 		{Text: "quit", Description: "quit the application"},
 		{Text: "bye", Description: "quit the application"},
 		{Text: "list", Description: "list resources (clusters, profiles, configurations)"},
+		{Text: "describe", Description: "describe the selected resource"},
+	}
+
+	secondWord := make(map[string][]prompt.Suggest)
+
+	// list operations
+	secondWord["list"] = []prompt.Suggest{
+		{Text: "clusters", Description: "show list of all clusters available"},
+		{Text: "profiles", Description: "show list of all configuration profiles"},
+		{Text: "configurations", Description: "show list all cluster configurations"},
+	}
+	// descripbe operations
+	secondWord["describe"] = []prompt.Suggest{
+		{Text: "profile", Description: "describe selected configuration profile"},
+		{Text: "configuration", Description: "describe configuration for selected cluster"},
 	}
 
 	empty_s := []prompt.Suggest{}
 
-	// list operations
-	list_s := []prompt.Suggest{
-		{Text: "clusters", Description: "show list of all clusters available"},
-		{Text: "profiles", Description: "show list of all configuration profiles"},
-		{Text: "configurations", Description: "show list all configurations"},
-	}
-
 	blocks := strings.Split(in.TextBeforeCursor(), " ")
 
 	if len(blocks) == 2 {
-		switch blocks[0] {
-		case "ls":
-			fallthrough
-		case "list":
-			return prompt.FilterHasPrefix(list_s, blocks[1], true)
-		default:
+		sec, ok := secondWord[blocks[0]]
+		if ok {
+			return prompt.FilterHasPrefix(sec, blocks[1], true)
+		} else {
 			return empty_s
 		}
 	}
 	if in.GetWordBeforeCursor() == "" {
 		return nil
 	} else {
-		return prompt.FilterHasPrefix(s, blocks[0], true)
+		return prompt.FilterHasPrefix(firstWord, blocks[0], true)
 	}
 }
 
