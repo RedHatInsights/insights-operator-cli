@@ -162,6 +162,26 @@ func readConfigurationProfile(controllerUrl string, apiPrefix string, profileId 
 	return &profile, nil
 }
 
+func readClusterConfigurationById(controllerUrl string, apiPrefix string, configurationId string) (*string, error) {
+	url := controllerUrl + apiPrefix + "client/configuration/" + configurationId
+	response, err := http.Get(url)
+	if err != nil {
+		return nil, fmt.Errorf("Communication error with the server %v", err)
+	}
+	if response.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
+	}
+
+	body, readErr := ioutil.ReadAll(response.Body)
+	defer response.Body.Close()
+	if readErr != nil {
+		return nil, fmt.Errorf("Unable to read response body")
+	}
+
+	str := string(body)
+	return &str, nil
+}
+
 func listOfClusters() {
 	clusters, err := readListOfClusters(controllerUrl, API_PREFIX)
 	if err != nil {
@@ -219,6 +239,18 @@ func describeProfile(profileId string) {
 	fmt.Println(profile.Configuration)
 }
 
+func describeConfiguration(clusterId string) {
+	configuration, err := readClusterConfigurationById(controllerUrl, API_PREFIX, clusterId)
+	if err != nil {
+		fmt.Println(Red("Error reading cluster configuration"))
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(Magenta("Configuration for cluster " + clusterId))
+	fmt.Println(*configuration)
+}
+
 func printHelp() {
 	fmt.Println("HELP:\nexit\nquit")
 }
@@ -233,6 +265,10 @@ func executor(t string) {
 	case strings.HasPrefix(t, "describe profile "):
 		blocks := strings.Split(t, " ")
 		describeProfile(blocks[2])
+		return
+	case strings.HasPrefix(t, "describe configuration "):
+		blocks := strings.Split(t, " ")
+		describeConfiguration(blocks[2])
 		return
 	}
 
@@ -254,6 +290,12 @@ func executor(t string) {
 		listOfProfiles()
 	case "list configurations":
 		listOfConfigurations()
+	case "describe profile":
+		profile := prompt.Input("profile: ", loginCompleter)
+		describeProfile(profile)
+	case "describe configuration":
+		configuration := prompt.Input("configuration: ", loginCompleter)
+		describeConfiguration(configuration)
 	case "bye":
 		fallthrough
 	case "exit":
@@ -276,6 +318,7 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "quit", Description: "quit the application"},
 		{Text: "bye", Description: "quit the application"},
 		{Text: "list", Description: "list resources (clusters, profiles, configurations)"},
+		{Text: "describe", Description: "describe the selected resource"},
 	}
 
 	secondWord := make(map[string][]prompt.Suggest)
@@ -286,6 +329,12 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "profiles", Description: "show list of all configuration profiles"},
 		{Text: "configurations", Description: "show list all cluster configurations"},
 	}
+	// descripbe operations
+	secondWord["describe"] = []prompt.Suggest{
+		{Text: "profile", Description: "describe selected configuration profile"},
+		{Text: "configuration", Description: "describe configuration for selected cluster"},
+	}
+
 	empty_s := []prompt.Suggest{}
 
 	blocks := strings.Split(in.TextBeforeCursor(), " ")
