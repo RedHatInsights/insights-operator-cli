@@ -36,6 +36,7 @@ var username string
 var password string
 
 func tryToLogin(username string, password string) {
+	fmt.Println(Blue("\nDone"))
 }
 
 type Cluster struct {
@@ -191,7 +192,8 @@ func listOfProfiles() {
 	fmt.Println(Magenta("List of configuration profiles"))
 	fmt.Printf("%4s %4s %-20s %-20s %s\n", "#", "ID", "Changed at", "Changed by", "Description")
 	for i, profile := range profiles {
-		fmt.Printf("%4d %4d %-20s %-20s %-s\n", i, profile.Id, profile.ChangedAt, profile.ChangedBy, profile.Description)
+		changedAt := profile.ChangedAt[0:19]
+		fmt.Printf("%4d %4d %-20s %-20s %-s\n", i, profile.Id, changedAt, profile.ChangedBy, profile.Description)
 	}
 }
 
@@ -215,7 +217,8 @@ func listOfConfigurations(filter string) {
 			} else {
 				active = Red("no")
 			}
-			fmt.Printf("%4d %4d %-20s %-20s %-10s %-12s %s\n", i, configuration.Id, configuration.Cluster, configuration.ChangedAt, configuration.ChangedBy, active, configuration.Reason)
+			changedAt := configuration.ChangedAt[0:19]
+			fmt.Printf("%4d %4d %-20s %-20s %-10s %-12s %s\n", i, configuration.Id, configuration.Cluster, changedAt, configuration.ChangedBy, active, configuration.Reason)
 		}
 	}
 }
