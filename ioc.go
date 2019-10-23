@@ -66,22 +66,22 @@ func readListOfClusters(controllerUrl string, apiPrefix string) ([]Cluster, erro
 	url := controllerUrl + apiPrefix + "client/cluster"
 	response, err := http.Get(url)
 	if err != nil {
-		return clusters, err
+		return nil, err
 	}
 	if response.StatusCode != http.StatusOK {
-		return clusters, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
+		return nil, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
 	}
 
 	body, readErr := ioutil.ReadAll(response.Body)
 	defer response.Body.Close()
 
 	if readErr != nil {
-		return clusters, fmt.Errorf("Unable to read response body")
+		return nil, fmt.Errorf("Unable to read response body")
 	}
 
 	err = json.Unmarshal(body, &clusters)
 	if err != nil {
-		return clusters, err
+		return nil, err
 	}
 	return clusters, nil
 }
@@ -92,22 +92,22 @@ func readListOfConfigurationProfiles(controllerUrl string, apiPrefix string) ([]
 	url := controllerUrl + apiPrefix + "client/profile"
 	response, err := http.Get(url)
 	if err != nil {
-		return profiles, fmt.Errorf("Communication error with the server %v", err)
+		return nil, fmt.Errorf("Communication error with the server %v", err)
 	}
 	if response.StatusCode != http.StatusOK {
-		return profiles, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
+		return nil, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
 	}
 
 	body, readErr := ioutil.ReadAll(response.Body)
 	defer response.Body.Close()
 
 	if readErr != nil {
-		return profiles, fmt.Errorf("Unable to read response body")
+		return nil, fmt.Errorf("Unable to read response body")
 	}
 
 	err = json.Unmarshal(body, &profiles)
 	if err != nil {
-		return profiles, err
+		return nil, err
 	}
 	return profiles, nil
 }
@@ -118,10 +118,10 @@ func readListOfConfigurations(controllerUrl string, apiPrefix string) ([]Cluster
 	url := controllerUrl + apiPrefix + "client/configuration"
 	response, err := http.Get(url)
 	if err != nil {
-		return configurations, fmt.Errorf("Communication error with the server %v", err)
+		return nil, fmt.Errorf("Communication error with the server %v", err)
 	}
 	if response.StatusCode != http.StatusOK {
-		return configurations, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
+		return nil, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
 	}
 
 	body, readErr := ioutil.ReadAll(response.Body)
@@ -133,7 +133,7 @@ func readListOfConfigurations(controllerUrl string, apiPrefix string) ([]Cluster
 
 	err = json.Unmarshal(body, &configurations)
 	if err != nil {
-		return configurations, err
+		return nil, err
 	}
 	return configurations, nil
 }
