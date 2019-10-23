@@ -206,7 +206,7 @@ func listOfProfiles() {
 	}
 
 	fmt.Println(Magenta("List of configuration profiles"))
-	fmt.Printf("%4s %4s %-20s %-20s %s\n", "#", "ID", "ChangedAt", "ChangedBy", "Description")
+	fmt.Printf("%4s %4s %-20s %-20s %s\n", "#", "ID", "Changed at", "Changed by", "Description")
 	for i, profile := range profiles {
 		fmt.Printf("%4d %4d %-20s %-20s %-s\n", i, profile.Id, profile.ChangedAt, profile.ChangedBy, profile.Description)
 	}
@@ -220,10 +220,16 @@ func listOfConfigurations() {
 		return
 	}
 
-	fmt.Println(Magenta("List of configurations"))
-	fmt.Printf("%4s %4s %-20s %-20s %-10s %-12s %s\n", "#", "ID", "Cluster", "ChangedAt", "ChangedBy", "Active", "Reason")
+	fmt.Println(Magenta("List of configuration for all clusters"))
+	fmt.Printf("%4s %4s %-20s %-20s %-10s %-12s %s\n", "#", "ID", "Cluster", "Changed at", "Changed by", "Active", "Reason")
 	for i, configuration := range configurations {
-		fmt.Printf("%4d %4d %-20s %-20s %-10s %-12s %s\n", i, configuration.Id, configuration.Cluster, configuration.ChangedAt, configuration.ChangedBy, configuration.Active, configuration.Reason)
+		var active Value
+		if configuration.Active == "1" {
+			active = Green("yes")
+		} else {
+			active = Red("no")
+		}
+		fmt.Printf("%4d %4d %-20s %-20s %-10s %-12s %s\n", i, configuration.Id, configuration.Cluster, configuration.ChangedAt, configuration.ChangedBy, active, configuration.Reason)
 	}
 }
 
