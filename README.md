@@ -32,3 +32,18 @@ Just run the executable file created by `go build`:
 ## Configuration
 
 No further configuration is needed at this moment.
+
+## Contributing
+
+Please make sure to run `make test` to check all changes made in the source code.
+
+## Testing
+
+Unit tests can be started by the following command:
+
+    ./test.sh
+
+It is also possible to specify CLI options for Go test. For example, if you need to disable test results caching, use the following command:
+
+    ./test -count=1
+
