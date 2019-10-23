@@ -195,7 +195,8 @@ func listOfProfiles() {
 	}
 }
 
-func listOfConfigurations() {
+func listOfConfigurations(filter string) {
+	// TODO: filter in query?
 	configurations, err := readListOfConfigurations(controllerUrl, API_PREFIX)
 	if err != nil {
 		fmt.Println(Red("Error reading list of configurations"))
@@ -206,13 +207,16 @@ func listOfConfigurations() {
 	fmt.Println(Magenta("List of configuration for all clusters"))
 	fmt.Printf("%4s %4s %-20s %-20s %-10s %-12s %s\n", "#", "ID", "Cluster", "Changed at", "Changed by", "Active", "Reason")
 	for i, configuration := range configurations {
-		var active Value
-		if configuration.Active == "1" {
-			active = Green("yes")
-		} else {
-			active = Red("no")
+		// poor man's filtering
+		if strings.Contains(configuration.Cluster, filter) {
+			var active Value
+			if configuration.Active == "1" {
+				active = Green("yes")
+			} else {
+				active = Red("no")
+			}
+			fmt.Printf("%4d %4d %-20s %-20s %-10s %-12s %s\n", i, configuration.Id, configuration.Cluster, configuration.ChangedAt, configuration.ChangedBy, active, configuration.Reason)
 		}
-		fmt.Printf("%4d %4d %-20s %-20s %-10s %-12s %s\n", i, configuration.Id, configuration.Cluster, configuration.ChangedAt, configuration.ChangedBy, active, configuration.Reason)
 	}
 }
 
@@ -291,6 +295,9 @@ func executor(t string) {
 	case strings.HasPrefix(t, "disable "):
 		disableClusterConfiguration(blocks[1])
 		return
+	case strings.HasPrefix(t, "list configurations "):
+		listOfConfigurations(blocks[2])
+		return
 	}
 
 	// fixed commands
@@ -310,7 +317,7 @@ func executor(t string) {
 	case "list profiles":
 		listOfProfiles()
 	case "list configurations":
-		listOfConfigurations()
+		listOfConfigurations("")
 	case "describe profile":
 		profile := prompt.Input("profile: ", loginCompleter)
 		describeProfile(profile)
