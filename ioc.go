@@ -60,24 +60,29 @@ type ClusterConfiguration struct {
 	Reason        string `json:"reason"`
 }
 
-func readListOfClusters(controllerUrl string, apiPrefix string) ([]Cluster, error) {
-	clusters := []Cluster{}
-
-	url := controllerUrl + apiPrefix + "client/cluster"
+func performReadRequest(url string) ([]byte, error) {
 	response, err := http.Get(url)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("Communication error with the server %v", err)
 	}
 	if response.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
 	}
-
 	body, readErr := ioutil.ReadAll(response.Body)
 	defer response.Body.Close()
 
 	if readErr != nil {
 		return nil, fmt.Errorf("Unable to read response body")
 	}
+
+	return body, nil
+}
+
+func readListOfClusters(controllerUrl string, apiPrefix string) ([]Cluster, error) {
+	clusters := []Cluster{}
+
+	url := controllerUrl + apiPrefix + "client/cluster"
+	body, err := performReadRequest(url)
 
 	err = json.Unmarshal(body, &clusters)
 	if err != nil {
@@ -90,20 +95,7 @@ func readListOfConfigurationProfiles(controllerUrl string, apiPrefix string) ([]
 	profiles := []ConfigurationProfile{}
 
 	url := controllerUrl + apiPrefix + "client/profile"
-	response, err := http.Get(url)
-	if err != nil {
-		return nil, fmt.Errorf("Communication error with the server %v", err)
-	}
-	if response.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
-	}
-
-	body, readErr := ioutil.ReadAll(response.Body)
-	defer response.Body.Close()
-
-	if readErr != nil {
-		return nil, fmt.Errorf("Unable to read response body")
-	}
+	body, err := performReadRequest(url)
 
 	err = json.Unmarshal(body, &profiles)
 	if err != nil {
@@ -116,19 +108,9 @@ func readListOfConfigurations(controllerUrl string, apiPrefix string) ([]Cluster
 	configurations := []ClusterConfiguration{}
 
 	url := controllerUrl + apiPrefix + "client/configuration"
-	response, err := http.Get(url)
+	body, err := performReadRequest(url)
 	if err != nil {
-		return nil, fmt.Errorf("Communication error with the server %v", err)
-	}
-	if response.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
-	}
-
-	body, readErr := ioutil.ReadAll(response.Body)
-	defer response.Body.Close()
-
-	if readErr != nil {
-		return configurations, fmt.Errorf("Unable to read response body")
+		return nil, err
 	}
 
 	err = json.Unmarshal(body, &configurations)
@@ -141,18 +123,9 @@ func readListOfConfigurations(controllerUrl string, apiPrefix string) ([]Cluster
 func readConfigurationProfile(controllerUrl string, apiPrefix string, profileId string) (*ConfigurationProfile, error) {
 	var profile ConfigurationProfile
 	url := controllerUrl + apiPrefix + "client/profile/" + profileId
-	response, err := http.Get(url)
+	body, err := performReadRequest(url)
 	if err != nil {
-		return nil, fmt.Errorf("Communication error with the server %v", err)
-	}
-	if response.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
-	}
-	body, readErr := ioutil.ReadAll(response.Body)
-	defer response.Body.Close()
-
-	if readErr != nil {
-		return nil, fmt.Errorf("Unable to read response body")
+		return nil, err
 	}
 
 	err = json.Unmarshal(body, &profile)
@@ -164,18 +137,9 @@ func readConfigurationProfile(controllerUrl string, apiPrefix string, profileId 
 
 func readClusterConfigurationById(controllerUrl string, apiPrefix string, configurationId string) (*string, error) {
 	url := controllerUrl + apiPrefix + "client/configuration/" + configurationId
-	response, err := http.Get(url)
+	body, err := performReadRequest(url)
 	if err != nil {
-		return nil, fmt.Errorf("Communication error with the server %v", err)
-	}
-	if response.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
-	}
-
-	body, readErr := ioutil.ReadAll(response.Body)
-	defer response.Body.Close()
-	if readErr != nil {
-		return nil, fmt.Errorf("Unable to read response body")
+		return nil, err
 	}
 
 	str := string(body)
