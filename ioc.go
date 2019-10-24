@@ -354,7 +354,29 @@ func fillInConfigurationList(directory string) error {
 }
 
 func printHelp() {
-	fmt.Println("HELP:\nexit\nquit")
+	fmt.Println(Magenta("HELP:"))
+	fmt.Println()
+	fmt.Println(Blue("Cluster operations:        "))
+	fmt.Println(Yellow("list clusters            "), "list all clusters known to the service")
+	fmt.Println()
+	fmt.Println(Blue("Configuration profiles:    "))
+	fmt.Println(Yellow("list profiles            "), "list all profiles known to the service")
+	fmt.Println(Yellow("describe profile ##      "), "describe profile selected by its ID")
+	fmt.Println()
+	fmt.Println(Blue("Cluster configurations:    "))
+	fmt.Println(Yellow("list configurations      "), "list all configurations known to the service")
+	fmt.Println(Yellow("describe configuration ##"), "describe cluster configuration selected by its ID")
+	fmt.Println(Yellow("add configuration        "), "add new configuration")
+	fmt.Println(Yellow("new configuration        "), "alias for previous command")
+	fmt.Println(Yellow("enable ##                "), "enable cluster configuration selected by its ID")
+	fmt.Println(Yellow("disable ##               "), "disable cluster configuration selected by its ID")
+	fmt.Println()
+	fmt.Println(Blue("Other commands:"))
+	fmt.Println(Yellow("quit                     "), "quit the application")
+	fmt.Println(Yellow("exit                     "), "dtto")
+	fmt.Println(Yellow("bye                      "), "dtto")
+	fmt.Println(Yellow("help                     "), "this help")
+	fmt.Println()
 }
 
 func loginCompleter(in prompt.Document) []prompt.Suggest {
@@ -427,6 +449,8 @@ func executor(t string) {
 	case "quit":
 		fmt.Println(Magenta("Quitting"))
 		os.Exit(0)
+	case "?":
+		fallthrough
 	case "help":
 		printHelp()
 	default:
