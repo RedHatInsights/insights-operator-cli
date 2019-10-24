@@ -405,6 +405,8 @@ func executor(t string) {
 	case "list configurations":
 		listOfConfigurations("")
 	case "add configuration":
+		fallthrough
+	case "new configuration":
 		addClusterConfiguration()
 	case "describe profile":
 		profile := prompt.Input("profile: ", loginCompleter)
@@ -442,6 +444,7 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "list", Description: "list resources (clusters, profiles, configurations)"},
 		{Text: "describe", Description: "describe the selected resource"},
 		{Text: "add", Description: "add resource (cluster, profile, configuration)"},
+		{Text: "new", Description: "alias for add"},
 		{Text: "enable", Description: "enable selected cluster profile"},
 		{Text: "disable", Description: "disable selected cluster profile"},
 	}
@@ -456,6 +459,11 @@ func completer(in prompt.Document) []prompt.Suggest {
 	}
 	// add operations
 	secondWord["add"] = []prompt.Suggest{
+		{Text: "cluster", Description: "add/register new cluster"},
+		{Text: "profile", Description: "add new configuration profile"},
+		{Text: "configuration", Description: "add new cluster configuration"},
+	}
+	secondWord["new"] = []prompt.Suggest{
 		{Text: "cluster", Description: "add/register new cluster"},
 		{Text: "profile", Description: "add new configuration profile"},
 		{Text: "configuration", Description: "add new cluster configuration"},
