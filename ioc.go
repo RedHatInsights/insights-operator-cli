@@ -99,8 +99,8 @@ func performWriteRequest(url string, method string, payload io.Reader) error {
 	if err != nil {
 		return fmt.Errorf("Communication error with the server %v", err)
 	}
-	if response.StatusCode != http.StatusOK {
-		return fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
+	if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusCreated {
+		return fmt.Errorf("Expected HTTP status 200 OK or 201 Created, got %d", response.StatusCode)
 	}
 	return nil
 }
@@ -281,6 +281,51 @@ func disableClusterConfiguration(configurationId string) {
 	}
 }
 
+func addProfile() {
+	if username == "" {
+		fmt.Println(Red("Not logged in"))
+		return
+	}
+
+	description := prompt.Input("description: ", loginCompleter)
+	if description == "" {
+		fmt.Println(Red("Cancelled"))
+		return
+	}
+
+	// TODO: make the directory fully configurable
+	err := fillInConfigurationList("configurations")
+	if err != nil {
+		fmt.Println(Red("Cannot read any configuration file"))
+		fmt.Println(err)
+	}
+
+	configurationFileName := prompt.Input("configuration file (TAB to complete): ", configFileCompleter)
+	if configurationFileName == "" {
+		fmt.Println(Red("Cancelled"))
+		return
+	}
+
+	// TODO: make the directory fully configurable
+	configuration, err := ioutil.ReadFile("configurations/" + configurationFileName)
+	if err != nil {
+		fmt.Println(Red("Cannot read configuration file"))
+		fmt.Println(err)
+	}
+
+	query := "username=" + url.QueryEscape(username) + "&description=" + url.QueryEscape(description)
+	url := controllerUrl + API_PREFIX + "client/profile?" + query
+
+	err = performWriteRequest(url, "POST", bytes.NewReader(configuration))
+	if err != nil {
+		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(Blue("Configuration profile has been created"))
+	}
+}
+
 func addClusterConfiguration() {
 	if username == "" {
 		fmt.Println(Red("Not logged in"))
@@ -433,6 +478,10 @@ func executor(t string) {
 		listOfProfiles()
 	case "list configurations":
 		listOfConfigurations("")
+	case "add profile":
+		fallthrough
+	case "new profile":
+		addProfile()
 	case "add configuration":
 		fallthrough
 	case "new configuration":
