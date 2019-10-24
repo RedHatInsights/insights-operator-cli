@@ -34,6 +34,9 @@ import (
 
 const API_PREFIX = "/api/v1/"
 
+var BuildVersion string = "*not set*"
+var BuildTime string = "*not set*"
+
 var controllerUrl string
 var username string
 var password string
@@ -387,6 +390,10 @@ func configFileCompleter(in prompt.Document) []prompt.Suggest {
 	return prompt.FilterHasPrefix(files, in.Text, true)
 }
 
+func printVersion() {
+	fmt.Println(Blue("Insights operator CLI client "), "version", Yellow(BuildVersion), "compiled", Yellow(BuildTime))
+}
+
 func executor(t string) {
 	blocks := strings.Split(t, " ")
 	// commands with variable parts
@@ -453,6 +460,8 @@ func executor(t string) {
 		fallthrough
 	case "help":
 		printHelp()
+	case "version":
+		printVersion()
 	default:
 		fmt.Println("Command not found")
 	}
@@ -471,6 +480,7 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "new", Description: "alias for add"},
 		{Text: "enable", Description: "enable selected cluster profile"},
 		{Text: "disable", Description: "disable selected cluster profile"},
+		{Text: "version", Description: "prints the build information for CLI executable"},
 	}
 
 	secondWord := make(map[string][]prompt.Suggest)
