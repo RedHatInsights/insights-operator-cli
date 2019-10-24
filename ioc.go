@@ -260,7 +260,7 @@ func enableClusterConfiguration(configurationId string) {
 		return
 	} else {
 		fmt.Print(Blue("Configuration " + configurationId + " has been "))
-		fmt.Println(Green("disabled"))
+		fmt.Println(Green("enabled"))
 	}
 }
 
