@@ -2,5 +2,6 @@
     "no_op": "Y",
     "watch": [
         "a"
-    ]
+    ],
+    "comment": "configuration #2"
 }

@@ -34,6 +34,9 @@ import (
 
 const API_PREFIX = "/api/v1/"
 
+var BuildVersion string = "*not set*"
+var BuildTime string = "*not set*"
+
 var controllerUrl string
 var username string
 var password string
@@ -96,8 +99,8 @@ func performWriteRequest(url string, method string, payload io.Reader) error {
 	if err != nil {
 		return fmt.Errorf("Communication error with the server %v", err)
 	}
-	if response.StatusCode != http.StatusOK {
-		return fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
+	if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusCreated {
+		return fmt.Errorf("Expected HTTP status 200 OK or 201 Created, got %d", response.StatusCode)
 	}
 	return nil
 }
@@ -260,7 +263,7 @@ func enableClusterConfiguration(configurationId string) {
 		return
 	} else {
 		fmt.Print(Blue("Configuration " + configurationId + " has been "))
-		fmt.Println(Green("disabled"))
+		fmt.Println(Green("enabled"))
 	}
 }
 
@@ -275,6 +278,51 @@ func disableClusterConfiguration(configurationId string) {
 	} else {
 		fmt.Print(Blue("Configuration " + configurationId + " has been "))
 		fmt.Println(Red("disabled"))
+	}
+}
+
+func addProfile() {
+	if username == "" {
+		fmt.Println(Red("Not logged in"))
+		return
+	}
+
+	description := prompt.Input("description: ", loginCompleter)
+	if description == "" {
+		fmt.Println(Red("Cancelled"))
+		return
+	}
+
+	// TODO: make the directory fully configurable
+	err := fillInConfigurationList("configurations")
+	if err != nil {
+		fmt.Println(Red("Cannot read any configuration file"))
+		fmt.Println(err)
+	}
+
+	configurationFileName := prompt.Input("configuration file (TAB to complete): ", configFileCompleter)
+	if configurationFileName == "" {
+		fmt.Println(Red("Cancelled"))
+		return
+	}
+
+	// TODO: make the directory fully configurable
+	configuration, err := ioutil.ReadFile("configurations/" + configurationFileName)
+	if err != nil {
+		fmt.Println(Red("Cannot read configuration file"))
+		fmt.Println(err)
+	}
+
+	query := "username=" + url.QueryEscape(username) + "&description=" + url.QueryEscape(description)
+	url := controllerUrl + API_PREFIX + "client/profile?" + query
+
+	err = performWriteRequest(url, "POST", bytes.NewReader(configuration))
+	if err != nil {
+		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(Blue("Configuration profile has been created"))
 	}
 }
 
@@ -354,7 +402,29 @@ func fillInConfigurationList(directory string) error {
 }
 
 func printHelp() {
-	fmt.Println("HELP:\nexit\nquit")
+	fmt.Println(Magenta("HELP:"))
+	fmt.Println()
+	fmt.Println(Blue("Cluster operations:        "))
+	fmt.Println(Yellow("list clusters            "), "list all clusters known to the service")
+	fmt.Println()
+	fmt.Println(Blue("Configuration profiles:    "))
+	fmt.Println(Yellow("list profiles            "), "list all profiles known to the service")
+	fmt.Println(Yellow("describe profile ##      "), "describe profile selected by its ID")
+	fmt.Println()
+	fmt.Println(Blue("Cluster configurations:    "))
+	fmt.Println(Yellow("list configurations      "), "list all configurations known to the service")
+	fmt.Println(Yellow("describe configuration ##"), "describe cluster configuration selected by its ID")
+	fmt.Println(Yellow("add configuration        "), "add new configuration")
+	fmt.Println(Yellow("new configuration        "), "alias for previous command")
+	fmt.Println(Yellow("enable ##                "), "enable cluster configuration selected by its ID")
+	fmt.Println(Yellow("disable ##               "), "disable cluster configuration selected by its ID")
+	fmt.Println()
+	fmt.Println(Blue("Other commands:"))
+	fmt.Println(Yellow("quit                     "), "quit the application")
+	fmt.Println(Yellow("exit                     "), "dtto")
+	fmt.Println(Yellow("bye                      "), "dtto")
+	fmt.Println(Yellow("help                     "), "this help")
+	fmt.Println()
 }
 
 func loginCompleter(in prompt.Document) []prompt.Suggest {
@@ -363,6 +433,10 @@ func loginCompleter(in prompt.Document) []prompt.Suggest {
 
 func configFileCompleter(in prompt.Document) []prompt.Suggest {
 	return prompt.FilterHasPrefix(files, in.Text, true)
+}
+
+func printVersion() {
+	fmt.Println(Blue("Insights operator CLI client "), "version", Yellow(BuildVersion), "compiled", Yellow(BuildTime))
 }
 
 func executor(t string) {
@@ -404,7 +478,13 @@ func executor(t string) {
 		listOfProfiles()
 	case "list configurations":
 		listOfConfigurations("")
+	case "add profile":
+		fallthrough
+	case "new profile":
+		addProfile()
 	case "add configuration":
+		fallthrough
+	case "new configuration":
 		addClusterConfiguration()
 	case "describe profile":
 		profile := prompt.Input("profile: ", loginCompleter)
@@ -425,8 +505,12 @@ func executor(t string) {
 	case "quit":
 		fmt.Println(Magenta("Quitting"))
 		os.Exit(0)
+	case "?":
+		fallthrough
 	case "help":
 		printHelp()
+	case "version":
+		printVersion()
 	default:
 		fmt.Println("Command not found")
 	}
@@ -442,8 +526,10 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "list", Description: "list resources (clusters, profiles, configurations)"},
 		{Text: "describe", Description: "describe the selected resource"},
 		{Text: "add", Description: "add resource (cluster, profile, configuration)"},
+		{Text: "new", Description: "alias for add"},
 		{Text: "enable", Description: "enable selected cluster profile"},
 		{Text: "disable", Description: "disable selected cluster profile"},
+		{Text: "version", Description: "prints the build information for CLI executable"},
 	}
 
 	secondWord := make(map[string][]prompt.Suggest)
@@ -456,6 +542,11 @@ func completer(in prompt.Document) []prompt.Suggest {
 	}
 	// add operations
 	secondWord["add"] = []prompt.Suggest{
+		{Text: "cluster", Description: "add/register new cluster"},
+		{Text: "profile", Description: "add new configuration profile"},
+		{Text: "configuration", Description: "add new cluster configuration"},
+	}
+	secondWord["new"] = []prompt.Suggest{
 		{Text: "cluster", Description: "add/register new cluster"},
 		{Text: "profile", Description: "add new configuration profile"},
 		{Text: "configuration", Description: "add new cluster configuration"},
