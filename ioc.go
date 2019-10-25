@@ -99,8 +99,8 @@ func performWriteRequest(url string, method string, payload io.Reader) error {
 	if err != nil {
 		return fmt.Errorf("Communication error with the server %v", err)
 	}
-	if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusCreated {
-		return fmt.Errorf("Expected HTTP status 200 OK or 201 Created, got %d", response.StatusCode)
+	if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusCreated && response.StatusCode != http.StatusAccepted {
+		return fmt.Errorf("Expected HTTP status 200 OK, 201 Created or 202 Accepted, got %d", response.StatusCode)
 	}
 	return nil
 }
@@ -214,7 +214,7 @@ func listOfConfigurations(filter string) {
 	}
 
 	fmt.Println(Magenta("List of configuration for all clusters"))
-	fmt.Printf("%4s %4s %-20s %-20s %-10s %-12s %s\n", "#", "ID", "Cluster", "Changed at", "Changed by", "Active", "Reason")
+	fmt.Printf("%4s %4s %4s    %-20s %-20s %-10s %-12s %s\n", "#", "ID", "Profile", "Cluster", "Changed at", "Changed by", "Active", "Reason")
 	for i, configuration := range configurations {
 		// poor man's filtering
 		if strings.Contains(configuration.Cluster, filter) {
@@ -225,7 +225,7 @@ func listOfConfigurations(filter string) {
 				active = Red("no")
 			}
 			changedAt := configuration.ChangedAt[0:19]
-			fmt.Printf("%4d %4d %-20s %-20s %-10s %-12s %s\n", i, configuration.Id, configuration.Cluster, changedAt, configuration.ChangedBy, active, configuration.Reason)
+			fmt.Printf("%4d %4d %4s       %-20s %-20s %-10s %-12s %s\n", i, configuration.Id, configuration.Configuration, configuration.Cluster, changedAt, configuration.ChangedBy, active, configuration.Reason)
 		}
 	}
 }
@@ -262,8 +262,7 @@ func enableClusterConfiguration(configurationId string) {
 		fmt.Println(err)
 		return
 	} else {
-		fmt.Print(Blue("Configuration " + configurationId + " has been "))
-		fmt.Println(Green("enabled"))
+		fmt.Println(Blue("Configuration "+configurationId+" has been "), Green("enabled"))
 	}
 }
 
@@ -276,8 +275,44 @@ func disableClusterConfiguration(configurationId string) {
 		fmt.Println(err)
 		return
 	} else {
-		fmt.Print(Blue("Configuration " + configurationId + " has been "))
-		fmt.Println(Red("disabled"))
+		fmt.Println(Blue("Configuration "+configurationId+" has been "), Red("disabled"))
+	}
+}
+
+func deleteCluster(clusterId string) {
+	url := controllerUrl + API_PREFIX + "client/cluster/" + clusterId
+	err := performWriteRequest(url, "DELETE", nil)
+	if err != nil {
+		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(Blue("Cluster "+clusterId+" has been"), Red("deleted"))
+	}
+}
+
+func deleteClusterConfiguration(configurationId string) {
+	// TODO: refactoring needed - almost the same code as in previous function
+	url := controllerUrl + API_PREFIX + "client/configuration/" + configurationId
+	err := performWriteRequest(url, "DELETE", nil)
+	if err != nil {
+		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(Blue("Configuration "+configurationId+" has been "), Red("deleted"))
+	}
+}
+
+func deleteConfigurationProfile(profileId string) {
+	url := controllerUrl + API_PREFIX + "client/profile/" + profileId
+	err := performWriteRequest(url, "DELETE", nil)
+	if err != nil {
+		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(Blue("Configuration profile "+profileId+" has been "), Red("deleted"))
 	}
 }
 
@@ -406,10 +441,12 @@ func printHelp() {
 	fmt.Println()
 	fmt.Println(Blue("Cluster operations:        "))
 	fmt.Println(Yellow("list clusters            "), "list all clusters known to the service")
+	fmt.Println(Yellow("delete cluster ##        "), "delete selected cluster")
 	fmt.Println()
 	fmt.Println(Blue("Configuration profiles:    "))
 	fmt.Println(Yellow("list profiles            "), "list all profiles known to the service")
 	fmt.Println(Yellow("describe profile ##      "), "describe profile selected by its ID")
+	fmt.Println(Yellow("delete profile ##        "), "delete profile selected by its ID")
 	fmt.Println()
 	fmt.Println(Blue("Cluster configurations:    "))
 	fmt.Println(Yellow("list configurations      "), "list all configurations known to the service")
@@ -418,8 +455,10 @@ func printHelp() {
 	fmt.Println(Yellow("new configuration        "), "alias for previous command")
 	fmt.Println(Yellow("enable ##                "), "enable cluster configuration selected by its ID")
 	fmt.Println(Yellow("disable ##               "), "disable cluster configuration selected by its ID")
+	fmt.Println(Yellow("delete configuration ##  "), "delete configuration selected by its ID")
 	fmt.Println()
 	fmt.Println(Blue("Other commands:"))
+	fmt.Println(Yellow("version                  "), "print version information")
 	fmt.Println(Yellow("quit                     "), "quit the application")
 	fmt.Println(Yellow("exit                     "), "dtto")
 	fmt.Println(Yellow("bye                      "), "dtto")
@@ -457,6 +496,15 @@ func executor(t string) {
 		return
 	case strings.HasPrefix(t, "list configurations "):
 		listOfConfigurations(blocks[2])
+		return
+	case strings.HasPrefix(t, "delete cluster "):
+		deleteCluster(blocks[2])
+		return
+	case strings.HasPrefix(t, "delete configuration "):
+		deleteClusterConfiguration(blocks[2])
+		return
+	case strings.HasPrefix(t, "delete profile "):
+		deleteConfigurationProfile(blocks[2])
 		return
 	}
 
@@ -498,6 +546,15 @@ func executor(t string) {
 	case "disable":
 		configuration := prompt.Input("configuration: ", loginCompleter)
 		disableClusterConfiguration(configuration)
+	case "delete cluster":
+		cluster := prompt.Input("cluster: ", loginCompleter)
+		deleteCluster(cluster)
+	case "delete configuration":
+		configuration := prompt.Input("configuration: ", loginCompleter)
+		deleteClusterConfiguration(configuration)
+	case "delete profile":
+		profile := prompt.Input("profile: ", loginCompleter)
+		deleteConfigurationProfile(profile)
 	case "bye":
 		fallthrough
 	case "exit":
@@ -527,6 +584,7 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "describe", Description: "describe the selected resource"},
 		{Text: "add", Description: "add resource (cluster, profile, configuration)"},
 		{Text: "new", Description: "alias for add"},
+		{Text: "delete", Description: "delete resource (configuration)"},
 		{Text: "enable", Description: "enable selected cluster profile"},
 		{Text: "disable", Description: "disable selected cluster profile"},
 		{Text: "version", Description: "prints the build information for CLI executable"},
@@ -550,6 +608,11 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "cluster", Description: "add/register new cluster"},
 		{Text: "profile", Description: "add new configuration profile"},
 		{Text: "configuration", Description: "add new cluster configuration"},
+	}
+	secondWord["delete"] = []prompt.Suggest{
+		{Text: "cluster", Description: "delete cluster and its configuration"},
+		{Text: "profile", Description: "delete configuration profile"},
+		{Text: "configuration", Description: "delete cluster configuration"},
 	}
 	// descripbe operations
 	secondWord["describe"] = []prompt.Suggest{
