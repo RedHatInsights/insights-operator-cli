@@ -262,8 +262,7 @@ func enableClusterConfiguration(configurationId string) {
 		fmt.Println(err)
 		return
 	} else {
-		fmt.Print(Blue("Configuration " + configurationId + " has been "))
-		fmt.Println(Green("enabled"))
+		fmt.Println(Blue("Configuration "+configurationId+" has been "), Green("enabled"))
 	}
 }
 
@@ -276,8 +275,7 @@ func disableClusterConfiguration(configurationId string) {
 		fmt.Println(err)
 		return
 	} else {
-		fmt.Print(Blue("Configuration " + configurationId + " has been "))
-		fmt.Println(Red("disabled"))
+		fmt.Println(Blue("Configuration "+configurationId+" has been "), Red("disabled"))
 	}
 }
 
@@ -302,8 +300,7 @@ func deleteClusterConfiguration(configurationId string) {
 		fmt.Println(err)
 		return
 	} else {
-		fmt.Print(Blue("Configuration " + configurationId + " has been "))
-		fmt.Println(Red("deleted"))
+		fmt.Println(Blue("Configuration "+configurationId+" has been "), Red("deleted"))
 	}
 }
 
@@ -315,8 +312,7 @@ func deleteConfigurationProfile(profileId string) {
 		fmt.Println(err)
 		return
 	} else {
-		fmt.Print(Blue("Configuration profile " + profileId + " has been "))
-		fmt.Println(Red("deleted"))
+		fmt.Println(Blue("Configuration profile "+profileId+" has been "), Red("deleted"))
 	}
 }
 
