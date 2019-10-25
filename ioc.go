@@ -295,6 +295,19 @@ func deleteClusterConfiguration(configurationId string) {
 	}
 }
 
+func deleteConfigurationProfile(profileId string) {
+	url := controllerUrl + API_PREFIX + "client/profile/" + profileId
+	err := performWriteRequest(url, "DELETE", nil)
+	if err != nil {
+		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Print(Blue("Configuration profile " + profileId + " has been "))
+		fmt.Println(Red("deleted"))
+	}
+}
+
 func addProfile() {
 	if username == "" {
 		fmt.Println(Red("Not logged in"))
@@ -475,6 +488,9 @@ func executor(t string) {
 	case strings.HasPrefix(t, "delete configuration "):
 		deleteClusterConfiguration(blocks[2])
 		return
+	case strings.HasPrefix(t, "delete profile "):
+		deleteConfigurationProfile(blocks[2])
+		return
 	}
 
 	// fixed commands
@@ -570,6 +586,7 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "configuration", Description: "add new cluster configuration"},
 	}
 	secondWord["delete"] = []prompt.Suggest{
+		{Text: "profile", Description: "delete configuration profile"},
 		{Text: "configuration", Description: "delete cluster configuration"},
 	}
 	// descripbe operations
