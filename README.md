@@ -31,7 +31,8 @@ Just run the executable file created by `go build`:
 
 ## Configuration
 
-No further configuration is needed at this moment.
+Configuration are stored in a file `config.toml`.
+At this moment, just `CONTROLLER_URL` needs to be specified.
 
 ## Contributing
 
