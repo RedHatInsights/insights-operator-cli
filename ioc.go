@@ -433,10 +433,12 @@ func printHelp() {
 	fmt.Println()
 	fmt.Println(Blue("Cluster operations:        "))
 	fmt.Println(Yellow("list clusters            "), "list all clusters known to the service")
+	fmt.Println(Yellow("delete cluster ##        "), "delete selected cluster")
 	fmt.Println()
 	fmt.Println(Blue("Configuration profiles:    "))
 	fmt.Println(Yellow("list profiles            "), "list all profiles known to the service")
 	fmt.Println(Yellow("describe profile ##      "), "describe profile selected by its ID")
+	fmt.Println(Yellow("delete profile ##        "), "delete profile selected by its ID")
 	fmt.Println()
 	fmt.Println(Blue("Cluster configurations:    "))
 	fmt.Println(Yellow("list configurations      "), "list all configurations known to the service")
@@ -445,8 +447,10 @@ func printHelp() {
 	fmt.Println(Yellow("new configuration        "), "alias for previous command")
 	fmt.Println(Yellow("enable ##                "), "enable cluster configuration selected by its ID")
 	fmt.Println(Yellow("disable ##               "), "disable cluster configuration selected by its ID")
+	fmt.Println(Yellow("delete configuration ##  "), "delete configuration selected by its ID")
 	fmt.Println()
 	fmt.Println(Blue("Other commands:"))
+	fmt.Println(Yellow("version                  "), "print version information")
 	fmt.Println(Yellow("quit                     "), "quit the application")
 	fmt.Println(Yellow("exit                     "), "dtto")
 	fmt.Println(Yellow("bye                      "), "dtto")
@@ -586,6 +590,7 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "configuration", Description: "add new cluster configuration"},
 	}
 	secondWord["delete"] = []prompt.Suggest{
+		{Text: "cluster", Description: "delete cluster and its configuration"},
 		{Text: "profile", Description: "delete configuration profile"},
 		{Text: "configuration", Description: "delete cluster configuration"},
 	}
