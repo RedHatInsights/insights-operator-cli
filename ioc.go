@@ -279,7 +279,21 @@ func disableClusterConfiguration(configurationId string) {
 	}
 }
 
+func proceedQuestion(question string) bool {
+	fmt.Println(Red(question))
+	proceed := prompt.Input("proceed? [y/n] ", loginCompleter)
+	if proceed != "y" {
+		fmt.Println(Blue("cancelled"))
+		return false
+	}
+	return true
+}
+
 func deleteCluster(clusterId string) {
+	if !proceedQuestion("All cluster configurations will be deleted") {
+		return
+	}
+
 	url := controllerUrl + API_PREFIX + "client/cluster/" + clusterId
 	err := performWriteRequest(url, "DELETE", nil)
 	if err != nil {
@@ -305,6 +319,10 @@ func deleteClusterConfiguration(configurationId string) {
 }
 
 func deleteConfigurationProfile(profileId string) {
+	if !proceedQuestion("All configurations based on this profile will be deleted") {
+		return
+	}
+
 	url := controllerUrl + API_PREFIX + "client/profile/" + profileId
 	err := performWriteRequest(url, "DELETE", nil)
 	if err != nil {
