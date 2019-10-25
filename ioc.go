@@ -99,8 +99,8 @@ func performWriteRequest(url string, method string, payload io.Reader) error {
 	if err != nil {
 		return fmt.Errorf("Communication error with the server %v", err)
 	}
-	if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusCreated {
-		return fmt.Errorf("Expected HTTP status 200 OK or 201 Created, got %d", response.StatusCode)
+	if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusCreated && response.StatusCode != http.StatusAccepted {
+		return fmt.Errorf("Expected HTTP status 200 OK, 201 Created or 202 Accepted, got %d", response.StatusCode)
 	}
 	return nil
 }
@@ -278,6 +278,18 @@ func disableClusterConfiguration(configurationId string) {
 	} else {
 		fmt.Print(Blue("Configuration " + configurationId + " has been "))
 		fmt.Println(Red("disabled"))
+	}
+}
+
+func deleteCluster(clusterId string) {
+	url := controllerUrl + API_PREFIX + "client/cluster/" + clusterId
+	err := performWriteRequest(url, "DELETE", nil)
+	if err != nil {
+		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(Blue("Cluster "+clusterId+" has been"), Red("deleted"))
 	}
 }
 
@@ -489,6 +501,9 @@ func executor(t string) {
 	case strings.HasPrefix(t, "list configurations "):
 		listOfConfigurations(blocks[2])
 		return
+	case strings.HasPrefix(t, "delete cluster "):
+		deleteCluster(blocks[2])
+		return
 	case strings.HasPrefix(t, "delete configuration "):
 		deleteClusterConfiguration(blocks[2])
 		return
@@ -535,6 +550,15 @@ func executor(t string) {
 	case "disable":
 		configuration := prompt.Input("configuration: ", loginCompleter)
 		disableClusterConfiguration(configuration)
+	case "delete cluster":
+		cluster := prompt.Input("cluster: ", loginCompleter)
+		deleteCluster(cluster)
+	case "delete configuration":
+		configuration := prompt.Input("configuration: ", loginCompleter)
+		deleteClusterConfiguration(configuration)
+	case "delete profile":
+		profile := prompt.Input("profile: ", loginCompleter)
+		deleteConfigurationProfile(profile)
 	case "bye":
 		fallthrough
 	case "exit":
