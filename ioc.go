@@ -214,7 +214,7 @@ func listOfConfigurations(filter string) {
 	}
 
 	fmt.Println(Magenta("List of configuration for all clusters"))
-	fmt.Printf("%4s %4s %-20s %-20s %-10s %-12s %s\n", "#", "ID", "Cluster", "Changed at", "Changed by", "Active", "Reason")
+	fmt.Printf("%4s %4s %4s    %-20s %-20s %-10s %-12s %s\n", "#", "ID", "Profile", "Cluster", "Changed at", "Changed by", "Active", "Reason")
 	for i, configuration := range configurations {
 		// poor man's filtering
 		if strings.Contains(configuration.Cluster, filter) {
@@ -225,7 +225,7 @@ func listOfConfigurations(filter string) {
 				active = Red("no")
 			}
 			changedAt := configuration.ChangedAt[0:19]
-			fmt.Printf("%4d %4d %-20s %-20s %-10s %-12s %s\n", i, configuration.Id, configuration.Cluster, changedAt, configuration.ChangedBy, active, configuration.Reason)
+			fmt.Printf("%4d %4d %4s       %-20s %-20s %-10s %-12s %s\n", i, configuration.Id, configuration.Configuration, configuration.Cluster, changedAt, configuration.ChangedBy, active, configuration.Reason)
 		}
 	}
 }

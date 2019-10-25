@@ -1,4 +1,6 @@
-go build
+version=0.5
+time=$(date)
+go build -ldflags="-X 'main.BuildTime=$time' -X 'main.BuildVersion=$version'" .
 
 if [ $? -eq 0 ]
 then
