@@ -281,6 +281,20 @@ func disableClusterConfiguration(configurationId string) {
 	}
 }
 
+func deleteClusterConfiguration(configurationId string) {
+	// TODO: refactoring needed - almost the same code as in previous function
+	url := controllerUrl + API_PREFIX + "client/configuration/" + configurationId
+	err := performWriteRequest(url, "DELETE", nil)
+	if err != nil {
+		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Print(Blue("Configuration " + configurationId + " has been "))
+		fmt.Println(Red("deleted"))
+	}
+}
+
 func addProfile() {
 	if username == "" {
 		fmt.Println(Red("Not logged in"))
@@ -458,6 +472,9 @@ func executor(t string) {
 	case strings.HasPrefix(t, "list configurations "):
 		listOfConfigurations(blocks[2])
 		return
+	case strings.HasPrefix(t, "delete configuration "):
+		deleteClusterConfiguration(blocks[2])
+		return
 	}
 
 	// fixed commands
@@ -527,6 +544,7 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "describe", Description: "describe the selected resource"},
 		{Text: "add", Description: "add resource (cluster, profile, configuration)"},
 		{Text: "new", Description: "alias for add"},
+		{Text: "delete", Description: "delete resource (configuration)"},
 		{Text: "enable", Description: "enable selected cluster profile"},
 		{Text: "disable", Description: "disable selected cluster profile"},
 		{Text: "version", Description: "prints the build information for CLI executable"},
@@ -550,6 +568,9 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "cluster", Description: "add/register new cluster"},
 		{Text: "profile", Description: "add new configuration profile"},
 		{Text: "configuration", Description: "add new cluster configuration"},
+	}
+	secondWord["delete"] = []prompt.Suggest{
+		{Text: "configuration", Description: "delete cluster configuration"},
 	}
 	// descripbe operations
 	secondWord["describe"] = []prompt.Suggest{
