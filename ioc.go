@@ -334,6 +334,32 @@ func deleteConfigurationProfile(profileId string) {
 	}
 }
 
+func addCluster() {
+	id := prompt.Input("ID: ", loginCompleter)
+	if id == "" {
+		fmt.Println(Red("Cancelled"))
+		return
+	}
+
+	name := prompt.Input("name: ", loginCompleter)
+	if name == "" {
+		fmt.Println(Red("Cancelled"))
+		return
+	}
+
+	query := id + "/" + name
+	url := controllerUrl + API_PREFIX + "client/cluster/" + query
+
+	err := performWriteRequest(url, "POST", nil)
+	if err != nil {
+		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(Blue("Configuration profile has been created"))
+	}
+}
+
 func addProfile() {
 	if username == "" {
 		fmt.Println(Red("Not logged in"))
@@ -460,6 +486,8 @@ func printHelp() {
 	fmt.Println(Blue("Cluster operations:        "))
 	fmt.Println(Yellow("list clusters            "), "list all clusters known to the service")
 	fmt.Println(Yellow("delete cluster ##        "), "delete selected cluster")
+	fmt.Println(Yellow("add cluster              "), "create new cluster")
+	fmt.Println(Yellow("new cluster              "), "alias for previous command")
 	fmt.Println()
 	fmt.Println(Blue("Configuration profiles:    "))
 	fmt.Println(Yellow("list profiles            "), "list all profiles known to the service")
@@ -544,6 +572,10 @@ func executor(t string) {
 		listOfProfiles()
 	case "list configurations":
 		listOfConfigurations("")
+	case "add cluster":
+		fallthrough
+	case "new cluster":
+		addCluster()
 	case "add profile":
 		fallthrough
 	case "new profile":
