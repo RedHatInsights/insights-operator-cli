@@ -6,10 +6,33 @@ A simple CLI client for managing the Insights operator. Currently this client su
 
 ## Supported commands
 
-* `exit`
-* `quit`
-* `bye`
-  * exit from the client
+### Cluster operations:
+* **list clusters** list all clusters known to the service
+* **delete cluster ##**         delete selected cluster
+* **add cluster**               create new cluster
+* **new cluster**               alias for previous command
+
+### Configuration profiles:
+* **list profiles**             list all profiles known to the service
+* **describe profile ##**       describe profile selected by its ID
+* **delete profile ##**         delete profile selected by its ID
+
+### Cluster configurations:
+* **list configurations**       list all configurations known to the service
+* **describe configuration ##** describe cluster configuration selected by its ID
+* **add configuration**         add new configuration
+* **new configuration**         alias for previous command
+* **enable ##**                 enable cluster configuration selected by its ID
+* **disable ##**                disable cluster configuration selected by its ID
+* **delete configuration ##**   delete configuration selected by its ID
+
+### Other commands:
+* **version**                   print version information
+* **quit**                      quit the application
+* **exit**                      dtto
+* **bye**                       dtto
+* **help**                      this help
+
 
 ## How to build the CLI client
 
@@ -42,9 +65,12 @@ Please make sure to run `make test` to check all changes made in the source code
 
 Unit tests can be started by the following command:
 
-    ./test.sh
+```
+./test.sh
+```
 
 It is also possible to specify CLI options for Go test. For example, if you need to disable test results caching, use the following command:
 
-    ./test -count=1
-
+```
+./test -count=1
+```
