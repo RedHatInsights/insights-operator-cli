@@ -69,6 +69,19 @@ type ClusterConfiguration struct {
 	Reason        string `json:"reason"`
 }
 
+type Trigger struct {
+	Id          int    `json:"id"`
+	Type        string `json:"type"`
+	Cluster     string `json:"cluster"`
+	Reason      string `json:"reason"`
+	Link        string `json:"link"`
+	TriggeredAt string `json:"triggered_at"`
+	TriggeredBy string `json:"triggered_by"`
+	AckedAt     string `json:"acked_at"`
+	Parameters  string `json:"parameters"`
+	Active      int    `json:"active"`
+}
+
 func performReadRequest(url string) ([]byte, error) {
 	response, err := http.Get(url)
 	if err != nil {
@@ -116,6 +129,21 @@ func readListOfClusters(controllerUrl string, apiPrefix string) ([]Cluster, erro
 		return nil, err
 	}
 	return clusters, nil
+}
+
+func readListOfTriggers(controllerUrl string, apiPrefix string) ([]Trigger, error) {
+	var triggers []Trigger
+	url := controllerUrl + apiPrefix + "client/trigger"
+	body, err := performReadRequest(url)
+	if err != nil {
+		return nil, err
+	}
+
+	err = json.Unmarshal(body, &triggers)
+	if err != nil {
+		return nil, err
+	}
+	return triggers, nil
 }
 
 func readListOfConfigurationProfiles(controllerUrl string, apiPrefix string) ([]ConfigurationProfile, error) {
@@ -480,6 +508,30 @@ func fillInConfigurationList(directory string) error {
 	return nil
 }
 
+func listOfTriggers() {
+	// TODO: filter in query?
+	triggers, err := readListOfTriggers(controllerUrl, API_PREFIX)
+	if err != nil {
+		fmt.Println(Red("Error reading list of triggers"))
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(Magenta("List of triggers for all clusters"))
+	fmt.Printf("%4s %4s %-16s    %-20s %-20s %-12s %-12s %s\n", "#", "ID", "Type", "Cluster", "Triggered at", "Triggered by", "Active", "Acked at")
+	for i, trigger := range triggers {
+		var active Value
+		if trigger.Active == 1 {
+			active = Green("yes")
+		} else {
+			active = Red("no")
+		}
+		triggeredAt := trigger.TriggeredAt[0:19]
+		ackedAt := trigger.AckedAt[0:19]
+		fmt.Printf("%4d %4d %-16s    %-20s %-20s %-12s %-12s %s\n", i, trigger.Id, trigger.Type, trigger.Cluster, triggeredAt, trigger.TriggeredBy, active, ackedAt)
+	}
+}
+
 func printHelp() {
 	fmt.Println(Magenta("HELP:"))
 	fmt.Println()
@@ -573,6 +625,8 @@ func executor(t string) {
 			password = string(p)
 			tryToLogin(username, password)
 		}
+	case "list triggers":
+		listOfTriggers()
 	case "list clusters":
 		listOfClusters()
 	case "list profiles":
@@ -637,7 +691,7 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "exit", Description: "quit the application"},
 		{Text: "quit", Description: "quit the application"},
 		{Text: "bye", Description: "quit the application"},
-		{Text: "list", Description: "list resources (clusters, profiles, configurations)"},
+		{Text: "list", Description: "list resources (clusters, profiles, configurations, triggers)"},
 		{Text: "describe", Description: "describe the selected resource"},
 		{Text: "add", Description: "add resource (cluster, profile, configuration)"},
 		{Text: "new", Description: "alias for add"},
@@ -654,6 +708,7 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "clusters", Description: "show list of all clusters available"},
 		{Text: "profiles", Description: "show list of all configuration profiles"},
 		{Text: "configurations", Description: "show list all cluster configurations"},
+		{Text: "triggers", Description: "show list with all must-gather triggers"},
 	}
 	// add operations
 	secondWord["add"] = []prompt.Suggest{
