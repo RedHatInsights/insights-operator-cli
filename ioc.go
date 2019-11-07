@@ -69,6 +69,19 @@ type ClusterConfiguration struct {
 	Reason        string `json:"reason"`
 }
 
+type Trigger struct {
+	Id          int    `json:"id"`
+	Type        string `json:"type"`
+	Cluster     string `json:"cluster"`
+	Reason      string `json:"reason"`
+	Link        string `json:"link"`
+	TriggeredAt string `json:"triggered_at"`
+	TriggeredBy string `json:"triggered_by"`
+	AckedAt     string `json:"acked_at"`
+	Parameters  string `json:"parameters"`
+	Active      int    `json:"active"`
+}
+
 func performReadRequest(url string) ([]byte, error) {
 	response, err := http.Get(url)
 	if err != nil {
@@ -116,6 +129,36 @@ func readListOfClusters(controllerUrl string, apiPrefix string) ([]Cluster, erro
 		return nil, err
 	}
 	return clusters, nil
+}
+
+func readListOfTriggers(controllerUrl string, apiPrefix string) ([]Trigger, error) {
+	var triggers []Trigger
+	url := controllerUrl + apiPrefix + "client/trigger"
+	body, err := performReadRequest(url)
+	if err != nil {
+		return nil, err
+	}
+
+	err = json.Unmarshal(body, &triggers)
+	if err != nil {
+		return nil, err
+	}
+	return triggers, nil
+}
+
+func readTriggerById(controllerUrl string, apiPrefix string, triggerId string) (*Trigger, error) {
+	var trigger Trigger
+	url := controllerUrl + apiPrefix + "client/trigger/" + triggerId
+	body, err := performReadRequest(url)
+	if err != nil {
+		return nil, err
+	}
+
+	err = json.Unmarshal(body, &trigger)
+	if err != nil {
+		return nil, err
+	}
+	return &trigger, nil
 }
 
 func readListOfConfigurationProfiles(controllerUrl string, apiPrefix string) ([]ConfigurationProfile, error) {
@@ -480,6 +523,101 @@ func fillInConfigurationList(directory string) error {
 	return nil
 }
 
+func listOfTriggers() {
+	// TODO: filter in query?
+	triggers, err := readListOfTriggers(controllerUrl, API_PREFIX)
+	if err != nil {
+		fmt.Println(Red("Error reading list of triggers"))
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Println(Magenta("List of triggers for all clusters"))
+	fmt.Printf("%4s %4s %-16s    %-20s %-20s %-12s %-12s %s\n", "#", "ID", "Type", "Cluster", "Triggered at", "Triggered by", "Active", "Acked at")
+	for i, trigger := range triggers {
+		var active Value
+		if trigger.Active == 1 {
+			active = Green("yes")
+		} else {
+			active = Red("no")
+		}
+		triggeredAt := trigger.TriggeredAt[0:19]
+		ackedAt := trigger.AckedAt[0:19]
+		fmt.Printf("%4d %4d %-16s    %-20s %-20s %-12s %-12s %s\n", i, trigger.Id, trigger.Type, trigger.Cluster, triggeredAt, trigger.TriggeredBy, active, ackedAt)
+	}
+}
+
+func addTrigger() {
+	if username == "" {
+		fmt.Println(Red("Not logged in"))
+		return
+	}
+
+	clusterName := prompt.Input("cluster name: ", loginCompleter)
+	reason := prompt.Input("reason: ", loginCompleter)
+	link := prompt.Input("link: ", loginCompleter)
+
+	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&link=" + url.QueryEscape(link)
+	url := controllerUrl + API_PREFIX + "client/cluster/" + url.PathEscape(clusterName) + "/trigger/must-gather?" + query
+
+	err := performWriteRequest(url, "POST", nil)
+	if err != nil {
+		fmt.Println("Error communicating with the service")
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(Blue("Trigger has been created"))
+	}
+}
+
+func describeTrigger(triggerId string) {
+	trigger, err := readTriggerById(controllerUrl, API_PREFIX, triggerId)
+	if err != nil {
+		fmt.Println(Red("Error reading selected trigger"))
+		fmt.Println(err)
+		return
+	}
+
+	var active Value
+	if trigger.Active == 1 {
+		active = Green("yes")
+	} else {
+		active = Red("no")
+	}
+
+	triggeredAt := trigger.TriggeredAt[0:19]
+	ackedAt := trigger.AckedAt[0:19]
+
+	var ttype Value
+	if trigger.Type == "must-gather" {
+		ttype = Blue(trigger.Type)
+	} else {
+		ttype = Magenta(trigger.Type)
+	}
+
+	fmt.Println(Magenta("Trigger info"))
+	fmt.Printf("ID:            %d\n", trigger.Id)
+	fmt.Printf("Type:          %s\n", ttype)
+	fmt.Printf("Cluster:       %s\n", trigger.Cluster)
+	fmt.Printf("Triggered at:  %s\n", triggeredAt)
+	fmt.Printf("Triggered by:  %s\n", trigger.TriggeredBy)
+	fmt.Printf("Active:        %s\n", active)
+	fmt.Printf("Acked at:      %s\n", ackedAt)
+}
+
+func deleteTrigger(triggerId string) {
+	url := controllerUrl + API_PREFIX + "client/trigger/" + triggerId
+
+	err := performWriteRequest(url, "DELETE", nil)
+	if err != nil {
+		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(Blue("Trigger "+triggerId+" has been"), Red("deleted"))
+	}
+}
+
 func printHelp() {
 	fmt.Println(Magenta("HELP:"))
 	fmt.Println()
@@ -502,6 +640,13 @@ func printHelp() {
 	fmt.Println(Yellow("enable ##                "), "enable cluster configuration selected by its ID")
 	fmt.Println(Yellow("disable ##               "), "disable cluster configuration selected by its ID")
 	fmt.Println(Yellow("delete configuration ##  "), "delete configuration selected by its ID")
+	fmt.Println()
+	fmt.Println(Blue("Must-gather trigger:       "))
+	fmt.Println(Yellow("list triggers            "), "list all triggers")
+	fmt.Println(Yellow("describe trigger ##      "), "describe trigger selected by its ID")
+	fmt.Println(Yellow("add trigger              "), "add new trigger")
+	fmt.Println(Yellow("new trigger              "), "alias for previous command")
+	fmt.Println(Yellow("delete trigger           "), "delete trigger")
 	fmt.Println()
 	fmt.Println(Blue("Other commands:"))
 	fmt.Println(Yellow("version                  "), "print version information")
@@ -534,6 +679,9 @@ func executor(t string) {
 	case strings.HasPrefix(t, "describe configuration "):
 		describeConfiguration(blocks[2])
 		return
+	case strings.HasPrefix(t, "describe trigger "):
+		describeTrigger(blocks[2])
+		return
 	case strings.HasPrefix(t, "enable "):
 		enableClusterConfiguration(blocks[1])
 		return
@@ -552,6 +700,9 @@ func executor(t string) {
 	case strings.HasPrefix(t, "delete profile "):
 		deleteConfigurationProfile(blocks[2])
 		return
+	case strings.HasPrefix(t, "delete trigger "):
+		deleteTrigger(blocks[2])
+		return
 	}
 
 	// fixed commands
@@ -566,6 +717,8 @@ func executor(t string) {
 			password = string(p)
 			tryToLogin(username, password)
 		}
+	case "list triggers":
+		listOfTriggers()
 	case "list clusters":
 		listOfClusters()
 	case "list profiles":
@@ -584,12 +737,19 @@ func executor(t string) {
 		fallthrough
 	case "new configuration":
 		addClusterConfiguration()
+	case "add trigger":
+		fallthrough
+	case "new trigger":
+		addTrigger()
 	case "describe profile":
 		profile := prompt.Input("profile: ", loginCompleter)
 		describeProfile(profile)
 	case "describe configuration":
 		configuration := prompt.Input("configuration: ", loginCompleter)
 		describeConfiguration(configuration)
+	case "describe trigger":
+		trigger := prompt.Input("trigger: ", loginCompleter)
+		describeTrigger(trigger)
 	case "enable":
 		configuration := prompt.Input("configuration: ", loginCompleter)
 		enableClusterConfiguration(configuration)
@@ -605,6 +765,9 @@ func executor(t string) {
 	case "delete profile":
 		profile := prompt.Input("profile: ", loginCompleter)
 		deleteConfigurationProfile(profile)
+	case "delete trigger":
+		trigger := prompt.Input("trigger: ", loginCompleter)
+		deleteTrigger(trigger)
 	case "bye":
 		fallthrough
 	case "exit":
@@ -630,11 +793,11 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "exit", Description: "quit the application"},
 		{Text: "quit", Description: "quit the application"},
 		{Text: "bye", Description: "quit the application"},
-		{Text: "list", Description: "list resources (clusters, profiles, configurations)"},
+		{Text: "list", Description: "list resources (clusters, profiles, configurations, triggers)"},
 		{Text: "describe", Description: "describe the selected resource"},
-		{Text: "add", Description: "add resource (cluster, profile, configuration)"},
+		{Text: "add", Description: "add resource (cluster, profile, configuration, trigger)"},
 		{Text: "new", Description: "alias for add"},
-		{Text: "delete", Description: "delete resource (configuration)"},
+		{Text: "delete", Description: "delete resource (configuration, trigger)"},
 		{Text: "enable", Description: "enable selected cluster profile"},
 		{Text: "disable", Description: "disable selected cluster profile"},
 		{Text: "version", Description: "prints the build information for CLI executable"},
@@ -647,27 +810,32 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "clusters", Description: "show list of all clusters available"},
 		{Text: "profiles", Description: "show list of all configuration profiles"},
 		{Text: "configurations", Description: "show list all cluster configurations"},
+		{Text: "triggers", Description: "show list with all must-gather triggers"},
 	}
 	// add operations
 	secondWord["add"] = []prompt.Suggest{
 		{Text: "cluster", Description: "add/register new cluster"},
 		{Text: "profile", Description: "add new configuration profile"},
 		{Text: "configuration", Description: "add new cluster configuration"},
+		{Text: "trigger", Description: "add new must-gather trigger"},
 	}
 	secondWord["new"] = []prompt.Suggest{
 		{Text: "cluster", Description: "add/register new cluster"},
 		{Text: "profile", Description: "add new configuration profile"},
 		{Text: "configuration", Description: "add new cluster configuration"},
+		{Text: "trigger", Description: "add new must-gather trigger"},
 	}
 	secondWord["delete"] = []prompt.Suggest{
 		{Text: "cluster", Description: "delete cluster and its configuration"},
 		{Text: "profile", Description: "delete configuration profile"},
 		{Text: "configuration", Description: "delete cluster configuration"},
+		{Text: "trigger", Description: "delete trigger"},
 	}
 	// descripbe operations
 	secondWord["describe"] = []prompt.Suggest{
 		{Text: "profile", Description: "describe selected configuration profile"},
 		{Text: "configuration", Description: "describe configuration for selected cluster"},
+		{Text: "trigger", Description: "describe selecter must-gather trigger"},
 	}
 
 	empty_s := []prompt.Suggest{}
