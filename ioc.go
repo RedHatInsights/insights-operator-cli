@@ -547,6 +547,29 @@ func listOfTriggers() {
 	}
 }
 
+func addTrigger() {
+	if username == "" {
+		fmt.Println(Red("Not logged in"))
+		return
+	}
+
+	clusterName := prompt.Input("cluster name: ", loginCompleter)
+	reason := prompt.Input("reason: ", loginCompleter)
+	link := prompt.Input("link: ", loginCompleter)
+
+	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&link=" + url.QueryEscape(link)
+	url := controllerUrl + API_PREFIX + "client/cluster/" + url.PathEscape(clusterName) + "/trigger/must-gather?" + query
+
+	err := performWriteRequest(url, "POST", nil)
+	if err != nil {
+		fmt.Println("Error communicating with the service")
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(Blue("Trigger has been created"))
+	}
+}
+
 func describeTrigger(triggerId string) {
 	trigger, err := readTriggerById(controllerUrl, API_PREFIX, triggerId)
 	if err != nil {
@@ -698,6 +721,10 @@ func executor(t string) {
 		fallthrough
 	case "new configuration":
 		addClusterConfiguration()
+	case "add trigger":
+		fallthrough
+	case "new trigger":
+		addTrigger()
 	case "describe profile":
 		profile := prompt.Input("profile: ", loginCompleter)
 		describeProfile(profile)
