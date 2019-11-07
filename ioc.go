@@ -605,6 +605,19 @@ func describeTrigger(triggerId string) {
 	fmt.Printf("Acked at:      %s\n", ackedAt)
 }
 
+func deleteTrigger(triggerId string) {
+	url := controllerUrl + API_PREFIX + "client/trigger/" + triggerId
+
+	err := performWriteRequest(url, "DELETE", nil)
+	if err != nil {
+		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(Blue("Trigger "+triggerId+" has been"), Red("deleted"))
+	}
+}
+
 func printHelp() {
 	fmt.Println(Magenta("HELP:"))
 	fmt.Println()
@@ -687,6 +700,9 @@ func executor(t string) {
 	case strings.HasPrefix(t, "delete profile "):
 		deleteConfigurationProfile(blocks[2])
 		return
+	case strings.HasPrefix(t, "delete trigger "):
+		deleteTrigger(blocks[2])
+		return
 	}
 
 	// fixed commands
@@ -749,6 +765,9 @@ func executor(t string) {
 	case "delete profile":
 		profile := prompt.Input("profile: ", loginCompleter)
 		deleteConfigurationProfile(profile)
+	case "delete trigger":
+		trigger := prompt.Input("trigger: ", loginCompleter)
+		deleteTrigger(trigger)
 	case "bye":
 		fallthrough
 	case "exit":
