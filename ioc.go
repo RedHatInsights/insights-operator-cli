@@ -146,6 +146,21 @@ func readListOfTriggers(controllerUrl string, apiPrefix string) ([]Trigger, erro
 	return triggers, nil
 }
 
+func readTriggerById(controllerUrl string, apiPrefix string, triggerId string) (*Trigger, error) {
+	var trigger Trigger
+	url := controllerUrl + apiPrefix + "client/trigger/" + triggerId
+	body, err := performReadRequest(url)
+	if err != nil {
+		return nil, err
+	}
+
+	err = json.Unmarshal(body, &trigger)
+	if err != nil {
+		return nil, err
+	}
+	return &trigger, nil
+}
+
 func readListOfConfigurationProfiles(controllerUrl string, apiPrefix string) ([]ConfigurationProfile, error) {
 	profiles := []ConfigurationProfile{}
 
@@ -532,6 +547,41 @@ func listOfTriggers() {
 	}
 }
 
+func describeTrigger(triggerId string) {
+	trigger, err := readTriggerById(controllerUrl, API_PREFIX, triggerId)
+	if err != nil {
+		fmt.Println(Red("Error reading selected trigger"))
+		fmt.Println(err)
+		return
+	}
+
+	var active Value
+	if trigger.Active == 1 {
+		active = Green("yes")
+	} else {
+		active = Red("no")
+	}
+
+	triggeredAt := trigger.TriggeredAt[0:19]
+	ackedAt := trigger.AckedAt[0:19]
+
+	var ttype Value
+	if trigger.Type == "must-gather" {
+		ttype = Blue(trigger.Type)
+	} else {
+		ttype = Magenta(trigger.Type)
+	}
+
+	fmt.Println(Magenta("Trigger info"))
+	fmt.Printf("ID:            %d\n", trigger.Id)
+	fmt.Printf("Type:          %s\n", ttype)
+	fmt.Printf("Cluster:       %s\n", trigger.Cluster)
+	fmt.Printf("Triggered at:  %s\n", triggeredAt)
+	fmt.Printf("Triggered by:  %s\n", trigger.TriggeredBy)
+	fmt.Printf("Active:        %s\n", active)
+	fmt.Printf("Acked at:      %s\n", ackedAt)
+}
+
 func printHelp() {
 	fmt.Println(Magenta("HELP:"))
 	fmt.Println()
@@ -593,6 +643,9 @@ func executor(t string) {
 	case strings.HasPrefix(t, "describe configuration "):
 		describeConfiguration(blocks[2])
 		return
+	case strings.HasPrefix(t, "describe trigger "):
+		describeTrigger(blocks[2])
+		return
 	case strings.HasPrefix(t, "enable "):
 		enableClusterConfiguration(blocks[1])
 		return
@@ -651,6 +704,9 @@ func executor(t string) {
 	case "describe configuration":
 		configuration := prompt.Input("configuration: ", loginCompleter)
 		describeConfiguration(configuration)
+	case "describe trigger":
+		trigger := prompt.Input("trigger: ", loginCompleter)
+		describeTrigger(trigger)
 	case "enable":
 		configuration := prompt.Input("configuration: ", loginCompleter)
 		enableClusterConfiguration(configuration)
@@ -693,9 +749,9 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "bye", Description: "quit the application"},
 		{Text: "list", Description: "list resources (clusters, profiles, configurations, triggers)"},
 		{Text: "describe", Description: "describe the selected resource"},
-		{Text: "add", Description: "add resource (cluster, profile, configuration)"},
+		{Text: "add", Description: "add resource (cluster, profile, configuration, trigger)"},
 		{Text: "new", Description: "alias for add"},
-		{Text: "delete", Description: "delete resource (configuration)"},
+		{Text: "delete", Description: "delete resource (configuration, trigger)"},
 		{Text: "enable", Description: "enable selected cluster profile"},
 		{Text: "disable", Description: "disable selected cluster profile"},
 		{Text: "version", Description: "prints the build information for CLI executable"},
@@ -715,21 +771,25 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "cluster", Description: "add/register new cluster"},
 		{Text: "profile", Description: "add new configuration profile"},
 		{Text: "configuration", Description: "add new cluster configuration"},
+		{Text: "trigger", Description: "add new must-gather trigger"},
 	}
 	secondWord["new"] = []prompt.Suggest{
 		{Text: "cluster", Description: "add/register new cluster"},
 		{Text: "profile", Description: "add new configuration profile"},
 		{Text: "configuration", Description: "add new cluster configuration"},
+		{Text: "trigger", Description: "add new must-gather trigger"},
 	}
 	secondWord["delete"] = []prompt.Suggest{
 		{Text: "cluster", Description: "delete cluster and its configuration"},
 		{Text: "profile", Description: "delete configuration profile"},
 		{Text: "configuration", Description: "delete cluster configuration"},
+		{Text: "trigger", Description: "delete trigger"},
 	}
 	// descripbe operations
 	secondWord["describe"] = []prompt.Suggest{
 		{Text: "profile", Description: "describe selected configuration profile"},
 		{Text: "configuration", Description: "describe configuration for selected cluster"},
+		{Text: "trigger", Description: "describe selecter must-gather trigger"},
 	}
 
 	empty_s := []prompt.Suggest{}
