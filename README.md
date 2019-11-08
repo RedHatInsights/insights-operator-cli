@@ -26,6 +26,15 @@ A simple CLI client for managing the Insights operator. Currently this client su
 * **disable ##**                disable cluster configuration selected by its ID
 * **delete configuration ##**   delete configuration selected by its ID
 
+### Must-gather trigger:       
+* **list triggers**             list all triggers
+* **describe trigger ##**       describe trigger selected by its ID
+* **add trigger**               add new trigger
+* **new trigger**               alias for previous command
+* **activate trigger ##**       activate trigger selected by its ID
+* **deactivate trigger ##**     deactivate trigger selected by its ID
+* **delete trigger**            delete trigger
+
 ### Other commands:
 * **version**                   print version information
 * **quit**                      quit the application
