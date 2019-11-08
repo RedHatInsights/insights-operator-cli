@@ -618,6 +618,32 @@ func deleteTrigger(triggerId string) {
 	}
 }
 
+func activateTrigger(triggerId string) {
+	url := controllerUrl + API_PREFIX + "client/trigger/" + triggerId + "/activate"
+
+	err := performWriteRequest(url, "PUT", nil)
+	if err != nil {
+		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(Blue("Trigger "+triggerId+" has been"), Green("activated"))
+	}
+}
+
+func deactivateTrigger(triggerId string) {
+	url := controllerUrl + API_PREFIX + "client/trigger/" + triggerId + "/deactivate"
+
+	err := performWriteRequest(url, "PUT", nil)
+	if err != nil {
+		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(Blue("Trigger "+triggerId+" has been"), Green("deactivated"))
+	}
+}
+
 func printHelp() {
 	fmt.Println(Magenta("HELP:"))
 	fmt.Println()
@@ -646,6 +672,8 @@ func printHelp() {
 	fmt.Println(Yellow("describe trigger ##      "), "describe trigger selected by its ID")
 	fmt.Println(Yellow("add trigger              "), "add new trigger")
 	fmt.Println(Yellow("new trigger              "), "alias for previous command")
+	fmt.Println(Yellow("activate trigger ##      "), "activate trigger selected by its ID")
+	fmt.Println(Yellow("deactivate trigger ##    "), "deactivate trigger selected by its ID")
 	fmt.Println(Yellow("delete trigger           "), "delete trigger")
 	fmt.Println()
 	fmt.Println(Blue("Other commands:"))
@@ -702,6 +730,12 @@ func executor(t string) {
 		return
 	case strings.HasPrefix(t, "delete trigger "):
 		deleteTrigger(blocks[2])
+		return
+	case strings.HasPrefix(t, "activate trigger "):
+		activateTrigger(blocks[2])
+		return
+	case strings.HasPrefix(t, "deactivate trigger "):
+		deactivateTrigger(blocks[2])
 		return
 	}
 
@@ -768,6 +802,12 @@ func executor(t string) {
 	case "delete trigger":
 		trigger := prompt.Input("trigger: ", loginCompleter)
 		deleteTrigger(trigger)
+	case "activate trigger":
+		trigger := prompt.Input("trigger: ", loginCompleter)
+		activateTrigger(trigger)
+	case "deactivate trigger":
+		trigger := prompt.Input("trigger: ", loginCompleter)
+		deactivateTrigger(trigger)
 	case "bye":
 		fallthrough
 	case "exit":
@@ -800,6 +840,8 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "delete", Description: "delete resource (configuration, trigger)"},
 		{Text: "enable", Description: "enable selected cluster profile"},
 		{Text: "disable", Description: "disable selected cluster profile"},
+		{Text: "activate", Description: "activate resource (trigger)"},
+		{Text: "deactivate", Description: "deactivate resource (trigger)"},
 		{Text: "version", Description: "prints the build information for CLI executable"},
 	}
 
@@ -819,12 +861,14 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "configuration", Description: "add new cluster configuration"},
 		{Text: "trigger", Description: "add new must-gather trigger"},
 	}
+	// new operations (aliases for add)
 	secondWord["new"] = []prompt.Suggest{
 		{Text: "cluster", Description: "add/register new cluster"},
 		{Text: "profile", Description: "add new configuration profile"},
 		{Text: "configuration", Description: "add new cluster configuration"},
 		{Text: "trigger", Description: "add new must-gather trigger"},
 	}
+	// delete operations
 	secondWord["delete"] = []prompt.Suggest{
 		{Text: "cluster", Description: "delete cluster and its configuration"},
 		{Text: "profile", Description: "delete configuration profile"},
@@ -835,7 +879,15 @@ func completer(in prompt.Document) []prompt.Suggest {
 	secondWord["describe"] = []prompt.Suggest{
 		{Text: "profile", Description: "describe selected configuration profile"},
 		{Text: "configuration", Description: "describe configuration for selected cluster"},
-		{Text: "trigger", Description: "describe selecter must-gather trigger"},
+		{Text: "trigger", Description: "describe selected must-gather trigger"},
+	}
+	// activate operations
+	secondWord["activate"] = []prompt.Suggest{
+		{Text: "trigger", Description: "activate selected must-gather trigger"},
+	}
+	// deactivate operations
+	secondWord["deactivate"] = []prompt.Suggest{
+		{Text: "trigger", Description: "deactivate selected must-gather trigger"},
 	}
 
 	empty_s := []prompt.Suggest{}
