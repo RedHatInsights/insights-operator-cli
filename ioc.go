@@ -646,6 +646,8 @@ func printHelp() {
 	fmt.Println(Yellow("describe trigger ##      "), "describe trigger selected by its ID")
 	fmt.Println(Yellow("add trigger              "), "add new trigger")
 	fmt.Println(Yellow("new trigger              "), "alias for previous command")
+	fmt.Println(Yellow("activate trigger ##      "), "activate trigger selected by its ID")
+	fmt.Println(Yellow("deactivate trigger ##    "), "deactivate trigger selected by its ID")
 	fmt.Println(Yellow("delete trigger           "), "delete trigger")
 	fmt.Println()
 	fmt.Println(Blue("Other commands:"))
