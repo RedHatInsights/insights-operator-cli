@@ -619,9 +619,29 @@ func deleteTrigger(triggerId string) {
 }
 
 func activateTrigger(triggerId string) {
+	url := controllerUrl + API_PREFIX + "client/trigger/" + triggerId + "/activate"
+
+	err := performWriteRequest(url, "PUT", nil)
+	if err != nil {
+		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(Blue("Trigger "+triggerId+" has been"), Green("activated"))
+	}
 }
 
 func deactivateTrigger(triggerId string) {
+	url := controllerUrl + API_PREFIX + "client/trigger/" + triggerId + "/deactivate"
+
+	err := performWriteRequest(url, "PUT", nil)
+	if err != nil {
+		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println(Blue("Trigger "+triggerId+" has been"), Green("deactivated"))
+	}
 }
 
 func printHelp() {
