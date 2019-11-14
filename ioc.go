@@ -18,23 +18,17 @@ limitations under the License.
 package main
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
 	"github.com/c-bata/go-prompt"
 	. "github.com/logrusorgru/aurora"
+	"github.com/redhatinsighs/insights-operator-cli/restapi"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/ssh/terminal"
-	"io"
 	"io/ioutil"
-	"net/http"
-	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
 )
-
-const API_PREFIX = "/api/v1/"
 
 var BuildVersion string = "*not set*"
 var BuildTime string = "*not set*"
@@ -44,211 +38,12 @@ var username string
 var password string
 var files []prompt.Suggest
 
-// Representation of cluster record in the controller service.
-//     ID: unique key
-//     Name: cluster GUID in the following format:
-//         c8590f31-e97e-4b85-b506-c45ce1911a12
-type Cluster struct {
-	Id   int    `json:"id"`
-	Name string `json:"name"`
-}
-
-// Representation of configuration profile record in the controller service.
-//     ID: unique key
-//     Configuration: a JSON structure stored in a string
-//     ChangeAt: username of admin that created or updated the configuration
-//     ChangeBy: timestamp of the last configuration change
-//     Description: a string with any comment(s) about the configuration
-type ConfigurationProfile struct {
-	Id            int    `json:"id"`
-	Configuration string `json:"configuration"`
-	ChangedAt     string `json:"changed_at"`
-	ChangedBy     string `json:"changed_by"`
-	Description   string `json:"description"`
-}
-
-// Representation of cluster configuration record in the controller service.
-//     ID: unique key
-//     Cluster: cluster ID (not name)
-//     Configuration: a JSON structure stored in a string
-//     ChangeAt: timestamp of the last configuration change
-//     ChangeBy: username of admin that created or updated the configuration
-//     Active: flag indicating whether the configuration is active or not
-//     Reason: a string with any comment(s) about the cluster configuration
-type ClusterConfiguration struct {
-	Id            int    `json:"id"`
-	Cluster       string `json:"cluster"`
-	Configuration string `json:"configuration"`
-	ChangedAt     string `json:"changed_at"`
-	ChangedBy     string `json:"changed_by"`
-	Active        string `json:"active"`
-	Reason        string `json:"reason"`
-}
-
-// Representation of trigger record in the controller service
-//     ID: unique key
-//     Type: ID of trigger type
-//     Cluster: cluster ID (not name)
-//     Reason: a string with any comment(s) about the trigger
-//     Link: link to any document with customer ACK with the trigger
-//     TriggeredAt: timestamp of the last configuration change
-//     TriggeredBy: username of admin that created or updated the trigger
-//     AckedAt: timestamp where the insights operator acked the trigger
-//     Parameters: parameters that needs to be pass to trigger code
-//     Active: flag indicating whether the trigger is still active or not
-type Trigger struct {
-	Id          int    `json:"id"`
-	Type        string `json:"type"`
-	Cluster     string `json:"cluster"`
-	Reason      string `json:"reason"`
-	Link        string `json:"link"`
-	TriggeredAt string `json:"triggered_at"`
-	TriggeredBy string `json:"triggered_by"`
-	AckedAt     string `json:"acked_at"`
-	Parameters  string `json:"parameters"`
-	Active      int    `json:"active"`
-}
-
 func tryToLogin(username string, password string) {
 	fmt.Println(Blue("\nDone"))
 }
 
-func performReadRequest(url string) ([]byte, error) {
-	response, err := http.Get(url)
-	if err != nil {
-		return nil, fmt.Errorf("Communication error with the server %v", err)
-	}
-	if response.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
-	}
-	body, readErr := ioutil.ReadAll(response.Body)
-	defer response.Body.Close()
-
-	if readErr != nil {
-		return nil, fmt.Errorf("Unable to read response body")
-	}
-
-	return body, nil
-}
-
-func performWriteRequest(url string, method string, payload io.Reader) error {
-	var client http.Client
-
-	request, err := http.NewRequest(method, url, payload)
-	if err != nil {
-		return fmt.Errorf("Error creating request %v", err)
-	}
-
-	response, err := client.Do(request)
-	if err != nil {
-		return fmt.Errorf("Communication error with the server %v", err)
-	}
-	if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusCreated && response.StatusCode != http.StatusAccepted {
-		return fmt.Errorf("Expected HTTP status 200 OK, 201 Created or 202 Accepted, got %d", response.StatusCode)
-	}
-	return nil
-}
-
-func readListOfClusters(controllerUrl string, apiPrefix string) ([]Cluster, error) {
-	clusters := []Cluster{}
-
-	url := controllerUrl + apiPrefix + "client/cluster"
-	body, err := performReadRequest(url)
-
-	err = json.Unmarshal(body, &clusters)
-	if err != nil {
-		return nil, err
-	}
-	return clusters, nil
-}
-
-func readListOfTriggers(controllerUrl string, apiPrefix string) ([]Trigger, error) {
-	var triggers []Trigger
-	url := controllerUrl + apiPrefix + "client/trigger"
-	body, err := performReadRequest(url)
-	if err != nil {
-		return nil, err
-	}
-
-	err = json.Unmarshal(body, &triggers)
-	if err != nil {
-		return nil, err
-	}
-	return triggers, nil
-}
-
-func readTriggerById(controllerUrl string, apiPrefix string, triggerId string) (*Trigger, error) {
-	var trigger Trigger
-	url := controllerUrl + apiPrefix + "client/trigger/" + triggerId
-	body, err := performReadRequest(url)
-	if err != nil {
-		return nil, err
-	}
-
-	err = json.Unmarshal(body, &trigger)
-	if err != nil {
-		return nil, err
-	}
-	return &trigger, nil
-}
-
-func readListOfConfigurationProfiles(controllerUrl string, apiPrefix string) ([]ConfigurationProfile, error) {
-	profiles := []ConfigurationProfile{}
-
-	url := controllerUrl + apiPrefix + "client/profile"
-	body, err := performReadRequest(url)
-
-	err = json.Unmarshal(body, &profiles)
-	if err != nil {
-		return nil, err
-	}
-	return profiles, nil
-}
-
-func readListOfConfigurations(controllerUrl string, apiPrefix string) ([]ClusterConfiguration, error) {
-	configurations := []ClusterConfiguration{}
-
-	url := controllerUrl + apiPrefix + "client/configuration"
-	body, err := performReadRequest(url)
-	if err != nil {
-		return nil, err
-	}
-
-	err = json.Unmarshal(body, &configurations)
-	if err != nil {
-		return nil, err
-	}
-	return configurations, nil
-}
-
-func readConfigurationProfile(controllerUrl string, apiPrefix string, profileId string) (*ConfigurationProfile, error) {
-	var profile ConfigurationProfile
-	url := controllerUrl + apiPrefix + "client/profile/" + profileId
-	body, err := performReadRequest(url)
-	if err != nil {
-		return nil, err
-	}
-
-	err = json.Unmarshal(body, &profile)
-	if err != nil {
-		return nil, err
-	}
-	return &profile, nil
-}
-
-func readClusterConfigurationById(controllerUrl string, apiPrefix string, configurationId string) (*string, error) {
-	url := controllerUrl + apiPrefix + "client/configuration/" + configurationId
-	body, err := performReadRequest(url)
-	if err != nil {
-		return nil, err
-	}
-
-	str := string(body)
-	return &str, nil
-}
-
 func listOfClusters() {
-	clusters, err := readListOfClusters(controllerUrl, API_PREFIX)
+	clusters, err := restapi.ReadListOfClusters(controllerUrl)
 	if err != nil {
 		fmt.Println(Red("Error reading list of clusters"))
 		fmt.Println(err)
@@ -263,7 +58,7 @@ func listOfClusters() {
 }
 
 func listOfProfiles() {
-	profiles, err := readListOfConfigurationProfiles(controllerUrl, API_PREFIX)
+	profiles, err := restapi.ReadListOfConfigurationProfiles(controllerUrl)
 	if err != nil {
 		fmt.Println(Red("Error reading list of configuration profiles"))
 		fmt.Println(err)
@@ -280,7 +75,7 @@ func listOfProfiles() {
 
 func listOfConfigurations(filter string) {
 	// TODO: filter in query?
-	configurations, err := readListOfConfigurations(controllerUrl, API_PREFIX)
+	configurations, err := restapi.ReadListOfConfigurations(controllerUrl)
 	if err != nil {
 		fmt.Println(Red("Error reading list of configurations"))
 		fmt.Println(err)
@@ -305,7 +100,7 @@ func listOfConfigurations(filter string) {
 }
 
 func describeProfile(profileId string) {
-	profile, err := readConfigurationProfile(controllerUrl, API_PREFIX, profileId)
+	profile, err := restapi.ReadConfigurationProfile(controllerUrl, profileId)
 	if err != nil {
 		fmt.Println(Red("Error reading configuration profile"))
 		fmt.Println(err)
@@ -317,7 +112,7 @@ func describeProfile(profileId string) {
 }
 
 func describeConfiguration(clusterId string) {
-	configuration, err := readClusterConfigurationById(controllerUrl, API_PREFIX, clusterId)
+	configuration, err := restapi.ReadClusterConfigurationById(controllerUrl, clusterId)
 	if err != nil {
 		fmt.Println(Red("Error reading cluster configuration"))
 		fmt.Println(err)
@@ -329,8 +124,7 @@ func describeConfiguration(clusterId string) {
 }
 
 func enableClusterConfiguration(configurationId string) {
-	url := controllerUrl + API_PREFIX + "client/configuration/" + configurationId + "/enable"
-	err := performWriteRequest(url, "PUT", nil)
+	err := restapi.EnableClusterConfiguration(controllerUrl, configurationId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -341,9 +135,7 @@ func enableClusterConfiguration(configurationId string) {
 }
 
 func disableClusterConfiguration(configurationId string) {
-	// TODO: refactoring needed - almost the same code as in previous function
-	url := controllerUrl + API_PREFIX + "client/configuration/" + configurationId + "/disable"
-	err := performWriteRequest(url, "PUT", nil)
+	err := restapi.DisableClusterConfiguration(controllerUrl, configurationId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -368,8 +160,7 @@ func deleteCluster(clusterId string) {
 		return
 	}
 
-	url := controllerUrl + API_PREFIX + "client/cluster/" + clusterId
-	err := performWriteRequest(url, "DELETE", nil)
+	err := restapi.DeleteCluster(controllerUrl, clusterId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -380,9 +171,7 @@ func deleteCluster(clusterId string) {
 }
 
 func deleteClusterConfiguration(configurationId string) {
-	// TODO: refactoring needed - almost the same code as in previous function
-	url := controllerUrl + API_PREFIX + "client/configuration/" + configurationId
-	err := performWriteRequest(url, "DELETE", nil)
+	err := restapi.DeleteClusterConfiguration(controllerUrl, configurationId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -397,8 +186,7 @@ func deleteConfigurationProfile(profileId string) {
 		return
 	}
 
-	url := controllerUrl + API_PREFIX + "client/profile/" + profileId
-	err := performWriteRequest(url, "DELETE", nil)
+	err := restapi.DeleteConfigurationProfile(controllerUrl, profileId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -421,10 +209,7 @@ func addCluster() {
 		return
 	}
 
-	query := id + "/" + name
-	url := controllerUrl + API_PREFIX + "client/cluster/" + query
-
-	err := performWriteRequest(url, "POST", nil)
+	err := restapi.AddCluster(controllerUrl, id, name)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -466,10 +251,7 @@ func addProfile() {
 		fmt.Println(err)
 	}
 
-	query := "username=" + url.QueryEscape(username) + "&description=" + url.QueryEscape(description)
-	url := controllerUrl + API_PREFIX + "client/profile?" + query
-
-	err = performWriteRequest(url, "POST", bytes.NewReader(configuration))
+	err = restapi.AddProfile(controllerUrl, username, description, configuration)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -523,10 +305,7 @@ func addClusterConfiguration() {
 		fmt.Println(err)
 	}
 
-	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&description=" + url.QueryEscape(description)
-	url := controllerUrl + API_PREFIX + "client/cluster/" + url.PathEscape(cluster) + "/configuration?" + query
-
-	err = performWriteRequest(url, "POST", bytes.NewReader(configuration))
+	err = restapi.AddClusterConfiguration(controllerUrl, username, cluster, reason, description, configuration)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -556,7 +335,7 @@ func fillInConfigurationList(directory string) error {
 
 func listOfTriggers() {
 	// TODO: filter in query?
-	triggers, err := readListOfTriggers(controllerUrl, API_PREFIX)
+	triggers, err := restapi.ReadListOfTriggers(controllerUrl)
 	if err != nil {
 		fmt.Println(Red("Error reading list of triggers"))
 		fmt.Println(err)
@@ -588,10 +367,7 @@ func addTrigger() {
 	reason := prompt.Input("reason: ", loginCompleter)
 	link := prompt.Input("link: ", loginCompleter)
 
-	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&link=" + url.QueryEscape(link)
-	url := controllerUrl + API_PREFIX + "client/cluster/" + url.PathEscape(clusterName) + "/trigger/must-gather?" + query
-
-	err := performWriteRequest(url, "POST", nil)
+	err := restapi.AddTrigger(controllerUrl, username, clusterName, reason, link)
 	if err != nil {
 		fmt.Println("Error communicating with the service")
 		fmt.Println(err)
@@ -602,7 +378,7 @@ func addTrigger() {
 }
 
 func describeTrigger(triggerId string) {
-	trigger, err := readTriggerById(controllerUrl, API_PREFIX, triggerId)
+	trigger, err := restapi.ReadTriggerById(controllerUrl, triggerId)
 	if err != nil {
 		fmt.Println(Red("Error reading selected trigger"))
 		fmt.Println(err)
@@ -637,9 +413,7 @@ func describeTrigger(triggerId string) {
 }
 
 func deleteTrigger(triggerId string) {
-	url := controllerUrl + API_PREFIX + "client/trigger/" + triggerId
-
-	err := performWriteRequest(url, "DELETE", nil)
+	err := restapi.DeleteTrigger(controllerUrl, triggerId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -650,9 +424,7 @@ func deleteTrigger(triggerId string) {
 }
 
 func activateTrigger(triggerId string) {
-	url := controllerUrl + API_PREFIX + "client/trigger/" + triggerId + "/activate"
-
-	err := performWriteRequest(url, "PUT", nil)
+	err := restapi.ActivateTrigger(controllerUrl, triggerId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -663,9 +435,7 @@ func activateTrigger(triggerId string) {
 }
 
 func deactivateTrigger(triggerId string) {
-	url := controllerUrl + API_PREFIX + "client/trigger/" + triggerId + "/deactivate"
-
-	err := performWriteRequest(url, "PUT", nil)
+	err := restapi.DeactivateTrigger(controllerUrl, triggerId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
