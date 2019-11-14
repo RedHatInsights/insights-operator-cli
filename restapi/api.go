@@ -23,10 +23,10 @@ import (
 	"net/url"
 )
 
-func ReadListOfClusters(controllerUrl string, apiPrefix string) ([]types.Cluster, error) {
+func ReadListOfClusters(controllerUrl string) ([]types.Cluster, error) {
 	clusters := []types.Cluster{}
 
-	url := controllerUrl + apiPrefix + "client/cluster"
+	url := controllerUrl + API_PREFIX + "client/cluster"
 	body, err := performReadRequest(url)
 
 	err = json.Unmarshal(body, &clusters)
@@ -36,9 +36,9 @@ func ReadListOfClusters(controllerUrl string, apiPrefix string) ([]types.Cluster
 	return clusters, nil
 }
 
-func ReadListOfTriggers(controllerUrl string, apiPrefix string) ([]types.Trigger, error) {
+func ReadListOfTriggers(controllerUrl string) ([]types.Trigger, error) {
 	var triggers []types.Trigger
-	url := controllerUrl + apiPrefix + "client/trigger"
+	url := controllerUrl + API_PREFIX + "client/trigger"
 	body, err := performReadRequest(url)
 	if err != nil {
 		return nil, err
@@ -51,9 +51,9 @@ func ReadListOfTriggers(controllerUrl string, apiPrefix string) ([]types.Trigger
 	return triggers, nil
 }
 
-func ReadTriggerById(controllerUrl string, apiPrefix string, triggerId string) (*types.Trigger, error) {
+func ReadTriggerById(controllerUrl string, triggerId string) (*types.Trigger, error) {
 	var trigger types.Trigger
-	url := controllerUrl + apiPrefix + "client/trigger/" + triggerId
+	url := controllerUrl + API_PREFIX + "client/trigger/" + triggerId
 	body, err := performReadRequest(url)
 	if err != nil {
 		return nil, err
@@ -66,10 +66,10 @@ func ReadTriggerById(controllerUrl string, apiPrefix string, triggerId string) (
 	return &trigger, nil
 }
 
-func ReadListOfConfigurationProfiles(controllerUrl string, apiPrefix string) ([]types.ConfigurationProfile, error) {
+func ReadListOfConfigurationProfiles(controllerUrl string) ([]types.ConfigurationProfile, error) {
 	profiles := []types.ConfigurationProfile{}
 
-	url := controllerUrl + apiPrefix + "client/profile"
+	url := controllerUrl + API_PREFIX + "client/profile"
 	body, err := performReadRequest(url)
 
 	err = json.Unmarshal(body, &profiles)
@@ -79,10 +79,10 @@ func ReadListOfConfigurationProfiles(controllerUrl string, apiPrefix string) ([]
 	return profiles, nil
 }
 
-func ReadListOfConfigurations(controllerUrl string, apiPrefix string) ([]types.ClusterConfiguration, error) {
+func ReadListOfConfigurations(controllerUrl string) ([]types.ClusterConfiguration, error) {
 	configurations := []types.ClusterConfiguration{}
 
-	url := controllerUrl + apiPrefix + "client/configuration"
+	url := controllerUrl + API_PREFIX + "client/configuration"
 	body, err := performReadRequest(url)
 	if err != nil {
 		return nil, err
@@ -95,9 +95,9 @@ func ReadListOfConfigurations(controllerUrl string, apiPrefix string) ([]types.C
 	return configurations, nil
 }
 
-func ReadConfigurationProfile(controllerUrl string, apiPrefix string, profileId string) (*types.ConfigurationProfile, error) {
+func ReadConfigurationProfile(controllerUrl string, profileId string) (*types.ConfigurationProfile, error) {
 	var profile types.ConfigurationProfile
-	url := controllerUrl + apiPrefix + "client/profile/" + profileId
+	url := controllerUrl + API_PREFIX + "client/profile/" + profileId
 	body, err := performReadRequest(url)
 	if err != nil {
 		return nil, err
@@ -110,8 +110,8 @@ func ReadConfigurationProfile(controllerUrl string, apiPrefix string, profileId 
 	return &profile, nil
 }
 
-func ReadClusterConfigurationById(controllerUrl string, apiPrefix string, configurationId string) (*string, error) {
-	url := controllerUrl + apiPrefix + "client/configuration/" + configurationId
+func ReadClusterConfigurationById(controllerUrl string, configurationId string) (*string, error) {
+	url := controllerUrl + API_PREFIX + "client/configuration/" + configurationId
 	body, err := performReadRequest(url)
 	if err != nil {
 		return nil, err
@@ -121,78 +121,78 @@ func ReadClusterConfigurationById(controllerUrl string, apiPrefix string, config
 	return &str, nil
 }
 
-func EnableClusterConfiguration(controllerUrl string, apiPrefix string, configurationId string) error {
-	url := controllerUrl + apiPrefix + "client/configuration/" + configurationId + "/enable"
+func EnableClusterConfiguration(controllerUrl string, configurationId string) error {
+	url := controllerUrl + API_PREFIX + "client/configuration/" + configurationId + "/enable"
 	err := performWriteRequest(url, "PUT", nil)
 	return err
 }
 
-func DisableClusterConfiguration(controllerUrl string, apiPrefix string, configurationId string) error {
-	url := controllerUrl + apiPrefix + "client/configuration/" + configurationId + "/disable"
+func DisableClusterConfiguration(controllerUrl string, configurationId string) error {
+	url := controllerUrl + API_PREFIX + "client/configuration/" + configurationId + "/disable"
 	err := performWriteRequest(url, "PUT", nil)
 	return err
 }
 
-func DeleteClusterConfiguration(controllerUrl string, apiPrefix string, configurationId string) error {
-	url := controllerUrl + apiPrefix + "client/configuration/" + configurationId
+func DeleteClusterConfiguration(controllerUrl string, configurationId string) error {
+	url := controllerUrl + API_PREFIX + "client/configuration/" + configurationId
 	err := performWriteRequest(url, "DELETE", nil)
 	return err
 }
 
-func DeleteCluster(controllerUrl string, apiPrefix string, clusterId string) error {
-	url := controllerUrl + apiPrefix + "client/cluster/" + clusterId
+func DeleteCluster(controllerUrl string, clusterId string) error {
+	url := controllerUrl + API_PREFIX + "client/cluster/" + clusterId
 	err := performWriteRequest(url, "DELETE", nil)
 	return err
 }
 
-func DeleteConfigurationProfile(controllerUrl string, apiPrefix string, profileId string) error {
-	url := controllerUrl + apiPrefix + "client/profile/" + profileId
+func DeleteConfigurationProfile(controllerUrl string, profileId string) error {
+	url := controllerUrl + API_PREFIX + "client/profile/" + profileId
 	err := performWriteRequest(url, "DELETE", nil)
 	return err
 }
 
-func AddCluster(controllerUrl string, apiPrefix string, id string, name string) error {
+func AddCluster(controllerUrl string, id string, name string) error {
 	query := id + "/" + name
-	url := controllerUrl + apiPrefix + "client/cluster/" + query
+	url := controllerUrl + API_PREFIX + "client/cluster/" + query
 	err := performWriteRequest(url, "POST", nil)
 	return err
 }
 
-func AddProfile(controllerUrl string, apiPrefix string, username string, description string, configuration []byte) error {
+func AddProfile(controllerUrl string, username string, description string, configuration []byte) error {
 	query := "username=" + url.QueryEscape(username) + "&description=" + url.QueryEscape(description)
-	url := controllerUrl + apiPrefix + "client/profile?" + query
+	url := controllerUrl + API_PREFIX + "client/profile?" + query
 	err := performWriteRequest(url, "POST", bytes.NewReader(configuration))
 	return err
 }
 
-func AddClusterConfiguration(controllerUrl string, apiPrefix string, username string, cluster string, reason string, description string, configuration []byte) error {
+func AddClusterConfiguration(controllerUrl string, username string, cluster string, reason string, description string, configuration []byte) error {
 	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&description=" + url.QueryEscape(description)
-	url := controllerUrl + apiPrefix + "client/cluster/" + url.PathEscape(cluster) + "/configuration?" + query
+	url := controllerUrl + API_PREFIX + "client/cluster/" + url.PathEscape(cluster) + "/configuration?" + query
 	err := performWriteRequest(url, "POST", bytes.NewReader(configuration))
 	return err
 }
 
-func AddTrigger(controllerUrl string, apiPrefix string, username string, clusterName string, reason string, link string) error {
+func AddTrigger(controllerUrl string, username string, clusterName string, reason string, link string) error {
 	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&link=" + url.QueryEscape(link)
-	url := controllerUrl + apiPrefix + "client/cluster/" + url.PathEscape(clusterName) + "/trigger/must-gather?" + query
+	url := controllerUrl + API_PREFIX + "client/cluster/" + url.PathEscape(clusterName) + "/trigger/must-gather?" + query
 	err := performWriteRequest(url, "POST", nil)
 	return err
 }
 
-func DeleteTrigger(controllerUrl string, apiPrefix string, triggerId string) error {
-	url := controllerUrl + apiPrefix + "client/trigger/" + triggerId
+func DeleteTrigger(controllerUrl string, triggerId string) error {
+	url := controllerUrl + API_PREFIX + "client/trigger/" + triggerId
 	err := performWriteRequest(url, "DELETE", nil)
 	return err
 }
 
-func ActivateTrigger(controllerUrl string, apiPrefix string, triggerId string) error {
-	url := controllerUrl + apiPrefix + "client/trigger/" + triggerId + "/activate"
+func ActivateTrigger(controllerUrl string, triggerId string) error {
+	url := controllerUrl + API_PREFIX + "client/trigger/" + triggerId + "/activate"
 	err := performWriteRequest(url, "PUT", nil)
 	return err
 }
 
-func DeactivateTrigger(controllerUrl string, apiPrefix string, triggerId string) error {
-	url := controllerUrl + apiPrefix + "client/trigger/" + triggerId + "/deactivate"
+func DeactivateTrigger(controllerUrl string, triggerId string) error {
+	url := controllerUrl + API_PREFIX + "client/trigger/" + triggerId + "/deactivate"
 	err := performWriteRequest(url, "PUT", nil)
 	return err
 }

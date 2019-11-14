@@ -30,8 +30,6 @@ import (
 	"strings"
 )
 
-const API_PREFIX = "/api/v1/"
-
 var BuildVersion string = "*not set*"
 var BuildTime string = "*not set*"
 
@@ -45,7 +43,7 @@ func tryToLogin(username string, password string) {
 }
 
 func listOfClusters() {
-	clusters, err := restapi.ReadListOfClusters(controllerUrl, API_PREFIX)
+	clusters, err := restapi.ReadListOfClusters(controllerUrl)
 	if err != nil {
 		fmt.Println(Red("Error reading list of clusters"))
 		fmt.Println(err)
@@ -60,7 +58,7 @@ func listOfClusters() {
 }
 
 func listOfProfiles() {
-	profiles, err := restapi.ReadListOfConfigurationProfiles(controllerUrl, API_PREFIX)
+	profiles, err := restapi.ReadListOfConfigurationProfiles(controllerUrl)
 	if err != nil {
 		fmt.Println(Red("Error reading list of configuration profiles"))
 		fmt.Println(err)
@@ -77,7 +75,7 @@ func listOfProfiles() {
 
 func listOfConfigurations(filter string) {
 	// TODO: filter in query?
-	configurations, err := restapi.ReadListOfConfigurations(controllerUrl, API_PREFIX)
+	configurations, err := restapi.ReadListOfConfigurations(controllerUrl)
 	if err != nil {
 		fmt.Println(Red("Error reading list of configurations"))
 		fmt.Println(err)
@@ -102,7 +100,7 @@ func listOfConfigurations(filter string) {
 }
 
 func describeProfile(profileId string) {
-	profile, err := restapi.ReadConfigurationProfile(controllerUrl, API_PREFIX, profileId)
+	profile, err := restapi.ReadConfigurationProfile(controllerUrl, profileId)
 	if err != nil {
 		fmt.Println(Red("Error reading configuration profile"))
 		fmt.Println(err)
@@ -114,7 +112,7 @@ func describeProfile(profileId string) {
 }
 
 func describeConfiguration(clusterId string) {
-	configuration, err := restapi.ReadClusterConfigurationById(controllerUrl, API_PREFIX, clusterId)
+	configuration, err := restapi.ReadClusterConfigurationById(controllerUrl, clusterId)
 	if err != nil {
 		fmt.Println(Red("Error reading cluster configuration"))
 		fmt.Println(err)
@@ -126,7 +124,7 @@ func describeConfiguration(clusterId string) {
 }
 
 func enableClusterConfiguration(configurationId string) {
-	err := restapi.EnableClusterConfiguration(controllerUrl, API_PREFIX, configurationId)
+	err := restapi.EnableClusterConfiguration(controllerUrl, configurationId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -137,7 +135,7 @@ func enableClusterConfiguration(configurationId string) {
 }
 
 func disableClusterConfiguration(configurationId string) {
-	err := restapi.DisableClusterConfiguration(controllerUrl, API_PREFIX, configurationId)
+	err := restapi.DisableClusterConfiguration(controllerUrl, configurationId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -162,7 +160,7 @@ func deleteCluster(clusterId string) {
 		return
 	}
 
-	err := restapi.DeleteCluster(controllerUrl, API_PREFIX, clusterId)
+	err := restapi.DeleteCluster(controllerUrl, clusterId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -173,7 +171,7 @@ func deleteCluster(clusterId string) {
 }
 
 func deleteClusterConfiguration(configurationId string) {
-	err := restapi.DeleteClusterConfiguration(controllerUrl, API_PREFIX, configurationId)
+	err := restapi.DeleteClusterConfiguration(controllerUrl, configurationId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -188,7 +186,7 @@ func deleteConfigurationProfile(profileId string) {
 		return
 	}
 
-	err := restapi.DeleteConfigurationProfile(controllerUrl, API_PREFIX, profileId)
+	err := restapi.DeleteConfigurationProfile(controllerUrl, profileId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -211,7 +209,7 @@ func addCluster() {
 		return
 	}
 
-	err := restapi.AddCluster(controllerUrl, API_PREFIX, id, name)
+	err := restapi.AddCluster(controllerUrl, id, name)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -253,7 +251,7 @@ func addProfile() {
 		fmt.Println(err)
 	}
 
-	err = restapi.AddProfile(controllerUrl, API_PREFIX, username, description, configuration)
+	err = restapi.AddProfile(controllerUrl, username, description, configuration)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -307,7 +305,7 @@ func addClusterConfiguration() {
 		fmt.Println(err)
 	}
 
-	err = restapi.AddClusterConfiguration(controllerUrl, API_PREFIX, username, cluster, reason, description, configuration)
+	err = restapi.AddClusterConfiguration(controllerUrl, username, cluster, reason, description, configuration)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -337,7 +335,7 @@ func fillInConfigurationList(directory string) error {
 
 func listOfTriggers() {
 	// TODO: filter in query?
-	triggers, err := restapi.ReadListOfTriggers(controllerUrl, API_PREFIX)
+	triggers, err := restapi.ReadListOfTriggers(controllerUrl)
 	if err != nil {
 		fmt.Println(Red("Error reading list of triggers"))
 		fmt.Println(err)
@@ -369,7 +367,7 @@ func addTrigger() {
 	reason := prompt.Input("reason: ", loginCompleter)
 	link := prompt.Input("link: ", loginCompleter)
 
-	err := restapi.AddTrigger(controllerUrl, API_PREFIX, username, clusterName, reason, link)
+	err := restapi.AddTrigger(controllerUrl, username, clusterName, reason, link)
 	if err != nil {
 		fmt.Println("Error communicating with the service")
 		fmt.Println(err)
@@ -380,7 +378,7 @@ func addTrigger() {
 }
 
 func describeTrigger(triggerId string) {
-	trigger, err := restapi.ReadTriggerById(controllerUrl, API_PREFIX, triggerId)
+	trigger, err := restapi.ReadTriggerById(controllerUrl, triggerId)
 	if err != nil {
 		fmt.Println(Red("Error reading selected trigger"))
 		fmt.Println(err)
@@ -415,7 +413,7 @@ func describeTrigger(triggerId string) {
 }
 
 func deleteTrigger(triggerId string) {
-	err := restapi.DeleteTrigger(controllerUrl, API_PREFIX, triggerId)
+	err := restapi.DeleteTrigger(controllerUrl, triggerId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -426,7 +424,7 @@ func deleteTrigger(triggerId string) {
 }
 
 func activateTrigger(triggerId string) {
-	err := restapi.ActivateTrigger(controllerUrl, API_PREFIX, triggerId)
+	err := restapi.ActivateTrigger(controllerUrl, triggerId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -437,7 +435,7 @@ func activateTrigger(triggerId string) {
 }
 
 func deactivateTrigger(triggerId string) {
-	err := restapi.DeactivateTrigger(controllerUrl, API_PREFIX, triggerId)
+	err := restapi.DeactivateTrigger(controllerUrl, triggerId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
