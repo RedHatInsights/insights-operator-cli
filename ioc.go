@@ -23,11 +23,10 @@ import (
 	"fmt"
 	"github.com/c-bata/go-prompt"
 	. "github.com/logrusorgru/aurora"
+	"github.com/redhatinsighs/insights-operator-cli/restapi"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/ssh/terminal"
-	"io"
 	"io/ioutil"
-	"net/http"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -113,47 +112,11 @@ func tryToLogin(username string, password string) {
 	fmt.Println(Blue("\nDone"))
 }
 
-func performReadRequest(url string) ([]byte, error) {
-	response, err := http.Get(url)
-	if err != nil {
-		return nil, fmt.Errorf("Communication error with the server %v", err)
-	}
-	if response.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
-	}
-	body, readErr := ioutil.ReadAll(response.Body)
-	defer response.Body.Close()
-
-	if readErr != nil {
-		return nil, fmt.Errorf("Unable to read response body")
-	}
-
-	return body, nil
-}
-
-func performWriteRequest(url string, method string, payload io.Reader) error {
-	var client http.Client
-
-	request, err := http.NewRequest(method, url, payload)
-	if err != nil {
-		return fmt.Errorf("Error creating request %v", err)
-	}
-
-	response, err := client.Do(request)
-	if err != nil {
-		return fmt.Errorf("Communication error with the server %v", err)
-	}
-	if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusCreated && response.StatusCode != http.StatusAccepted {
-		return fmt.Errorf("Expected HTTP status 200 OK, 201 Created or 202 Accepted, got %d", response.StatusCode)
-	}
-	return nil
-}
-
 func readListOfClusters(controllerUrl string, apiPrefix string) ([]Cluster, error) {
 	clusters := []Cluster{}
 
 	url := controllerUrl + apiPrefix + "client/cluster"
-	body, err := performReadRequest(url)
+	body, err := restapi.PerformReadRequest(url)
 
 	err = json.Unmarshal(body, &clusters)
 	if err != nil {
@@ -165,7 +128,7 @@ func readListOfClusters(controllerUrl string, apiPrefix string) ([]Cluster, erro
 func readListOfTriggers(controllerUrl string, apiPrefix string) ([]Trigger, error) {
 	var triggers []Trigger
 	url := controllerUrl + apiPrefix + "client/trigger"
-	body, err := performReadRequest(url)
+	body, err := restapi.PerformReadRequest(url)
 	if err != nil {
 		return nil, err
 	}
@@ -180,7 +143,7 @@ func readListOfTriggers(controllerUrl string, apiPrefix string) ([]Trigger, erro
 func readTriggerById(controllerUrl string, apiPrefix string, triggerId string) (*Trigger, error) {
 	var trigger Trigger
 	url := controllerUrl + apiPrefix + "client/trigger/" + triggerId
-	body, err := performReadRequest(url)
+	body, err := restapi.PerformReadRequest(url)
 	if err != nil {
 		return nil, err
 	}
@@ -196,7 +159,7 @@ func readListOfConfigurationProfiles(controllerUrl string, apiPrefix string) ([]
 	profiles := []ConfigurationProfile{}
 
 	url := controllerUrl + apiPrefix + "client/profile"
-	body, err := performReadRequest(url)
+	body, err := restapi.PerformReadRequest(url)
 
 	err = json.Unmarshal(body, &profiles)
 	if err != nil {
@@ -209,7 +172,7 @@ func readListOfConfigurations(controllerUrl string, apiPrefix string) ([]Cluster
 	configurations := []ClusterConfiguration{}
 
 	url := controllerUrl + apiPrefix + "client/configuration"
-	body, err := performReadRequest(url)
+	body, err := restapi.PerformReadRequest(url)
 	if err != nil {
 		return nil, err
 	}
@@ -224,7 +187,7 @@ func readListOfConfigurations(controllerUrl string, apiPrefix string) ([]Cluster
 func readConfigurationProfile(controllerUrl string, apiPrefix string, profileId string) (*ConfigurationProfile, error) {
 	var profile ConfigurationProfile
 	url := controllerUrl + apiPrefix + "client/profile/" + profileId
-	body, err := performReadRequest(url)
+	body, err := restapi.PerformReadRequest(url)
 	if err != nil {
 		return nil, err
 	}
@@ -238,7 +201,7 @@ func readConfigurationProfile(controllerUrl string, apiPrefix string, profileId 
 
 func readClusterConfigurationById(controllerUrl string, apiPrefix string, configurationId string) (*string, error) {
 	url := controllerUrl + apiPrefix + "client/configuration/" + configurationId
-	body, err := performReadRequest(url)
+	body, err := restapi.PerformReadRequest(url)
 	if err != nil {
 		return nil, err
 	}
@@ -330,7 +293,7 @@ func describeConfiguration(clusterId string) {
 
 func enableClusterConfiguration(configurationId string) {
 	url := controllerUrl + API_PREFIX + "client/configuration/" + configurationId + "/enable"
-	err := performWriteRequest(url, "PUT", nil)
+	err := restapi.PerformWriteRequest(url, "PUT", nil)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -343,7 +306,7 @@ func enableClusterConfiguration(configurationId string) {
 func disableClusterConfiguration(configurationId string) {
 	// TODO: refactoring needed - almost the same code as in previous function
 	url := controllerUrl + API_PREFIX + "client/configuration/" + configurationId + "/disable"
-	err := performWriteRequest(url, "PUT", nil)
+	err := restapi.PerformWriteRequest(url, "PUT", nil)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -369,7 +332,7 @@ func deleteCluster(clusterId string) {
 	}
 
 	url := controllerUrl + API_PREFIX + "client/cluster/" + clusterId
-	err := performWriteRequest(url, "DELETE", nil)
+	err := restapi.PerformWriteRequest(url, "DELETE", nil)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -382,7 +345,7 @@ func deleteCluster(clusterId string) {
 func deleteClusterConfiguration(configurationId string) {
 	// TODO: refactoring needed - almost the same code as in previous function
 	url := controllerUrl + API_PREFIX + "client/configuration/" + configurationId
-	err := performWriteRequest(url, "DELETE", nil)
+	err := restapi.PerformWriteRequest(url, "DELETE", nil)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -398,7 +361,7 @@ func deleteConfigurationProfile(profileId string) {
 	}
 
 	url := controllerUrl + API_PREFIX + "client/profile/" + profileId
-	err := performWriteRequest(url, "DELETE", nil)
+	err := restapi.PerformWriteRequest(url, "DELETE", nil)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -424,7 +387,7 @@ func addCluster() {
 	query := id + "/" + name
 	url := controllerUrl + API_PREFIX + "client/cluster/" + query
 
-	err := performWriteRequest(url, "POST", nil)
+	err := restapi.PerformWriteRequest(url, "POST", nil)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -469,7 +432,7 @@ func addProfile() {
 	query := "username=" + url.QueryEscape(username) + "&description=" + url.QueryEscape(description)
 	url := controllerUrl + API_PREFIX + "client/profile?" + query
 
-	err = performWriteRequest(url, "POST", bytes.NewReader(configuration))
+	err = restapi.PerformWriteRequest(url, "POST", bytes.NewReader(configuration))
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -526,7 +489,7 @@ func addClusterConfiguration() {
 	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&description=" + url.QueryEscape(description)
 	url := controllerUrl + API_PREFIX + "client/cluster/" + url.PathEscape(cluster) + "/configuration?" + query
 
-	err = performWriteRequest(url, "POST", bytes.NewReader(configuration))
+	err = restapi.PerformWriteRequest(url, "POST", bytes.NewReader(configuration))
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -591,7 +554,7 @@ func addTrigger() {
 	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&link=" + url.QueryEscape(link)
 	url := controllerUrl + API_PREFIX + "client/cluster/" + url.PathEscape(clusterName) + "/trigger/must-gather?" + query
 
-	err := performWriteRequest(url, "POST", nil)
+	err := restapi.PerformWriteRequest(url, "POST", nil)
 	if err != nil {
 		fmt.Println("Error communicating with the service")
 		fmt.Println(err)
@@ -639,7 +602,7 @@ func describeTrigger(triggerId string) {
 func deleteTrigger(triggerId string) {
 	url := controllerUrl + API_PREFIX + "client/trigger/" + triggerId
 
-	err := performWriteRequest(url, "DELETE", nil)
+	err := restapi.PerformWriteRequest(url, "DELETE", nil)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -652,7 +615,7 @@ func deleteTrigger(triggerId string) {
 func activateTrigger(triggerId string) {
 	url := controllerUrl + API_PREFIX + "client/trigger/" + triggerId + "/activate"
 
-	err := performWriteRequest(url, "PUT", nil)
+	err := restapi.PerformWriteRequest(url, "PUT", nil)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -665,7 +628,7 @@ func activateTrigger(triggerId string) {
 func deactivateTrigger(triggerId string) {
 	url := controllerUrl + API_PREFIX + "client/trigger/" + triggerId + "/deactivate"
 
-	err := performWriteRequest(url, "PUT", nil)
+	err := restapi.PerformWriteRequest(url, "PUT", nil)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
