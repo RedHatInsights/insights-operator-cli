@@ -24,6 +24,7 @@ import (
 	"github.com/c-bata/go-prompt"
 	. "github.com/logrusorgru/aurora"
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
+	"github.com/redhatinsighs/insights-operator-cli/types"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/ssh/terminal"
 	"io/ioutil"
@@ -43,77 +44,12 @@ var username string
 var password string
 var files []prompt.Suggest
 
-// Representation of cluster record in the controller service.
-//     ID: unique key
-//     Name: cluster GUID in the following format:
-//         c8590f31-e97e-4b85-b506-c45ce1911a12
-type Cluster struct {
-	Id   int    `json:"id"`
-	Name string `json:"name"`
-}
-
-// Representation of configuration profile record in the controller service.
-//     ID: unique key
-//     Configuration: a JSON structure stored in a string
-//     ChangeAt: username of admin that created or updated the configuration
-//     ChangeBy: timestamp of the last configuration change
-//     Description: a string with any comment(s) about the configuration
-type ConfigurationProfile struct {
-	Id            int    `json:"id"`
-	Configuration string `json:"configuration"`
-	ChangedAt     string `json:"changed_at"`
-	ChangedBy     string `json:"changed_by"`
-	Description   string `json:"description"`
-}
-
-// Representation of cluster configuration record in the controller service.
-//     ID: unique key
-//     Cluster: cluster ID (not name)
-//     Configuration: a JSON structure stored in a string
-//     ChangeAt: timestamp of the last configuration change
-//     ChangeBy: username of admin that created or updated the configuration
-//     Active: flag indicating whether the configuration is active or not
-//     Reason: a string with any comment(s) about the cluster configuration
-type ClusterConfiguration struct {
-	Id            int    `json:"id"`
-	Cluster       string `json:"cluster"`
-	Configuration string `json:"configuration"`
-	ChangedAt     string `json:"changed_at"`
-	ChangedBy     string `json:"changed_by"`
-	Active        string `json:"active"`
-	Reason        string `json:"reason"`
-}
-
-// Representation of trigger record in the controller service
-//     ID: unique key
-//     Type: ID of trigger type
-//     Cluster: cluster ID (not name)
-//     Reason: a string with any comment(s) about the trigger
-//     Link: link to any document with customer ACK with the trigger
-//     TriggeredAt: timestamp of the last configuration change
-//     TriggeredBy: username of admin that created or updated the trigger
-//     AckedAt: timestamp where the insights operator acked the trigger
-//     Parameters: parameters that needs to be pass to trigger code
-//     Active: flag indicating whether the trigger is still active or not
-type Trigger struct {
-	Id          int    `json:"id"`
-	Type        string `json:"type"`
-	Cluster     string `json:"cluster"`
-	Reason      string `json:"reason"`
-	Link        string `json:"link"`
-	TriggeredAt string `json:"triggered_at"`
-	TriggeredBy string `json:"triggered_by"`
-	AckedAt     string `json:"acked_at"`
-	Parameters  string `json:"parameters"`
-	Active      int    `json:"active"`
-}
-
 func tryToLogin(username string, password string) {
 	fmt.Println(Blue("\nDone"))
 }
 
-func readListOfClusters(controllerUrl string, apiPrefix string) ([]Cluster, error) {
-	clusters := []Cluster{}
+func readListOfClusters(controllerUrl string, apiPrefix string) ([]types.Cluster, error) {
+	clusters := []types.Cluster{}
 
 	url := controllerUrl + apiPrefix + "client/cluster"
 	body, err := restapi.PerformReadRequest(url)
@@ -125,8 +61,8 @@ func readListOfClusters(controllerUrl string, apiPrefix string) ([]Cluster, erro
 	return clusters, nil
 }
 
-func readListOfTriggers(controllerUrl string, apiPrefix string) ([]Trigger, error) {
-	var triggers []Trigger
+func readListOfTriggers(controllerUrl string, apiPrefix string) ([]types.Trigger, error) {
+	var triggers []types.Trigger
 	url := controllerUrl + apiPrefix + "client/trigger"
 	body, err := restapi.PerformReadRequest(url)
 	if err != nil {
@@ -140,8 +76,8 @@ func readListOfTriggers(controllerUrl string, apiPrefix string) ([]Trigger, erro
 	return triggers, nil
 }
 
-func readTriggerById(controllerUrl string, apiPrefix string, triggerId string) (*Trigger, error) {
-	var trigger Trigger
+func readTriggerById(controllerUrl string, apiPrefix string, triggerId string) (*types.Trigger, error) {
+	var trigger types.Trigger
 	url := controllerUrl + apiPrefix + "client/trigger/" + triggerId
 	body, err := restapi.PerformReadRequest(url)
 	if err != nil {
@@ -155,8 +91,8 @@ func readTriggerById(controllerUrl string, apiPrefix string, triggerId string) (
 	return &trigger, nil
 }
 
-func readListOfConfigurationProfiles(controllerUrl string, apiPrefix string) ([]ConfigurationProfile, error) {
-	profiles := []ConfigurationProfile{}
+func readListOfConfigurationProfiles(controllerUrl string, apiPrefix string) ([]types.ConfigurationProfile, error) {
+	profiles := []types.ConfigurationProfile{}
 
 	url := controllerUrl + apiPrefix + "client/profile"
 	body, err := restapi.PerformReadRequest(url)
@@ -168,8 +104,8 @@ func readListOfConfigurationProfiles(controllerUrl string, apiPrefix string) ([]
 	return profiles, nil
 }
 
-func readListOfConfigurations(controllerUrl string, apiPrefix string) ([]ClusterConfiguration, error) {
-	configurations := []ClusterConfiguration{}
+func readListOfConfigurations(controllerUrl string, apiPrefix string) ([]types.ClusterConfiguration, error) {
+	configurations := []types.ClusterConfiguration{}
 
 	url := controllerUrl + apiPrefix + "client/configuration"
 	body, err := restapi.PerformReadRequest(url)
@@ -184,8 +120,8 @@ func readListOfConfigurations(controllerUrl string, apiPrefix string) ([]Cluster
 	return configurations, nil
 }
 
-func readConfigurationProfile(controllerUrl string, apiPrefix string, profileId string) (*ConfigurationProfile, error) {
-	var profile ConfigurationProfile
+func readConfigurationProfile(controllerUrl string, apiPrefix string, profileId string) (*types.ConfigurationProfile, error) {
+	var profile types.ConfigurationProfile
 	url := controllerUrl + apiPrefix + "client/profile/" + profileId
 	body, err := restapi.PerformReadRequest(url)
 	if err != nil {
