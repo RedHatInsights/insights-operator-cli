@@ -23,7 +23,7 @@ import (
 	"net/http"
 )
 
-func PerformReadRequest(url string) ([]byte, error) {
+func performReadRequest(url string) ([]byte, error) {
 	response, err := http.Get(url)
 	if err != nil {
 		return nil, fmt.Errorf("Communication error with the server %v", err)
@@ -41,7 +41,7 @@ func PerformReadRequest(url string) ([]byte, error) {
 	return body, nil
 }
 
-func PerformWriteRequest(url string, method string, payload io.Reader) error {
+func performWriteRequest(url string, method string, payload io.Reader) error {
 	var client http.Client
 
 	request, err := http.NewRequest(method, url, payload)
