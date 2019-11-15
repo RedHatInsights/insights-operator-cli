@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"github.com/c-bata/go-prompt"
 	. "github.com/logrusorgru/aurora"
+	"github.com/redhatinsighs/insights-operator-cli/commands"
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/ssh/terminal"
@@ -37,13 +38,14 @@ var controllerUrl string
 var username string
 var password string
 var files []prompt.Suggest
+var api restapi.Api
 
 func tryToLogin(username string, password string) {
 	fmt.Println(Blue("\nDone"))
 }
 
 func listOfClusters() {
-	clusters, err := restapi.ReadListOfClusters(controllerUrl)
+	clusters, err := api.ReadListOfClusters()
 	if err != nil {
 		fmt.Println(Red("Error reading list of clusters"))
 		fmt.Println(err)
@@ -445,47 +447,6 @@ func deactivateTrigger(triggerId string) {
 	}
 }
 
-func printHelp() {
-	fmt.Println(Magenta("HELP:"))
-	fmt.Println()
-	fmt.Println(Blue("Cluster operations:        "))
-	fmt.Println(Yellow("list clusters            "), "list all clusters known to the service")
-	fmt.Println(Yellow("delete cluster ##        "), "delete selected cluster")
-	fmt.Println(Yellow("add cluster              "), "create new cluster")
-	fmt.Println(Yellow("new cluster              "), "alias for previous command")
-	fmt.Println()
-	fmt.Println(Blue("Configuration profiles:    "))
-	fmt.Println(Yellow("list profiles            "), "list all profiles known to the service")
-	fmt.Println(Yellow("describe profile ##      "), "describe profile selected by its ID")
-	fmt.Println(Yellow("delete profile ##        "), "delete profile selected by its ID")
-	fmt.Println()
-	fmt.Println(Blue("Cluster configurations:    "))
-	fmt.Println(Yellow("list configurations      "), "list all configurations known to the service")
-	fmt.Println(Yellow("describe configuration ##"), "describe cluster configuration selected by its ID")
-	fmt.Println(Yellow("add configuration        "), "add new configuration")
-	fmt.Println(Yellow("new configuration        "), "alias for previous command")
-	fmt.Println(Yellow("enable ##                "), "enable cluster configuration selected by its ID")
-	fmt.Println(Yellow("disable ##               "), "disable cluster configuration selected by its ID")
-	fmt.Println(Yellow("delete configuration ##  "), "delete configuration selected by its ID")
-	fmt.Println()
-	fmt.Println(Blue("Must-gather trigger:       "))
-	fmt.Println(Yellow("list triggers            "), "list all triggers")
-	fmt.Println(Yellow("describe trigger ##      "), "describe trigger selected by its ID")
-	fmt.Println(Yellow("add trigger              "), "add new trigger")
-	fmt.Println(Yellow("new trigger              "), "alias for previous command")
-	fmt.Println(Yellow("activate trigger ##      "), "activate trigger selected by its ID")
-	fmt.Println(Yellow("deactivate trigger ##    "), "deactivate trigger selected by its ID")
-	fmt.Println(Yellow("delete trigger           "), "delete trigger")
-	fmt.Println()
-	fmt.Println(Blue("Other commands:"))
-	fmt.Println(Yellow("version                  "), "print version information")
-	fmt.Println(Yellow("quit                     "), "quit the application")
-	fmt.Println(Yellow("exit                     "), "dtto")
-	fmt.Println(Yellow("bye                      "), "dtto")
-	fmt.Println(Yellow("help                     "), "this help")
-	fmt.Println()
-}
-
 func loginCompleter(in prompt.Document) []prompt.Suggest {
 	return nil
 }
@@ -619,7 +580,7 @@ func executor(t string) {
 	case "?":
 		fallthrough
 	case "help":
-		printHelp()
+		commands.PrintHelp()
 	case "version":
 		printVersion()
 	default:
@@ -721,5 +682,7 @@ func main() {
 
 	controllerUrl = viper.GetString("CONTROLLER_URL")
 	p := prompt.New(executor, completer)
+	api = restapi.NewRestApi(controllerUrl)
+
 	p.Run()
 }
