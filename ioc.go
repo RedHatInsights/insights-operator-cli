@@ -44,22 +44,6 @@ func tryToLogin(username string, password string) {
 	fmt.Println(Blue("\nDone"))
 }
 
-func listOfProfiles() {
-	profiles, err := restapi.ReadListOfConfigurationProfiles(controllerUrl)
-	if err != nil {
-		fmt.Println(Red("Error reading list of configuration profiles"))
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println(Magenta("List of configuration profiles"))
-	fmt.Printf("%4s %4s %-20s %-20s %s\n", "#", "ID", "Changed at", "Changed by", "Description")
-	for i, profile := range profiles {
-		changedAt := profile.ChangedAt[0:19]
-		fmt.Printf("%4d %4d %-20s %-20s %-s\n", i, profile.Id, changedAt, profile.ChangedBy, profile.Description)
-	}
-}
-
 func listOfConfigurations(filter string) {
 	// TODO: filter in query?
 	configurations, err := restapi.ReadListOfConfigurations(controllerUrl)
@@ -298,30 +282,6 @@ func fillInConfigurationList(directory string) error {
 	return nil
 }
 
-func listOfTriggers() {
-	// TODO: filter in query?
-	triggers, err := restapi.ReadListOfTriggers(controllerUrl)
-	if err != nil {
-		fmt.Println(Red("Error reading list of triggers"))
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println(Magenta("List of triggers for all clusters"))
-	fmt.Printf("%4s %4s %-16s    %-20s %-20s %-12s %-12s %s\n", "#", "ID", "Type", "Cluster", "Triggered at", "Triggered by", "Active", "Acked at")
-	for i, trigger := range triggers {
-		var active Value
-		if trigger.Active == 1 {
-			active = Green("yes")
-		} else {
-			active = Red("no")
-		}
-		triggeredAt := trigger.TriggeredAt[0:19]
-		ackedAt := trigger.AckedAt[0:19]
-		fmt.Printf("%4d %4d %-16s    %-20s %-20s %-12s %-12s %s\n", i, trigger.Id, trigger.Type, trigger.Cluster, triggeredAt, trigger.TriggeredBy, active, ackedAt)
-	}
-}
-
 func addTrigger() {
 	if username == "" {
 		fmt.Println(Red("Not logged in"))
@@ -477,11 +437,11 @@ func executor(t string) {
 			tryToLogin(username, password)
 		}
 	case "list triggers":
-		listOfTriggers()
+		commands.ListOfTriggers(api)
 	case "list clusters":
 		commands.ListOfClusters(api)
 	case "list profiles":
-		listOfProfiles()
+		commands.ListOfProfiles(api)
 	case "list configurations":
 		listOfConfigurations("")
 	case "add cluster":
@@ -635,6 +595,7 @@ func completer(in prompt.Document) []prompt.Suggest {
 }
 
 func main() {
+	// read configuration first
 	viper.SetConfigName("config")
 	viper.AddConfigPath(".")
 
