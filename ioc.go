@@ -44,21 +44,6 @@ func tryToLogin(username string, password string) {
 	fmt.Println(Blue("\nDone"))
 }
 
-func listOfClusters() {
-	clusters, err := api.ReadListOfClusters()
-	if err != nil {
-		fmt.Println(Red("Error reading list of clusters"))
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println(Magenta("List of clusters"))
-	fmt.Printf("%4s %4s %-s\n", "#", "ID", "Name")
-	for i, cluster := range clusters {
-		fmt.Printf("%4d %4d %-s\n", i, cluster.Id, cluster.Name)
-	}
-}
-
 func listOfProfiles() {
 	profiles, err := restapi.ReadListOfConfigurationProfiles(controllerUrl)
 	if err != nil {
@@ -125,28 +110,6 @@ func describeConfiguration(clusterId string) {
 	fmt.Println(*configuration)
 }
 
-func enableClusterConfiguration(configurationId string) {
-	err := restapi.EnableClusterConfiguration(controllerUrl, configurationId)
-	if err != nil {
-		fmt.Println(Red("Error communicating with the service"))
-		fmt.Println(err)
-		return
-	} else {
-		fmt.Println(Blue("Configuration "+configurationId+" has been "), Green("enabled"))
-	}
-}
-
-func disableClusterConfiguration(configurationId string) {
-	err := restapi.DisableClusterConfiguration(controllerUrl, configurationId)
-	if err != nil {
-		fmt.Println(Red("Error communicating with the service"))
-		fmt.Println(err)
-		return
-	} else {
-		fmt.Println(Blue("Configuration "+configurationId+" has been "), Red("disabled"))
-	}
-}
-
 func proceedQuestion(question string) bool {
 	fmt.Println(Red(question))
 	proceed := prompt.Input("proceed? [y/n] ", loginCompleter)
@@ -211,7 +174,7 @@ func addCluster() {
 		return
 	}
 
-	err := restapi.AddCluster(controllerUrl, id, name)
+	err := api.AddCluster(id, name)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -473,10 +436,10 @@ func executor(t string) {
 		describeTrigger(blocks[2])
 		return
 	case strings.HasPrefix(t, "enable "):
-		enableClusterConfiguration(blocks[1])
+		commands.EnableClusterConfiguration(api, blocks[1])
 		return
 	case strings.HasPrefix(t, "disable "):
-		disableClusterConfiguration(blocks[1])
+		commands.DisableClusterConfiguration(api, blocks[1])
 		return
 	case strings.HasPrefix(t, "list configurations "):
 		listOfConfigurations(blocks[2])
@@ -516,7 +479,7 @@ func executor(t string) {
 	case "list triggers":
 		listOfTriggers()
 	case "list clusters":
-		listOfClusters()
+		commands.ListOfClusters(api)
 	case "list profiles":
 		listOfProfiles()
 	case "list configurations":
@@ -548,10 +511,10 @@ func executor(t string) {
 		describeTrigger(trigger)
 	case "enable":
 		configuration := prompt.Input("configuration: ", loginCompleter)
-		enableClusterConfiguration(configuration)
+		commands.EnableClusterConfiguration(api, configuration)
 	case "disable":
 		configuration := prompt.Input("configuration: ", loginCompleter)
-		disableClusterConfiguration(configuration)
+		commands.DisableClusterConfiguration(api, configuration)
 	case "delete cluster":
 		cluster := prompt.Input("cluster: ", loginCompleter)
 		deleteCluster(cluster)
