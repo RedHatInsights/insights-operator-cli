@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"github.com/c-bata/go-prompt"
 	. "github.com/logrusorgru/aurora"
+	"github.com/redhatinsighs/insights-operator-cli/commands"
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/ssh/terminal"
@@ -37,40 +38,10 @@ var controllerUrl string
 var username string
 var password string
 var files []prompt.Suggest
+var api restapi.Api
 
 func tryToLogin(username string, password string) {
 	fmt.Println(Blue("\nDone"))
-}
-
-func listOfClusters() {
-	clusters, err := restapi.ReadListOfClusters(controllerUrl)
-	if err != nil {
-		fmt.Println(Red("Error reading list of clusters"))
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println(Magenta("List of clusters"))
-	fmt.Printf("%4s %4s %-s\n", "#", "ID", "Name")
-	for i, cluster := range clusters {
-		fmt.Printf("%4d %4d %-s\n", i, cluster.Id, cluster.Name)
-	}
-}
-
-func listOfProfiles() {
-	profiles, err := restapi.ReadListOfConfigurationProfiles(controllerUrl)
-	if err != nil {
-		fmt.Println(Red("Error reading list of configuration profiles"))
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println(Magenta("List of configuration profiles"))
-	fmt.Printf("%4s %4s %-20s %-20s %s\n", "#", "ID", "Changed at", "Changed by", "Description")
-	for i, profile := range profiles {
-		changedAt := profile.ChangedAt[0:19]
-		fmt.Printf("%4d %4d %-20s %-20s %-s\n", i, profile.Id, changedAt, profile.ChangedBy, profile.Description)
-	}
 }
 
 func listOfConfigurations(filter string) {
@@ -121,28 +92,6 @@ func describeConfiguration(clusterId string) {
 
 	fmt.Println(Magenta("Configuration for cluster " + clusterId))
 	fmt.Println(*configuration)
-}
-
-func enableClusterConfiguration(configurationId string) {
-	err := restapi.EnableClusterConfiguration(controllerUrl, configurationId)
-	if err != nil {
-		fmt.Println(Red("Error communicating with the service"))
-		fmt.Println(err)
-		return
-	} else {
-		fmt.Println(Blue("Configuration "+configurationId+" has been "), Green("enabled"))
-	}
-}
-
-func disableClusterConfiguration(configurationId string) {
-	err := restapi.DisableClusterConfiguration(controllerUrl, configurationId)
-	if err != nil {
-		fmt.Println(Red("Error communicating with the service"))
-		fmt.Println(err)
-		return
-	} else {
-		fmt.Println(Blue("Configuration "+configurationId+" has been "), Red("disabled"))
-	}
 }
 
 func proceedQuestion(question string) bool {
@@ -209,7 +158,7 @@ func addCluster() {
 		return
 	}
 
-	err := restapi.AddCluster(controllerUrl, id, name)
+	err := api.AddCluster(id, name)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -333,30 +282,6 @@ func fillInConfigurationList(directory string) error {
 	return nil
 }
 
-func listOfTriggers() {
-	// TODO: filter in query?
-	triggers, err := restapi.ReadListOfTriggers(controllerUrl)
-	if err != nil {
-		fmt.Println(Red("Error reading list of triggers"))
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println(Magenta("List of triggers for all clusters"))
-	fmt.Printf("%4s %4s %-16s    %-20s %-20s %-12s %-12s %s\n", "#", "ID", "Type", "Cluster", "Triggered at", "Triggered by", "Active", "Acked at")
-	for i, trigger := range triggers {
-		var active Value
-		if trigger.Active == 1 {
-			active = Green("yes")
-		} else {
-			active = Red("no")
-		}
-		triggeredAt := trigger.TriggeredAt[0:19]
-		ackedAt := trigger.AckedAt[0:19]
-		fmt.Printf("%4d %4d %-16s    %-20s %-20s %-12s %-12s %s\n", i, trigger.Id, trigger.Type, trigger.Cluster, triggeredAt, trigger.TriggeredBy, active, ackedAt)
-	}
-}
-
 func addTrigger() {
 	if username == "" {
 		fmt.Println(Red("Not logged in"))
@@ -445,47 +370,6 @@ func deactivateTrigger(triggerId string) {
 	}
 }
 
-func printHelp() {
-	fmt.Println(Magenta("HELP:"))
-	fmt.Println()
-	fmt.Println(Blue("Cluster operations:        "))
-	fmt.Println(Yellow("list clusters            "), "list all clusters known to the service")
-	fmt.Println(Yellow("delete cluster ##        "), "delete selected cluster")
-	fmt.Println(Yellow("add cluster              "), "create new cluster")
-	fmt.Println(Yellow("new cluster              "), "alias for previous command")
-	fmt.Println()
-	fmt.Println(Blue("Configuration profiles:    "))
-	fmt.Println(Yellow("list profiles            "), "list all profiles known to the service")
-	fmt.Println(Yellow("describe profile ##      "), "describe profile selected by its ID")
-	fmt.Println(Yellow("delete profile ##        "), "delete profile selected by its ID")
-	fmt.Println()
-	fmt.Println(Blue("Cluster configurations:    "))
-	fmt.Println(Yellow("list configurations      "), "list all configurations known to the service")
-	fmt.Println(Yellow("describe configuration ##"), "describe cluster configuration selected by its ID")
-	fmt.Println(Yellow("add configuration        "), "add new configuration")
-	fmt.Println(Yellow("new configuration        "), "alias for previous command")
-	fmt.Println(Yellow("enable ##                "), "enable cluster configuration selected by its ID")
-	fmt.Println(Yellow("disable ##               "), "disable cluster configuration selected by its ID")
-	fmt.Println(Yellow("delete configuration ##  "), "delete configuration selected by its ID")
-	fmt.Println()
-	fmt.Println(Blue("Must-gather trigger:       "))
-	fmt.Println(Yellow("list triggers            "), "list all triggers")
-	fmt.Println(Yellow("describe trigger ##      "), "describe trigger selected by its ID")
-	fmt.Println(Yellow("add trigger              "), "add new trigger")
-	fmt.Println(Yellow("new trigger              "), "alias for previous command")
-	fmt.Println(Yellow("activate trigger ##      "), "activate trigger selected by its ID")
-	fmt.Println(Yellow("deactivate trigger ##    "), "deactivate trigger selected by its ID")
-	fmt.Println(Yellow("delete trigger           "), "delete trigger")
-	fmt.Println()
-	fmt.Println(Blue("Other commands:"))
-	fmt.Println(Yellow("version                  "), "print version information")
-	fmt.Println(Yellow("quit                     "), "quit the application")
-	fmt.Println(Yellow("exit                     "), "dtto")
-	fmt.Println(Yellow("bye                      "), "dtto")
-	fmt.Println(Yellow("help                     "), "this help")
-	fmt.Println()
-}
-
 func loginCompleter(in prompt.Document) []prompt.Suggest {
 	return nil
 }
@@ -512,10 +396,10 @@ func executor(t string) {
 		describeTrigger(blocks[2])
 		return
 	case strings.HasPrefix(t, "enable "):
-		enableClusterConfiguration(blocks[1])
+		commands.EnableClusterConfiguration(api, blocks[1])
 		return
 	case strings.HasPrefix(t, "disable "):
-		disableClusterConfiguration(blocks[1])
+		commands.DisableClusterConfiguration(api, blocks[1])
 		return
 	case strings.HasPrefix(t, "list configurations "):
 		listOfConfigurations(blocks[2])
@@ -553,11 +437,11 @@ func executor(t string) {
 			tryToLogin(username, password)
 		}
 	case "list triggers":
-		listOfTriggers()
+		commands.ListOfTriggers(api)
 	case "list clusters":
-		listOfClusters()
+		commands.ListOfClusters(api)
 	case "list profiles":
-		listOfProfiles()
+		commands.ListOfProfiles(api)
 	case "list configurations":
 		listOfConfigurations("")
 	case "add cluster":
@@ -587,10 +471,10 @@ func executor(t string) {
 		describeTrigger(trigger)
 	case "enable":
 		configuration := prompt.Input("configuration: ", loginCompleter)
-		enableClusterConfiguration(configuration)
+		commands.EnableClusterConfiguration(api, configuration)
 	case "disable":
 		configuration := prompt.Input("configuration: ", loginCompleter)
-		disableClusterConfiguration(configuration)
+		commands.DisableClusterConfiguration(api, configuration)
 	case "delete cluster":
 		cluster := prompt.Input("cluster: ", loginCompleter)
 		deleteCluster(cluster)
@@ -619,7 +503,7 @@ func executor(t string) {
 	case "?":
 		fallthrough
 	case "help":
-		printHelp()
+		commands.PrintHelp()
 	case "version":
 		printVersion()
 	default:
@@ -711,6 +595,7 @@ func completer(in prompt.Document) []prompt.Suggest {
 }
 
 func main() {
+	// read configuration first
 	viper.SetConfigName("config")
 	viper.AddConfigPath(".")
 
@@ -721,5 +606,7 @@ func main() {
 
 	controllerUrl = viper.GetString("CONTROLLER_URL")
 	p := prompt.New(executor, completer)
+	api = restapi.NewRestApi(controllerUrl)
+
 	p.Run()
 }

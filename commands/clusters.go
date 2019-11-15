@@ -14,23 +14,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package restapi
+package commands
 
 import (
-	"github.com/redhatinsighs/insights-operator-cli/types"
+	"fmt"
+	. "github.com/logrusorgru/aurora"
+	"github.com/redhatinsighs/insights-operator-cli/restapi"
 )
 
-type Api interface {
-	// cluster related commands
-	ReadListOfClusters() ([]types.Cluster, error)
-	AddCluster(id string, name string) error
+func ListOfClusters(api restapi.Api) {
+	clusters, err := api.ReadListOfClusters()
+	if err != nil {
+		fmt.Println(Red("Error reading list of clusters"))
+		fmt.Println(err)
+		return
+	}
 
-	// configuration profiles related commands
-	ReadListOfConfigurationProfiles() ([]types.ConfigurationProfile, error)
-
-	EnableClusterConfiguration(configurationId string) error
-	DisableClusterConfiguration(configurationId string) error
-
-	// trigger related commands
-	ReadListOfTriggers() ([]types.Trigger, error)
+	fmt.Println(Magenta("List of clusters"))
+	fmt.Printf("%4s %4s %-s\n", "#", "ID", "Name")
+	for i, cluster := range clusters {
+		fmt.Printf("%4d %4d %-s\n", i, cluster.Id, cluster.Name)
+	}
 }

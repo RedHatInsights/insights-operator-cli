@@ -68,7 +68,7 @@ At this moment, just `CONTROLLER_URL` needs to be specified.
 
 ## Contributing
 
-Please make sure to run `make test` to check all changes made in the source code.
+Please make sure to run `./test.sh` to check all changes made in the source code.
 
 ## Testing
 
