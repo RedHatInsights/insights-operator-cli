@@ -21,5 +21,16 @@ import (
 )
 
 type Api interface {
+	// cluster related commands
 	ReadListOfClusters() ([]types.Cluster, error)
+	AddCluster(id string, name string) error
+
+	// configuration profiles related commands
+	ReadListOfConfigurationProfiles() ([]types.ConfigurationProfile, error)
+
+	EnableClusterConfiguration(configurationId string) error
+	DisableClusterConfiguration(configurationId string) error
+
+	// trigger related commands
+	ReadListOfTriggers() ([]types.Trigger, error)
 }

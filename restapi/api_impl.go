@@ -46,9 +46,9 @@ func (api RestApi) ReadListOfClusters() ([]types.Cluster, error) {
 	return clusters, nil
 }
 
-func ReadListOfTriggers(controllerUrl string) ([]types.Trigger, error) {
+func (api RestApi) ReadListOfTriggers() ([]types.Trigger, error) {
 	var triggers []types.Trigger
-	url := controllerUrl + API_PREFIX + "client/trigger"
+	url := api.controllerUrl + API_PREFIX + "client/trigger"
 	body, err := performReadRequest(url)
 	if err != nil {
 		return nil, err
@@ -76,10 +76,10 @@ func ReadTriggerById(controllerUrl string, triggerId string) (*types.Trigger, er
 	return &trigger, nil
 }
 
-func ReadListOfConfigurationProfiles(controllerUrl string) ([]types.ConfigurationProfile, error) {
+func (api RestApi) ReadListOfConfigurationProfiles() ([]types.ConfigurationProfile, error) {
 	profiles := []types.ConfigurationProfile{}
 
-	url := controllerUrl + API_PREFIX + "client/profile"
+	url := api.controllerUrl + API_PREFIX + "client/profile"
 	body, err := performReadRequest(url)
 
 	err = json.Unmarshal(body, &profiles)
@@ -131,14 +131,14 @@ func ReadClusterConfigurationById(controllerUrl string, configurationId string) 
 	return &str, nil
 }
 
-func EnableClusterConfiguration(controllerUrl string, configurationId string) error {
-	url := controllerUrl + API_PREFIX + "client/configuration/" + configurationId + "/enable"
+func (api RestApi) EnableClusterConfiguration(configurationId string) error {
+	url := api.controllerUrl + API_PREFIX + "client/configuration/" + configurationId + "/enable"
 	err := performWriteRequest(url, "PUT", nil)
 	return err
 }
 
-func DisableClusterConfiguration(controllerUrl string, configurationId string) error {
-	url := controllerUrl + API_PREFIX + "client/configuration/" + configurationId + "/disable"
+func (api RestApi) DisableClusterConfiguration(configurationId string) error {
+	url := api.controllerUrl + API_PREFIX + "client/configuration/" + configurationId + "/disable"
 	err := performWriteRequest(url, "PUT", nil)
 	return err
 }
@@ -161,9 +161,9 @@ func DeleteConfigurationProfile(controllerUrl string, profileId string) error {
 	return err
 }
 
-func AddCluster(controllerUrl string, id string, name string) error {
+func (api RestApi) AddCluster(id string, name string) error {
 	query := id + "/" + name
-	url := controllerUrl + API_PREFIX + "client/cluster/" + query
+	url := api.controllerUrl + API_PREFIX + "client/cluster/" + query
 	err := performWriteRequest(url, "POST", nil)
 	return err
 }
