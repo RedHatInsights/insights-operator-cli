@@ -46,7 +46,7 @@ func tryToLogin(username string, password string) {
 
 func listOfConfigurations(filter string) {
 	// TODO: filter in query?
-	configurations, err := restapi.ReadListOfConfigurations(controllerUrl)
+	configurations, err := api.ReadListOfConfigurations()
 	if err != nil {
 		fmt.Println(Red("Error reading list of configurations"))
 		fmt.Println(err)
@@ -71,7 +71,7 @@ func listOfConfigurations(filter string) {
 }
 
 func describeProfile(profileId string) {
-	profile, err := restapi.ReadConfigurationProfile(controllerUrl, profileId)
+	profile, err := api.ReadConfigurationProfile(profileId)
 	if err != nil {
 		fmt.Println(Red("Error reading configuration profile"))
 		fmt.Println(err)
@@ -83,7 +83,7 @@ func describeProfile(profileId string) {
 }
 
 func describeConfiguration(clusterId string) {
-	configuration, err := restapi.ReadClusterConfigurationById(controllerUrl, clusterId)
+	configuration, err := api.ReadClusterConfigurationById(clusterId)
 	if err != nil {
 		fmt.Println(Red("Error reading cluster configuration"))
 		fmt.Println(err)
@@ -109,7 +109,7 @@ func deleteCluster(clusterId string) {
 		return
 	}
 
-	err := restapi.DeleteCluster(controllerUrl, clusterId)
+	err := api.DeleteCluster(clusterId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -120,7 +120,7 @@ func deleteCluster(clusterId string) {
 }
 
 func deleteClusterConfiguration(configurationId string) {
-	err := restapi.DeleteClusterConfiguration(controllerUrl, configurationId)
+	err := api.DeleteClusterConfiguration(configurationId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -135,7 +135,7 @@ func deleteConfigurationProfile(profileId string) {
 		return
 	}
 
-	err := restapi.DeleteConfigurationProfile(controllerUrl, profileId)
+	err := api.DeleteConfigurationProfile(profileId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -200,7 +200,7 @@ func addProfile() {
 		fmt.Println(err)
 	}
 
-	err = restapi.AddProfile(controllerUrl, username, description, configuration)
+	err = api.AddConfigurationProfile(username, description, configuration)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -254,7 +254,7 @@ func addClusterConfiguration() {
 		fmt.Println(err)
 	}
 
-	err = restapi.AddClusterConfiguration(controllerUrl, username, cluster, reason, description, configuration)
+	err = api.AddClusterConfiguration(username, cluster, reason, description, configuration)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -292,7 +292,7 @@ func addTrigger() {
 	reason := prompt.Input("reason: ", loginCompleter)
 	link := prompt.Input("link: ", loginCompleter)
 
-	err := restapi.AddTrigger(controllerUrl, username, clusterName, reason, link)
+	err := api.AddTrigger(username, clusterName, reason, link)
 	if err != nil {
 		fmt.Println("Error communicating with the service")
 		fmt.Println(err)
@@ -303,7 +303,7 @@ func addTrigger() {
 }
 
 func describeTrigger(triggerId string) {
-	trigger, err := restapi.ReadTriggerById(controllerUrl, triggerId)
+	trigger, err := api.ReadTriggerById(triggerId)
 	if err != nil {
 		fmt.Println(Red("Error reading selected trigger"))
 		fmt.Println(err)
@@ -338,7 +338,7 @@ func describeTrigger(triggerId string) {
 }
 
 func deleteTrigger(triggerId string) {
-	err := restapi.DeleteTrigger(controllerUrl, triggerId)
+	err := api.DeleteTrigger(triggerId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -349,7 +349,7 @@ func deleteTrigger(triggerId string) {
 }
 
 func activateTrigger(triggerId string) {
-	err := restapi.ActivateTrigger(controllerUrl, triggerId)
+	err := api.ActivateTrigger(triggerId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -360,7 +360,7 @@ func activateTrigger(triggerId string) {
 }
 
 func deactivateTrigger(triggerId string) {
-	err := restapi.DeactivateTrigger(controllerUrl, triggerId)
+	err := api.DeactivateTrigger(triggerId)
 	if err != nil {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
