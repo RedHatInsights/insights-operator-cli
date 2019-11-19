@@ -16,7 +16,7 @@ limitations under the License.
 
 package types
 
-// Representation of trigger record in the controller service
+// Trigger represents trigger record in the controller service
 //     ID: unique key
 //     Type: ID of trigger type
 //     Cluster: cluster ID (not name)
