@@ -1,5 +1,7 @@
 # Command-line client for managing Insights operator
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/RedHatInsights/insights-operator-cli)](https://goreportcard.com/report/github.com/RedHatInsights/insights-operator-cli)
+
 ## Description
 
 A simple CLI client for managing the Insights operator. Currently this client supports just basic operations to retrieve and change configuration of operator on selected cluster.
