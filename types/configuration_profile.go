@@ -16,7 +16,7 @@ limitations under the License.
 
 package types
 
-// Representation of configuration profile record in the controller service.
+// ConfigurationProfile represents configuration profile record in the controller service.
 //     ID: unique key
 //     Configuration: a JSON structure stored in a string
 //     ChangeAt: username of admin that created or updated the configuration
