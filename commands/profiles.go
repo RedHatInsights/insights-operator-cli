@@ -18,19 +18,19 @@ package commands
 
 import (
 	"fmt"
-	. "github.com/logrusorgru/aurora"
+	"github.com/logrusorgru/aurora"
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 )
 
 func ListOfProfiles(api restapi.Api) {
 	profiles, err := api.ReadListOfConfigurationProfiles()
 	if err != nil {
-		fmt.Println(Red("Error reading list of configuration profiles"))
+		fmt.Println(aurora.Red("Error reading list of configuration profiles"))
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(Magenta("List of configuration profiles"))
+	fmt.Println(aurora.Magenta("List of configuration profiles"))
 	fmt.Printf("%4s %4s %-20s %-20s %s\n", "#", "ID", "Changed at", "Changed by", "Description")
 	for i, profile := range profiles {
 		changedAt := profile.ChangedAt[0:19]

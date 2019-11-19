@@ -18,19 +18,19 @@ package commands
 
 import (
 	"fmt"
-	. "github.com/logrusorgru/aurora"
+	"github.com/logrusorgru/aurora"
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 )
 
 func ListOfClusters(api restapi.Api) {
 	clusters, err := api.ReadListOfClusters()
 	if err != nil {
-		fmt.Println(Red("Error reading list of clusters"))
+		fmt.Println(aurora.Red("Error reading list of clusters"))
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(Magenta("List of clusters"))
+	fmt.Println(aurora.Magenta("List of clusters"))
 	fmt.Printf("%4s %4s %-s\n", "#", "ID", "Name")
 	for i, cluster := range clusters {
 		fmt.Printf("%4d %4d %-s\n", i, cluster.Id, cluster.Name)

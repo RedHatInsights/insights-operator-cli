@@ -38,6 +38,9 @@ func (api RestApi) ReadListOfClusters() ([]types.Cluster, error) {
 
 	url := api.controllerUrl + API_PREFIX + "client/cluster"
 	body, err := performReadRequest(url)
+	if err != nil {
+		return nil, err
+	}
 
 	err = json.Unmarshal(body, &clusters)
 	if err != nil {
@@ -81,6 +84,9 @@ func (api RestApi) ReadListOfConfigurationProfiles() ([]types.ConfigurationProfi
 
 	url := api.controllerUrl + API_PREFIX + "client/profile"
 	body, err := performReadRequest(url)
+	if err != nil {
+		return nil, err
+	}
 
 	err = json.Unmarshal(body, &profiles)
 	if err != nil {

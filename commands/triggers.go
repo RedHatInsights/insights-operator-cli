@@ -18,7 +18,7 @@ package commands
 
 import (
 	"fmt"
-	. "github.com/logrusorgru/aurora"
+	"github.com/logrusorgru/aurora"
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 )
 
@@ -26,19 +26,19 @@ func ListOfTriggers(api restapi.Api) {
 	// TODO: filter in query?
 	triggers, err := api.ReadListOfTriggers()
 	if err != nil {
-		fmt.Println(Red("Error reading list of triggers"))
+		fmt.Println(aurora.Red("Error reading list of triggers"))
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(Magenta("List of triggers for all clusters"))
+	fmt.Println(aurora.Magenta("List of triggers for all clusters"))
 	fmt.Printf("%4s %4s %-16s    %-20s %-20s %-12s %-12s %s\n", "#", "ID", "Type", "Cluster", "Triggered at", "Triggered by", "Active", "Acked at")
 	for i, trigger := range triggers {
-		var active Value
+		var active aurora.Value
 		if trigger.Active == 1 {
-			active = Green("yes")
+			active = aurora.Green("yes")
 		} else {
-			active = Red("no")
+			active = aurora.Red("no")
 		}
 		triggeredAt := trigger.TriggeredAt[0:19]
 		ackedAt := trigger.AckedAt[0:19]

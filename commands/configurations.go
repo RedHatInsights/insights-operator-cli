@@ -18,28 +18,28 @@ package commands
 
 import (
 	"fmt"
-	. "github.com/logrusorgru/aurora"
+	"github.com/logrusorgru/aurora"
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 )
 
 func EnableClusterConfiguration(api restapi.Api, configurationId string) {
 	err := api.EnableClusterConfiguration(configurationId)
 	if err != nil {
-		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	} else {
-		fmt.Println(Blue("Configuration "+configurationId+" has been "), Green("enabled"))
+		fmt.Println(aurora.Blue("Configuration "+configurationId+" has been "), aurora.Green("enabled"))
 	}
 }
 
 func DisableClusterConfiguration(api restapi.Api, configurationId string) {
 	err := api.DisableClusterConfiguration(configurationId)
 	if err != nil {
-		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	} else {
-		fmt.Println(Blue("Configuration "+configurationId+" has been "), Red("disabled"))
+		fmt.Println(aurora.Blue("Configuration "+configurationId+" has been "), aurora.Red("disabled"))
 	}
 }
