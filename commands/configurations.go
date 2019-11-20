@@ -22,6 +22,7 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 )
 
+// EnableClusterConfiguration enables the selected cluster configuration in the controller service
 func EnableClusterConfiguration(api restapi.Api, configurationId string) {
 	err := api.EnableClusterConfiguration(configurationId)
 	if err != nil {
@@ -33,6 +34,7 @@ func EnableClusterConfiguration(api restapi.Api, configurationId string) {
 	}
 }
 
+// DisableClusterConfiguration disables the selected cluster configuration in the controller service
 func DisableClusterConfiguration(api restapi.Api, configurationId string) {
 	err := api.DisableClusterConfiguration(configurationId)
 	if err != nil {

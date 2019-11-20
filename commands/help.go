@@ -21,6 +21,7 @@ import (
 	"github.com/logrusorgru/aurora"
 )
 
+// PrintHelp can be used to display help on (color) terminal.
 func PrintHelp() {
 	fmt.Println(aurora.Magenta("HELP:"))
 	fmt.Println()

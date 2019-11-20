@@ -22,6 +22,7 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 )
 
+// ListOfClusters displays list of clusters gathered via REST API call to the controller service
 func ListOfClusters(api restapi.Api) {
 	clusters, err := api.ReadListOfClusters()
 	if err != nil {

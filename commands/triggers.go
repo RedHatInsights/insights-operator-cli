@@ -22,6 +22,7 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 )
 
+// ListOfTriggers displays list of triggers (including must-gather one) gathered via REST API call to controller service
 func ListOfTriggers(api restapi.Api) {
 	// TODO: filter in query?
 	triggers, err := api.ReadListOfTriggers()
