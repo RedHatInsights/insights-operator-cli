@@ -114,9 +114,10 @@ func deleteCluster(clusterId string) {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
-	} else {
-		fmt.Println(Blue("Cluster "+clusterId+" has been"), Red("deleted"))
 	}
+
+	// everything's ok
+	fmt.Println(Blue("Cluster "+clusterId+" has been"), Red("deleted"))
 }
 
 func deleteClusterConfiguration(configurationId string) {
@@ -125,9 +126,10 @@ func deleteClusterConfiguration(configurationId string) {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
-	} else {
-		fmt.Println(Blue("Configuration "+configurationId+" has been "), Red("deleted"))
 	}
+
+	// everything's ok, configuration has been deleted
+	fmt.Println(Blue("Configuration "+configurationId+" has been "), Red("deleted"))
 }
 
 func deleteConfigurationProfile(profileId string) {
@@ -140,9 +142,10 @@ func deleteConfigurationProfile(profileId string) {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
-	} else {
-		fmt.Println(Blue("Configuration profile "+profileId+" has been "), Red("deleted"))
 	}
+
+	// everything's ok, configuration profile has been deleted
+	fmt.Println(Blue("Configuration profile "+profileId+" has been "), Red("deleted"))
 }
 
 func addCluster() {
@@ -163,9 +166,10 @@ func addCluster() {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
-	} else {
-		fmt.Println(Blue("Configuration profile has been created"))
 	}
+
+	// everything's ok, controller has been registered
+	fmt.Println(Blue("Controller has been registered"))
 }
 
 func addProfile() {
@@ -205,9 +209,10 @@ func addProfile() {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
-	} else {
-		fmt.Println(Blue("Configuration profile has been created"))
 	}
+
+	// everything's ok, configuration profile has been created
+	fmt.Println(Blue("Configuration profile has been created"))
 }
 
 func addClusterConfiguration() {
@@ -259,9 +264,10 @@ func addClusterConfiguration() {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
-	} else {
-		fmt.Println(Blue("Configuration has been created"))
 	}
+
+	// everything's ok, configuration has been created
+	fmt.Println(Blue("Configuration has been created"))
 }
 
 func fillInConfigurationList(directory string) error {
@@ -297,9 +303,10 @@ func addTrigger() {
 		fmt.Println("Error communicating with the service")
 		fmt.Println(err)
 		return
-	} else {
-		fmt.Println(Blue("Trigger has been created"))
 	}
+
+	// everything's ok, trigger has been created
+	fmt.Println(Blue("Trigger has been created"))
 }
 
 func describeTrigger(triggerId string) {
@@ -343,9 +350,10 @@ func deleteTrigger(triggerId string) {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
-	} else {
-		fmt.Println(Blue("Trigger "+triggerId+" has been"), Red("deleted"))
 	}
+
+	// everything's ok, trigger has been deleted
+	fmt.Println(Blue("Trigger "+triggerId+" has been"), Red("deleted"))
 }
 
 func activateTrigger(triggerId string) {
@@ -354,9 +362,10 @@ func activateTrigger(triggerId string) {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
-	} else {
-		fmt.Println(Blue("Trigger "+triggerId+" has been"), Green("activated"))
 	}
+
+	// everything's ok, trigger has been activated
+	fmt.Println(Blue("Trigger "+triggerId+" has been"), Green("activated"))
 }
 
 func deactivateTrigger(triggerId string) {
@@ -365,9 +374,10 @@ func deactivateTrigger(triggerId string) {
 		fmt.Println(Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
-	} else {
-		fmt.Println(Blue("Trigger "+triggerId+" has been"), Green("deactivated"))
 	}
+
+	// everything's ok, trigger has been deactivated
+	fmt.Println(Blue("Trigger "+triggerId+" has been"), Green("deactivated"))
 }
 
 func loginCompleter(in prompt.Document) []prompt.Suggest {
@@ -598,7 +608,7 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "must-gather", Description: "deactivate selected must-gather"},
 	}
 
-	empty_s := []prompt.Suggest{}
+	emptySuggest := []prompt.Suggest{}
 
 	blocks := strings.Split(in.TextBeforeCursor(), " ")
 
@@ -606,15 +616,16 @@ func completer(in prompt.Document) []prompt.Suggest {
 		sec, ok := secondWord[blocks[0]]
 		if ok {
 			return prompt.FilterHasPrefix(sec, blocks[1], true)
-		} else {
-			return empty_s
 		}
+		// second word is not known
+		return emptySuggest
 	}
 	if in.GetWordBeforeCursor() == "" {
 		return nil
-	} else {
-		return prompt.FilterHasPrefix(firstWord, blocks[0], true)
 	}
+
+	// commands consisting of just one word
+	return prompt.FilterHasPrefix(firstWord, blocks[0], true)
 }
 
 func main() {

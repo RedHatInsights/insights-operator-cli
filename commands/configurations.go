@@ -29,9 +29,10 @@ func EnableClusterConfiguration(api restapi.Api, configurationId string) {
 		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
-	} else {
-		fmt.Println(aurora.Blue("Configuration "+configurationId+" has been "), aurora.Green("enabled"))
 	}
+
+	// everything's ok
+	fmt.Println(aurora.Blue("Configuration "+configurationId+" has been "), aurora.Green("enabled"))
 }
 
 // DisableClusterConfiguration disables the selected cluster configuration in the controller service
@@ -41,7 +42,8 @@ func DisableClusterConfiguration(api restapi.Api, configurationId string) {
 		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
-	} else {
-		fmt.Println(aurora.Blue("Configuration "+configurationId+" has been "), aurora.Red("disabled"))
 	}
+
+	// everything's ok
+	fmt.Println(aurora.Blue("Configuration "+configurationId+" has been "), aurora.Red("disabled"))
 }
