@@ -16,4 +16,5 @@ limitations under the License.
 
 package restapi
 
+// API_PREFIX is appended before all REST API endpoint addresses
 const API_PREFIX = "/api/v1/"

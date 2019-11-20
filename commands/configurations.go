@@ -22,24 +22,28 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 )
 
+// EnableClusterConfiguration enables the selected cluster configuration in the controller service
 func EnableClusterConfiguration(api restapi.Api, configurationId string) {
 	err := api.EnableClusterConfiguration(configurationId)
 	if err != nil {
 		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
-	} else {
-		fmt.Println(aurora.Blue("Configuration "+configurationId+" has been "), aurora.Green("enabled"))
 	}
+
+	// everything's ok
+	fmt.Println(aurora.Blue("Configuration "+configurationId+" has been "), aurora.Green("enabled"))
 }
 
+// DisableClusterConfiguration disables the selected cluster configuration in the controller service
 func DisableClusterConfiguration(api restapi.Api, configurationId string) {
 	err := api.DisableClusterConfiguration(configurationId)
 	if err != nil {
 		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
-	} else {
-		fmt.Println(aurora.Blue("Configuration "+configurationId+" has been "), aurora.Red("disabled"))
 	}
+
+	// everything's ok
+	fmt.Println(aurora.Blue("Configuration "+configurationId+" has been "), aurora.Red("disabled"))
 }

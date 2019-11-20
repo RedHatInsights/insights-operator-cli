@@ -22,6 +22,7 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 )
 
+// ListOfProfiles displays list of configuration profiles gathered via REST API call to controller service
 func ListOfProfiles(api restapi.Api) {
 	profiles, err := api.ReadListOfConfigurationProfiles()
 	if err != nil {
