@@ -416,9 +416,13 @@ func executor(t string) {
 	case strings.HasPrefix(t, "delete trigger "):
 		deleteTrigger(blocks[2])
 		return
+	case strings.HasPrefix(t, "activate must gather "):
+		fallthrough
 	case strings.HasPrefix(t, "activate trigger "):
 		activateTrigger(blocks[2])
 		return
+	case strings.HasPrefix(t, "deactivate must gather "):
+		fallthrough
 	case strings.HasPrefix(t, "deactivate trigger "):
 		deactivateTrigger(blocks[2])
 		return
@@ -436,6 +440,8 @@ func executor(t string) {
 			password = string(p)
 			tryToLogin(username, password)
 		}
+	case "list must-gather":
+		fallthrough
 	case "list triggers":
 		commands.ListOfTriggers(api)
 	case "list clusters":
@@ -456,6 +462,8 @@ func executor(t string) {
 		fallthrough
 	case "new configuration":
 		addClusterConfiguration()
+	case "request must-gather":
+		fallthrough
 	case "add trigger":
 		fallthrough
 	case "new trigger":
@@ -466,6 +474,8 @@ func executor(t string) {
 	case "describe configuration":
 		configuration := prompt.Input("configuration: ", loginCompleter)
 		describeConfiguration(configuration)
+	case "describe must-gather":
+		fallthrough
 	case "describe trigger":
 		trigger := prompt.Input("trigger: ", loginCompleter)
 		describeTrigger(trigger)
@@ -487,9 +497,13 @@ func executor(t string) {
 	case "delete trigger":
 		trigger := prompt.Input("trigger: ", loginCompleter)
 		deleteTrigger(trigger)
+	case "activate must-gather":
+		fallthrough
 	case "activate trigger":
 		trigger := prompt.Input("trigger: ", loginCompleter)
 		activateTrigger(trigger)
+	case "deactivate must-gather":
+		fallthrough
 	case "deactivate trigger":
 		trigger := prompt.Input("trigger: ", loginCompleter)
 		deactivateTrigger(trigger)
@@ -520,6 +534,7 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "bye", Description: "quit the application"},
 		{Text: "list", Description: "list resources (clusters, profiles, configurations, triggers)"},
 		{Text: "describe", Description: "describe the selected resource"},
+		{Text: "request", Description: "request selected operation to be performed"},
 		{Text: "add", Description: "add resource (cluster, profile, configuration, trigger)"},
 		{Text: "new", Description: "alias for add"},
 		{Text: "delete", Description: "delete resource (configuration, trigger)"},
@@ -537,6 +552,7 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "clusters", Description: "show list of all clusters available"},
 		{Text: "profiles", Description: "show list of all configuration profiles"},
 		{Text: "configurations", Description: "show list all cluster configurations"},
+		{Text: "must-gather", Description: "show list all must-gathers"},
 		{Text: "triggers", Description: "show list with all must-gather triggers"},
 	}
 	// add operations
@@ -553,6 +569,10 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "configuration", Description: "add new cluster configuration"},
 		{Text: "trigger", Description: "add new must-gather trigger"},
 	}
+	// request operations
+	secondWord["request"] = []prompt.Suggest{
+		{Text: "must-gather", Description: "request must-gather"},
+	}
 	// delete operations
 	secondWord["delete"] = []prompt.Suggest{
 		{Text: "cluster", Description: "delete cluster and its configuration"},
@@ -565,14 +585,17 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "profile", Description: "describe selected configuration profile"},
 		{Text: "configuration", Description: "describe configuration for selected cluster"},
 		{Text: "trigger", Description: "describe selected must-gather trigger"},
+		{Text: "must-gather", Description: "describe selected must-gather trigger"},
 	}
 	// activate operations
 	secondWord["activate"] = []prompt.Suggest{
 		{Text: "trigger", Description: "activate selected must-gather trigger"},
+		{Text: "must-gather", Description: "activate selected must-gather"},
 	}
 	// deactivate operations
 	secondWord["deactivate"] = []prompt.Suggest{
 		{Text: "trigger", Description: "deactivate selected must-gather trigger"},
+		{Text: "must-gather", Description: "deactivate selected must-gather"},
 	}
 
 	empty_s := []prompt.Suggest{}
