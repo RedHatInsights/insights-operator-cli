@@ -20,7 +20,7 @@ package main
 import (
 	"fmt"
 	"github.com/c-bata/go-prompt"
-	. "github.com/logrusorgru/aurora"
+	"github.com/logrusorgru/aurora"
 	"github.com/redhatinsighs/insights-operator-cli/commands"
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 	"github.com/spf13/viper"
@@ -31,7 +31,10 @@ import (
 	"strings"
 )
 
+// BuildVersion contains the major.minor version of the CLI client
 var BuildVersion string = "*not set*"
+
+// BuildTime contains timestamp when the CLI client has been built
 var BuildTime string = "*not set*"
 
 var controllerUrl string
@@ -41,28 +44,28 @@ var files []prompt.Suggest
 var api restapi.Api
 
 func tryToLogin(username string, password string) {
-	fmt.Println(Blue("\nDone"))
+	fmt.Println(aurora.Blue("\nDone"))
 }
 
 func listOfConfigurations(filter string) {
 	// TODO: filter in query?
 	configurations, err := api.ReadListOfConfigurations()
 	if err != nil {
-		fmt.Println(Red("Error reading list of configurations"))
+		fmt.Println(aurora.Red("Error reading list of configurations"))
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(Magenta("List of configuration for all clusters"))
+	fmt.Println(aurora.Magenta("List of configuration for all clusters"))
 	fmt.Printf("%4s %4s %4s    %-20s %-20s %-10s %-12s %s\n", "#", "ID", "Profile", "Cluster", "Changed at", "Changed by", "Active", "Reason")
 	for i, configuration := range configurations {
 		// poor man's filtering
 		if strings.Contains(configuration.Cluster, filter) {
-			var active Value
+			var active aurora.Value
 			if configuration.Active == "1" {
-				active = Green("yes")
+				active = aurora.Green("yes")
 			} else {
-				active = Red("no")
+				active = aurora.Red("no")
 			}
 			changedAt := configuration.ChangedAt[0:19]
 			fmt.Printf("%4d %4d %4s       %-20s %-20s %-10s %-12s %s\n", i, configuration.Id, configuration.Configuration, configuration.Cluster, changedAt, configuration.ChangedBy, active, configuration.Reason)
@@ -73,32 +76,32 @@ func listOfConfigurations(filter string) {
 func describeProfile(profileId string) {
 	profile, err := api.ReadConfigurationProfile(profileId)
 	if err != nil {
-		fmt.Println(Red("Error reading configuration profile"))
+		fmt.Println(aurora.Red("Error reading configuration profile"))
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(Magenta("Configuration profile"))
+	fmt.Println(aurora.Magenta("Configuration profile"))
 	fmt.Println(profile.Configuration)
 }
 
 func describeConfiguration(clusterId string) {
 	configuration, err := api.ReadClusterConfigurationById(clusterId)
 	if err != nil {
-		fmt.Println(Red("Error reading cluster configuration"))
+		fmt.Println(aurora.Red("Error reading cluster configuration"))
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(Magenta("Configuration for cluster " + clusterId))
+	fmt.Println(aurora.Magenta("Configuration for cluster " + clusterId))
 	fmt.Println(*configuration)
 }
 
 func proceedQuestion(question string) bool {
-	fmt.Println(Red(question))
+	fmt.Println(aurora.Red(question))
 	proceed := prompt.Input("proceed? [y/n] ", loginCompleter)
 	if proceed != "y" {
-		fmt.Println(Blue("cancelled"))
+		fmt.Println(aurora.Blue("cancelled"))
 		return false
 	}
 	return true
@@ -111,25 +114,25 @@ func deleteCluster(clusterId string) {
 
 	err := api.DeleteCluster(clusterId)
 	if err != nil {
-		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	}
 
 	// everything's ok
-	fmt.Println(Blue("Cluster "+clusterId+" has been"), Red("deleted"))
+	fmt.Println(aurora.Blue("Cluster "+clusterId+" has been"), aurora.Red("deleted"))
 }
 
 func deleteClusterConfiguration(configurationId string) {
 	err := api.DeleteClusterConfiguration(configurationId)
 	if err != nil {
-		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	}
 
 	// everything's ok, configuration has been deleted
-	fmt.Println(Blue("Configuration "+configurationId+" has been "), Red("deleted"))
+	fmt.Println(aurora.Blue("Configuration "+configurationId+" has been "), aurora.Red("deleted"))
 }
 
 func deleteConfigurationProfile(profileId string) {
@@ -139,135 +142,135 @@ func deleteConfigurationProfile(profileId string) {
 
 	err := api.DeleteConfigurationProfile(profileId)
 	if err != nil {
-		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	}
 
 	// everything's ok, configuration profile has been deleted
-	fmt.Println(Blue("Configuration profile "+profileId+" has been "), Red("deleted"))
+	fmt.Println(aurora.Blue("Configuration profile "+profileId+" has been "), aurora.Red("deleted"))
 }
 
 func addCluster() {
 	id := prompt.Input("ID: ", loginCompleter)
 	if id == "" {
-		fmt.Println(Red("Cancelled"))
+		fmt.Println(aurora.Red("Cancelled"))
 		return
 	}
 
 	name := prompt.Input("name: ", loginCompleter)
 	if name == "" {
-		fmt.Println(Red("Cancelled"))
+		fmt.Println(aurora.Red("Cancelled"))
 		return
 	}
 
 	err := api.AddCluster(id, name)
 	if err != nil {
-		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	}
 
 	// everything's ok, controller has been registered
-	fmt.Println(Blue("Controller has been registered"))
+	fmt.Println(aurora.Blue("Controller has been registered"))
 }
 
 func addProfile() {
 	if username == "" {
-		fmt.Println(Red("Not logged in"))
+		fmt.Println(aurora.Red("Not logged in"))
 		return
 	}
 
 	description := prompt.Input("description: ", loginCompleter)
 	if description == "" {
-		fmt.Println(Red("Cancelled"))
+		fmt.Println(aurora.Red("Cancelled"))
 		return
 	}
 
 	// TODO: make the directory fully configurable
 	err := fillInConfigurationList("configurations")
 	if err != nil {
-		fmt.Println(Red("Cannot read any configuration file"))
+		fmt.Println(aurora.Red("Cannot read any configuration file"))
 		fmt.Println(err)
 	}
 
 	configurationFileName := prompt.Input("configuration file (TAB to complete): ", configFileCompleter)
 	if configurationFileName == "" {
-		fmt.Println(Red("Cancelled"))
+		fmt.Println(aurora.Red("Cancelled"))
 		return
 	}
 
 	// TODO: make the directory fully configurable
 	configuration, err := ioutil.ReadFile("configurations/" + configurationFileName)
 	if err != nil {
-		fmt.Println(Red("Cannot read configuration file"))
+		fmt.Println(aurora.Red("Cannot read configuration file"))
 		fmt.Println(err)
 	}
 
 	err = api.AddConfigurationProfile(username, description, configuration)
 	if err != nil {
-		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	}
 
 	// everything's ok, configuration profile has been created
-	fmt.Println(Blue("Configuration profile has been created"))
+	fmt.Println(aurora.Blue("Configuration profile has been created"))
 }
 
 func addClusterConfiguration() {
 	if username == "" {
-		fmt.Println(Red("Not logged in"))
+		fmt.Println(aurora.Red("Not logged in"))
 		return
 	}
 
 	cluster := prompt.Input("cluster: ", loginCompleter)
 	if cluster == "" {
-		fmt.Println(Red("Cancelled"))
+		fmt.Println(aurora.Red("Cancelled"))
 		return
 	}
 
 	reason := prompt.Input("reason: ", loginCompleter)
 	if reason == "" {
-		fmt.Println(Red("Cancelled"))
+		fmt.Println(aurora.Red("Cancelled"))
 		return
 	}
 
 	description := prompt.Input("description: ", loginCompleter)
 	if description == "" {
-		fmt.Println(Red("Cancelled"))
+		fmt.Println(aurora.Red("Cancelled"))
 		return
 	}
 
 	// TODO: make the directory fully configurable
 	err := fillInConfigurationList("configurations")
 	if err != nil {
-		fmt.Println(Red("Cannot read any configuration file"))
+		fmt.Println(aurora.Red("Cannot read any configuration file"))
 		fmt.Println(err)
 	}
 
 	configurationFileName := prompt.Input("configuration file (TAB to complete): ", configFileCompleter)
 	if configurationFileName == "" {
-		fmt.Println(Red("Cancelled"))
+		fmt.Println(aurora.Red("Cancelled"))
 		return
 	}
 
 	// TODO: make the directory fully configurable
 	configuration, err := ioutil.ReadFile("configurations/" + configurationFileName)
 	if err != nil {
-		fmt.Println(Red("Cannot read configuration file"))
+		fmt.Println(aurora.Red("Cannot read configuration file"))
 		fmt.Println(err)
 	}
 
 	err = api.AddClusterConfiguration(username, cluster, reason, description, configuration)
 	if err != nil {
-		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	}
 
 	// everything's ok, configuration has been created
-	fmt.Println(Blue("Configuration has been created"))
+	fmt.Println(aurora.Blue("Configuration has been created"))
 }
 
 func fillInConfigurationList(directory string) error {
@@ -290,7 +293,7 @@ func fillInConfigurationList(directory string) error {
 
 func addTrigger() {
 	if username == "" {
-		fmt.Println(Red("Not logged in"))
+		fmt.Println(aurora.Red("Not logged in"))
 		return
 	}
 
@@ -306,35 +309,35 @@ func addTrigger() {
 	}
 
 	// everything's ok, trigger has been created
-	fmt.Println(Blue("Trigger has been created"))
+	fmt.Println(aurora.Blue("Trigger has been created"))
 }
 
 func describeTrigger(triggerId string) {
 	trigger, err := api.ReadTriggerById(triggerId)
 	if err != nil {
-		fmt.Println(Red("Error reading selected trigger"))
+		fmt.Println(aurora.Red("Error reading selected trigger"))
 		fmt.Println(err)
 		return
 	}
 
-	var active Value
+	var active aurora.Value
 	if trigger.Active == 1 {
-		active = Green("yes")
+		active = aurora.Green("yes")
 	} else {
-		active = Red("no")
+		active = aurora.Red("no")
 	}
 
 	triggeredAt := trigger.TriggeredAt[0:19]
 	ackedAt := trigger.AckedAt[0:19]
 
-	var ttype Value
+	var ttype aurora.Value
 	if trigger.Type == "must-gather" {
-		ttype = Blue(trigger.Type)
+		ttype = aurora.Blue(trigger.Type)
 	} else {
-		ttype = Magenta(trigger.Type)
+		ttype = aurora.Magenta(trigger.Type)
 	}
 
-	fmt.Println(Magenta("Trigger info"))
+	fmt.Println(aurora.Magenta("Trigger info"))
 	fmt.Printf("ID:            %d\n", trigger.Id)
 	fmt.Printf("Type:          %s\n", ttype)
 	fmt.Printf("Cluster:       %s\n", trigger.Cluster)
@@ -347,37 +350,37 @@ func describeTrigger(triggerId string) {
 func deleteTrigger(triggerId string) {
 	err := api.DeleteTrigger(triggerId)
 	if err != nil {
-		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	}
 
 	// everything's ok, trigger has been deleted
-	fmt.Println(Blue("Trigger "+triggerId+" has been"), Red("deleted"))
+	fmt.Println(aurora.Blue("Trigger "+triggerId+" has been"), aurora.Red("deleted"))
 }
 
 func activateTrigger(triggerId string) {
 	err := api.ActivateTrigger(triggerId)
 	if err != nil {
-		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	}
 
 	// everything's ok, trigger has been activated
-	fmt.Println(Blue("Trigger "+triggerId+" has been"), Green("activated"))
+	fmt.Println(aurora.Blue("Trigger "+triggerId+" has been"), aurora.Green("activated"))
 }
 
 func deactivateTrigger(triggerId string) {
 	err := api.DeactivateTrigger(triggerId)
 	if err != nil {
-		fmt.Println(Red("Error communicating with the service"))
+		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	}
 
 	// everything's ok, trigger has been deactivated
-	fmt.Println(Blue("Trigger "+triggerId+" has been"), Green("deactivated"))
+	fmt.Println(aurora.Blue("Trigger "+triggerId+" has been"), aurora.Green("deactivated"))
 }
 
 func loginCompleter(in prompt.Document) []prompt.Suggest {
@@ -389,7 +392,7 @@ func configFileCompleter(in prompt.Document) []prompt.Suggest {
 }
 
 func printVersion() {
-	fmt.Println(Blue("Insights operator CLI client "), "version", Yellow(BuildVersion), "compiled", Yellow(BuildTime))
+	fmt.Println(aurora.Blue("Insights operator CLI client "), "version", aurora.Yellow(BuildVersion), "compiled", aurora.Yellow(BuildTime))
 }
 
 func executor(t string) {
@@ -445,7 +448,7 @@ func executor(t string) {
 		fmt.Print("password: ")
 		p, err := terminal.ReadPassword(0)
 		if err != nil {
-			fmt.Println(Red("Password is not set"))
+			fmt.Println(aurora.Red("Password is not set"))
 		} else {
 			password = string(p)
 			tryToLogin(username, password)
@@ -522,7 +525,7 @@ func executor(t string) {
 	case "exit":
 		fallthrough
 	case "quit":
-		fmt.Println(Magenta("Quitting"))
+		fmt.Println(aurora.Magenta("Quitting"))
 		os.Exit(0)
 	case "?":
 		fallthrough
