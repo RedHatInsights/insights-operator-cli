@@ -23,7 +23,7 @@ package types
 //     ChangeBy: timestamp of the last configuration change
 //     Description: a string with any comment(s) about the configuration
 type ConfigurationProfile struct {
-	Id            int    `json:"id"`
+	ID            int    `json:"id"`
 	Configuration string `json:"configuration"`
 	ChangedAt     string `json:"changed_at"`
 	ChangedBy     string `json:"changed_by"`
