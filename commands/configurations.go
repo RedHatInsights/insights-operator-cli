@@ -23,8 +23,8 @@ import (
 )
 
 // EnableClusterConfiguration enables the selected cluster configuration in the controller service
-func EnableClusterConfiguration(api restapi.Api, configurationId string) {
-	err := api.EnableClusterConfiguration(configurationId)
+func EnableClusterConfiguration(api restapi.Api, configurationID string) {
+	err := api.EnableClusterConfiguration(configurationID)
 	if err != nil {
 		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -32,12 +32,12 @@ func EnableClusterConfiguration(api restapi.Api, configurationId string) {
 	}
 
 	// everything's ok
-	fmt.Println(aurora.Blue("Configuration "+configurationId+" has been "), aurora.Green("enabled"))
+	fmt.Println(aurora.Blue("Configuration "+configurationID+" has been "), aurora.Green("enabled"))
 }
 
 // DisableClusterConfiguration disables the selected cluster configuration in the controller service
-func DisableClusterConfiguration(api restapi.Api, configurationId string) {
-	err := api.DisableClusterConfiguration(configurationId)
+func DisableClusterConfiguration(api restapi.Api, configurationID string) {
+	err := api.DisableClusterConfiguration(configurationID)
 	if err != nil {
 		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -45,5 +45,5 @@ func DisableClusterConfiguration(api restapi.Api, configurationId string) {
 	}
 
 	// everything's ok
-	fmt.Println(aurora.Blue("Configuration "+configurationId+" has been "), aurora.Red("disabled"))
+	fmt.Println(aurora.Blue("Configuration "+configurationID+" has been "), aurora.Red("disabled"))
 }
