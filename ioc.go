@@ -68,7 +68,7 @@ func listOfConfigurations(filter string) {
 				active = aurora.Red("no")
 			}
 			changedAt := configuration.ChangedAt[0:19]
-			fmt.Printf("%4d %4d %4s       %-20s %-20s %-10s %-12s %s\n", i, configuration.Id, configuration.Configuration, configuration.Cluster, changedAt, configuration.ChangedBy, active, configuration.Reason)
+			fmt.Printf("%4d %4d %4s       %-20s %-20s %-10s %-12s %s\n", i, configuration.ID, configuration.Configuration, configuration.Cluster, changedAt, configuration.ChangedBy, active, configuration.Reason)
 		}
 	}
 }
@@ -338,7 +338,7 @@ func describeTrigger(triggerID string) {
 	}
 
 	fmt.Println(aurora.Magenta("Trigger info"))
-	fmt.Printf("ID:            %d\n", trigger.Id)
+	fmt.Printf("ID:            %d\n", trigger.ID)
 	fmt.Printf("Type:          %s\n", ttype)
 	fmt.Printf("Cluster:       %s\n", trigger.Cluster)
 	fmt.Printf("Triggered at:  %s\n", triggeredAt)

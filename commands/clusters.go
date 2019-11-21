@@ -34,6 +34,6 @@ func ListOfClusters(api restapi.Api) {
 	fmt.Println(aurora.Magenta("List of clusters"))
 	fmt.Printf("%4s %4s %-s\n", "#", "ID", "Name")
 	for i, cluster := range clusters {
-		fmt.Printf("%4d %4d %-s\n", i, cluster.Id, cluster.Name)
+		fmt.Printf("%4d %4d %-s\n", i, cluster.ID, cluster.Name)
 	}
 }
