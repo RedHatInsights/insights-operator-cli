@@ -37,7 +37,7 @@ var BuildVersion string = "*not set*"
 // BuildTime contains timestamp when the CLI client has been built
 var BuildTime string = "*not set*"
 
-var controllerUrl string
+var controllerURL string
 var username string
 var password string
 var files []prompt.Suggest
@@ -73,8 +73,8 @@ func listOfConfigurations(filter string) {
 	}
 }
 
-func describeProfile(profileId string) {
-	profile, err := api.ReadConfigurationProfile(profileId)
+func describeProfile(profileID string) {
+	profile, err := api.ReadConfigurationProfile(profileID)
 	if err != nil {
 		fmt.Println(aurora.Red("Error reading configuration profile"))
 		fmt.Println(err)
@@ -85,15 +85,15 @@ func describeProfile(profileId string) {
 	fmt.Println(profile.Configuration)
 }
 
-func describeConfiguration(clusterId string) {
-	configuration, err := api.ReadClusterConfigurationById(clusterId)
+func describeConfiguration(clusterID string) {
+	configuration, err := api.ReadClusterConfigurationById(clusterID)
 	if err != nil {
 		fmt.Println(aurora.Red("Error reading cluster configuration"))
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(aurora.Magenta("Configuration for cluster " + clusterId))
+	fmt.Println(aurora.Magenta("Configuration for cluster " + clusterID))
 	fmt.Println(*configuration)
 }
 
@@ -107,12 +107,12 @@ func proceedQuestion(question string) bool {
 	return true
 }
 
-func deleteCluster(clusterId string) {
+func deleteCluster(clusterID string) {
 	if !proceedQuestion("All cluster configurations will be deleted") {
 		return
 	}
 
-	err := api.DeleteCluster(clusterId)
+	err := api.DeleteCluster(clusterID)
 	if err != nil {
 		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -120,11 +120,11 @@ func deleteCluster(clusterId string) {
 	}
 
 	// everything's ok
-	fmt.Println(aurora.Blue("Cluster "+clusterId+" has been"), aurora.Red("deleted"))
+	fmt.Println(aurora.Blue("Cluster "+clusterID+" has been"), aurora.Red("deleted"))
 }
 
-func deleteClusterConfiguration(configurationId string) {
-	err := api.DeleteClusterConfiguration(configurationId)
+func deleteClusterConfiguration(configurationID string) {
+	err := api.DeleteClusterConfiguration(configurationID)
 	if err != nil {
 		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -132,15 +132,15 @@ func deleteClusterConfiguration(configurationId string) {
 	}
 
 	// everything's ok, configuration has been deleted
-	fmt.Println(aurora.Blue("Configuration "+configurationId+" has been "), aurora.Red("deleted"))
+	fmt.Println(aurora.Blue("Configuration "+configurationID+" has been "), aurora.Red("deleted"))
 }
 
-func deleteConfigurationProfile(profileId string) {
+func deleteConfigurationProfile(profileID string) {
 	if !proceedQuestion("All configurations based on this profile will be deleted") {
 		return
 	}
 
-	err := api.DeleteConfigurationProfile(profileId)
+	err := api.DeleteConfigurationProfile(profileID)
 	if err != nil {
 		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -148,7 +148,7 @@ func deleteConfigurationProfile(profileId string) {
 	}
 
 	// everything's ok, configuration profile has been deleted
-	fmt.Println(aurora.Blue("Configuration profile "+profileId+" has been "), aurora.Red("deleted"))
+	fmt.Println(aurora.Blue("Configuration profile "+profileID+" has been "), aurora.Red("deleted"))
 }
 
 func addCluster() {
@@ -312,8 +312,8 @@ func addTrigger() {
 	fmt.Println(aurora.Blue("Trigger has been created"))
 }
 
-func describeTrigger(triggerId string) {
-	trigger, err := api.ReadTriggerById(triggerId)
+func describeTrigger(triggerID string) {
+	trigger, err := api.ReadTriggerById(triggerID)
 	if err != nil {
 		fmt.Println(aurora.Red("Error reading selected trigger"))
 		fmt.Println(err)
@@ -347,8 +347,8 @@ func describeTrigger(triggerId string) {
 	fmt.Printf("Acked at:      %s\n", ackedAt)
 }
 
-func deleteTrigger(triggerId string) {
-	err := api.DeleteTrigger(triggerId)
+func deleteTrigger(triggerID string) {
+	err := api.DeleteTrigger(triggerID)
 	if err != nil {
 		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -356,11 +356,11 @@ func deleteTrigger(triggerId string) {
 	}
 
 	// everything's ok, trigger has been deleted
-	fmt.Println(aurora.Blue("Trigger "+triggerId+" has been"), aurora.Red("deleted"))
+	fmt.Println(aurora.Blue("Trigger "+triggerID+" has been"), aurora.Red("deleted"))
 }
 
-func activateTrigger(triggerId string) {
-	err := api.ActivateTrigger(triggerId)
+func activateTrigger(triggerID string) {
+	err := api.ActivateTrigger(triggerID)
 	if err != nil {
 		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -368,11 +368,11 @@ func activateTrigger(triggerId string) {
 	}
 
 	// everything's ok, trigger has been activated
-	fmt.Println(aurora.Blue("Trigger "+triggerId+" has been"), aurora.Green("activated"))
+	fmt.Println(aurora.Blue("Trigger "+triggerID+" has been"), aurora.Green("activated"))
 }
 
-func deactivateTrigger(triggerId string) {
-	err := api.DeactivateTrigger(triggerId)
+func deactivateTrigger(triggerID string) {
+	err := api.DeactivateTrigger(triggerID)
 	if err != nil {
 		fmt.Println(aurora.Red("Error communicating with the service"))
 		fmt.Println(err)
@@ -380,7 +380,7 @@ func deactivateTrigger(triggerId string) {
 	}
 
 	// everything's ok, trigger has been deactivated
-	fmt.Println(aurora.Blue("Trigger "+triggerId+" has been"), aurora.Green("deactivated"))
+	fmt.Println(aurora.Blue("Trigger "+triggerID+" has been"), aurora.Green("deactivated"))
 }
 
 func loginCompleter(in prompt.Document) []prompt.Suggest {
@@ -641,9 +641,9 @@ func main() {
 		panic(fmt.Errorf("Fatal error config file: %s \n", err))
 	}
 
-	controllerUrl = viper.GetString("CONTROLLER_URL")
+	controllerURL = viper.GetString("CONTROLLER_URL")
 	p := prompt.New(executor, completer)
-	api = restapi.NewRestApi(controllerUrl)
+	api = restapi.NewRestApi(controllerURL)
 
 	p.Run()
 }
