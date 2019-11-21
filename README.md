@@ -24,8 +24,8 @@ A simple CLI client for managing the Insights operator. Currently this client su
 * **describe configuration ##** describe cluster configuration selected by its ID
 * **add configuration**         add new configuration
 * **new configuration**         alias for previous command
-* **enable ##**                 enable cluster configuration selected by its ID
-* **disable ##**                disable cluster configuration selected by its ID
+* **enable configuration ##**   enable cluster configuration selected by its ID
+* **disable configuration ##**  disable cluster configuration selected by its ID
 * **delete configuration ##**   delete configuration selected by its ID
 
 ### Must-gather trigger:       

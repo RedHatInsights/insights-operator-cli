@@ -408,11 +408,11 @@ func executor(t string) {
 	case strings.HasPrefix(t, "describe trigger "):
 		describeTrigger(blocks[2])
 		return
-	case strings.HasPrefix(t, "enable "):
-		commands.EnableClusterConfiguration(api, blocks[1])
+	case strings.HasPrefix(t, "enable configuration "):
+		commands.EnableClusterConfiguration(api, blocks[2])
 		return
-	case strings.HasPrefix(t, "disable "):
-		commands.DisableClusterConfiguration(api, blocks[1])
+	case strings.HasPrefix(t, "disable configuration "):
+		commands.DisableClusterConfiguration(api, blocks[2])
 		return
 	case strings.HasPrefix(t, "list configurations "):
 		listOfConfigurations(blocks[2])
@@ -492,10 +492,10 @@ func executor(t string) {
 	case "describe trigger":
 		trigger := prompt.Input("trigger: ", loginCompleter)
 		describeTrigger(trigger)
-	case "enable":
+	case "enable configuration":
 		configuration := prompt.Input("configuration: ", loginCompleter)
 		commands.EnableClusterConfiguration(api, configuration)
-	case "disable":
+	case "disable configuration":
 		configuration := prompt.Input("configuration: ", loginCompleter)
 		commands.DisableClusterConfiguration(api, configuration)
 	case "delete cluster":
