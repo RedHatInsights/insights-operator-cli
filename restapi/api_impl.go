@@ -200,7 +200,7 @@ func (api RestApi) AddConfigurationProfile(username string, description string, 
 // AddClusterConfiguration access the REST API endpoint to add new cluster configuration
 func (api RestApi) AddClusterConfiguration(username string, cluster string, reason string, description string, configuration []byte) error {
 	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&description=" + url.QueryEscape(description)
-	url := api.controllerUrl + API_PREFIX + "client/cluster/" + url.PathEscape(cluster) + "/configuration?" + query
+	url := api.controllerUrl + API_PREFIX + "client/cluster/" + url.PathEscape(cluster) + "/configuration/create?" + query
 	err := performWriteRequest(url, "POST", bytes.NewReader(configuration))
 	return err
 }
