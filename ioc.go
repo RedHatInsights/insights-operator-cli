@@ -25,9 +25,7 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/ssh/terminal"
-	"io/ioutil"
 	"os"
-	"path/filepath"
 	"strings"
 )
 
@@ -37,358 +35,12 @@ var BuildVersion string = "*not set*"
 // BuildTime contains timestamp when the CLI client has been built
 var BuildTime string = "*not set*"
 
-var controllerURL string
 var username string
 var password string
-var files []prompt.Suggest
 var api restapi.Api
 
 func tryToLogin(username string, password string) {
 	fmt.Println(aurora.Blue("\nDone"))
-}
-
-func listOfConfigurations(filter string) {
-	// TODO: filter in query?
-	configurations, err := api.ReadListOfConfigurations()
-	if err != nil {
-		fmt.Println(aurora.Red("Error reading list of configurations"))
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println(aurora.Magenta("List of configuration for all clusters"))
-	fmt.Printf("%4s %4s %4s    %-20s %-20s %-10s %-12s %s\n", "#", "ID", "Profile", "Cluster", "Changed at", "Changed by", "Active", "Reason")
-	for i, configuration := range configurations {
-		// poor man's filtering
-		if strings.Contains(configuration.Cluster, filter) {
-			var active aurora.Value
-			if configuration.Active == "1" {
-				active = aurora.Green("yes")
-			} else {
-				active = aurora.Red("no")
-			}
-			changedAt := configuration.ChangedAt[0:19]
-			fmt.Printf("%4d %4d %4s       %-20s %-20s %-10s %-12s %s\n", i, configuration.ID, configuration.Configuration, configuration.Cluster, changedAt, configuration.ChangedBy, active, configuration.Reason)
-		}
-	}
-}
-
-func describeProfile(profileID string) {
-	profile, err := api.ReadConfigurationProfile(profileID)
-	if err != nil {
-		fmt.Println(aurora.Red("Error reading configuration profile"))
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println(aurora.Magenta("Configuration profile"))
-	fmt.Println(profile.Configuration)
-}
-
-func describeConfiguration(clusterID string) {
-	configuration, err := api.ReadClusterConfigurationById(clusterID)
-	if err != nil {
-		fmt.Println(aurora.Red("Error reading cluster configuration"))
-		fmt.Println(err)
-		return
-	}
-
-	fmt.Println(aurora.Magenta("Configuration for cluster " + clusterID))
-	fmt.Println(*configuration)
-}
-
-func proceedQuestion(question string) bool {
-	fmt.Println(aurora.Red(question))
-	proceed := prompt.Input("proceed? [y/n] ", loginCompleter)
-	if proceed != "y" {
-		fmt.Println(aurora.Blue("cancelled"))
-		return false
-	}
-	return true
-}
-
-func deleteCluster(clusterID string) {
-	if !proceedQuestion("All cluster configurations will be deleted") {
-		return
-	}
-
-	err := api.DeleteCluster(clusterID)
-	if err != nil {
-		fmt.Println(aurora.Red("Error communicating with the service"))
-		fmt.Println(err)
-		return
-	}
-
-	// everything's ok
-	fmt.Println(aurora.Blue("Cluster "+clusterID+" has been"), aurora.Red("deleted"))
-}
-
-func deleteClusterConfiguration(configurationID string) {
-	err := api.DeleteClusterConfiguration(configurationID)
-	if err != nil {
-		fmt.Println(aurora.Red("Error communicating with the service"))
-		fmt.Println(err)
-		return
-	}
-
-	// everything's ok, configuration has been deleted
-	fmt.Println(aurora.Blue("Configuration "+configurationID+" has been "), aurora.Red("deleted"))
-}
-
-func deleteConfigurationProfile(profileID string) {
-	if !proceedQuestion("All configurations based on this profile will be deleted") {
-		return
-	}
-
-	err := api.DeleteConfigurationProfile(profileID)
-	if err != nil {
-		fmt.Println(aurora.Red("Error communicating with the service"))
-		fmt.Println(err)
-		return
-	}
-
-	// everything's ok, configuration profile has been deleted
-	fmt.Println(aurora.Blue("Configuration profile "+profileID+" has been "), aurora.Red("deleted"))
-}
-
-func addCluster() {
-	id := prompt.Input("ID: ", loginCompleter)
-	if id == "" {
-		fmt.Println(aurora.Red("Cancelled"))
-		return
-	}
-
-	name := prompt.Input("name: ", loginCompleter)
-	if name == "" {
-		fmt.Println(aurora.Red("Cancelled"))
-		return
-	}
-
-	err := api.AddCluster(id, name)
-	if err != nil {
-		fmt.Println(aurora.Red("Error communicating with the service"))
-		fmt.Println(err)
-		return
-	}
-
-	// everything's ok, controller has been registered
-	fmt.Println(aurora.Blue("Controller has been registered"))
-}
-
-func addProfile() {
-	if username == "" {
-		fmt.Println(aurora.Red("Not logged in"))
-		return
-	}
-
-	description := prompt.Input("description: ", loginCompleter)
-	if description == "" {
-		fmt.Println(aurora.Red("Cancelled"))
-		return
-	}
-
-	// TODO: make the directory fully configurable
-	err := fillInConfigurationList("configurations")
-	if err != nil {
-		fmt.Println(aurora.Red("Cannot read any configuration file"))
-		fmt.Println(err)
-	}
-
-	configurationFileName := prompt.Input("configuration file (TAB to complete): ", configFileCompleter)
-	if configurationFileName == "" {
-		fmt.Println(aurora.Red("Cancelled"))
-		return
-	}
-
-	// TODO: make the directory fully configurable
-	configuration, err := ioutil.ReadFile("configurations/" + configurationFileName)
-	if err != nil {
-		fmt.Println(aurora.Red("Cannot read configuration file"))
-		fmt.Println(err)
-	}
-
-	err = api.AddConfigurationProfile(username, description, configuration)
-	if err != nil {
-		fmt.Println(aurora.Red("Error communicating with the service"))
-		fmt.Println(err)
-		return
-	}
-
-	// everything's ok, configuration profile has been created
-	fmt.Println(aurora.Blue("Configuration profile has been created"))
-}
-
-func addClusterConfiguration() {
-	if username == "" {
-		fmt.Println(aurora.Red("Not logged in"))
-		return
-	}
-
-	cluster := prompt.Input("cluster: ", loginCompleter)
-	if cluster == "" {
-		fmt.Println(aurora.Red("Cancelled"))
-		return
-	}
-
-	reason := prompt.Input("reason: ", loginCompleter)
-	if reason == "" {
-		fmt.Println(aurora.Red("Cancelled"))
-		return
-	}
-
-	description := prompt.Input("description: ", loginCompleter)
-	if description == "" {
-		fmt.Println(aurora.Red("Cancelled"))
-		return
-	}
-
-	// TODO: make the directory fully configurable
-	err := fillInConfigurationList("configurations")
-	if err != nil {
-		fmt.Println(aurora.Red("Cannot read any configuration file"))
-		fmt.Println(err)
-	}
-
-	configurationFileName := prompt.Input("configuration file (TAB to complete): ", configFileCompleter)
-	if configurationFileName == "" {
-		fmt.Println(aurora.Red("Cancelled"))
-		return
-	}
-
-	// TODO: make the directory fully configurable
-	configuration, err := ioutil.ReadFile("configurations/" + configurationFileName)
-	if err != nil {
-		fmt.Println(aurora.Red("Cannot read configuration file"))
-		fmt.Println(err)
-	}
-
-	err = api.AddClusterConfiguration(username, cluster, reason, description, configuration)
-	if err != nil {
-		fmt.Println(aurora.Red("Error communicating with the service"))
-		fmt.Println(err)
-		return
-	}
-
-	// everything's ok, configuration has been created
-	fmt.Println(aurora.Blue("Configuration has been created"))
-}
-
-func fillInConfigurationList(directory string) error {
-	files = []prompt.Suggest{}
-
-	root := directory
-	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
-		if !info.IsDir() {
-			suggest := prompt.Suggest{
-				Text: info.Name()}
-			files = append(files, suggest)
-		}
-		return nil
-	})
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func addTrigger() {
-	if username == "" {
-		fmt.Println(aurora.Red("Not logged in"))
-		return
-	}
-
-	clusterName := prompt.Input("cluster name: ", loginCompleter)
-	reason := prompt.Input("reason: ", loginCompleter)
-	link := prompt.Input("link: ", loginCompleter)
-
-	err := api.AddTrigger(username, clusterName, reason, link)
-	if err != nil {
-		fmt.Println("Error communicating with the service")
-		fmt.Println(err)
-		return
-	}
-
-	// everything's ok, trigger has been created
-	fmt.Println(aurora.Blue("Trigger has been created"))
-}
-
-func describeTrigger(triggerID string) {
-	trigger, err := api.ReadTriggerById(triggerID)
-	if err != nil {
-		fmt.Println(aurora.Red("Error reading selected trigger"))
-		fmt.Println(err)
-		return
-	}
-
-	var active aurora.Value
-	if trigger.Active == 1 {
-		active = aurora.Green("yes")
-	} else {
-		active = aurora.Red("no")
-	}
-
-	triggeredAt := trigger.TriggeredAt[0:19]
-	ackedAt := trigger.AckedAt[0:19]
-
-	var ttype aurora.Value
-	if trigger.Type == "must-gather" {
-		ttype = aurora.Blue(trigger.Type)
-	} else {
-		ttype = aurora.Magenta(trigger.Type)
-	}
-
-	fmt.Println(aurora.Magenta("Trigger info"))
-	fmt.Printf("ID:            %d\n", trigger.ID)
-	fmt.Printf("Type:          %s\n", ttype)
-	fmt.Printf("Cluster:       %s\n", trigger.Cluster)
-	fmt.Printf("Triggered at:  %s\n", triggeredAt)
-	fmt.Printf("Triggered by:  %s\n", trigger.TriggeredBy)
-	fmt.Printf("Active:        %s\n", active)
-	fmt.Printf("Acked at:      %s\n", ackedAt)
-}
-
-func deleteTrigger(triggerID string) {
-	err := api.DeleteTrigger(triggerID)
-	if err != nil {
-		fmt.Println(aurora.Red("Error communicating with the service"))
-		fmt.Println(err)
-		return
-	}
-
-	// everything's ok, trigger has been deleted
-	fmt.Println(aurora.Blue("Trigger "+triggerID+" has been"), aurora.Red("deleted"))
-}
-
-func activateTrigger(triggerID string) {
-	err := api.ActivateTrigger(triggerID)
-	if err != nil {
-		fmt.Println(aurora.Red("Error communicating with the service"))
-		fmt.Println(err)
-		return
-	}
-
-	// everything's ok, trigger has been activated
-	fmt.Println(aurora.Blue("Trigger "+triggerID+" has been"), aurora.Green("activated"))
-}
-
-func deactivateTrigger(triggerID string) {
-	err := api.DeactivateTrigger(triggerID)
-	if err != nil {
-		fmt.Println(aurora.Red("Error communicating with the service"))
-		fmt.Println(err)
-		return
-	}
-
-	// everything's ok, trigger has been deactivated
-	fmt.Println(aurora.Blue("Trigger "+triggerID+" has been"), aurora.Green("deactivated"))
-}
-
-func loginCompleter(in prompt.Document) []prompt.Suggest {
-	return nil
-}
-
-func configFileCompleter(in prompt.Document) []prompt.Suggest {
-	return prompt.FilterHasPrefix(files, in.Text, true)
 }
 
 func printVersion() {
@@ -400,13 +52,13 @@ func executor(t string) {
 	// commands with variable parts
 	switch {
 	case strings.HasPrefix(t, "describe profile "):
-		describeProfile(blocks[2])
+		commands.DescribeProfile(api, blocks[2])
 		return
 	case strings.HasPrefix(t, "describe configuration "):
-		describeConfiguration(blocks[2])
+		commands.DescribeConfiguration(api, blocks[2])
 		return
 	case strings.HasPrefix(t, "describe trigger "):
-		describeTrigger(blocks[2])
+		commands.DescribeTrigger(api, blocks[2])
 		return
 	case strings.HasPrefix(t, "enable configuration "):
 		commands.EnableClusterConfiguration(api, blocks[2])
@@ -415,36 +67,36 @@ func executor(t string) {
 		commands.DisableClusterConfiguration(api, blocks[2])
 		return
 	case strings.HasPrefix(t, "list configurations "):
-		listOfConfigurations(blocks[2])
+		commands.ListOfConfigurations(api, blocks[2])
 		return
 	case strings.HasPrefix(t, "delete cluster "):
-		deleteCluster(blocks[2])
+		commands.DeleteCluster(api, blocks[2])
 		return
 	case strings.HasPrefix(t, "delete configuration "):
-		deleteClusterConfiguration(blocks[2])
+		commands.DeleteClusterConfiguration(api, blocks[2])
 		return
 	case strings.HasPrefix(t, "delete profile "):
-		deleteConfigurationProfile(blocks[2])
+		commands.DeleteConfigurationProfile(api, blocks[2])
 		return
 	case strings.HasPrefix(t, "delete trigger "):
-		deleteTrigger(blocks[2])
+		commands.DeleteTrigger(api, blocks[2])
 		return
 	case strings.HasPrefix(t, "activate must gather "):
 		fallthrough
 	case strings.HasPrefix(t, "activate trigger "):
-		activateTrigger(blocks[2])
+		commands.ActivateTrigger(api, blocks[2])
 		return
 	case strings.HasPrefix(t, "deactivate must gather "):
 		fallthrough
 	case strings.HasPrefix(t, "deactivate trigger "):
-		deactivateTrigger(blocks[2])
+		commands.DeactivateTrigger(api, blocks[2])
 		return
 	}
 
 	// fixed commands
 	switch t {
 	case "login":
-		username = prompt.Input("login: ", loginCompleter)
+		username = prompt.Input("login: ", commands.LoginCompleter)
 		fmt.Print("password: ")
 		p, err := terminal.ReadPassword(0)
 		if err != nil {
@@ -462,64 +114,64 @@ func executor(t string) {
 	case "list profiles":
 		commands.ListOfProfiles(api)
 	case "list configurations":
-		listOfConfigurations("")
+		commands.ListOfConfigurations(api, "")
 	case "add cluster":
 		fallthrough
 	case "new cluster":
-		addCluster()
+		commands.AddCluster(api)
 	case "add profile":
 		fallthrough
 	case "new profile":
-		addProfile()
+		commands.AddConfigurationProfile(api, username)
 	case "add configuration":
 		fallthrough
 	case "new configuration":
-		addClusterConfiguration()
+		commands.AddClusterConfiguration(api, username)
 	case "request must-gather":
 		fallthrough
 	case "add trigger":
 		fallthrough
 	case "new trigger":
-		addTrigger()
+		commands.AddTrigger(api, username)
 	case "describe profile":
-		profile := prompt.Input("profile: ", loginCompleter)
-		describeProfile(profile)
+		profile := prompt.Input("profile: ", commands.LoginCompleter)
+		commands.DescribeProfile(api, profile)
 	case "describe configuration":
-		configuration := prompt.Input("configuration: ", loginCompleter)
-		describeConfiguration(configuration)
+		configuration := prompt.Input("configuration: ", commands.LoginCompleter)
+		commands.DescribeConfiguration(api, configuration)
 	case "describe must-gather":
 		fallthrough
 	case "describe trigger":
-		trigger := prompt.Input("trigger: ", loginCompleter)
-		describeTrigger(trigger)
+		trigger := prompt.Input("trigger: ", commands.LoginCompleter)
+		commands.DescribeTrigger(api, trigger)
 	case "enable configuration":
-		configuration := prompt.Input("configuration: ", loginCompleter)
+		configuration := prompt.Input("configuration: ", commands.LoginCompleter)
 		commands.EnableClusterConfiguration(api, configuration)
 	case "disable configuration":
-		configuration := prompt.Input("configuration: ", loginCompleter)
+		configuration := prompt.Input("configuration: ", commands.LoginCompleter)
 		commands.DisableClusterConfiguration(api, configuration)
 	case "delete cluster":
-		cluster := prompt.Input("cluster: ", loginCompleter)
-		deleteCluster(cluster)
+		cluster := prompt.Input("cluster: ", commands.LoginCompleter)
+		commands.DeleteCluster(api, cluster)
 	case "delete configuration":
-		configuration := prompt.Input("configuration: ", loginCompleter)
-		deleteClusterConfiguration(configuration)
+		configuration := prompt.Input("configuration: ", commands.LoginCompleter)
+		commands.DeleteClusterConfiguration(api, configuration)
 	case "delete profile":
-		profile := prompt.Input("profile: ", loginCompleter)
-		deleteConfigurationProfile(profile)
+		profile := prompt.Input("profile: ", commands.LoginCompleter)
+		commands.DeleteConfigurationProfile(api, profile)
 	case "delete trigger":
-		trigger := prompt.Input("trigger: ", loginCompleter)
-		deleteTrigger(trigger)
+		trigger := prompt.Input("trigger: ", commands.LoginCompleter)
+		commands.DeleteTrigger(api, trigger)
 	case "activate must-gather":
 		fallthrough
 	case "activate trigger":
-		trigger := prompt.Input("trigger: ", loginCompleter)
-		activateTrigger(trigger)
+		trigger := prompt.Input("trigger: ", commands.LoginCompleter)
+		commands.ActivateTrigger(api, trigger)
 	case "deactivate must-gather":
 		fallthrough
 	case "deactivate trigger":
-		trigger := prompt.Input("trigger: ", loginCompleter)
-		deactivateTrigger(trigger)
+		trigger := prompt.Input("trigger: ", commands.LoginCompleter)
+		commands.DeactivateTrigger(api, trigger)
 	case "bye":
 		fallthrough
 	case "exit":
@@ -638,10 +290,10 @@ func main() {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+		panic(fmt.Errorf("Fatal error config file: %s", err))
 	}
 
-	controllerURL = viper.GetString("CONTROLLER_URL")
+	controllerURL := viper.GetString("CONTROLLER_URL")
 	p := prompt.New(executor, completer)
 	api = restapi.NewRestApi(controllerURL)
 
