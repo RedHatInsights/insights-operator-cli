@@ -25,7 +25,7 @@ package types
 //     Active: flag indicating whether the configuration is active or not
 //     Reason: a string with any comment(s) about the cluster configuration
 type ClusterConfiguration struct {
-	Id            int    `json:"id"`
+	ID            int    `json:"id"`
 	Cluster       string `json:"cluster"`
 	Configuration string `json:"configuration"`
 	ChangedAt     string `json:"changed_at"`

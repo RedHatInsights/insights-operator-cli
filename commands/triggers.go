@@ -43,6 +43,6 @@ func ListOfTriggers(api restapi.Api) {
 		}
 		triggeredAt := trigger.TriggeredAt[0:19]
 		ackedAt := trigger.AckedAt[0:19]
-		fmt.Printf("%4d %4d %-16s    %-20s %-20s %-12s %-12s %s\n", i, trigger.Id, trigger.Type, trigger.Cluster, triggeredAt, trigger.TriggeredBy, active, ackedAt)
+		fmt.Printf("%4d %4d %-16s    %-20s %-20s %-12s %-12s %s\n", i, trigger.ID, trigger.Type, trigger.Cluster, triggeredAt, trigger.TriggeredBy, active, ackedAt)
 	}
 }

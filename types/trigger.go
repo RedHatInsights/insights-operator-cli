@@ -28,7 +28,7 @@ package types
 //     Parameters: parameters that needs to be pass to trigger code
 //     Active: flag indicating whether the trigger is still active or not
 type Trigger struct {
-	Id          int    `json:"id"`
+	ID          int    `json:"id"`
 	Type        string `json:"type"`
 	Cluster     string `json:"cluster"`
 	Reason      string `json:"reason"`

@@ -21,6 +21,6 @@ package types
 //     Name: cluster GUID in the following format:
 //         c8590f31-e97e-4b85-b506-c45ce1911a12
 type Cluster struct {
-	Id   int    `json:"id"`
+	ID   int    `json:"id"`
 	Name string `json:"name"`
 }

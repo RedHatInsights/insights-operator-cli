@@ -35,6 +35,6 @@ func ListOfProfiles(api restapi.Api) {
 	fmt.Printf("%4s %4s %-20s %-20s %s\n", "#", "ID", "Changed at", "Changed by", "Description")
 	for i, profile := range profiles {
 		changedAt := profile.ChangedAt[0:19]
-		fmt.Printf("%4d %4d %-20s %-20s %-s\n", i, profile.Id, changedAt, profile.ChangedBy, profile.Description)
+		fmt.Printf("%4d %4d %-20s %-20s %-s\n", i, profile.ID, changedAt, profile.ChangedBy, profile.Description)
 	}
 }
