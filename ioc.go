@@ -47,6 +47,18 @@ func printVersion() {
 	fmt.Println(aurora.Blue("Insights operator CLI client "), "version", aurora.Yellow(BuildVersion), "compiled", aurora.Yellow(BuildTime))
 }
 
+func login() {
+	username = prompt.Input("login: ", commands.LoginCompleter)
+	fmt.Print("password: ")
+	p, err := terminal.ReadPassword(0)
+	if err != nil {
+		fmt.Println(aurora.Red("Password is not set"))
+	} else {
+		password = string(p)
+		tryToLogin(username, password)
+	}
+}
+
 func executor(t string) {
 	blocks := strings.Split(t, " ")
 	// commands with variable parts
@@ -92,19 +104,14 @@ func executor(t string) {
 		commands.DeactivateTrigger(api, blocks[2])
 		return
 	}
+	execute_fixed_command(t)
+}
 
+func execute_fixed_command(command string) {
 	// fixed commands
-	switch t {
+	switch command {
 	case "login":
-		username = prompt.Input("login: ", commands.LoginCompleter)
-		fmt.Print("password: ")
-		p, err := terminal.ReadPassword(0)
-		if err != nil {
-			fmt.Println(aurora.Red("Password is not set"))
-		} else {
-			password = string(p)
-			tryToLogin(username, password)
-		}
+		login()
 	case "list must-gather":
 		fallthrough
 	case "list triggers":
