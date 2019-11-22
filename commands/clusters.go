@@ -19,7 +19,6 @@ package commands
 import (
 	"fmt"
 	"github.com/c-bata/go-prompt"
-	"github.com/logrusorgru/aurora"
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 )
 
@@ -27,12 +26,12 @@ import (
 func ListOfClusters(api restapi.Api) {
 	clusters, err := api.ReadListOfClusters()
 	if err != nil {
-		fmt.Println(aurora.Red("Error reading list of clusters"))
+		fmt.Println(colorizer.Red("Error reading list of clusters"))
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(aurora.Magenta("List of clusters"))
+	fmt.Println(colorizer.Magenta("List of clusters"))
 	fmt.Printf("%4s %4s %-s\n", "#", "ID", "Name")
 	for i, cluster := range clusters {
 		fmt.Printf("%4d %4d %-s\n", i, cluster.ID, cluster.Name)
@@ -47,36 +46,36 @@ func DeleteCluster(api restapi.Api, clusterID string) {
 
 	err := api.DeleteCluster(clusterID)
 	if err != nil {
-		fmt.Println(aurora.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	}
 
 	// everything's ok
-	fmt.Println(aurora.Blue("Cluster "+clusterID+" has been"), aurora.Red("deleted"))
+	fmt.Println(colorizer.Blue("Cluster "+clusterID+" has been"), colorizer.Red("deleted"))
 }
 
 // AddCluster inserts new cluster info into the database
 func AddCluster(api restapi.Api) {
 	id := prompt.Input("ID: ", LoginCompleter)
 	if id == "" {
-		fmt.Println(aurora.Red("Cancelled"))
+		fmt.Println(colorizer.Red("Cancelled"))
 		return
 	}
 
 	name := prompt.Input("name: ", LoginCompleter)
 	if name == "" {
-		fmt.Println(aurora.Red("Cancelled"))
+		fmt.Println(colorizer.Red("Cancelled"))
 		return
 	}
 
 	err := api.AddCluster(id, name)
 	if err != nil {
-		fmt.Println(aurora.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	}
 
 	// everything's ok, controller has been registered
-	fmt.Println(aurora.Blue("Controller has been registered"))
+	fmt.Println(colorizer.Blue("Controller has been registered"))
 }

@@ -28,19 +28,19 @@ func ListOfTriggers(api restapi.Api) {
 	// TODO: filter in query?
 	triggers, err := api.ReadListOfTriggers()
 	if err != nil {
-		fmt.Println(aurora.Red("Error reading list of triggers"))
+		fmt.Println(colorizer.Red("Error reading list of triggers"))
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(aurora.Magenta("List of triggers for all clusters"))
+	fmt.Println(colorizer.Magenta("List of triggers for all clusters"))
 	fmt.Printf("%4s %4s %-16s    %-20s %-20s %-12s %-12s %s\n", "#", "ID", "Type", "Cluster", "Triggered at", "Triggered by", "Active", "Acked at")
 	for i, trigger := range triggers {
 		var active aurora.Value
 		if trigger.Active == 1 {
-			active = aurora.Green("yes")
+			active = colorizer.Green("yes")
 		} else {
-			active = aurora.Red("no")
+			active = colorizer.Red("no")
 		}
 		triggeredAt := trigger.TriggeredAt[0:19]
 		ackedAt := trigger.AckedAt[0:19]
@@ -52,16 +52,16 @@ func ListOfTriggers(api restapi.Api) {
 func DescribeTrigger(api restapi.Api, triggerID string) {
 	trigger, err := api.ReadTriggerById(triggerID)
 	if err != nil {
-		fmt.Println(aurora.Red("Error reading selected trigger"))
+		fmt.Println(colorizer.Red("Error reading selected trigger"))
 		fmt.Println(err)
 		return
 	}
 
 	var active aurora.Value
 	if trigger.Active == 1 {
-		active = aurora.Green("yes")
+		active = colorizer.Green("yes")
 	} else {
-		active = aurora.Red("no")
+		active = colorizer.Red("no")
 	}
 
 	triggeredAt := trigger.TriggeredAt[0:19]
@@ -69,12 +69,12 @@ func DescribeTrigger(api restapi.Api, triggerID string) {
 
 	var ttype aurora.Value
 	if trigger.Type == "must-gather" {
-		ttype = aurora.Blue(trigger.Type)
+		ttype = colorizer.Blue(trigger.Type)
 	} else {
-		ttype = aurora.Magenta(trigger.Type)
+		ttype = colorizer.Magenta(trigger.Type)
 	}
 
-	fmt.Println(aurora.Magenta("Trigger info"))
+	fmt.Println(colorizer.Magenta("Trigger info"))
 	fmt.Printf("ID:            %d\n", trigger.ID)
 	fmt.Printf("Type:          %s\n", ttype)
 	fmt.Printf("Cluster:       %s\n", trigger.Cluster)
@@ -87,7 +87,7 @@ func DescribeTrigger(api restapi.Api, triggerID string) {
 // AddTrigger adds new trigger for a cluster
 func AddTrigger(api restapi.Api, username string) {
 	if username == "" {
-		fmt.Println(aurora.Red("Not logged in"))
+		fmt.Println(colorizer.Red("Not logged in"))
 		return
 	}
 
@@ -103,44 +103,44 @@ func AddTrigger(api restapi.Api, username string) {
 	}
 
 	// everything's ok, trigger has been created
-	fmt.Println(aurora.Blue("Trigger has been created"))
+	fmt.Println(colorizer.Blue("Trigger has been created"))
 }
 
 // DeleteTrigger deletes specified trigger
 func DeleteTrigger(api restapi.Api, triggerID string) {
 	err := api.DeleteTrigger(triggerID)
 	if err != nil {
-		fmt.Println(aurora.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	}
 
 	// everything's ok, trigger has been deleted
-	fmt.Println(aurora.Blue("Trigger "+triggerID+" has been"), aurora.Red("deleted"))
+	fmt.Println(colorizer.Blue("Trigger "+triggerID+" has been"), colorizer.Red("deleted"))
 }
 
 // ActivateTrigger activates specified trigger
 func ActivateTrigger(api restapi.Api, triggerID string) {
 	err := api.ActivateTrigger(triggerID)
 	if err != nil {
-		fmt.Println(aurora.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	}
 
 	// everything's ok, trigger has been activated
-	fmt.Println(aurora.Blue("Trigger "+triggerID+" has been"), aurora.Green("activated"))
+	fmt.Println(colorizer.Blue("Trigger "+triggerID+" has been"), colorizer.Green("activated"))
 }
 
 // DeactivateTrigger deactivates specified trigger
 func DeactivateTrigger(api restapi.Api, triggerID string) {
 	err := api.DeactivateTrigger(triggerID)
 	if err != nil {
-		fmt.Println(aurora.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	}
 
 	// everything's ok, trigger has been deactivated
-	fmt.Println(aurora.Blue("Trigger "+triggerID+" has been"), aurora.Green("deactivated"))
+	fmt.Println(colorizer.Blue("Trigger "+triggerID+" has been"), colorizer.Green("deactivated"))
 }
