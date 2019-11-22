@@ -59,51 +59,38 @@ func login() {
 	}
 }
 
+type commandWithParam struct {
+	prefix  string
+	handler func(restapi.Api, string)
+}
+
+var commandsWithParam = []commandWithParam{
+	{"describe profile ", commands.DescribeProfile},
+	{"describe configuration ", commands.DescribeConfiguration},
+	{"describe trigger ", commands.DescribeTrigger},
+	{"enable configuration ", commands.EnableClusterConfiguration},
+	{"disable configuration ", commands.DisableClusterConfiguration},
+	{"list configurations ", commands.ListOfConfigurations},
+	{"delete cluster ", commands.DeleteCluster},
+	{"delete configuration ", commands.DeleteClusterConfiguration},
+	{"delete trigger ", commands.DeleteTrigger},
+	{"activate must-gather ", commands.ActivateTrigger},
+	{"activate trigger ", commands.ActivateTrigger},
+	{"deactivate must-gather ", commands.DeactivateTrigger},
+	{"deactivate trigger ", commands.DeactivateTrigger},
+}
+
 func executor(t string) {
 	blocks := strings.Split(t, " ")
+
 	// commands with variable parts
-	switch {
-	case strings.HasPrefix(t, "describe profile "):
-		commands.DescribeProfile(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "describe configuration "):
-		commands.DescribeConfiguration(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "describe trigger "):
-		commands.DescribeTrigger(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "enable configuration "):
-		commands.EnableClusterConfiguration(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "disable configuration "):
-		commands.DisableClusterConfiguration(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "list configurations "):
-		commands.ListOfConfigurations(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "delete cluster "):
-		commands.DeleteCluster(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "delete configuration "):
-		commands.DeleteClusterConfiguration(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "delete profile "):
-		commands.DeleteConfigurationProfile(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "delete trigger "):
-		commands.DeleteTrigger(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "activate must gather "):
-		fallthrough
-	case strings.HasPrefix(t, "activate trigger "):
-		commands.ActivateTrigger(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "deactivate must gather "):
-		fallthrough
-	case strings.HasPrefix(t, "deactivate trigger "):
-		commands.DeactivateTrigger(api, blocks[2])
-		return
+	for _, command := range commandsWithParam {
+		if strings.HasPrefix(t, command.prefix) {
+			command.handler(api, blocks[2])
+			return
+		}
 	}
+	// no match? try commands without variable parts
 	execute_fixed_command(t)
 }
 
@@ -244,6 +231,14 @@ func completer(in prompt.Document) []prompt.Suggest {
 	// request operations
 	secondWord["request"] = []prompt.Suggest{
 		{Text: "must-gather", Description: "request must-gather"},
+	}
+	// enable operations
+	secondWord["enable"] = []prompt.Suggest{
+		{Text: "configuration", Description: "enable cluster configuration"},
+	}
+	// disable operations
+	secondWord["disable"] = []prompt.Suggest{
+		{Text: "configuration", Description: "disable cluster configuration"},
 	}
 	// delete operations
 	secondWord["delete"] = []prompt.Suggest{
