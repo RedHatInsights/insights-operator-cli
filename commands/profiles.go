@@ -19,7 +19,6 @@ package commands
 import (
 	"fmt"
 	"github.com/c-bata/go-prompt"
-	"github.com/logrusorgru/aurora"
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 	"io/ioutil"
 )
@@ -28,12 +27,12 @@ import (
 func ListOfProfiles(api restapi.Api) {
 	profiles, err := api.ReadListOfConfigurationProfiles()
 	if err != nil {
-		fmt.Println(aurora.Red("Error reading list of configuration profiles"))
+		fmt.Println(colorizer.Red("Error reading list of configuration profiles"))
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(aurora.Magenta("List of configuration profiles"))
+	fmt.Println(colorizer.Magenta("List of configuration profiles"))
 	fmt.Printf("%4s %4s %-20s %-20s %s\n", "#", "ID", "Changed at", "Changed by", "Description")
 	for i, profile := range profiles {
 		changedAt := profile.ChangedAt[0:19]
@@ -45,12 +44,12 @@ func ListOfProfiles(api restapi.Api) {
 func DescribeProfile(api restapi.Api, profileID string) {
 	profile, err := api.ReadConfigurationProfile(profileID)
 	if err != nil {
-		fmt.Println(aurora.Red("Error reading configuration profile"))
+		fmt.Println(colorizer.Red("Error reading configuration profile"))
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(aurora.Magenta("Configuration profile"))
+	fmt.Println(colorizer.Magenta("Configuration profile"))
 	fmt.Println(profile.Configuration)
 }
 
@@ -62,55 +61,55 @@ func DeleteConfigurationProfile(api restapi.Api, profileID string) {
 
 	err := api.DeleteConfigurationProfile(profileID)
 	if err != nil {
-		fmt.Println(aurora.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	}
 
 	// everything's ok, configuration profile has been deleted
-	fmt.Println(aurora.Blue("Configuration profile "+profileID+" has been "), aurora.Red("deleted"))
+	fmt.Println(colorizer.Blue("Configuration profile "+profileID+" has been "), colorizer.Red("deleted"))
 }
 
 // AddConfigurationProfile adds the profile to database
 func AddConfigurationProfile(api restapi.Api, username string) {
 	if username == "" {
-		fmt.Println(aurora.Red("Not logged in"))
+		fmt.Println(colorizer.Red("Not logged in"))
 		return
 	}
 
 	description := prompt.Input("description: ", LoginCompleter)
 	if description == "" {
-		fmt.Println(aurora.Red("Cancelled"))
+		fmt.Println(colorizer.Red("Cancelled"))
 		return
 	}
 
 	// TODO: make the directory fully configurable
 	err := FillInConfigurationList("configurations")
 	if err != nil {
-		fmt.Println(aurora.Red("Cannot read any configuration file"))
+		fmt.Println(colorizer.Red("Cannot read any configuration file"))
 		fmt.Println(err)
 	}
 
 	configurationFileName := prompt.Input("configuration file (TAB to complete): ", ConfigFileCompleter)
 	if configurationFileName == "" {
-		fmt.Println(aurora.Red("Cancelled"))
+		fmt.Println(colorizer.Red("Cancelled"))
 		return
 	}
 
 	// TODO: make the directory fully configurable
 	configuration, err := ioutil.ReadFile("configurations/" + configurationFileName)
 	if err != nil {
-		fmt.Println(aurora.Red("Cannot read configuration file"))
+		fmt.Println(colorizer.Red("Cannot read configuration file"))
 		fmt.Println(err)
 	}
 
 	err = api.AddConfigurationProfile(username, description, configuration)
 	if err != nil {
-		fmt.Println(aurora.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	}
 
 	// everything's ok, configuration profile has been created
-	fmt.Println(aurora.Blue("Configuration profile has been created"))
+	fmt.Println(colorizer.Blue("Configuration profile has been created"))
 }

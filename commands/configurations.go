@@ -30,21 +30,21 @@ func ListOfConfigurations(api restapi.Api, filter string) {
 	// TODO: filter in query?
 	configurations, err := api.ReadListOfConfigurations()
 	if err != nil {
-		fmt.Println(aurora.Red("Error reading list of configurations"))
+		fmt.Println(colorizer.Red("Error reading list of configurations"))
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(aurora.Magenta("List of configuration for all clusters"))
+	fmt.Println(colorizer.Magenta("List of configuration for all clusters"))
 	fmt.Printf("%4s %4s %4s    %-20s %-20s %-10s %-12s %s\n", "#", "ID", "Profile", "Cluster", "Changed at", "Changed by", "Active", "Reason")
 	for i, configuration := range configurations {
 		// poor man's filtering
 		if strings.Contains(configuration.Cluster, filter) {
 			var active aurora.Value
 			if configuration.Active == "1" {
-				active = aurora.Green("yes")
+				active = colorizer.Green("yes")
 			} else {
-				active = aurora.Red("no")
+				active = colorizer.Red("no")
 			}
 			changedAt := configuration.ChangedAt[0:19]
 			fmt.Printf("%4d %4d %4s       %-20s %-20s %-10s %-12s %s\n", i, configuration.ID, configuration.Configuration, configuration.Cluster, changedAt, configuration.ChangedBy, active, configuration.Reason)
@@ -56,38 +56,38 @@ func ListOfConfigurations(api restapi.Api, filter string) {
 func EnableClusterConfiguration(api restapi.Api, configurationID string) {
 	err := api.EnableClusterConfiguration(configurationID)
 	if err != nil {
-		fmt.Println(aurora.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	}
 
 	// everything's ok
-	fmt.Println(aurora.Blue("Configuration "+configurationID+" has been "), aurora.Green("enabled"))
+	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been "), colorizer.Green("enabled"))
 }
 
 // DisableClusterConfiguration disables the selected cluster configuration in the controller service
 func DisableClusterConfiguration(api restapi.Api, configurationID string) {
 	err := api.DisableClusterConfiguration(configurationID)
 	if err != nil {
-		fmt.Println(aurora.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	}
 
 	// everything's ok
-	fmt.Println(aurora.Blue("Configuration "+configurationID+" has been "), aurora.Red("disabled"))
+	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been "), colorizer.Red("disabled"))
 }
 
 // DescribeConfiguration displays additional information about selected configuration
 func DescribeConfiguration(api restapi.Api, clusterID string) {
 	configuration, err := api.ReadClusterConfigurationById(clusterID)
 	if err != nil {
-		fmt.Println(aurora.Red("Error reading cluster configuration"))
+		fmt.Println(colorizer.Red("Error reading cluster configuration"))
 		fmt.Println(err)
 		return
 	}
 
-	fmt.Println(aurora.Magenta("Configuration for cluster " + clusterID))
+	fmt.Println(colorizer.Magenta("Configuration for cluster " + clusterID))
 	fmt.Println(*configuration)
 }
 
@@ -95,67 +95,67 @@ func DescribeConfiguration(api restapi.Api, clusterID string) {
 func DeleteClusterConfiguration(api restapi.Api, configurationID string) {
 	err := api.DeleteClusterConfiguration(configurationID)
 	if err != nil {
-		fmt.Println(aurora.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	}
 
 	// everything's ok, configuration has been deleted
-	fmt.Println(aurora.Blue("Configuration "+configurationID+" has been "), aurora.Red("deleted"))
+	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been "), colorizer.Red("deleted"))
 }
 
 // AddClusterConfiguration creates a new cluster configuration
 func AddClusterConfiguration(api restapi.Api, username string) {
 	if username == "" {
-		fmt.Println(aurora.Red("Not logged in"))
+		fmt.Println(colorizer.Red("Not logged in"))
 		return
 	}
 
 	cluster := prompt.Input("cluster: ", LoginCompleter)
 	if cluster == "" {
-		fmt.Println(aurora.Red("Cancelled"))
+		fmt.Println(colorizer.Red("Cancelled"))
 		return
 	}
 
 	reason := prompt.Input("reason: ", LoginCompleter)
 	if reason == "" {
-		fmt.Println(aurora.Red("Cancelled"))
+		fmt.Println(colorizer.Red("Cancelled"))
 		return
 	}
 
 	description := prompt.Input("description: ", LoginCompleter)
 	if description == "" {
-		fmt.Println(aurora.Red("Cancelled"))
+		fmt.Println(colorizer.Red("Cancelled"))
 		return
 	}
 
 	// TODO: make the directory fully configurable
 	err := FillInConfigurationList("configurations")
 	if err != nil {
-		fmt.Println(aurora.Red("Cannot read any configuration file"))
+		fmt.Println(colorizer.Red("Cannot read any configuration file"))
 		fmt.Println(err)
 	}
 
 	configurationFileName := prompt.Input("configuration file (TAB to complete): ", ConfigFileCompleter)
 	if configurationFileName == "" {
-		fmt.Println(aurora.Red("Cancelled"))
+		fmt.Println(colorizer.Red("Cancelled"))
 		return
 	}
 
 	// TODO: make the directory fully configurable
 	configuration, err := ioutil.ReadFile("configurations/" + configurationFileName)
 	if err != nil {
-		fmt.Println(aurora.Red("Cannot read configuration file"))
+		fmt.Println(colorizer.Red("Cannot read configuration file"))
 		fmt.Println(err)
 	}
 
 	err = api.AddClusterConfiguration(username, cluster, reason, description, configuration)
 	if err != nil {
-		fmt.Println(aurora.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red("Error communicating with the service"))
 		fmt.Println(err)
 		return
 	}
 
 	// everything's ok, configuration has been created
-	fmt.Println(aurora.Blue("Configuration has been created"))
+	fmt.Println(colorizer.Blue("Configuration has been created"))
 }

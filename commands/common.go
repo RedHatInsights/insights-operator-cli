@@ -26,6 +26,13 @@ import (
 
 var files []prompt.Suggest
 
+var colorizer aurora.Aurora
+
+// SetColorizer set the terminal colorizer
+func SetColorizer(c aurora.Aurora) {
+	colorizer = c
+}
+
 // LoginCompleter implements a no-op completer needed to input random data
 func LoginCompleter(in prompt.Document) []prompt.Suggest {
 	return nil
@@ -38,10 +45,10 @@ func ConfigFileCompleter(in prompt.Document) []prompt.Suggest {
 
 // ProceedQuestion ask user about y/n answer.
 func ProceedQuestion(question string) bool {
-	fmt.Println(aurora.Red(question))
+	fmt.Println(colorizer.Red(question))
 	proceed := prompt.Input("proceed? [y/n] ", LoginCompleter)
 	if proceed != "y" {
-		fmt.Println(aurora.Blue("cancelled"))
+		fmt.Println(colorizer.Blue("cancelled"))
 		return false
 	}
 	return true
@@ -68,6 +75,6 @@ func FillInConfigurationList(directory string) error {
 
 // Quit will exit from the CLI client
 func Quit() {
-	fmt.Println(aurora.Magenta("Quitting"))
+	fmt.Println(colorizer.Magenta("Quitting"))
 	os.Exit(0)
 }

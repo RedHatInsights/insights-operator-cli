@@ -18,6 +18,8 @@ limitations under the License.
 package main
 
 import (
+	"bufio"
+	"flag"
 	"fmt"
 	"github.com/c-bata/go-prompt"
 	"github.com/logrusorgru/aurora"
@@ -25,6 +27,7 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/ssh/terminal"
+	"os"
 	"strings"
 )
 
@@ -38,12 +41,15 @@ var username string
 var password string
 var api restapi.Api
 
+var useCompleter *bool
+var colorizer aurora.Aurora
+
 func tryToLogin(username string, password string) {
-	fmt.Println(aurora.Blue("\nDone"))
+	fmt.Println(colorizer.Blue("\nDone"))
 }
 
 func printVersion() {
-	fmt.Println(aurora.Blue("Insights operator CLI client "), "version", aurora.Yellow(BuildVersion), "compiled", aurora.Yellow(BuildTime))
+	fmt.Println(colorizer.Blue("Insights operator CLI client "), "version", colorizer.Yellow(BuildVersion), "compiled", colorizer.Yellow(BuildTime))
 }
 
 func login() {
@@ -51,7 +57,7 @@ func login() {
 	fmt.Print("password: ")
 	p, err := terminal.ReadPassword(0)
 	if err != nil {
-		fmt.Println(aurora.Red("Password is not set"))
+		fmt.Println(colorizer.Red("Password is not set"))
 	} else {
 		password = string(p)
 		tryToLogin(username, password)
@@ -300,6 +306,14 @@ func completer(in prompt.Document) []prompt.Suggest {
 	return prompt.FilterHasPrefix(firstWord, blocks[0], true)
 }
 
+func init() {
+	var colors = flag.Bool("colors", true, "enable or disable colors")
+	useCompleter = flag.Bool("completer", true, "enable or disable command line completer")
+	flag.Parse()
+	colorizer = aurora.NewAurora(*colors)
+	commands.SetColorizer(colorizer)
+}
+
 func main() {
 	// read configuration first
 	viper.SetConfigName("config")
@@ -311,8 +325,18 @@ func main() {
 	}
 
 	controllerURL := viper.GetString("CONTROLLER_URL")
-	p := prompt.New(executor, completer)
 	api = restapi.NewRestApi(controllerURL)
 
-	p.Run()
+	if *useCompleter {
+		p := prompt.New(executor, completer)
+		p.Run()
+	} else {
+		scanner := bufio.NewScanner(os.Stdin)
+		fmt.Print("> ")
+		for scanner.Scan() {
+			line := scanner.Text()
+			executor(line)
+			fmt.Print("> ")
+		}
+	}
 }
