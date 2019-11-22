@@ -25,7 +25,6 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/ssh/terminal"
-	"os"
 	"strings"
 )
 
@@ -47,78 +46,101 @@ func printVersion() {
 	fmt.Println(aurora.Blue("Insights operator CLI client "), "version", aurora.Yellow(BuildVersion), "compiled", aurora.Yellow(BuildTime))
 }
 
+func login() {
+	username = prompt.Input("login: ", commands.LoginCompleter)
+	fmt.Print("password: ")
+	p, err := terminal.ReadPassword(0)
+	if err != nil {
+		fmt.Println(aurora.Red("Password is not set"))
+	} else {
+		password = string(p)
+		tryToLogin(username, password)
+	}
+}
+
+type commandWithParam struct {
+	prefix  string
+	handler func(restapi.Api, string)
+}
+
+var commandsWithParam = []commandWithParam{
+	{"describe profile ", commands.DescribeProfile},
+	{"describe configuration ", commands.DescribeConfiguration},
+	{"describe trigger ", commands.DescribeTrigger},
+	{"enable configuration ", commands.EnableClusterConfiguration},
+	{"disable configuration ", commands.DisableClusterConfiguration},
+	{"list configurations ", commands.ListOfConfigurations},
+	{"delete cluster ", commands.DeleteCluster},
+	{"delete configuration ", commands.DeleteClusterConfiguration},
+	{"delete trigger ", commands.DeleteTrigger},
+	{"activate must-gather ", commands.ActivateTrigger},
+	{"activate trigger ", commands.ActivateTrigger},
+	{"deactivate must-gather ", commands.DeactivateTrigger},
+	{"deactivate trigger ", commands.DeactivateTrigger},
+}
+
 func executor(t string) {
 	blocks := strings.Split(t, " ")
-	// commands with variable parts
-	switch {
-	case strings.HasPrefix(t, "describe profile "):
-		commands.DescribeProfile(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "describe configuration "):
-		commands.DescribeConfiguration(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "describe trigger "):
-		commands.DescribeTrigger(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "enable configuration "):
-		commands.EnableClusterConfiguration(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "disable configuration "):
-		commands.DisableClusterConfiguration(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "list configurations "):
-		commands.ListOfConfigurations(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "delete cluster "):
-		commands.DeleteCluster(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "delete configuration "):
-		commands.DeleteClusterConfiguration(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "delete profile "):
-		commands.DeleteConfigurationProfile(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "delete trigger "):
-		commands.DeleteTrigger(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "activate must gather "):
-		fallthrough
-	case strings.HasPrefix(t, "activate trigger "):
-		commands.ActivateTrigger(api, blocks[2])
-		return
-	case strings.HasPrefix(t, "deactivate must gather "):
-		fallthrough
-	case strings.HasPrefix(t, "deactivate trigger "):
-		commands.DeactivateTrigger(api, blocks[2])
-		return
-	}
 
-	// fixed commands
-	switch t {
-	case "login":
-		username = prompt.Input("login: ", commands.LoginCompleter)
-		fmt.Print("password: ")
-		p, err := terminal.ReadPassword(0)
-		if err != nil {
-			fmt.Println(aurora.Red("Password is not set"))
-		} else {
-			password = string(p)
-			tryToLogin(username, password)
+	// commands with variable parts
+	for _, command := range commandsWithParam {
+		if strings.HasPrefix(t, command.prefix) {
+			command.handler(api, blocks[2])
+			return
 		}
-	case "list must-gather":
-		fallthrough
-	case "list triggers":
-		commands.ListOfTriggers(api)
-	case "list clusters":
-		commands.ListOfClusters(api)
-	case "list profiles":
-		commands.ListOfProfiles(api)
+	}
+	// no match? try commands without variable parts
+	execute_fixed_command(t)
+}
+
+type simpleCommand struct {
+	prefix  string
+	handler func()
+}
+
+var simpleCommands = []simpleCommand{
+	{"login", login},
+	{"bye", commands.Quit},
+	{"exit", commands.Quit},
+	{"quit", commands.Quit},
+	{"?", commands.PrintHelp},
+	{"help", commands.PrintHelp},
+	{"version", printVersion},
+}
+
+type commandWithApiParam struct {
+	prefix  string
+	handler func(restapi.Api)
+}
+
+var commandsWithApiParam = []commandWithApiParam{
+	{"list must-gather", commands.ListOfTriggers},
+	{"list triggers", commands.ListOfTriggers},
+	{"list clusters", commands.ListOfClusters},
+	{"list profiles", commands.ListOfProfiles},
+	{"new cluster", commands.AddCluster},
+}
+
+func execute_fixed_command(t string) {
+	// simple commands without parameters
+	for _, command := range simpleCommands {
+		if strings.HasPrefix(t, command.prefix) {
+			command.handler()
+			return
+		}
+	}
+	// fixed commands with API as param
+	for _, command := range commandsWithApiParam {
+		if strings.HasPrefix(t, command.prefix) {
+			command.handler(api)
+			return
+		}
+	}
+	switch t {
 	case "list configurations":
 		commands.ListOfConfigurations(api, "")
 	case "add cluster":
 		fallthrough
-	case "new cluster":
-		commands.AddCluster(api)
 	case "add profile":
 		fallthrough
 	case "new profile":
@@ -172,19 +194,6 @@ func executor(t string) {
 	case "deactivate trigger":
 		trigger := prompt.Input("trigger: ", commands.LoginCompleter)
 		commands.DeactivateTrigger(api, trigger)
-	case "bye":
-		fallthrough
-	case "exit":
-		fallthrough
-	case "quit":
-		fmt.Println(aurora.Magenta("Quitting"))
-		os.Exit(0)
-	case "?":
-		fallthrough
-	case "help":
-		commands.PrintHelp()
-	case "version":
-		printVersion()
 	default:
 		fmt.Println("Command not found")
 	}
@@ -237,6 +246,14 @@ func completer(in prompt.Document) []prompt.Suggest {
 	// request operations
 	secondWord["request"] = []prompt.Suggest{
 		{Text: "must-gather", Description: "request must-gather"},
+	}
+	// enable operations
+	secondWord["enable"] = []prompt.Suggest{
+		{Text: "configuration", Description: "enable cluster configuration"},
+	}
+	// disable operations
+	secondWord["disable"] = []prompt.Suggest{
+		{Text: "configuration", Description: "disable cluster configuration"},
 	}
 	// delete operations
 	secondWord["delete"] = []prompt.Suggest{

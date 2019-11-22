@@ -65,3 +65,9 @@ func FillInConfigurationList(directory string) error {
 	}
 	return nil
 }
+
+// Quit will exit from the CLI client
+func Quit() {
+	fmt.Println(aurora.Magenta("Quitting"))
+	os.Exit(0)
+}
