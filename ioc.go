@@ -25,7 +25,6 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/ssh/terminal"
-	"os"
 	"strings"
 )
 
@@ -94,25 +93,54 @@ func executor(t string) {
 	execute_fixed_command(t)
 }
 
-func execute_fixed_command(command string) {
-	// fixed commands
-	switch command {
-	case "login":
-		login()
-	case "list must-gather":
-		fallthrough
-	case "list triggers":
-		commands.ListOfTriggers(api)
-	case "list clusters":
-		commands.ListOfClusters(api)
-	case "list profiles":
-		commands.ListOfProfiles(api)
+type simpleCommand struct {
+	prefix  string
+	handler func()
+}
+
+var simpleCommands = []simpleCommand{
+	{"login", login},
+	{"bye", commands.Quit},
+	{"exit", commands.Quit},
+	{"quit", commands.Quit},
+	{"?", commands.PrintHelp},
+	{"help", commands.PrintHelp},
+	{"version", printVersion},
+}
+
+type commandWithApiParam struct {
+	prefix  string
+	handler func(restapi.Api)
+}
+
+var commandsWithApiParam = []commandWithApiParam{
+	{"list must-gather", commands.ListOfTriggers},
+	{"list triggers", commands.ListOfTriggers},
+	{"list clusters", commands.ListOfClusters},
+	{"list profiles", commands.ListOfProfiles},
+	{"new cluster", commands.AddCluster},
+}
+
+func execute_fixed_command(t string) {
+	// simple commands without parameters
+	for _, command := range simpleCommands {
+		if strings.HasPrefix(t, command.prefix) {
+			command.handler()
+			return
+		}
+	}
+	// fixed commands with API as param
+	for _, command := range commandsWithApiParam {
+		if strings.HasPrefix(t, command.prefix) {
+			command.handler(api)
+			return
+		}
+	}
+	switch t {
 	case "list configurations":
 		commands.ListOfConfigurations(api, "")
 	case "add cluster":
 		fallthrough
-	case "new cluster":
-		commands.AddCluster(api)
 	case "add profile":
 		fallthrough
 	case "new profile":
@@ -166,19 +194,6 @@ func execute_fixed_command(command string) {
 	case "deactivate trigger":
 		trigger := prompt.Input("trigger: ", commands.LoginCompleter)
 		commands.DeactivateTrigger(api, trigger)
-	case "bye":
-		fallthrough
-	case "exit":
-		fallthrough
-	case "quit":
-		fmt.Println(aurora.Magenta("Quitting"))
-		os.Exit(0)
-	case "?":
-		fallthrough
-	case "help":
-		commands.PrintHelp()
-	case "version":
-		printVersion()
 	default:
 		fmt.Println("Command not found")
 	}
