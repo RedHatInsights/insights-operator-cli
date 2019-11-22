@@ -90,7 +90,7 @@ func executor(t string) {
 		}
 	}
 	// no match? try commands without variable parts
-	execute_fixed_command(t)
+	executeFixedCommand(t)
 }
 
 type simpleCommand struct {
@@ -121,7 +121,7 @@ var commandsWithApiParam = []commandWithApiParam{
 	{"new cluster", commands.AddCluster},
 }
 
-func execute_fixed_command(t string) {
+func executeFixedCommand(t string) {
 	// simple commands without parameters
 	for _, command := range simpleCommands {
 		if strings.HasPrefix(t, command.prefix) {
