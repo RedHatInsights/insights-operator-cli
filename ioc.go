@@ -41,7 +41,6 @@ var username string
 var password string
 var api restapi.Api
 
-var useCompleter *bool
 var colorizer aurora.Aurora
 
 func tryToLogin(username string, password string) {
@@ -306,14 +305,6 @@ func completer(in prompt.Document) []prompt.Suggest {
 	return prompt.FilterHasPrefix(firstWord, blocks[0], true)
 }
 
-func init() {
-	var colors = flag.Bool("colors", true, "enable or disable colors")
-	useCompleter = flag.Bool("completer", true, "enable or disable command line completer")
-	flag.Parse()
-	colorizer = aurora.NewAurora(*colors)
-	commands.SetColorizer(colorizer)
-}
-
 func main() {
 	// read configuration first
 	viper.SetConfigName("config")
@@ -323,6 +314,14 @@ func main() {
 	if err != nil {
 		panic(fmt.Errorf("Fatal error config file: %s", err))
 	}
+
+	// parase command line arguments and flags
+	var colors = flag.Bool("colors", true, "enable or disable colors")
+	var useCompleter = flag.Bool("completer", true, "enable or disable command line completer")
+	flag.Parse()
+
+	colorizer = aurora.NewAurora(*colors)
+	commands.SetColorizer(colorizer)
 
 	controllerURL := viper.GetString("CONTROLLER_URL")
 	api = restapi.NewRestApi(controllerURL)
