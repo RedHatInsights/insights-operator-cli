@@ -8,7 +8,7 @@ else
     exit 1
 fi
 
-go build -o functional-tests tests/functional_tests.go
+go test -c -o ./functional-tests tests/functional_test.go
 
 if [ $? -eq 0 ]
 then
@@ -18,6 +18,6 @@ else
     exit 1
 fi
 
-./functional-tests
+./functional-tests -test.v
 EXIT_VALUE=$?
 exit $EXIT_VALUE
