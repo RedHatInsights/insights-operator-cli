@@ -17,89 +17,67 @@ limitations under the License.
 package main
 
 import (
-	"log"
-	"os"
-	"os/exec"
+	"testing"
 	"time"
 
-	expect "github.com/Netflix/go-expect"
+	"github.com/ThomasRooney/gexpect"
 )
 
-// get the console for already running application
-func getConsole() *expect.Console {
-	console, err := expect.NewConsole(expect.WithStdout(os.Stdout))
+// startCLI starts CLI application w/o color output and w/o command-line completer.
+func startCLI(t *testing.T) *gexpect.ExpectSubprocess {
+	child, err := gexpect.Spawn("./insights-operator-cli --colors=false --completer=false")
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
-	return console
+	t.Log("CLI client has been started")
+	return child
 }
 
-// start CLI application w/o color output and w/o command-line completer
-func startCLI(console *expect.Console) *exec.Cmd {
-	command := exec.Command("./insights-operator-cli", "--colors=false", "--completer=false")
-	command.Stdin = console.Tty()
-	command.Stdout = console.Tty()
-	command.Stderr = console.Tty()
-
-	err := command.Start()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return command
-}
-
-// pause test for a given amount of time
+// pause just pauses test for a given amount of time to wait for tested application.
 func pause() {
 	time.Sleep(time.Second)
 }
 
-// check whether the 'quit' command works as expected
-func checkQuitCommand() {
-	console := getConsole()
-	defer console.Close()
-
-	command := startCLI(console)
-	pause()
-	console.Send("quit\n")
-	pause()
-
-	go func() {
-		console.ExpectEOF()
-	}()
-
-	err := command.Wait()
+// expectOutput expects the specified output from the tested CLI client.
+func expectOutput(t *testing.T, child *gexpect.ExpectSubprocess, output string) {
+	err := child.ExpectTimeout(output, 2*time.Second)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
+	t.Log("Expected output '" + output + "' has been found")
 }
 
-// check whether the 'version' command works as expected
-func checkVersionCommand() {
-	console := getConsole()
-	defer console.Close()
-
-	command := startCLI(console)
-	pause()
-	console.Send("version\n")
-	pause()
-	console.ExpectString("Insights operator CLI client")
-	console.ExpectString("version")
-	console.ExpectString("compiled")
-	console.Send("quit\n")
-	pause()
-
-	go func() {
-		console.ExpectEOF()
-	}()
-
-	err := command.Wait()
-	if err != nil {
-		log.Fatal(err)
-	}
+// expectPrompt expects the prompt from the tested CLI client.
+func expectPrompt(t *testing.T, child *gexpect.ExpectSubprocess) {
+	expectOutput(t, child, "> ")
 }
 
-func main() {
-	checkQuitCommand()
-	checkVersionCommand()
+// sendCommand sends command to the tested CLI client.
+func sendCommand(t *testing.T, child *gexpect.ExpectSubprocess, command string) {
+	err := child.SendLine(command)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log("Command '" + command + "' has been sent to CLI client")
+}
+
+// TestCheckQuitCommand check whether the client can be started and stopped using the 'quit' command.
+func TestCheckQuitCommand(t *testing.T) {
+	child := startCLI(t)
+	expectPrompt(t, child)
+	sendCommand(t, child, "quit")
+	child.Wait()
+}
+
+// TestCheckVersionCommand check the 'version' command.
+func TestCheckVersionCommand(t *testing.T) {
+	child := startCLI(t)
+	expectPrompt(t, child)
+	sendCommand(t, child, "version")
+	expectOutput(t, child, "Insights operator CLI client")
+	expectOutput(t, child, "version")
+	expectOutput(t, child, "compiled")
+	expectPrompt(t, child)
+	sendCommand(t, child, "quit")
+	child.Wait()
 }
