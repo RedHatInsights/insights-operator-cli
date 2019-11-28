@@ -23,7 +23,7 @@ import (
 )
 
 // ListOfClusters displays list of clusters gathered via REST API call to the controller service
-func ListOfClusters(api restapi.Api) {
+func ListOfClusters(api restapi.API) {
 	clusters, err := api.ReadListOfClusters()
 	if err != nil {
 		fmt.Println(colorizer.Red("Error reading list of clusters"))
@@ -39,7 +39,7 @@ func ListOfClusters(api restapi.Api) {
 }
 
 // DeleteCluster deletes all info about selected cluster from database
-func DeleteCluster(api restapi.Api, clusterID string) {
+func DeleteCluster(api restapi.API, clusterID string) {
 	if !ProceedQuestion("All cluster configurations will be deleted") {
 		return
 	}
@@ -56,7 +56,7 @@ func DeleteCluster(api restapi.Api, clusterID string) {
 }
 
 // AddCluster inserts new cluster info into the database
-func AddCluster(api restapi.Api) {
+func AddCluster(api restapi.API) {
 	id := prompt.Input("ID: ", LoginCompleter)
 	if id == "" {
 		fmt.Println(colorizer.Red("Cancelled"))

@@ -20,32 +20,32 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli/types"
 )
 
-// Api represents API to the controller service. Normally it is implemented via REST API, but other methods can be used as well.
-type Api interface {
+// API represents API to the controller service. Normally it is implemented via REST API, but other methods can be used as well.
+type API interface {
 	// cluster related commands
 	ReadListOfClusters() ([]types.Cluster, error)
 	AddCluster(id string, name string) error
-	DeleteCluster(clusterId string) error
+	DeleteCluster(clusterID string) error
 
 	// configuration profiles related commands
 	ReadListOfConfigurationProfiles() ([]types.ConfigurationProfile, error)
-	ReadConfigurationProfile(profileId string) (*types.ConfigurationProfile, error)
+	ReadConfigurationProfile(profileID string) (*types.ConfigurationProfile, error)
 	AddConfigurationProfile(username string, description string, configuration []byte) error
-	DeleteConfigurationProfile(profileId string) error
+	DeleteConfigurationProfile(profileID string) error
 
 	// configuration related commands
 	ReadListOfConfigurations() ([]types.ClusterConfiguration, error)
-	ReadClusterConfigurationById(configurationId string) (*string, error)
+	ReadClusterConfigurationByID(configurationID string) (*string, error)
 	AddClusterConfiguration(username string, cluster string, reason string, description string, configuration []byte) error
-	EnableClusterConfiguration(configurationId string) error
-	DisableClusterConfiguration(configurationId string) error
-	DeleteClusterConfiguration(configurationId string) error
+	EnableClusterConfiguration(configurationID string) error
+	DisableClusterConfiguration(configurationID string) error
+	DeleteClusterConfiguration(configurationID string) error
 
 	// trigger related commands
 	ReadListOfTriggers() ([]types.Trigger, error)
-	ReadTriggerById(triggerId string) (*types.Trigger, error)
+	ReadTriggerByID(triggerID string) (*types.Trigger, error)
 	AddTrigger(username string, clusterName string, reason string, link string) error
-	DeleteTrigger(triggerId string) error
-	ActivateTrigger(triggerId string) error
-	DeactivateTrigger(triggerId string) error
+	DeleteTrigger(triggerID string) error
+	ActivateTrigger(triggerID string) error
+	DeactivateTrigger(triggerID string) error
 }
