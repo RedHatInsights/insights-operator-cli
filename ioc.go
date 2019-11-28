@@ -39,7 +39,7 @@ var BuildTime string = "*not set*"
 
 var username string
 var password string
-var api restapi.Api
+var api restapi.API
 
 var colorizer aurora.Aurora
 
@@ -65,7 +65,7 @@ func login() {
 
 type commandWithParam struct {
 	prefix  string
-	handler func(restapi.Api, string)
+	handler func(restapi.API, string)
 }
 
 var commandsWithParam = []commandWithParam{
@@ -115,7 +115,7 @@ var simpleCommands = []simpleCommand{
 
 type commandWithAPIParam struct {
 	prefix  string
-	handler func(restapi.Api)
+	handler func(restapi.API)
 }
 
 var commandsWithAPIParam = []commandWithAPIParam{
@@ -325,7 +325,7 @@ func main() {
 	commands.SetColorizer(colorizer)
 
 	controllerURL := viper.GetString("CONTROLLER_URL")
-	api = restapi.NewRestApi(controllerURL)
+	api = restapi.NewRestAPI(controllerURL)
 
 	if *useCompleter {
 		p := prompt.New(executor, completer)

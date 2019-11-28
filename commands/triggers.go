@@ -24,7 +24,7 @@ import (
 )
 
 // ListOfTriggers displays list of triggers (including must-gather one) gathered via REST API call to controller service
-func ListOfTriggers(api restapi.Api) {
+func ListOfTriggers(api restapi.API) {
 	// TODO: filter in query?
 	triggers, err := api.ReadListOfTriggers()
 	if err != nil {
@@ -49,8 +49,8 @@ func ListOfTriggers(api restapi.Api) {
 }
 
 // DescribeTrigger displays additional information about selected trigger
-func DescribeTrigger(api restapi.Api, triggerID string) {
-	trigger, err := api.ReadTriggerById(triggerID)
+func DescribeTrigger(api restapi.API, triggerID string) {
+	trigger, err := api.ReadTriggerByID(triggerID)
 	if err != nil {
 		fmt.Println(colorizer.Red("Error reading selected trigger"))
 		fmt.Println(err)
@@ -85,7 +85,7 @@ func DescribeTrigger(api restapi.Api, triggerID string) {
 }
 
 // AddTrigger adds new trigger for a cluster
-func AddTrigger(api restapi.Api, username string) {
+func AddTrigger(api restapi.API, username string) {
 	if username == "" {
 		fmt.Println(colorizer.Red("Not logged in"))
 		return
@@ -107,7 +107,7 @@ func AddTrigger(api restapi.Api, username string) {
 }
 
 // DeleteTrigger deletes specified trigger
-func DeleteTrigger(api restapi.Api, triggerID string) {
+func DeleteTrigger(api restapi.API, triggerID string) {
 	err := api.DeleteTrigger(triggerID)
 	if err != nil {
 		fmt.Println(colorizer.Red("Error communicating with the service"))
@@ -120,7 +120,7 @@ func DeleteTrigger(api restapi.Api, triggerID string) {
 }
 
 // ActivateTrigger activates specified trigger
-func ActivateTrigger(api restapi.Api, triggerID string) {
+func ActivateTrigger(api restapi.API, triggerID string) {
 	err := api.ActivateTrigger(triggerID)
 	if err != nil {
 		fmt.Println(colorizer.Red("Error communicating with the service"))
@@ -133,7 +133,7 @@ func ActivateTrigger(api restapi.Api, triggerID string) {
 }
 
 // DeactivateTrigger deactivates specified trigger
-func DeactivateTrigger(api restapi.Api, triggerID string) {
+func DeactivateTrigger(api restapi.API, triggerID string) {
 	err := api.DeactivateTrigger(triggerID)
 	if err != nil {
 		fmt.Println(colorizer.Red("Error communicating with the service"))

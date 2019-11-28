@@ -24,7 +24,7 @@ import (
 )
 
 // ListOfProfiles displays list of configuration profiles gathered via REST API call to controller service
-func ListOfProfiles(api restapi.Api) {
+func ListOfProfiles(api restapi.API) {
 	profiles, err := api.ReadListOfConfigurationProfiles()
 	if err != nil {
 		fmt.Println(colorizer.Red("Error reading list of configuration profiles"))
@@ -41,7 +41,7 @@ func ListOfProfiles(api restapi.Api) {
 }
 
 // DescribeProfile displays additional information about selected profile
-func DescribeProfile(api restapi.Api, profileID string) {
+func DescribeProfile(api restapi.API, profileID string) {
 	profile, err := api.ReadConfigurationProfile(profileID)
 	if err != nil {
 		fmt.Println(colorizer.Red("Error reading configuration profile"))
@@ -54,7 +54,7 @@ func DescribeProfile(api restapi.Api, profileID string) {
 }
 
 // DeleteConfigurationProfile deletes the profile selected by its ID
-func DeleteConfigurationProfile(api restapi.Api, profileID string) {
+func DeleteConfigurationProfile(api restapi.API, profileID string) {
 	if !ProceedQuestion("All configurations based on this profile will be deleted") {
 		return
 	}
@@ -71,7 +71,7 @@ func DeleteConfigurationProfile(api restapi.Api, profileID string) {
 }
 
 // AddConfigurationProfile adds the profile to database
-func AddConfigurationProfile(api restapi.Api, username string) {
+func AddConfigurationProfile(api restapi.API, username string) {
 	if username == "" {
 		fmt.Println(colorizer.Red("Not logged in"))
 		return

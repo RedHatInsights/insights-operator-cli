@@ -20,8 +20,8 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli/types"
 )
 
-// Api represents API to the controller service. Normally it is implemented via REST API, but other methods can be used as well.
-type Api interface {
+// API represents API to the controller service. Normally it is implemented via REST API, but other methods can be used as well.
+type API interface {
 	// cluster related commands
 	ReadListOfClusters() ([]types.Cluster, error)
 	AddCluster(id string, name string) error
@@ -35,7 +35,7 @@ type Api interface {
 
 	// configuration related commands
 	ReadListOfConfigurations() ([]types.ClusterConfiguration, error)
-	ReadClusterConfigurationById(configurationID string) (*string, error)
+	ReadClusterConfigurationByID(configurationID string) (*string, error)
 	AddClusterConfiguration(username string, cluster string, reason string, description string, configuration []byte) error
 	EnableClusterConfiguration(configurationID string) error
 	DisableClusterConfiguration(configurationID string) error
@@ -43,7 +43,7 @@ type Api interface {
 
 	// trigger related commands
 	ReadListOfTriggers() ([]types.Trigger, error)
-	ReadTriggerById(triggerID string) (*types.Trigger, error)
+	ReadTriggerByID(triggerID string) (*types.Trigger, error)
 	AddTrigger(username string, clusterName string, reason string, link string) error
 	DeleteTrigger(triggerID string) error
 	ActivateTrigger(triggerID string) error
