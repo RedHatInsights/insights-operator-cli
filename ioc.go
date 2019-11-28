@@ -123,6 +123,7 @@ var commandsWithApiParam = []commandWithApiParam{
 	{"list triggers", commands.ListOfTriggers},
 	{"list clusters", commands.ListOfClusters},
 	{"list profiles", commands.ListOfProfiles},
+	{"add cluster", commands.AddCluster},
 	{"new cluster", commands.AddCluster},
 }
 
@@ -145,7 +146,7 @@ func executeFixedCommand(t string) {
 	case "list configurations":
 		commands.ListOfConfigurations(api, "")
 	case "add cluster":
-		fallthrough
+		commands.AddCluster(api)
 	case "add profile":
 		fallthrough
 	case "new profile":

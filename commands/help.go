@@ -33,6 +33,7 @@ func PrintHelp() {
 	fmt.Println(colorizer.Blue("Configuration profiles:    "))
 	fmt.Println(colorizer.Yellow("list profiles            "), "list all profiles known to the service")
 	fmt.Println(colorizer.Yellow("describe profile ##      "), "describe profile selected by its ID")
+	fmt.Println(colorizer.Yellow("add profile              "), "create new configuration profile")
 	fmt.Println(colorizer.Yellow("delete profile ##        "), "delete profile selected by its ID")
 	fmt.Println()
 	fmt.Println(colorizer.Blue("Cluster configurations:    "))
