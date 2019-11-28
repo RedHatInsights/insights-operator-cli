@@ -113,12 +113,12 @@ var simpleCommands = []simpleCommand{
 	{"version", printVersion},
 }
 
-type commandWithApiParam struct {
+type commandWithAPIParam struct {
 	prefix  string
 	handler func(restapi.Api)
 }
 
-var commandsWithApiParam = []commandWithApiParam{
+var commandsWithAPIParam = []commandWithAPIParam{
 	{"list must-gather", commands.ListOfTriggers},
 	{"list triggers", commands.ListOfTriggers},
 	{"list clusters", commands.ListOfClusters},
@@ -136,7 +136,7 @@ func executeFixedCommand(t string) {
 		}
 	}
 	// fixed commands with API as param
-	for _, command := range commandsWithApiParam {
+	for _, command := range commandsWithAPIParam {
 		if strings.HasPrefix(t, command.prefix) {
 			command.handler(api)
 			return
