@@ -1,9 +1,19 @@
 language: go
 go:
 - 1.13
-before_install:
-  - go build
-script:
-  - go test $(go list ./... | grep -v tests)
-after_success:
-  - echo "Tests passed"
+
+jobs:
+  include:
+    - before_install: go build
+      script:
+        - go test $(go list ./... | grep -v tests)
+    - stage: style
+      script:
+        - ./.travis.gofmt.sh
+        - ./.travis.govet.sh
+        - ./.travis.golint.sh
+        - ./.travis.gocyclo.sh
+
+stages:
+  - style
+  - test
