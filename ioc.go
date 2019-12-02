@@ -224,6 +224,7 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "deactivate", Description: "deactivate resource (trigger)"},
 		{Text: "version", Description: "prints the build information for CLI executable"},
 		{Text: "copyright", Description: "displays copyright notice"},
+		{Text: "license", Description: "displays license used by this project"},
 	}
 
 	secondWord := make(map[string][]prompt.Suggest)
