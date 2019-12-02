@@ -45,6 +45,7 @@ A simple CLI client for managing the Insights operator. Currently this client su
 * **help**                      this help
 * **copyright**                 displays copyright notice
 * **license**                   displays license used by this project
+* **authors**                   displays list of authors
 
 
 ## How to build the CLI client
