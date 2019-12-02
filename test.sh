@@ -1,2 +1,7 @@
-go test $(go list ./... | grep -v tests) $@
-exit $?
+go test -coverprofile coverage.out $(go list ./... | grep -v tests) $@
+exit_code=$?
+
+echo "Test coverage:"
+go tool cover -func=coverage.out
+
+exit $exit_code
