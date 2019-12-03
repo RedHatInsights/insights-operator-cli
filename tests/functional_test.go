@@ -17,6 +17,8 @@ limitations under the License.
 package main
 
 import (
+	"os"
+	"strings"
 	"testing"
 	"time"
 
@@ -25,6 +27,25 @@ import (
 
 // startCLI starts CLI application w/o color output and w/o command-line completer.
 func startCLI(t *testing.T) *gexpect.ExpectSubprocess {
+	dir, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for !strings.HasSuffix(dir, "ccx/insights-operator-cli") { // make sure it's executed from the correct path
+		err := os.Chdir("../")
+		if err != nil {
+			panic(err)
+		}
+		newDir, err := os.Getwd()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if strings.HasSuffix(newDir, "ccx/insights-operator-cli") {
+			break
+		}
+	}
+
 	child, err := gexpect.Spawn("./insights-operator-cli --colors=false --completer=false")
 	if err != nil {
 		t.Fatal(err)
