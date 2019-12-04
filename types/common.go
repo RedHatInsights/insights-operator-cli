@@ -16,19 +16,8 @@ limitations under the License.
 
 package types
 
-// Cluster represents cluster record in the controller service.
-//     ID: unique key
-//     Name: cluster GUID in the following format:
-//         c8590f31-e97e-4b85-b506-c45ce1911a12
-type Cluster struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
-}
-
-// ClustersResponse represents response of controller service to cluster request.
+// Response represents default response of controller service to different POST PUT requests.
 //     Status: status of response
-//     Clusters: list of clusters
-type ClustersResponse struct {
-	Status   string    `json:"status"`
-	Clusters []Cluster `json:"clusters"`
+type Response struct {
+	Status string `json:"status"`
 }

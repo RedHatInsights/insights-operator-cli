@@ -19,6 +19,7 @@ package restapi
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"github.com/redhatinsighs/insights-operator-cli/types"
 	"net/url"
 )
@@ -37,7 +38,7 @@ func NewRestAPI(controllerURL string) RestAPI {
 
 // ReadListOfClusters reads list of clusters via the REST API
 func (api RestAPI) ReadListOfClusters() ([]types.Cluster, error) {
-	clusters := []types.Cluster{}
+	clusters := types.ClustersResponse{}
 
 	url := api.controllerURL + APIPrefix + "client/cluster"
 	body, err := performReadRequest(url)
@@ -49,12 +50,15 @@ func (api RestAPI) ReadListOfClusters() ([]types.Cluster, error) {
 	if err != nil {
 		return nil, err
 	}
-	return clusters, nil
+	if clusters.Status != "ok" {
+		return nil, fmt.Errorf(clusters.Status)
+	}
+	return clusters.Clusters, nil
 }
 
 // ReadListOfTriggers reads list of triggers via the REST API
 func (api RestAPI) ReadListOfTriggers() ([]types.Trigger, error) {
-	var triggers []types.Trigger
+	triggers := types.TriggersResponse{}
 	url := api.controllerURL + APIPrefix + "client/trigger"
 	body, err := performReadRequest(url)
 	if err != nil {
@@ -65,12 +69,15 @@ func (api RestAPI) ReadListOfTriggers() ([]types.Trigger, error) {
 	if err != nil {
 		return nil, err
 	}
-	return triggers, nil
+	if triggers.Status != "ok" {
+		return nil, fmt.Errorf(triggers.Status)
+	}
+	return triggers.Triggers, nil
 }
 
 // ReadTriggerByID reads trigger identified by its ID via the REST API
 func (api RestAPI) ReadTriggerByID(triggerID string) (*types.Trigger, error) {
-	var trigger types.Trigger
+	trigger := types.TriggerResponse{}
 	url := api.controllerURL + APIPrefix + "client/trigger/" + triggerID
 	body, err := performReadRequest(url)
 	if err != nil {
@@ -81,12 +88,15 @@ func (api RestAPI) ReadTriggerByID(triggerID string) (*types.Trigger, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &trigger, nil
+	if trigger.Status != "ok" {
+		return nil, fmt.Errorf(trigger.Status)
+	}
+	return &trigger.Trigger, nil
 }
 
 // ReadListOfConfigurationProfiles reads list of configuration profiles via the REST API
 func (api RestAPI) ReadListOfConfigurationProfiles() ([]types.ConfigurationProfile, error) {
-	profiles := []types.ConfigurationProfile{}
+	profiles := types.ConfigurationProfilesResponse{}
 
 	url := api.controllerURL + APIPrefix + "client/profile"
 	body, err := performReadRequest(url)
@@ -98,12 +108,15 @@ func (api RestAPI) ReadListOfConfigurationProfiles() ([]types.ConfigurationProfi
 	if err != nil {
 		return nil, err
 	}
-	return profiles, nil
+	if profiles.Status != "ok" {
+		return nil, fmt.Errorf(profiles.Status)
+	}
+	return profiles.Profiles, nil
 }
 
 // ReadListOfConfigurations reads list of configuration via the REST API
 func (api RestAPI) ReadListOfConfigurations() ([]types.ClusterConfiguration, error) {
-	configurations := []types.ClusterConfiguration{}
+	configurations := types.ClusterConfigurationsResponse{}
 
 	url := api.controllerURL + APIPrefix + "client/configuration"
 	body, err := performReadRequest(url)
@@ -115,12 +128,15 @@ func (api RestAPI) ReadListOfConfigurations() ([]types.ClusterConfiguration, err
 	if err != nil {
 		return nil, err
 	}
-	return configurations, nil
+	if configurations.Status != "ok" {
+		return nil, fmt.Errorf(configurations.Status)
+	}
+	return configurations.Configurations, nil
 }
 
 // ReadConfigurationProfile access the REST API endpoint to read selected configuration profile
 func (api RestAPI) ReadConfigurationProfile(profileID string) (*types.ConfigurationProfile, error) {
-	var profile types.ConfigurationProfile
+	profile := types.ConfigurationProfileResponse{}
 	url := api.controllerURL + APIPrefix + "client/profile/" + profileID
 	body, err := performReadRequest(url)
 	if err != nil {
@@ -131,19 +147,29 @@ func (api RestAPI) ReadConfigurationProfile(profileID string) (*types.Configurat
 	if err != nil {
 		return nil, err
 	}
-	return &profile, nil
+	if profile.Status != "ok" {
+		return nil, fmt.Errorf(profile.Status)
+	}
+	return &profile.Profile, nil
 }
 
 // ReadClusterConfigurationByID access the REST API endpoint to read cluster configuration for cluster defined by its ID
 func (api RestAPI) ReadClusterConfigurationByID(configurationID string) (*string, error) {
+	configuration := types.ConfigurationResponse{}
 	url := api.controllerURL + APIPrefix + "client/configuration/" + configurationID
 	body, err := performReadRequest(url)
 	if err != nil {
 		return nil, err
 	}
 
-	str := string(body)
-	return &str, nil
+	err = json.Unmarshal(body, &configuration)
+	if err != nil {
+		return nil, err
+	}
+	if configuration.Status != "ok" {
+		return nil, fmt.Errorf(configuration.Status)
+	}
+	return &configuration.Configuration, nil
 }
 
 // EnableClusterConfiguration access the REST API endpoint to enable existing cluster configuration

@@ -17,7 +17,9 @@ limitations under the License.
 package restapi
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/redhatinsighs/insights-operator-cli/types"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -55,6 +57,23 @@ func performWriteRequest(url string, method string, payload io.Reader) error {
 	}
 	if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusCreated && response.StatusCode != http.StatusAccepted {
 		return fmt.Errorf("Expected HTTP status 200 OK, 201 Created or 202 Accepted, got %d", response.StatusCode)
+	}
+	body, readErr := ioutil.ReadAll(response.Body)
+	defer response.Body.Close()
+	if readErr != nil {
+		return fmt.Errorf("Unable to read response body")
+	}
+	return parseResponse(body)
+}
+
+func parseResponse(body []byte) error {
+	resp := types.Response{}
+	err := json.Unmarshal(body, &resp)
+	if err != nil {
+		return err
+	}
+	if resp.Status != "ok" {
+		return fmt.Errorf("Error response: %s", resp.Status)
 	}
 	return nil
 }

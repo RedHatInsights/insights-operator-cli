@@ -33,3 +33,11 @@ type ClusterConfiguration struct {
 	Active        string `json:"active"`
 	Reason        string `json:"reason"`
 }
+
+// ClusterConfigurationsResponse represents response of controller service to cluster configuration request.
+//     Status: status of response
+//     Configurations: list of configurations
+type ClusterConfigurationsResponse struct {
+	Status         string                 `json:"status"`
+	Configurations []ClusterConfiguration `json:"configuration"`
+}

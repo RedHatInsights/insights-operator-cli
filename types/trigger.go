@@ -39,3 +39,19 @@ type Trigger struct {
 	Parameters  string `json:"parameters"`
 	Active      int    `json:"active"`
 }
+
+// TriggersResponse represents response of controller service to triggers request.
+//     Status: status of response
+//     Triggers: list of triggers
+type TriggersResponse struct {
+	Status   string    `json:"status"`
+	Triggers []Trigger `json:"triggers"`
+}
+
+// TriggerResponse represents response of controller service to single trigger request.
+//     Status: status of response
+//     Trigger: single trigger
+type TriggerResponse struct {
+	Status  string  `json:"status"`
+	Trigger Trigger `json:"trigger"`
+}
