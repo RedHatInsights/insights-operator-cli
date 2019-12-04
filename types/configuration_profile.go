@@ -29,3 +29,19 @@ type ConfigurationProfile struct {
 	ChangedBy     string `json:"changed_by"`
 	Description   string `json:"description"`
 }
+
+// ConfigurationProfilesResponse represents response of controller service to configuration profiles request.
+//     Status: status of response
+//     Profiles: list of configuration profiles
+type ConfigurationProfilesResponse struct {
+	Status   string                 `json:"status"`
+	Profiles []ConfigurationProfile `json:"profiles"`
+}
+
+// ConfigurationProfileResponse represents response of controller service to single configuration profile request.
+//     Status: status of response
+//     Profile: single configuration profile
+type ConfigurationProfileResponse struct {
+	Status  string               `json:"status"`
+	Profile ConfigurationProfile `json:"profile"`
+}
