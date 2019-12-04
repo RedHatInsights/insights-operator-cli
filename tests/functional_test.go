@@ -54,11 +54,6 @@ func startCLI(t *testing.T) *gexpect.ExpectSubprocess {
 	return child
 }
 
-// pause just pauses test for a given amount of time to wait for tested application.
-func pause() {
-	time.Sleep(time.Second)
-}
-
 // expectOutput expects the specified output from the tested CLI client.
 func expectOutput(t *testing.T, child *gexpect.ExpectSubprocess, output string) {
 	err := child.ExpectTimeout(output, 2*time.Second)
