@@ -32,7 +32,7 @@ func startCLI(t *testing.T) *gexpect.ExpectSubprocess {
 		t.Fatal(err)
 	}
 
-	for !strings.HasSuffix(dir, "ccx/insights-operator-cli") { // make sure it's executed from the correct path
+	for !strings.HasSuffix(dir, "/insights-operator-cli") { // make sure it's executed from the correct path
 		err := os.Chdir("../")
 		if err != nil {
 			panic(err)
@@ -41,7 +41,7 @@ func startCLI(t *testing.T) *gexpect.ExpectSubprocess {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if strings.HasSuffix(newDir, "ccx/insights-operator-cli") {
+		if strings.HasSuffix(newDir, "/insights-operator-cli") {
 			break
 		}
 	}
