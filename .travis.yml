@@ -13,6 +13,12 @@ jobs:
         - ./.travis.govet.sh
         - ./.travis.golint.sh
         - ./.travis.gocyclo.sh
+    - stage: test
+      before_script:
+        - sh ./.travis.insightscontroller.sh
+      script:
+        - go build
+        - go test ./tests -v
 
 stages:
   - style
