@@ -51,7 +51,15 @@ func startCLI(t *testing.T) *gexpect.ExpectSubprocess {
 		t.Fatal(err)
 	}
 	t.Log("CLI client has been started")
+
+	expectPrompt(t, child)
 	return child
+}
+
+// quitCLI quits CLI
+func quitCLI(t *testing.T, child *gexpect.ExpectSubprocess) {
+	sendCommand(t, child, "quit")
+	child.Wait()
 }
 
 // expectOutput expects the specified output from the tested CLI client.
@@ -80,7 +88,6 @@ func sendCommand(t *testing.T, child *gexpect.ExpectSubprocess, command string) 
 // TestCheckQuitCommand check whether the client can be started and stopped using the 'quit' command.
 func TestCheckQuitCommand(t *testing.T) {
 	child := startCLI(t)
-	expectPrompt(t, child)
 	sendCommand(t, child, "quit")
 	child.Wait()
 }
@@ -88,12 +95,18 @@ func TestCheckQuitCommand(t *testing.T) {
 // TestCheckVersionCommand check the 'version' command.
 func TestCheckVersionCommand(t *testing.T) {
 	child := startCLI(t)
-	expectPrompt(t, child)
+	defer quitCLI(t, child)
 	sendCommand(t, child, "version")
 	expectOutput(t, child, "Insights operator CLI client")
 	expectOutput(t, child, "version")
 	expectOutput(t, child, "compiled")
 	expectPrompt(t, child)
-	sendCommand(t, child, "quit")
-	child.Wait()
+}
+
+// TestListClustersCommand check the 'list clusters' command
+func TestListClustersCommand(t *testing.T) {
+	child := startCLI(t)
+	defer quitCLI(t, child)
+	sendCommand(t, child, "list clusters")
+	expectOutput(t, child, "List of clusters")
 }
