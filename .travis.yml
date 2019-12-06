@@ -4,22 +4,24 @@ go:
 
 jobs:
   include:
-    - before_install: go build
-      script:
-        - go test $(go list ./... | grep -v tests)
     - stage: style
       script:
         - ./.travis.gofmt.sh
         - ./.travis.govet.sh
         - ./.travis.golint.sh
         - ./.travis.gocyclo.sh
-    - stage: test
+    - stage: unit tests
+      before_script: go build
+      script:
+        - go test $(go list ./... | grep -v tests)
+    - stage: functional tests
       before_script:
         - sh ./.travis.insightscontroller.sh
-      script:
         - go build
+      script:
         - go test ./tests -v
 
 stages:
   - style
-  - test
+  - unit tests
+  - functional tests
