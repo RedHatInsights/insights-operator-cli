@@ -17,6 +17,8 @@ limitations under the License.
 package main
 
 import (
+	"fmt"
+	"math/rand"
 	"os"
 	"strings"
 	"testing"
@@ -109,4 +111,23 @@ func TestListClustersCommand(t *testing.T) {
 	defer quitCLI(t, child)
 	sendCommand(t, child, "list clusters")
 	expectOutput(t, child, "List of clusters")
+}
+
+func TestAddClusterCommand(t *testing.T) {
+	child := startCLI(t)
+	defer quitCLI(t, child)
+
+	b := make([]byte, 16)
+	_, err := rand.Read(b)
+	if err != nil {
+		t.Fatal(err)
+	}
+	clusterName := fmt.Sprintf("%x-%x-%x-%x-%x", b[0:4], b[4:6], b[6:8], b[8:10], b[10:])
+
+	command := fmt.Sprintf("add cluster %s", clusterName)
+	sendCommand(t, child, command)
+	expectOutput(t, child, "Controller has been registered")
+
+	sendCommand(t, child, "list clusters")
+	expectOutput(t, child, clusterName)
 }
