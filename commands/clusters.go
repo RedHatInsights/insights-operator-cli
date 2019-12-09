@@ -56,8 +56,8 @@ func DeleteCluster(api restapi.API, clusterID string) {
 }
 
 // AddCluster inserts new cluster info into the database
-func AddCluster(api restapi.API, clusterID string, clusterName string) {
-	err := api.AddCluster(clusterID, clusterName)
+func AddCluster(api restapi.API, clusterName string) {
+	err := api.AddCluster(clusterName)
 	if err != nil {
 		fmt.Println(colorizer.Red("Error communicating with the service"))
 		fmt.Println(err)

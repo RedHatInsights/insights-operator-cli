@@ -68,11 +68,6 @@ type commandWithParam struct {
 	handler func(restapi.API, string)
 }
 
-type commandWithTwoParams struct {
-	prefix  string
-	handler func(restapi.API, string, string)
-}
-
 var commandsWithParam = []commandWithParam{
 	{"describe profile ", commands.DescribeProfile},
 	{"describe configuration ", commands.DescribeConfiguration},
@@ -87,9 +82,6 @@ var commandsWithParam = []commandWithParam{
 	{"activate trigger ", commands.ActivateTrigger},
 	{"deactivate must-gather ", commands.DeactivateTrigger},
 	{"deactivate trigger ", commands.DeactivateTrigger},
-}
-
-var commandsWithTwoParams = []commandWithTwoParams{
 	{"add cluster ", commands.AddCluster},
 	{"new cluster ", commands.AddCluster},
 }
@@ -105,12 +97,6 @@ func executor(t string) {
 		}
 	}
 
-	for _, command := range commandsWithTwoParams {
-		if strings.HasPrefix(t, command.prefix) {
-			command.handler(api, blocks[2], blocks[3])
-			return
-		}
-	}
 	// no match? try commands without variable parts
 	executeFixedCommand(t)
 }
@@ -161,9 +147,8 @@ func executeFixedCommand(t string) {
 	case "list configurations":
 		commands.ListOfConfigurations(api, "")
 	case "add cluster":
-		clusterID := prompt.Input("clusterID: ", commands.LoginCompleter)
 		clusterName := prompt.Input("clusterName: ", commands.LoginCompleter)
-		commands.AddCluster(api, clusterID, clusterName)
+		commands.AddCluster(api, clusterName)
 	case "add profile":
 		fallthrough
 	case "new profile":
