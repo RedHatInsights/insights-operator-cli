@@ -18,7 +18,7 @@ package commands
 
 import (
 	"fmt"
-	"github.com/c-bata/go-prompt"
+
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 )
 
@@ -56,20 +56,8 @@ func DeleteCluster(api restapi.API, clusterID string) {
 }
 
 // AddCluster inserts new cluster info into the database
-func AddCluster(api restapi.API) {
-	id := prompt.Input("ID: ", LoginCompleter)
-	if id == "" {
-		fmt.Println(colorizer.Red("Cancelled"))
-		return
-	}
-
-	name := prompt.Input("name: ", LoginCompleter)
-	if name == "" {
-		fmt.Println(colorizer.Red("Cancelled"))
-		return
-	}
-
-	err := api.AddCluster(id, name)
+func AddCluster(api restapi.API, clusterID string, clusterName string) {
+	err := api.AddCluster(clusterID, clusterName)
 	if err != nil {
 		fmt.Println(colorizer.Red("Error communicating with the service"))
 		fmt.Println(err)
