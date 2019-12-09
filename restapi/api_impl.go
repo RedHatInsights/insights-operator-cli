@@ -208,8 +208,8 @@ func (api RestAPI) DeleteConfigurationProfile(profileID string) error {
 }
 
 // AddCluster access the REST API endpoint to add/register new cluster
-func (api RestAPI) AddCluster(id string, name string) error {
-	query := id + "/" + name
+func (api RestAPI) AddCluster(name string) error {
+	query := name
 	url := api.controllerURL + APIPrefix + "client/cluster/" + query
 	err := performWriteRequest(url, "POST", nil)
 	return err

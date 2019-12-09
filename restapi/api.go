@@ -24,7 +24,7 @@ import (
 type API interface {
 	// cluster related commands
 	ReadListOfClusters() ([]types.Cluster, error)
-	AddCluster(id string, name string) error
+	AddCluster(name string) error
 	DeleteCluster(clusterID string) error
 
 	// configuration profiles related commands
