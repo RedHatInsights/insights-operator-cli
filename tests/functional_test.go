@@ -113,6 +113,7 @@ func TestListClustersCommand(t *testing.T) {
 	expectOutput(t, child, "List of clusters")
 }
 
+// TestAddClusterCommand check the 'add clister' command followed by 'list clusters' one
 func TestAddClusterCommand(t *testing.T) {
 	child := startCLI(t)
 	defer quitCLI(t, child)
