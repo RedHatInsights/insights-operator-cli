@@ -26,6 +26,5 @@ func PrintAuthors() {
 	fmt.Println(`
 Angelina Nikiforova
 Bohdan Iakymets
-Pavel Tisnovsky
-`)
+Pavel Tisnovsky`)
 }
