@@ -16,7 +16,7 @@ jobs:
         - go test $(go list ./... | grep -v tests)
     - stage: functional tests
       before_script:
-        - sh ./.travis.insightscontroller.sh
+        - ./.travis.insightscontroller.sh
         - go build
       script:
         - go test ./tests -v
