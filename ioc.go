@@ -114,6 +114,8 @@ var simpleCommands = []simpleCommand{
 	{"?", commands.PrintHelp},
 	{"help", commands.PrintHelp},
 	{"version", printVersion},
+	{"license", commands.PrintLicense},
+	{"authors", commands.PrintAuthors},
 }
 
 type commandWithAPIParam struct {

@@ -24,6 +24,7 @@ import (
 func PrintAuthors() {
 	fmt.Println(colorizer.Magenta("Authors"))
 	fmt.Println(`
-Pavel Tisnovsky
-Bohdan Iakymets`)
+Angelina Nikiforova
+Bohdan Iakymets
+Pavel Tisnovsky`)
 }
