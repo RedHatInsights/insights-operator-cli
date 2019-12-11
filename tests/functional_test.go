@@ -87,11 +87,17 @@ func sendCommand(t *testing.T, child *gexpect.ExpectSubprocess, command string) 
 	t.Log("Command '" + command + "' has been sent to CLI client")
 }
 
-// TestCheckQuitCommand check whether the client can be started and stopped using the 'quit' command.
+// TestCheckQuitCommand check whether the client can be started and stopped using the 'quit', 'exit' or 'bye' command.
 func TestCheckQuitCommand(t *testing.T) {
-	child := startCLI(t)
-	sendCommand(t, child, "quit")
-	child.Wait()
+	commands := []string{
+		"quit", "exit", "bye",
+	}
+
+	for _, command := range commands {
+		child := startCLI(t)
+		sendCommand(t, child, command)
+		child.Wait()
+	}
 }
 
 // TestCheckVersionCommand check the 'version' command.
