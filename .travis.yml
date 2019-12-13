@@ -13,7 +13,8 @@ jobs:
     - stage: unit tests
       before_script: go build
       script:
-        - go test $(go list ./... | grep -v tests)
+        - go test -coverprofile coverage.out $(go list ./... | grep -v tests)
+        - go tool cover -func=coverage.out
     - stage: functional tests
       before_script:
         - ./.travis.insightscontroller.sh
