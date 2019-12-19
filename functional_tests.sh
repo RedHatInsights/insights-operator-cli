@@ -1,4 +1,4 @@
-go build
+go build -race
 
 if [ $? -eq 0 ]
 then
