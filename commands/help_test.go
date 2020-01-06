@@ -15,3 +15,30 @@ limitations under the License.
 */
 
 package commands_test
+
+import (
+	"github.com/redhatinsighs/insights-operator-cli/commands"
+	"strings"
+	"testing"
+)
+
+// TestCommandHelp check if the command 'help' displays actual help
+func TestCommandHelp(t *testing.T) {
+	configureColorizer()
+	captured, err := captureStandardOutput(func() {
+		commands.PrintHelp()
+	})
+	if err != nil {
+		t.Fatal("Unable to capture standard output", err)
+	}
+	if captured == "" {
+		t.Fatal("Standard output is empty")
+	}
+	if !strings.HasPrefix(captured, "HELP:") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+	numlines := strings.Count(captured, "\n")
+	if numlines <= 1 {
+		t.Fatal("Help is trimmed:\n", captured)
+	}
+}
