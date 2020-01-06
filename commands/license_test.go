@@ -15,3 +15,30 @@ limitations under the License.
 */
 
 package commands_test
+
+import (
+	"github.com/redhatinsighs/insights-operator-cli/commands"
+	"strings"
+	"testing"
+)
+
+// TestCommandLicense check if the command 'license' displays actual license
+func TestCommandLicense(t *testing.T) {
+	configureColorizer()
+	captured, err := captureStandardOutput(func() {
+		commands.PrintLicense()
+	})
+	if err != nil {
+		t.Fatal("Unable to capture standard output", err)
+	}
+	if captured == "" {
+		t.Fatal("Standard output is empty")
+	}
+	if !strings.HasPrefix(captured, "License\n") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+	numlines := strings.Count(captured, "\n")
+	if numlines <= 1 {
+		t.Fatal("License is trimmed:\n", captured)
+	}
+}

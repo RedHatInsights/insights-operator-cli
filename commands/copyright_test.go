@@ -15,3 +15,30 @@ limitations under the License.
 */
 
 package commands_test
+
+import (
+	"github.com/redhatinsighs/insights-operator-cli/commands"
+	"strings"
+	"testing"
+)
+
+// TestCommandCopyright check if the command 'copyright' displays actual copyright
+func TestCommandCopyright(t *testing.T) {
+	configureColorizer()
+	captured, err := captureStandardOutput(func() {
+		commands.PrintCopyright()
+	})
+	if err != nil {
+		t.Fatal("Unable to capture standard output", err)
+	}
+	if captured == "" {
+		t.Fatal("Standard output is empty")
+	}
+	if !strings.HasPrefix(captured, "Copyright\n") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+	numlines := strings.Count(captured, "\n")
+	if numlines <= 1 {
+		t.Fatal("Copyright is trimmed:\n", captured)
+	}
+}

@@ -16,8 +16,50 @@ limitations under the License.
 package main
 
 import (
+	"github.com/c-bata/go-prompt"
 	"testing"
 )
 
-func TestX(t *testing.T) {
+// createDocumentWithCommand construct an instance of prompt.Document containing the command and cursor position.
+func createDocumentWithCommand(t *testing.T, command string) prompt.Document {
+	buffer := prompt.NewBuffer()
+	if buffer == nil {
+		t.Fatal("Error in prompt library - can not constructs new buffer")
+	}
+	buffer.InsertText(command, false, true)
+	document := buffer.Document()
+	if document == nil {
+		t.Fatal("Error in prompt library - can not get document for a buffer")
+	}
+	return *document
+}
+
+// checkSuggestionCount checks the number of suggestions returned by suggester
+func checkSuggestionCount(t *testing.T, suggests []prompt.Suggest, expected int) {
+	if len(suggests) != expected {
+		t.Fatal("Invalid suggestion returned by completer:", suggests)
+	}
+}
+
+// checkSuggestionCount checks the suggestion text and description
+func checkSuggestion(t *testing.T, suggest prompt.Suggest, command string, description string) {
+	if suggest.Text != command {
+		t.Fatal("Invalid suggestion command:", suggest.Text)
+	}
+	if suggest.Description != description {
+		t.Fatal("Invalid suggestion description:", suggest.Description)
+	}
+}
+
+// TestCompleterEmptyInput check which suggestions are returned for empty input
+func TestCompleterEmptyInput(t *testing.T) {
+	suggests := completer(createDocumentWithCommand(t, ""))
+	checkSuggestionCount(t, suggests, 0)
+}
+
+// TestCompleterHelpCommand check which suggestions are returned for 'help' input
+func TestCompleterHelpCommand(t *testing.T) {
+	suggests := completer(createDocumentWithCommand(t, "help"))
+	checkSuggestionCount(t, suggests, 1)
+	checkSuggestion(t, suggests[0], "help", "show help with all commands")
 }
