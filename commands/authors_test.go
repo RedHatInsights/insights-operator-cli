@@ -15,3 +15,30 @@ limitations under the License.
 */
 
 package commands_test
+
+import (
+	"github.com/redhatinsighs/insights-operator-cli/commands"
+	"strings"
+	"testing"
+)
+
+// TestCommandAuthors check if the command 'authors' displays list of authors
+func TestCommandAuthors(t *testing.T) {
+	configureColorizer()
+	captured, err := captureStandardOutput(func() {
+		commands.PrintAuthors()
+	})
+	if err != nil {
+		t.Fatal("Unable to capture standard output", err)
+	}
+	if captured == "" {
+		t.Fatal("Standard output is empty")
+	}
+	if !strings.HasPrefix(captured, "Authors") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+	numlines := strings.Count(captured, "\n")
+	if numlines <= 1 {
+		t.Fatal("Authors are not listed in the output:\n", captured)
+	}
+}
