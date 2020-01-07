@@ -18,6 +18,7 @@ package commands_test
 
 import (
 	"github.com/redhatinsighs/insights-operator-cli/commands"
+	"github.com/tisnik/go-capture"
 	"strings"
 	"testing"
 )
@@ -25,7 +26,7 @@ import (
 // TestCommandLicense check if the command 'license' displays actual license
 func TestCommandLicense(t *testing.T) {
 	configureColorizer()
-	captured, err := captureStandardOutput(func() {
+	captured, err := capture.StandardOutput(func() {
 		commands.PrintLicense()
 	})
 	if err != nil {
