@@ -64,6 +64,6 @@ func AddCluster(api restapi.API, clusterName string) {
 		return
 	}
 
-	// everything's ok, controller has been registered
-	fmt.Println(colorizer.Blue("Controller has been registered"))
+	// everything's ok, cluster has been added
+	fmt.Println(colorizer.Blue("Cluster has been added"))
 }
