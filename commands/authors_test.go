@@ -18,6 +18,7 @@ package commands_test
 
 import (
 	"github.com/redhatinsighs/insights-operator-cli/commands"
+	"github.com/tisnik/go-capture"
 	"strings"
 	"testing"
 )
@@ -25,7 +26,7 @@ import (
 // TestCommandAuthors check if the command 'authors' displays list of authors
 func TestCommandAuthors(t *testing.T) {
 	configureColorizer()
-	captured, err := captureStandardOutput(func() {
+	captured, err := capture.StandardOutput(func() {
 		commands.PrintAuthors()
 	})
 	if err != nil {
