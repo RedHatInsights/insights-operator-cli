@@ -21,6 +21,7 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli/types"
 )
 
+// RestAPIMockErrors is an implementation of mocked REST API that returns errors in all cases.
 type RestAPIMockErrors struct {
 }
 

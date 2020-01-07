@@ -20,6 +20,7 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli/types"
 )
 
+// RestAPIMockErrors is an implementation of mocked REST API that returns empty data structures in all cases.
 type RestAPIMockEmpty struct {
 }
 
