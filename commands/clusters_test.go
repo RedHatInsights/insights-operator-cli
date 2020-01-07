@@ -100,3 +100,33 @@ func TestListOfClustersErrorHandling(t *testing.T) {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
+
+// TestAddCluster checks the command 'add cluster'
+func TestAddCluster(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMock{}
+
+	captured, err := capture.StandardOutput(func() {
+		commands.AddCluster(restAPIMock, "clusterName")
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Cluster has been added") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+}
+
+// TestAddClusterError checks the command 'add cluster' when error is reported by REST API
+func TestAddClusterError(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMockErrors{}
+
+	captured, err := capture.StandardOutput(func() {
+		commands.AddCluster(restAPIMock, "clusterName")
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Error communicating with the service") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+}
