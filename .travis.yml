@@ -15,6 +15,8 @@ jobs:
       script:
         - go test -coverprofile coverage.out $(go list ./... | grep -v tests)
         - go tool cover -func=coverage.out
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
     - stage: functional tests
       before_script:
         - ./.travis.insightscontroller.sh
