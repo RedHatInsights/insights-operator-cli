@@ -133,7 +133,7 @@ func TestAddClusterCommand(t *testing.T) {
 
 	command := fmt.Sprintf("add cluster %s", clusterName)
 	sendCommand(t, child, command)
-	expectOutput(t, child, "Cluster has been added")
+	expectOutput(t, child, "Cluster "+command+" has been added")
 
 	sendCommand(t, child, "list clusters")
 	expectOutput(t, child, clusterName)
