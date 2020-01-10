@@ -38,10 +38,17 @@ func ListOfClusters(api restapi.API) {
 	}
 }
 
+// DeleteClusterNoConfirm deletes all info about selected cluster w/o asking for confirmation of this operation
+func DeleteClusterNoConfirm(api restapi.API, clusterID string) {
+	DeleteCluster(api, clusterID, false)
+}
+
 // DeleteCluster deletes all info about selected cluster from database
-func DeleteCluster(api restapi.API, clusterID string) {
-	if !ProceedQuestion("All cluster configurations will be deleted") {
-		return
+func DeleteCluster(api restapi.API, clusterID string, askForConfirmation bool) {
+	if askForConfirmation {
+		if !ProceedQuestion("All cluster configurations will be deleted") {
+			return
+		}
 	}
 
 	err := api.DeleteCluster(clusterID)
@@ -65,5 +72,5 @@ func AddCluster(api restapi.API, clusterName string) {
 	}
 
 	// everything's ok, cluster has been added
-	fmt.Println(colorizer.Blue("Cluster has been added"))
+	fmt.Println(colorizer.Blue("Cluster " + clusterName + " has been added"))
 }

@@ -35,7 +35,7 @@ func ListOfConfigurations(api restapi.API, filter string) {
 		return
 	}
 
-	fmt.Println(colorizer.Magenta("List of configuration for all clusters"))
+	fmt.Println(colorizer.Magenta("List of configurations for all clusters"))
 	fmt.Printf("%4s %4s %4s    %-20s %-20s %-10s %-12s %s\n", "#", "ID", "Profile", "Cluster", "Changed at", "Changed by", "Active", "Reason")
 	for i, configuration := range configurations {
 		// poor man's filtering
@@ -62,7 +62,7 @@ func EnableClusterConfiguration(api restapi.API, configurationID string) {
 	}
 
 	// everything's ok
-	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been "), colorizer.Green("enabled"))
+	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been"), colorizer.Green("enabled"))
 }
 
 // DisableClusterConfiguration disables the selected cluster configuration in the controller service
@@ -75,7 +75,7 @@ func DisableClusterConfiguration(api restapi.API, configurationID string) {
 	}
 
 	// everything's ok
-	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been "), colorizer.Red("disabled"))
+	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been"), colorizer.Red("disabled"))
 }
 
 // DescribeConfiguration displays additional information about selected configuration
@@ -101,7 +101,7 @@ func DeleteClusterConfiguration(api restapi.API, configurationID string) {
 	}
 
 	// everything's ok, configuration has been deleted
-	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been "), colorizer.Red("deleted"))
+	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been"), colorizer.Red("deleted"))
 }
 
 // AddClusterConfiguration creates a new cluster configuration

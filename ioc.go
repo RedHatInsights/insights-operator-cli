@@ -37,6 +37,9 @@ var BuildVersion string = "*not set*"
 // BuildTime contains timestamp when the CLI client has been built
 var BuildTime string = "*not set*"
 
+// enable or disable asking for confirmation for selected actions (like delete)
+var askForConfirmation *bool
+
 var username string
 var password string
 var api restapi.API
@@ -75,7 +78,7 @@ var commandsWithParam = []commandWithParam{
 	{"enable configuration ", commands.EnableClusterConfiguration},
 	{"disable configuration ", commands.DisableClusterConfiguration},
 	{"list configurations ", commands.ListOfConfigurations},
-	{"delete cluster ", commands.DeleteCluster},
+	{"delete cluster ", commands.DeleteClusterNoConfirm},
 	{"delete configuration ", commands.DeleteClusterConfiguration},
 	{"delete trigger ", commands.DeleteTrigger},
 	{"activate must-gather ", commands.ActivateTrigger},
@@ -184,7 +187,7 @@ func executeFixedCommand(t string) {
 		commands.DisableClusterConfiguration(api, configuration)
 	case "delete cluster":
 		cluster := prompt.Input("cluster: ", commands.LoginCompleter)
-		commands.DeleteCluster(api, cluster)
+		commands.DeleteCluster(api, cluster, *askForConfirmation)
 	case "delete configuration":
 		configuration := prompt.Input("configuration: ", commands.LoginCompleter)
 		commands.DeleteClusterConfiguration(api, configuration)
@@ -323,9 +326,10 @@ func main() {
 		panic(fmt.Errorf("Fatal error config file: %s", err))
 	}
 
-	// parase command line arguments and flags
+	// parse command line arguments and flags
 	var colors = flag.Bool("colors", true, "enable or disable colors")
 	var useCompleter = flag.Bool("completer", true, "enable or disable command line completer")
+	askForConfirmation = flag.Bool("confirmation", true, "enable or disable asking for confirmation for selected actions (like delete)")
 	flag.Parse()
 
 	colorizer = aurora.NewAurora(*colors)
