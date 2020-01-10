@@ -91,3 +91,33 @@ func TestListOfConfigurationsErrorHandling(t *testing.T) {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
+
+// TestDeleteClusterConfiguration checks the command 'delete configuration'
+func TestDeleteClusterConfiguration(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMock{}
+
+	captured, err := capture.StandardOutput(func() {
+		commands.DeleteClusterConfiguration(restAPIMock, "1")
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Configuration 1 has been deleted") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+}
+
+// TestDeleteClusterConfigurationError checks the command 'delete configuration' when error is reported by REST API
+func TestDeleteClusterConfigurationError(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMockErrors{}
+
+	captured, err := capture.StandardOutput(func() {
+		commands.DeleteClusterConfiguration(restAPIMock, "0")
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Error communicating with the service") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+}
