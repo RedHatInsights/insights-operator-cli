@@ -119,7 +119,7 @@ func TestListClustersCommand(t *testing.T) {
 	expectOutput(t, child, "List of clusters")
 }
 
-// TestAddClusterCommand check the 'add clister' command followed by 'list clusters' one
+// TestAddClusterCommand check the 'add cluster' command followed by 'list clusters' one
 func TestAddClusterCommand(t *testing.T) {
 	child := startCLI(t)
 	defer quitCLI(t, child)
@@ -133,7 +133,7 @@ func TestAddClusterCommand(t *testing.T) {
 
 	command := fmt.Sprintf("add cluster %s", clusterName)
 	sendCommand(t, child, command)
-	expectOutput(t, child, "Cluster "+command+" has been added")
+	expectOutput(t, child, "Cluster "+clusterName+" has been added")
 
 	sendCommand(t, child, "list clusters")
 	expectOutput(t, child, clusterName)
