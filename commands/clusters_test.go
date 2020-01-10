@@ -107,11 +107,11 @@ func TestAddCluster(t *testing.T) {
 	restAPIMock := RestAPIMock{}
 
 	captured, err := capture.StandardOutput(func() {
-		commands.AddCluster(restAPIMock, "clusterName")
+		commands.AddCluster(restAPIMock, "c8590f31-e97e-4b85-b506-c45ce1911a12")
 	})
 
 	checkCapturedOutput(t, captured, err)
-	if !strings.HasPrefix(captured, "Cluster has been added") {
+	if !strings.HasPrefix(captured, "Cluster c8590f31-e97e-4b85-b506-c45ce1911a12 has been added") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
@@ -123,6 +123,66 @@ func TestAddClusterError(t *testing.T) {
 
 	captured, err := capture.StandardOutput(func() {
 		commands.AddCluster(restAPIMock, "clusterName")
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Error communicating with the service") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+}
+
+// TestDeleteCluster checks the command 'delete cluster'
+func TestDeleteCluster(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMock{}
+
+	captured, err := capture.StandardOutput(func() {
+		commands.DeleteCluster(restAPIMock, "c8590f31-e97e-4b85-b506-c45ce1911a12", false)
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Cluster c8590f31-e97e-4b85-b506-c45ce1911a12 has been deleted") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+}
+
+// TestDeleteClusterError checks the command 'delete cluster' when error is reported by REST API
+func TestDeleteClusterError(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMockErrors{}
+
+	captured, err := capture.StandardOutput(func() {
+		commands.DeleteCluster(restAPIMock, "c8590f31-e97e-4b85-b506-c45ce1911a12", false)
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Error communicating with the service") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+}
+
+// TestDeleteClusterNoConfirm checks the command 'delete cluster' w/o confirmation of the command
+func TestDeleteClusterNoConfirm(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMock{}
+
+	captured, err := capture.StandardOutput(func() {
+		commands.DeleteClusterNoConfirm(restAPIMock, "c8590f31-e97e-4b85-b506-c45ce1911a12")
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Cluster c8590f31-e97e-4b85-b506-c45ce1911a12 has been deleted") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+}
+
+// TestDeleteClusterNoConfirmError checks the command 'delete cluster' when error is reported by REST API
+func TestDeleteClusterNoConfirmError(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMockErrors{}
+
+	captured, err := capture.StandardOutput(func() {
+		commands.DeleteClusterNoConfirm(restAPIMock, "c8590f31-e97e-4b85-b506-c45ce1911a12")
 	})
 
 	checkCapturedOutput(t, captured, err)
