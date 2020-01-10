@@ -62,7 +62,7 @@ func EnableClusterConfiguration(api restapi.API, configurationID string) {
 	}
 
 	// everything's ok
-	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been "), colorizer.Green("enabled"))
+	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been"), colorizer.Green("enabled"))
 }
 
 // DisableClusterConfiguration disables the selected cluster configuration in the controller service
@@ -75,7 +75,7 @@ func DisableClusterConfiguration(api restapi.API, configurationID string) {
 	}
 
 	// everything's ok
-	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been "), colorizer.Red("disabled"))
+	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been"), colorizer.Red("disabled"))
 }
 
 // DescribeConfiguration displays additional information about selected configuration
