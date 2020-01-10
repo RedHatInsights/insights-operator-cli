@@ -178,7 +178,7 @@ func (api RestAPIMock) ReadConfigurationProfile(profileID string) (*types.Config
 // ReadClusterConfigurationByID access the REST API endpoint to read cluster configuration for cluster defined by its ID
 func (api RestAPIMock) ReadClusterConfigurationByID(configurationID string) (*string, error) {
 	if configurationID == "0" {
-		configuration := ""
+		configuration := "configuration#0"
 		return &configuration, nil
 	}
 	return nil, nil

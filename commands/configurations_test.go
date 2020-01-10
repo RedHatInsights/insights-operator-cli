@@ -181,3 +181,36 @@ func TestDisableClusterConfigurationError(t *testing.T) {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
+
+// TestDescribeConfiguration checks the command 'describe configuration'
+func TestDescribeConfiguration(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMock{}
+
+	captured, err := capture.StandardOutput(func() {
+		commands.DescribeConfiguration(restAPIMock, "0")
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Configuration for cluster 0") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+	if !strings.Contains(captured, "configuration#0") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+}
+
+// TestDescribeConfigurationError checks the command 'describe configuration' when error is reported by REST API
+func TestDescribeConfigurationError(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMockErrors{}
+
+	captured, err := capture.StandardOutput(func() {
+		commands.DescribeConfiguration(restAPIMock, "0")
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Error reading cluster configuration") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+}
