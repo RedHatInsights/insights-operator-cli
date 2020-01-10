@@ -121,3 +121,63 @@ func TestDeleteClusterConfigurationError(t *testing.T) {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
+
+// TestEnableClusterConfiguration checks the command 'enable configuration'
+func TestEnableClusterConfiguration(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMock{}
+
+	captured, err := capture.StandardOutput(func() {
+		commands.EnableClusterConfiguration(restAPIMock, "1")
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Configuration 1 has been enabled") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+}
+
+// TestEnableClusterConfigurationError checks the command 'enable configuration' when error is reported by REST API
+func TestEnableClusterConfigurationError(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMockErrors{}
+
+	captured, err := capture.StandardOutput(func() {
+		commands.EnableClusterConfiguration(restAPIMock, "0")
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Error communicating with the service") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+}
+
+// TestDisableClusterConfiguration checks the command 'disable configuration'
+func TestDisableClusterConfiguration(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMock{}
+
+	captured, err := capture.StandardOutput(func() {
+		commands.DisableClusterConfiguration(restAPIMock, "1")
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Configuration 1 has been disabled") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+}
+
+// TestDisableClusterConfigurationError checks the command 'disable configuration' when error is reported by REST API
+func TestDisableClusterConfigurationError(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMockErrors{}
+
+	captured, err := capture.StandardOutput(func() {
+		commands.DisableClusterConfiguration(restAPIMock, "0")
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Error communicating with the service") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+}
