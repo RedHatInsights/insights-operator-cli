@@ -136,26 +136,26 @@ func (api RestAPIMock) ReadListOfConfigurations() ([]types.ClusterConfiguration,
 			ID:            0,
 			Cluster:       "0",
 			Configuration: "0",
-			ChangedAt:     "2020-01-01",
+			ChangedAt:     "2020-01-01T00:00:00",
 			ChangedBy:     "tester",
 			Active:        "1",
-			Reason:        "some configuration"},
+			Reason:        "configuration1"},
 		types.ClusterConfiguration{
 			ID:            1,
 			Cluster:       "0",
 			Configuration: "1",
-			ChangedAt:     "2020-01-01",
+			ChangedAt:     "2020-01-01T00:00:00",
 			ChangedBy:     "tester",
 			Active:        "1",
-			Reason:        "some configuration"},
+			Reason:        "configuration2"},
 		types.ClusterConfiguration{
 			ID:            2,
 			Cluster:       "0",
 			Configuration: "2",
-			ChangedAt:     "2020-01-01",
+			ChangedAt:     "2020-01-01T00:00:00",
 			ChangedBy:     "tester",
 			Active:        "0",
-			Reason:        "disabled one"},
+			Reason:        "configuration3"},
 	}
 	return configurations, nil
 }
@@ -166,7 +166,7 @@ func (api RestAPIMock) ReadConfigurationProfile(profileID string) (*types.Config
 		profile := types.ConfigurationProfile{
 			ID:            0,
 			Configuration: "",
-			ChangedAt:     "2020-01-01",
+			ChangedAt:     "2020-01-01T00:00:00",
 			ChangedBy:     "tester",
 			Description:   "empty configuration"}
 		return &profile, nil
