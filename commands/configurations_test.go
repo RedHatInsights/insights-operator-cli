@@ -44,6 +44,8 @@ func TestListOfConfigurations(t *testing.T) {
 	}
 
 	numlines := strings.Count(captured, "\n")
+
+	// Mocked REST API returns three configurations, so we expect at least one caption + 3 other lines in the output
 	if numlines <= 4 {
 		t.Fatal("Configurations are not listed in the output:\n", captured)
 	}
@@ -72,6 +74,8 @@ func TestListOfConfigurationsEmptyList(t *testing.T) {
 	}
 
 	numlines := strings.Count(captured, "\n")
+
+	// Mocked REST API returns empty list, so just one caption + one message is expected
 	if numlines > 2 {
 		t.Fatal("Unexpected output:\n", captured)
 	}
