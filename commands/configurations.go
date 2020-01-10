@@ -35,7 +35,7 @@ func ListOfConfigurations(api restapi.API, filter string) {
 		return
 	}
 
-	fmt.Println(colorizer.Magenta("List of configuration for all clusters"))
+	fmt.Println(colorizer.Magenta("List of configurations for all clusters"))
 	fmt.Printf("%4s %4s %4s    %-20s %-20s %-10s %-12s %s\n", "#", "ID", "Profile", "Cluster", "Changed at", "Changed by", "Active", "Reason")
 	for i, configuration := range configurations {
 		// poor man's filtering
