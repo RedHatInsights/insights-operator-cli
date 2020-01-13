@@ -19,6 +19,7 @@ package commands_test
 import (
 	"github.com/redhatinsighs/insights-operator-cli/commands"
 	"github.com/tisnik/go-capture"
+	"os"
 	"strings"
 	"testing"
 )
@@ -215,6 +216,40 @@ func TestDescribeConfigurationError(t *testing.T) {
 
 	checkCapturedOutput(t, captured, err)
 	if !strings.HasPrefix(captured, "Error reading cluster configuration") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+}
+
+// TestAddClusterConfigurationImpl checks the command 'add configuration'
+func TestAddClusterConfigurationImpl(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMock{}
+
+	captured, err := capture.StandardOutput(func() {
+		os.Chdir("../")
+		commands.AddClusterConfigurationImpl(restAPIMock, "tester", "cluster0", "reason", "description", "configuration1.json")
+		os.Chdir("./commands")
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Configuration has been created") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+}
+
+// TestAddClusterConfigurationImplError checks the command 'add configuration' when REST API fails with error
+func TestAddClusterConfigurationImplError(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMockErrors{}
+
+	captured, err := capture.StandardOutput(func() {
+		os.Chdir("../")
+		commands.AddClusterConfigurationImpl(restAPIMock, "tester", "cluster0", "reason", "description", "configuration1.json")
+		os.Chdir("./commands")
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Error communicating with the service") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
