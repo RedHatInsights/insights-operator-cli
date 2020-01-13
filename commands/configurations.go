@@ -104,8 +104,8 @@ func DeleteClusterConfiguration(api restapi.API, configurationID string) {
 	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been"), colorizer.Red("deleted"))
 }
 
-// AddClusterConfigurationCommand ask for all information needed to create new cluster configuration
-func AddClusterConfigurationCommand(api restapi.API, username string) {
+// AddClusterConfiguration ask for all information needed to create new cluster configuration
+func AddClusterConfiguration(api restapi.API, username string) {
 	if username == "" {
 		fmt.Println(colorizer.Red("Not logged in"))
 		return
