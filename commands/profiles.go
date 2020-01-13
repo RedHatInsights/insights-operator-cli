@@ -53,10 +53,17 @@ func DescribeProfile(api restapi.API, profileID string) {
 	fmt.Println(profile.Configuration)
 }
 
+// DeleteConfigurationProfileNoConfirm deletes the profile selected by its ID w/o asking for confirmation
+func DeleteConfigurationProfileNoConfirm(api restapi.API, profileID string) {
+	DeleteConfigurationProfile(api, profileID, false)
+}
+
 // DeleteConfigurationProfile deletes the profile selected by its ID
-func DeleteConfigurationProfile(api restapi.API, profileID string) {
-	if !ProceedQuestion("All configurations based on this profile will be deleted") {
-		return
+func DeleteConfigurationProfile(api restapi.API, profileID string, askForConfirmation bool) {
+	if askForConfirmation {
+		if !ProceedQuestion("All configurations based on this profile will be deleted") {
+			return
+		}
 	}
 
 	err := api.DeleteConfigurationProfile(profileID)
@@ -67,7 +74,7 @@ func DeleteConfigurationProfile(api restapi.API, profileID string) {
 	}
 
 	// everything's ok, configuration profile has been deleted
-	fmt.Println(colorizer.Blue("Configuration profile "+profileID+" has been "), colorizer.Red("deleted"))
+	fmt.Println(colorizer.Blue("Configuration profile "+profileID+" has been"), colorizer.Red("deleted"))
 }
 
 // AddConfigurationProfile adds the profile to database
