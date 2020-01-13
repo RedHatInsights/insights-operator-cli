@@ -15,3 +15,70 @@ limitations under the License.
 */
 
 package commands_test
+
+import (
+	"github.com/redhatinsighs/insights-operator-cli/commands"
+	"github.com/tisnik/go-capture"
+	"strings"
+	"testing"
+)
+
+// TestDeleteConfigurationProfile checks the command 'delete profile' when no error is reported by REST API
+func TestDeleteConfigurationProfile(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMock{}
+
+	captured, err := capture.StandardOutput(func() {
+		commands.DeleteConfigurationProfile(restAPIMock, "0", false)
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Configuration profile 0 has been deleted") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+}
+
+// TestDeleteConfigurationProfile checks the command 'delete profile' when error is reported by REST API
+func TestDeleteConfigurationProfileErrorHandling(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMockErrors{}
+
+	captured, err := capture.StandardOutput(func() {
+		commands.DeleteConfigurationProfile(restAPIMock, "0", false)
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Error communicating with the service") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+}
+
+// TestDeleteConfigurationProfileNoConfirm checks the command 'delete profile' when no error is reported by REST API
+func TestDeleteConfigurationProfileNoConfirm(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMock{}
+
+	captured, err := capture.StandardOutput(func() {
+		commands.DeleteConfigurationProfileNoConfirm(restAPIMock, "0")
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Configuration profile 0 has been deleted") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+}
+
+// TestDeleteConfigurationProfileNoConfirm checks the command 'delete profile' when error is reported by REST API
+func TestDeleteConfigurationProfileNoConfirmErrorHandling(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMockErrors{}
+
+	captured, err := capture.StandardOutput(func() {
+		commands.DeleteConfigurationProfileNoConfirm(restAPIMock, "0")
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Error communicating with the service") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+}
