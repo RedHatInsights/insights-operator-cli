@@ -79,6 +79,7 @@ var commandsWithParam = []commandWithParam{
 	{"disable configuration ", commands.DisableClusterConfiguration},
 	{"list configurations ", commands.ListOfConfigurations},
 	{"delete cluster ", commands.DeleteClusterNoConfirm},
+	{"delete profile ", commands.DeleteConfigurationProfileNoConfirm},
 	{"delete configuration ", commands.DeleteClusterConfiguration},
 	{"delete trigger ", commands.DeleteTrigger},
 	{"activate must-gather ", commands.ActivateTrigger},
@@ -193,7 +194,7 @@ func executeFixedCommand(t string) {
 		commands.DeleteClusterConfiguration(api, configuration)
 	case "delete profile":
 		profile := prompt.Input("profile: ", commands.LoginCompleter)
-		commands.DeleteConfigurationProfile(api, profile)
+		commands.DeleteConfigurationProfile(api, profile, *askForConfirmation)
 	case "delete trigger":
 		trigger := prompt.Input("trigger: ", commands.LoginCompleter)
 		commands.DeleteTrigger(api, trigger)
