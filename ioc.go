@@ -161,7 +161,7 @@ func executeFixedCommand(t string) {
 	case "add configuration":
 		fallthrough
 	case "new configuration":
-		commands.AddClusterConfiguration(api, username)
+		commands.AddClusterConfigurationCommand(api, username)
 	case "request must-gather":
 		fallthrough
 	case "add trigger":

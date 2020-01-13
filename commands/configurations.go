@@ -104,8 +104,8 @@ func DeleteClusterConfiguration(api restapi.API, configurationID string) {
 	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been"), colorizer.Red("deleted"))
 }
 
-// AddClusterConfiguration creates a new cluster configuration
-func AddClusterConfiguration(api restapi.API, username string) {
+// AddClusterConfigurationCommand ask for all information needed to create new cluster configuration
+func AddClusterConfigurationCommand(api restapi.API, username string) {
 	if username == "" {
 		fmt.Println(colorizer.Red("Not logged in"))
 		return
@@ -142,6 +142,11 @@ func AddClusterConfiguration(api restapi.API, username string) {
 		return
 	}
 
+	AddClusterConfigurationImpl(api, username, cluster, reason, description, configurationFileName)
+}
+
+// AddClusterConfigurationImpl creates a new cluster configuration
+func AddClusterConfigurationImpl(api restapi.API, username string, cluster string, reason string, description string, configurationFileName string) {
 	// TODO: make the directory fully configurable
 	configuration, err := ioutil.ReadFile("configurations/" + configurationFileName)
 	if err != nil {
