@@ -66,7 +66,7 @@ func TestListOfClusters(t *testing.T) {
 	}
 }
 
-// TestListOfClusters checks whether the empty list of clusters read via REST API is displayed correctly
+// TestListOfClustersNoClusters checks whether the empty list of clusters read via REST API is displayed correctly
 func TestListOfClustersNoClusters(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockEmpty{}
