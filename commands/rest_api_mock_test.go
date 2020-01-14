@@ -48,9 +48,9 @@ func (api RestAPIMock) ReadListOfTriggers() ([]types.Trigger, error) {
 			Cluster:     "ffffffff-ffff-ffff-ffff-ffffffffffff",
 			Reason:      "we need to run must-gather",
 			Link:        "https://www.webpagetest.org/",
-			TriggeredAt: "2020-01-01",
+			TriggeredAt: "2020-01-01T00:00:00",
 			TriggeredBy: "tester",
-			AckedAt:     "1970-01-01",
+			AckedAt:     "1970-01-01T00:00:00",
 			Parameters:  "",
 			Active:      1},
 		types.Trigger{
@@ -59,9 +59,9 @@ func (api RestAPIMock) ReadListOfTriggers() ([]types.Trigger, error) {
 			Cluster:     "ffffffff-ffff-ffff-ffff-ffffffffffff",
 			Reason:      "we need to run must-gather",
 			Link:        "https://www.webpagetest.org/",
-			TriggeredAt: "2020-01-01",
+			TriggeredAt: "2020-01-01T00:00:00",
 			TriggeredBy: "tester",
-			AckedAt:     "2020-01-01",
+			AckedAt:     "2020-01-01T00:00:00",
 			Parameters:  "",
 			Active:      0},
 		types.Trigger{
@@ -70,9 +70,9 @@ func (api RestAPIMock) ReadListOfTriggers() ([]types.Trigger, error) {
 			Cluster:     "00000000-0000-0000-0000-000000000000",
 			Reason:      "we need to run must-gather",
 			Link:        "https://www.webpagetest.org/",
-			TriggeredAt: "2020-01-01",
+			TriggeredAt: "2020-01-01T00:00:00",
 			TriggeredBy: "tester",
-			AckedAt:     "1970-01-01",
+			AckedAt:     "1970-01-01T00:00:00",
 			Parameters:  "",
 			Active:      1},
 		types.Trigger{
@@ -81,9 +81,9 @@ func (api RestAPIMock) ReadListOfTriggers() ([]types.Trigger, error) {
 			Cluster:     "00000000-0000-0000-0000-000000000000",
 			Reason:      "we need to run must-gather",
 			Link:        "https://www.webpagetest.org/",
-			TriggeredAt: "2020-01-01",
+			TriggeredAt: "2020-01-01T00:00:00",
 			TriggeredBy: "tester",
-			AckedAt:     "2020-01-01",
+			AckedAt:     "2020-01-01T00:00:00",
 			Parameters:  "",
 			Active:      0},
 	}
@@ -99,9 +99,9 @@ func (api RestAPIMock) ReadTriggerByID(triggerID string) (*types.Trigger, error)
 			Cluster:     "ffffffff-ffff-ffff-ffff-ffffffffffff",
 			Reason:      "we need to run must-gather",
 			Link:        "https://www.webpagetest.org/",
-			TriggeredAt: "2020-01-01",
+			TriggeredAt: "2020-01-01T00:00:00",
 			TriggeredBy: "tester",
-			AckedAt:     "1970-01-01",
+			AckedAt:     "1970-01-01T00:00:00",
 			Parameters:  "",
 			Active:      1}
 		return &trigger, nil
@@ -116,13 +116,13 @@ func (api RestAPIMock) ReadListOfConfigurationProfiles() ([]types.ConfigurationP
 		types.ConfigurationProfile{
 			ID:            0,
 			Configuration: "",
-			ChangedAt:     "2020-01-01",
+			ChangedAt:     "2020-01-01T00:00:00",
 			ChangedBy:     "tester",
 			Description:   "default configuration profile"},
 		types.ConfigurationProfile{
 			ID:            1,
 			Configuration: "",
-			ChangedAt:     "2020-01-01",
+			ChangedAt:     "2020-01-01T00:00:00",
 			ChangedBy:     "tester",
 			Description:   "another configuration profile"},
 	}
