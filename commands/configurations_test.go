@@ -253,3 +253,26 @@ func TestAddClusterConfigurationImplError(t *testing.T) {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
+
+// TestAddClusterConfigurationImplBadConfiguration checks the command 'add configuration' for non-existing configuration file
+func TestAddClusterConfigurationImplBadConfiguration(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMock{}
+
+	captured, err := capture.StandardOutput(func() {
+		os.Chdir("../")
+		commands.AddClusterConfigurationImpl(restAPIMock, "tester", "cluster0", "reason", "description", "strange_configuration1.json")
+		os.Chdir("./commands")
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.Contains(captured, "Cannot read configuration file") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+	if !strings.Contains(captured, "no such file or directory") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
+	if strings.Contains(captured, "Configuration has been created") {
+		t.Fatal("Configuration should not be created when configuration file does not exist")
+	}
+}

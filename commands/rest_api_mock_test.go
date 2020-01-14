@@ -165,7 +165,7 @@ func (api RestAPIMock) ReadConfigurationProfile(profileID string) (*types.Config
 	if profileID == "0" {
 		profile := types.ConfigurationProfile{
 			ID:            0,
-			Configuration: "",
+			Configuration: "*configuration*",
 			ChangedAt:     "2020-01-01T00:00:00",
 			ChangedBy:     "tester",
 			Description:   "empty configuration"}

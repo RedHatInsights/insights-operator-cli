@@ -152,6 +152,7 @@ func AddClusterConfigurationImpl(api restapi.API, username string, cluster strin
 	if err != nil {
 		fmt.Println(colorizer.Red("Cannot read configuration file"))
 		fmt.Println(err)
+		return
 	}
 
 	err = api.AddClusterConfiguration(username, cluster, reason, description, configuration)
