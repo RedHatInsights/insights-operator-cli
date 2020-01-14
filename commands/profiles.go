@@ -117,6 +117,26 @@ func AddConfigurationProfile(api restapi.API, username string) {
 		return
 	}
 
+	// everything's ok, configuration profile can be created
+	AddConfigurationProfileImpl(api, username, description, configurationFileName)
+}
+
+// AddConfigurationProfileImpl adds the profile to database
+func AddConfigurationProfileImpl(api restapi.API, username string, description string, configurationFileName string) {
+	// TODO: make the directory fully configurable
+	configuration, err := ioutil.ReadFile("configurations/" + configurationFileName)
+	if err != nil {
+		fmt.Println(colorizer.Red("Cannot read configuration file"))
+		fmt.Println(err)
+	}
+
+	err = api.AddConfigurationProfile(username, description, configuration)
+	if err != nil {
+		fmt.Println(colorizer.Red("Error communicating with the service"))
+		fmt.Println(err)
+		return
+	}
+
 	// everything's ok, configuration profile has been created
 	fmt.Println(colorizer.Blue("Configuration profile has been created"))
 }
