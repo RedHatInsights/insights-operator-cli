@@ -97,6 +97,7 @@ func TestListOfTriggersErrorHandling(t *testing.T) {
 	}
 }
 
+// TestDescribeActivatedTrigger checks whether it is possible to read and displays information about activated trigger
 func TestDescribeActivatedTrigger(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMock{}
@@ -124,6 +125,7 @@ func TestDescribeActivatedTrigger(t *testing.T) {
 	}
 }
 
+// TestDescribeInactivatedTrigger checks whether it is possible to read and displays information about inactivated trigger
 func TestDescribeInactivatedTrigger(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMock{}
@@ -151,6 +153,7 @@ func TestDescribeInactivatedTrigger(t *testing.T) {
 	}
 }
 
+// TestDescribeNonMustGatherTrigger checks whether it is possible to read and displays information about other type of trigger
 func TestDescribeNonMustGatherTrigger(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMock{}
@@ -178,6 +181,7 @@ func TestDescribeNonMustGatherTrigger(t *testing.T) {
 	}
 }
 
+// TestDescribeTriggerErrorHandling checks how REST API-related issues are reported and handled
 func TestDescribeTriggerErrorHandling(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
@@ -192,12 +196,37 @@ func TestDescribeTriggerErrorHandling(t *testing.T) {
 	}
 }
 
-func TestAddTrigger(t *testing.T) {
+// TestAddTriggerImpl check the ability to add a new trigger via REST API
+func TestAddTriggerImpl(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMock{}
+
+	captured, err := capture.StandardOutput(func() {
+		commands.AddTriggerImpl(restAPIMock, "tester", "cluster", "reason", "link")
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Trigger has been created") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
 }
 
-func TestAddTriggerErrorHandling(t *testing.T) {
+// TestAddTriggerImplError check error handling during new trigger registration
+func TestAddTriggerImplErrorHandling(t *testing.T) {
+	configureColorizer()
+	restAPIMock := RestAPIMockErrors{}
+
+	captured, err := capture.StandardOutput(func() {
+		commands.AddTriggerImpl(restAPIMock, "tester", "cluster", "reason", "link")
+	})
+
+	checkCapturedOutput(t, captured, err)
+	if !strings.HasPrefix(captured, "Error communicating with the service") {
+		t.Fatal("Unexpected output:\n", captured)
+	}
 }
 
+// TestDeleteTrigger check the command 'delete trigger'
 func TestDeleteTrigger(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMock{}
@@ -212,6 +241,7 @@ func TestDeleteTrigger(t *testing.T) {
 	}
 }
 
+// TestDeleteTriggerErrorHandling check error handling for the command 'delete trigger'
 func TestDeleteTriggerErrorHandling(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
@@ -226,6 +256,7 @@ func TestDeleteTriggerErrorHandling(t *testing.T) {
 	}
 }
 
+// TestActivateTrigger check the command 'activate trigger'
 func TestActivateTrigger(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMock{}
@@ -240,6 +271,7 @@ func TestActivateTrigger(t *testing.T) {
 	}
 }
 
+// TestActivateTriggerErrorHandling check the error handling for command 'activate trigger'
 func TestActivateTriggerErrorHandling(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
@@ -254,6 +286,7 @@ func TestActivateTriggerErrorHandling(t *testing.T) {
 	}
 }
 
+// TestDeactivateTrigger check the command 'deactivate trigger'
 func TestDeactivateTrigger(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMock{}
@@ -268,6 +301,7 @@ func TestDeactivateTrigger(t *testing.T) {
 	}
 }
 
+// TestDeactivateTriggerErrorHandling check the error handling for command 'deactivate trigger'
 func TestDeactivateTriggerErrorHandling(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
