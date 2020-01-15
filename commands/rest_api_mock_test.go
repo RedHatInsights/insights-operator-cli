@@ -27,13 +27,13 @@ type RestAPIMock struct {
 // ReadListOfClusters reads mocked list of clusters via the REST API
 func (api RestAPIMock) ReadListOfClusters() ([]types.Cluster, error) {
 	clusters := []types.Cluster{
-		types.Cluster{
+		{
 			ID:   0,
 			Name: "c8590f31-e97e-4b85-b506-c45ce1911a12"},
-		types.Cluster{
+		{
 			ID:   0,
 			Name: "ffffffff-ffff-ffff-ffff-ffffffffffff"},
-		types.Cluster{
+		{
 			ID:   1,
 			Name: "00000000-0000-0000-0000-000000000000"}}
 	return clusters, nil
@@ -42,7 +42,7 @@ func (api RestAPIMock) ReadListOfClusters() ([]types.Cluster, error) {
 // ReadListOfTriggers reads mocked list of triggers via the REST API
 func (api RestAPIMock) ReadListOfTriggers() ([]types.Trigger, error) {
 	triggers := []types.Trigger{
-		types.Trigger{
+		{
 			ID:          0,
 			Type:        "must-gather",
 			Cluster:     "ffffffff-ffff-ffff-ffff-ffffffffffff",
@@ -53,7 +53,7 @@ func (api RestAPIMock) ReadListOfTriggers() ([]types.Trigger, error) {
 			AckedAt:     "1970-01-01T00:00:00",
 			Parameters:  "",
 			Active:      1},
-		types.Trigger{
+		{
 			ID:          1,
 			Type:        "must-gather",
 			Cluster:     "ffffffff-ffff-ffff-ffff-ffffffffffff",
@@ -64,7 +64,7 @@ func (api RestAPIMock) ReadListOfTriggers() ([]types.Trigger, error) {
 			AckedAt:     "2020-01-01T00:00:00",
 			Parameters:  "",
 			Active:      0},
-		types.Trigger{
+		{
 			ID:          2,
 			Type:        "must-gather",
 			Cluster:     "00000000-0000-0000-0000-000000000000",
@@ -75,7 +75,7 @@ func (api RestAPIMock) ReadListOfTriggers() ([]types.Trigger, error) {
 			AckedAt:     "1970-01-01T00:00:00",
 			Parameters:  "",
 			Active:      1},
-		types.Trigger{
+		{
 			ID:          3,
 			Type:        "different-trigger",
 			Cluster:     "00000000-0000-0000-0000-000000000000",
@@ -140,13 +140,13 @@ func (api RestAPIMock) ReadTriggerByID(triggerID string) (*types.Trigger, error)
 // ReadListOfConfigurationProfiles reads mocked list of configuration profiles via the REST API
 func (api RestAPIMock) ReadListOfConfigurationProfiles() ([]types.ConfigurationProfile, error) {
 	profiles := []types.ConfigurationProfile{
-		types.ConfigurationProfile{
+		{
 			ID:            0,
 			Configuration: "",
 			ChangedAt:     "2020-01-01T00:00:00",
 			ChangedBy:     "tester",
 			Description:   "default configuration profile"},
-		types.ConfigurationProfile{
+		{
 			ID:            1,
 			Configuration: "",
 			ChangedAt:     "2020-01-01T00:00:00",
@@ -159,7 +159,7 @@ func (api RestAPIMock) ReadListOfConfigurationProfiles() ([]types.ConfigurationP
 // ReadListOfConfigurations reads mocked list of configuration via the REST API
 func (api RestAPIMock) ReadListOfConfigurations() ([]types.ClusterConfiguration, error) {
 	configurations := []types.ClusterConfiguration{
-		types.ClusterConfiguration{
+		{
 			ID:            0,
 			Cluster:       "0",
 			Configuration: "0",
@@ -167,7 +167,7 @@ func (api RestAPIMock) ReadListOfConfigurations() ([]types.ClusterConfiguration,
 			ChangedBy:     "tester",
 			Active:        "1",
 			Reason:        "configuration1"},
-		types.ClusterConfiguration{
+		{
 			ID:            1,
 			Cluster:       "0",
 			Configuration: "1",
@@ -175,7 +175,7 @@ func (api RestAPIMock) ReadListOfConfigurations() ([]types.ClusterConfiguration,
 			ChangedBy:     "tester",
 			Active:        "1",
 			Reason:        "configuration2"},
-		types.ClusterConfiguration{
+		{
 			ID:            2,
 			Cluster:       "0",
 			Configuration: "2",
