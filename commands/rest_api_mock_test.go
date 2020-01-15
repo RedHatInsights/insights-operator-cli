@@ -77,7 +77,7 @@ func (api RestAPIMock) ReadListOfTriggers() ([]types.Trigger, error) {
 			Active:      1},
 		types.Trigger{
 			ID:          3,
-			Type:        "must-gather",
+			Type:        "different-trigger",
 			Cluster:     "00000000-0000-0000-0000-000000000000",
 			Reason:      "we need to run must-gather",
 			Link:        "https://www.webpagetest.org/",
@@ -92,7 +92,8 @@ func (api RestAPIMock) ReadListOfTriggers() ([]types.Trigger, error) {
 
 // ReadTriggerByID reads trigger identified by its ID via the REST API
 func (api RestAPIMock) ReadTriggerByID(triggerID string) (*types.Trigger, error) {
-	if triggerID == "0" {
+	switch triggerID {
+	case "0":
 		trigger := types.Trigger{
 			ID:          0,
 			Type:        "must-gather",
@@ -104,6 +105,32 @@ func (api RestAPIMock) ReadTriggerByID(triggerID string) (*types.Trigger, error)
 			AckedAt:     "1970-01-01T00:00:00",
 			Parameters:  "",
 			Active:      1}
+		return &trigger, nil
+	case "1":
+		trigger := types.Trigger{
+			ID:          1,
+			Type:        "must-gather",
+			Cluster:     "ffffffff-ffff-ffff-ffff-ffffffffffff",
+			Reason:      "we need to run must-gather",
+			Link:        "https://www.webpagetest.org/",
+			TriggeredAt: "2020-01-01T00:00:00",
+			TriggeredBy: "tester",
+			AckedAt:     "2020-01-02T00:00:00",
+			Parameters:  "",
+			Active:      0}
+		return &trigger, nil
+	case "2":
+		trigger := types.Trigger{
+			ID:          2,
+			Type:        "another-one",
+			Cluster:     "00000000-0000-0000-0000-000000000000",
+			Reason:      "something else",
+			Link:        "https://www.webpagetest.org/",
+			TriggeredAt: "2020-01-01T00:00:00",
+			TriggeredBy: "tester",
+			AckedAt:     "2020-01-02T00:00:00",
+			Parameters:  "-a -W",
+			Active:      0}
 		return &trigger, nil
 	}
 	trigger := types.TriggerResponse{}
