@@ -95,6 +95,11 @@ func AddTrigger(api restapi.API, username string) {
 	reason := prompt.Input("reason: ", LoginCompleter)
 	link := prompt.Input("link: ", LoginCompleter)
 
+	AddTriggerImpl(api, username, clusterName, reason, link)
+}
+
+// AddTriggerImpl calls REST API to add a new trigger into the database
+func AddTriggerImpl(api restapi.API, username string, clusterName string, reason string, link string) {
 	err := api.AddTrigger(username, clusterName, reason, link)
 	if err != nil {
 		fmt.Println("Error communicating with the service")
