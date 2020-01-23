@@ -25,13 +25,17 @@ import (
 	"testing"
 )
 
+func mockedHttpServer(handler func(responseWriter http.ResponseWriter, request *http.Request)) *httptest.Server {
+	return httptest.NewServer(http.HandlerFunc(handler))
+}
+
 // TestPerformReadRequestProperResponse check if body of response can be processed correctly by performReadRequest function.
 func TestPerformReadRequestProperResponse(t *testing.T) {
 	// start a local HTTP server
-	server := httptest.NewServer(http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
+	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
 		// send response to be tested later
 		responseWriter.Write([]byte(`OK`))
-	}))
+	})
 	// close the server when test finishes
 	defer server.Close()
 
@@ -50,11 +54,11 @@ func TestPerformReadRequestProperResponse(t *testing.T) {
 // TestPerformReadRequestStatusCode check how response can be processed by performReadRequest function.
 func TestPerformReadRequestStatusCode(t *testing.T) {
 	// start a local HTTP server
-	server := httptest.NewServer(http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
+	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
 		// send response to be tested later
 		responseWriter.WriteHeader(http.StatusInternalServerError)
 		responseWriter.Write([]byte(`error`))
-	}))
+	})
 	// close the server when test finishes
 	defer server.Close()
 
@@ -73,10 +77,10 @@ func TestPerformReadRequestStatusCode(t *testing.T) {
 // TestPerformReadRequestEmptyBody check how response can be processed by performReadRequest function.
 func TestPerformReadRequestEmptyBody(t *testing.T) {
 	// start a local HTTP server
-	server := httptest.NewServer(http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
+	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
 		// send response to be tested later
 		responseWriter.WriteHeader(http.StatusOK)
-	}))
+	})
 	// close the server when test finishes
 	defer server.Close()
 
@@ -109,10 +113,10 @@ func TestPerformReadRequestErrorInCommunication(t *testing.T) {
 // TestPerformWriteRequestProperResponse check the behaviour of function performWriteRequest
 func TestPerformWriteRequestProperResponse(t *testing.T) {
 	// start a local HTTP server
-	server := httptest.NewServer(http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
+	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
 		// send response to be tested later
 		responseWriter.Write([]byte(`{"status":"ok"}`))
-	}))
+	})
 	// close the server when test finishes
 	defer server.Close()
 
@@ -126,10 +130,10 @@ func TestPerformWriteRequestProperResponse(t *testing.T) {
 // TestPerformWriteRequestErrorResponse check the behaviour of function performWriteRequest
 func TestPerformWriteRequestErrorResponse(t *testing.T) {
 	// start a local HTTP server
-	server := httptest.NewServer(http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
+	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
 		// send response to be tested later
 		responseWriter.Write([]byte(`{"status":"error"}`))
-	}))
+	})
 	// close the server when test finishes
 	defer server.Close()
 
@@ -143,11 +147,11 @@ func TestPerformWriteRequestErrorResponse(t *testing.T) {
 // TestPerformWriteRequestImproperStatusCode check the behaviour of function performWriteRequest
 func TestPerformWriteRequestImproperStatusCode(t *testing.T) {
 	// start a local HTTP server
-	server := httptest.NewServer(http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
+	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
 		// send response to be tested later
 		responseWriter.WriteHeader(http.StatusInternalServerError)
 		responseWriter.Write([]byte(`{"status":"ok"}`))
-	}))
+	})
 	// close the server when test finishes
 	defer server.Close()
 
@@ -164,9 +168,9 @@ func TestPerformWriteRequestImproperStatusCode(t *testing.T) {
 // TestPerformWriteRequestEmptyBody check the behaviour of function performWriteRequest
 func TestPerformWriteRequesttEmptyBody(t *testing.T) {
 	// start a local HTTP server
-	server := httptest.NewServer(http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
+	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
 		// send empty response to be tested later
-	}))
+	})
 	// close the server when test finishes
 	defer server.Close()
 
