@@ -105,3 +105,85 @@ func TestPerformReadRequestErrorInCommunication(t *testing.T) {
 		t.Fatal("Body needs to be nil in case of any error")
 	}
 }
+
+// TestPerformWriteRequestProperResponse check the behaviour of function performWriteRequest
+func TestPerformWriteRequestProperResponse(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
+		// send response to be tested later
+		responseWriter.Write([]byte(`{"status":"ok"}`))
+	}))
+	// close the server when test finishes
+	defer server.Close()
+
+	// try to read response from the server
+	err := restapi.PerformWriteRequest(server.URL, "POST", nil)
+	if err != nil {
+		t.Fatal("Unable to perform request", err)
+	}
+}
+
+// TestPerformWriteRequestErrorResponse check the behaviour of function performWriteRequest
+func TestPerformWriteRequestErrorResponse(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
+		// send response to be tested later
+		responseWriter.Write([]byte(`{"status":"error"}`))
+	}))
+	// close the server when test finishes
+	defer server.Close()
+
+	// try to read response from the server
+	err := restapi.PerformWriteRequest(server.URL, "POST", nil)
+	if err == nil {
+		t.Fatal("Error should be reported")
+	}
+}
+
+// TestPerformWriteRequestImproperStatusCode check the behaviour of function performWriteRequest
+func TestPerformWriteRequestImproperStatusCode(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
+		// send response to be tested later
+		responseWriter.WriteHeader(http.StatusInternalServerError)
+		responseWriter.Write([]byte(`{"status":"ok"}`))
+	}))
+	// close the server when test finishes
+	defer server.Close()
+
+	// try to read response from the server
+	err := restapi.PerformWriteRequest(server.URL, "POST", nil)
+	if err == nil {
+		t.Fatal("Error should be reported")
+	}
+	if !strings.HasPrefix(err.Error(), "Expected HTTP status 200 OK, 201 Created or 202 Accepted") {
+		t.Fatal("Unexpected error message:", err.Error())
+	}
+}
+
+// TestPerformWriteRequestEmptyBody check the behaviour of function performWriteRequest
+func TestPerformWriteRequesttEmptyBody(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
+		// send empty response to be tested later
+	}))
+	// close the server when test finishes
+	defer server.Close()
+
+	// try to read response from the server
+	err := restapi.PerformWriteRequest(server.URL, "POST", nil)
+	if err == nil {
+		t.Fatal("Error should be reported")
+	}
+}
+
+// TestPerformWriteRequestErrorInCommunication check how response can be processed by performWriteRequest function.
+func TestPerformWriteRequestErrorInCommunication(t *testing.T) {
+	err := restapi.PerformWriteRequest("", "POST", nil)
+	if err == nil {
+		t.Fatal("Error is expected")
+	}
+	if !strings.HasPrefix(err.Error(), "Communication error with the server") {
+		t.Fatal("Unexpected error message:", err.Error())
+	}
+}
