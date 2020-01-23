@@ -187,3 +187,33 @@ func TestPerformWriteRequestErrorInCommunication(t *testing.T) {
 		t.Fatal("Unexpected error message:", err.Error())
 	}
 }
+
+// TestParseResponseOkStatus check the behaviour of function parseResponse
+func TestParseResponseOkStatus(t *testing.T) {
+	body := []byte(`{"status":"ok"}`)
+	err := restapi.ParseResponse(body)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+// TestParseResponseErrorStatus check the behaviour of function parseResponse
+func TestParseResponseErrorStatus(t *testing.T) {
+	body := []byte(`{"status":"error"}`)
+	err := restapi.ParseResponse(body)
+	if err == nil {
+		t.Fatal("Error report is expected")
+	}
+	if err.Error() != "Error response: error" {
+		t.Fatal("Invalid error response:", err)
+	}
+}
+
+// TestParseResponseImproperJSON check the behaviour of function parseResponse
+func TestParseResponseImproperJSON(t *testing.T) {
+	body := []byte(`this is not JSON`)
+	err := restapi.ParseResponse(body)
+	if err == nil {
+		t.Fatal("Error report is expected")
+	}
+}
