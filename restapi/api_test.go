@@ -173,3 +173,130 @@ func TestReadListOfClustersResponseError(t *testing.T) {
 		t.Fatal("Error is expected to be returned")
 	}
 }
+
+// TestReadListOfTriggersEmptyList check the method ReadListOfTriggers
+func TestReadListOfTriggersEmptyList(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		checkURL(t, request, "/api/v1/client/trigger")
+		// send response to be tested later
+		writeBody(responseWriter, `{"status":"ok"}`)
+	})
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	triggers, err := api.ReadListOfTriggers()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(triggers) != 0 {
+		t.Fatal("Expected empty list of triggers")
+	}
+}
+
+// TestReadListOfTriggersOneTrigger check the method ReadListOfTriggers
+func TestReadListOfTriggersOneTrigger(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		checkURL(t, request, "/api/v1/client/trigger")
+		responseAsString := `
+		{
+			"triggers": [{"ID":0,"Name":"Name","Type":"must-gather"}],
+			"status":"ok"
+		}`
+		// send response to be tested later
+		writeBody(responseWriter, responseAsString)
+	})
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	triggers, err := api.ReadListOfTriggers()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(triggers) != 1 {
+		t.Fatal("Expected list with one trigger only")
+	}
+}
+
+// TestReadListOfTriggersErrorStatus check the method ReadListOfTriggers
+func TestReadListOfTriggersErrorStatus(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		checkURL(t, request, "/api/v1/client/trigger")
+		// send response to be tested later
+		writeBody(responseWriter, `{"status":"error"}`)
+	})
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadListOfTriggers()
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestReadListOfTriggersEmptyResponse check the method ReadListOfTriggers
+func TestReadListOfTriggersEmptyResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		checkURL(t, request, "/api/v1/client/trigger")
+	})
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadListOfTriggers()
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestReadListOfTriggersWrongJSON check the method ReadListOfTriggers
+func TestReadListOfTriggersWrongJSON(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		checkURL(t, request, "/api/v1/client/trigger")
+		// send response to be tested later
+		writeBody(responseWriter, `this is not proper JSON`)
+	})
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadListOfTriggers()
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestReadListOfTriggersResponseError check the method ReadListOfTriggers
+func TestReadListOfTriggersResponseError(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadListOfTriggers()
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
