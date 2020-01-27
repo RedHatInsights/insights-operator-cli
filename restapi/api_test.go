@@ -46,3 +46,130 @@ func checkURL(t *testing.T, request *http.Request, expectedURL string) {
 func writeBody(responseWriter http.ResponseWriter, body string) {
 	responseWriter.Write([]byte(body))
 }
+
+// TestReadListOfClustersEmptyList check the method ReadListOfClusters
+func TestReadListOfClustersEmptyList(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		checkURL(t, request, "/api/v1/client/cluster")
+		// send response to be tested later
+		writeBody(responseWriter, `{"status":"ok"}`)
+	})
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	clusters, err := api.ReadListOfClusters()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(clusters) != 0 {
+		t.Fatal("Expected empty list of clusters")
+	}
+}
+
+// TestReadListOfClustersOneCluster check the method ReadListOfClusters
+func TestReadListOfClustersOneCluster(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		checkURL(t, request, "/api/v1/client/cluster")
+		responseAsString := `
+		{
+			"clusters": [{"ID":0,"Name":"Name"}],
+			"status":"ok"
+		}`
+		// send response to be tested later
+		writeBody(responseWriter, responseAsString)
+	})
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	clusters, err := api.ReadListOfClusters()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(clusters) != 1 {
+		t.Fatal("Expected list with one cluster only")
+	}
+}
+
+// TestReadListOfClustersErrorStatus check the method ReadListOfClusters
+func TestReadListOfClustersErrorStatus(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		checkURL(t, request, "/api/v1/client/cluster")
+		// send response to be tested later
+		writeBody(responseWriter, `{"status":"error"}`)
+	})
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadListOfClusters()
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestReadListOfClustersEmptyResponse check the method ReadListOfClusters
+func TestReadListOfClustersEmptyResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		checkURL(t, request, "/api/v1/client/cluster")
+	})
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadListOfClusters()
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestReadListOfClustersWrongJSON check the method ReadListOfClusters
+func TestReadListOfClustersWrongJSON(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		checkURL(t, request, "/api/v1/client/cluster")
+		// send response to be tested later
+		writeBody(responseWriter, `this is not proper JSON`)
+	})
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadListOfClusters()
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestReadListOfClustersResponseError check the method ReadListOfClusters
+func TestReadListOfClustersResponseError(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadListOfClusters()
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
