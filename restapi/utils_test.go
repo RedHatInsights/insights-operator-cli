@@ -25,6 +25,7 @@ import (
 	"testing"
 )
 
+// mockedHttpServer prepares new instance of testing HTTP server
 func mockedHttpServer(handler func(responseWriter http.ResponseWriter, request *http.Request)) *httptest.Server {
 	return httptest.NewServer(http.HandlerFunc(handler))
 }
