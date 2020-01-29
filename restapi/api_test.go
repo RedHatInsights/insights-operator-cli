@@ -30,6 +30,10 @@ const (
 	ReadClustersURL = RESTApiPrefix + "cluster"
 	ReadTriggersURL = RESTApiPrefix + "trigger"
 	ReadProfilesURL = RESTApiPrefix + "profile"
+
+	StatusOKJSON    = `{"status":"ok"}`
+	StatusErrorJSON = `{"status":"error"}`
+	ImproperJSON    = `this is not proper JSON`
 )
 
 // mockedHTTPServer prepares new instance of testing HTTP server
@@ -68,7 +72,7 @@ func standardHandlerImpl(t *testing.T, expectedURL, responseStr string) func(res
 // TestReadListOfClustersEmptyList check the method ReadListOfClusters
 func TestReadListOfClustersEmptyList(t *testing.T) {
 	// start a local HTTP server
-	server := mockedHTTPServer(standardHandlerImpl(t, ReadClustersURL, `{"status":"ok"}`))
+	server := mockedHTTPServer(standardHandlerImpl(t, ReadClustersURL, StatusOKJSON))
 	// close the server when test finishes
 	defer server.Close()
 
@@ -113,7 +117,7 @@ func TestReadListOfClustersOneCluster(t *testing.T) {
 // TestReadListOfClustersErrorStatus check the method ReadListOfClusters
 func TestReadListOfClustersErrorStatus(t *testing.T) {
 	// start a local HTTP server
-	server := mockedHTTPServer(standardHandlerImpl(t, ReadClustersURL, `{"status":"error"}`))
+	server := mockedHTTPServer(standardHandlerImpl(t, ReadClustersURL, StatusErrorJSON))
 	// close the server when test finishes
 	defer server.Close()
 
@@ -148,7 +152,7 @@ func TestReadListOfClustersEmptyResponse(t *testing.T) {
 // TestReadListOfClustersWrongJSON check the method ReadListOfClusters
 func TestReadListOfClustersWrongJSON(t *testing.T) {
 	// start a local HTTP server
-	server := mockedHTTPServer(standardHandlerImpl(t, ReadClustersURL, `this is not proper JSON`))
+	server := mockedHTTPServer(standardHandlerImpl(t, ReadClustersURL, ImproperJSON))
 	// close the server when test finishes
 	defer server.Close()
 
@@ -180,7 +184,7 @@ func TestReadListOfClustersResponseError(t *testing.T) {
 // TestReadListOfTriggersEmptyList check the method ReadListOfTriggers
 func TestReadListOfTriggersEmptyList(t *testing.T) {
 	// start a local HTTP server
-	server := mockedHTTPServer(standardHandlerImpl(t, ReadTriggersURL, `{"status":"ok"}`))
+	server := mockedHTTPServer(standardHandlerImpl(t, ReadTriggersURL, StatusOKJSON))
 	// close the server when test finishes
 	defer server.Close()
 
@@ -225,7 +229,7 @@ func TestReadListOfTriggersOneTrigger(t *testing.T) {
 // TestReadListOfTriggersErrorStatus check the method ReadListOfTriggers
 func TestReadListOfTriggersErrorStatus(t *testing.T) {
 	// start a local HTTP server
-	server := mockedHTTPServer(standardHandlerImpl(t, ReadTriggersURL, `{"status":"error"}`))
+	server := mockedHTTPServer(standardHandlerImpl(t, ReadTriggersURL, StatusErrorJSON))
 	// close the server when test finishes
 	defer server.Close()
 
@@ -260,7 +264,7 @@ func TestReadListOfTriggersEmptyResponse(t *testing.T) {
 // TestReadListOfTriggersWrongJSON check the method ReadListOfTriggers
 func TestReadListOfTriggersWrongJSON(t *testing.T) {
 	// start a local HTTP server
-	server := mockedHTTPServer(standardHandlerImpl(t, ReadTriggersURL, `this is not proper JSON`))
+	server := mockedHTTPServer(standardHandlerImpl(t, ReadTriggersURL, ImproperJSON))
 	// close the server when test finishes
 	defer server.Close()
 
@@ -292,7 +296,7 @@ func TestReadListOfTriggersResponseError(t *testing.T) {
 // TestReadListOfConfigurationProfilesEmptyList check the method ReadListOfConfigurationProfiles
 func TestReadListOfConfigurationProfilesEmptyList(t *testing.T) {
 	// start a local HTTP server
-	server := mockedHTTPServer(standardHandlerImpl(t, ReadProfilesURL, `{"status":"ok"}`))
+	server := mockedHTTPServer(standardHandlerImpl(t, ReadProfilesURL, StatusOKJSON))
 	// close the server when test finishes
 	defer server.Close()
 
@@ -337,7 +341,7 @@ func TestReadListOfConfigurationProfilesOneProfile(t *testing.T) {
 // TestReadListOfConfigurationProfilesErrorStatus check the method ReadListOfConfigurationProfiles
 func TestReadListOfConfigurationProfilesErrorStatus(t *testing.T) {
 	// start a local HTTP server
-	server := mockedHTTPServer(standardHandlerImpl(t, ReadProfilesURL, `{"status":"error"}`))
+	server := mockedHTTPServer(standardHandlerImpl(t, ReadProfilesURL, StatusErrorJSON))
 	// close the server when test finishes
 	defer server.Close()
 
@@ -372,7 +376,7 @@ func TestReadListOfConfigurationProfilesEmptyResponse(t *testing.T) {
 // TestReadListOfConfigurationProfilesWrongJSON check the method ReadListOfConfigurationProfiles
 func TestReadListOfConfigurationProfilesWrongJSON(t *testing.T) {
 	// start a local HTTP server
-	server := mockedHTTPServer(standardHandlerImpl(t, ReadProfilesURL, `this is not proper JSON`))
+	server := mockedHTTPServer(standardHandlerImpl(t, ReadProfilesURL, ImproperJSON))
 	// close the server when test finishes
 	defer server.Close()
 
