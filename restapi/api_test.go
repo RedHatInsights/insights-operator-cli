@@ -47,13 +47,20 @@ func writeBody(responseWriter http.ResponseWriter, body string) {
 	responseWriter.Write([]byte(body))
 }
 
+// standardHandlerImpl is an implementation of handler that checks URL and when it's expected send a response
+// with body that contains a body filled with given response string
+func standardHandlerImpl(t *testing.T, responseWriter http.ResponseWriter, request *http.Request, expectedURL string, responseStr string) {
+	// check if the URL is expected one
+	checkURL(t, request, expectedURL)
+	// send response to be tested later
+	writeBody(responseWriter, responseStr)
+}
+
 // TestReadListOfClustersEmptyList check the method ReadListOfClusters
 func TestReadListOfClustersEmptyList(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
-		checkURL(t, request, "/api/v1/client/cluster")
-		// send response to be tested later
-		writeBody(responseWriter, `{"status":"ok"}`)
+		standardHandlerImpl(t, responseWriter, request, "/api/v1/client/cluster", `{"status":"ok"}`)
 	})
 	// close the server when test finishes
 	defer server.Close()
@@ -75,14 +82,12 @@ func TestReadListOfClustersEmptyList(t *testing.T) {
 func TestReadListOfClustersOneCluster(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
-		checkURL(t, request, "/api/v1/client/cluster")
-		responseAsString := `
+		const responseAsString = `
 		{
 			"clusters": [{"ID":0,"Name":"Name"}],
 			"status":"ok"
 		}`
-		// send response to be tested later
-		writeBody(responseWriter, responseAsString)
+		standardHandlerImpl(t, responseWriter, request, "/api/v1/client/cluster", responseAsString)
 	})
 	// close the server when test finishes
 	defer server.Close()
@@ -104,9 +109,7 @@ func TestReadListOfClustersOneCluster(t *testing.T) {
 func TestReadListOfClustersErrorStatus(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
-		checkURL(t, request, "/api/v1/client/cluster")
-		// send response to be tested later
-		writeBody(responseWriter, `{"status":"error"}`)
+		standardHandlerImpl(t, responseWriter, request, "/api/v1/client/cluster", `{"status":"error"}`)
 	})
 	// close the server when test finishes
 	defer server.Close()
@@ -124,6 +127,7 @@ func TestReadListOfClustersErrorStatus(t *testing.T) {
 func TestReadListOfClustersEmptyResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		// just check the URL, don't send any body in the response
 		checkURL(t, request, "/api/v1/client/cluster")
 	})
 	// close the server when test finishes
@@ -142,9 +146,7 @@ func TestReadListOfClustersEmptyResponse(t *testing.T) {
 func TestReadListOfClustersWrongJSON(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
-		checkURL(t, request, "/api/v1/client/cluster")
-		// send response to be tested later
-		writeBody(responseWriter, `this is not proper JSON`)
+		standardHandlerImpl(t, responseWriter, request, "/api/v1/client/cluster", `this is not proper JSON`)
 	})
 	// close the server when test finishes
 	defer server.Close()
@@ -178,9 +180,7 @@ func TestReadListOfClustersResponseError(t *testing.T) {
 func TestReadListOfTriggersEmptyList(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
-		checkURL(t, request, "/api/v1/client/trigger")
-		// send response to be tested later
-		writeBody(responseWriter, `{"status":"ok"}`)
+		standardHandlerImpl(t, responseWriter, request, "/api/v1/client/trigger", `{"status":"ok"}`)
 	})
 	// close the server when test finishes
 	defer server.Close()
@@ -202,14 +202,12 @@ func TestReadListOfTriggersEmptyList(t *testing.T) {
 func TestReadListOfTriggersOneTrigger(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
-		checkURL(t, request, "/api/v1/client/trigger")
-		responseAsString := `
+		const responseAsString = `
 		{
 			"triggers": [{"ID":0,"Name":"Name","Type":"must-gather"}],
 			"status":"ok"
 		}`
-		// send response to be tested later
-		writeBody(responseWriter, responseAsString)
+		standardHandlerImpl(t, responseWriter, request, "/api/v1/client/trigger", responseAsString)
 	})
 	// close the server when test finishes
 	defer server.Close()
@@ -231,9 +229,7 @@ func TestReadListOfTriggersOneTrigger(t *testing.T) {
 func TestReadListOfTriggersErrorStatus(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
-		checkURL(t, request, "/api/v1/client/trigger")
-		// send response to be tested later
-		writeBody(responseWriter, `{"status":"error"}`)
+		standardHandlerImpl(t, responseWriter, request, "/api/v1/client/trigger", `{"status":"error"}`)
 	})
 	// close the server when test finishes
 	defer server.Close()
@@ -251,6 +247,7 @@ func TestReadListOfTriggersErrorStatus(t *testing.T) {
 func TestReadListOfTriggersEmptyResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		// just check the URL, don't send any body in the response
 		checkURL(t, request, "/api/v1/client/trigger")
 	})
 	// close the server when test finishes
@@ -269,9 +266,7 @@ func TestReadListOfTriggersEmptyResponse(t *testing.T) {
 func TestReadListOfTriggersWrongJSON(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
-		checkURL(t, request, "/api/v1/client/trigger")
-		// send response to be tested later
-		writeBody(responseWriter, `this is not proper JSON`)
+		standardHandlerImpl(t, responseWriter, request, "/api/v1/client/trigger", `this is not proper JSON`)
 	})
 	// close the server when test finishes
 	defer server.Close()
@@ -305,9 +300,7 @@ func TestReadListOfTriggersResponseError(t *testing.T) {
 func TestReadListOfConfigurationProfilesEmptyList(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
-		checkURL(t, request, "/api/v1/client/profile")
-		// send response to be tested later
-		writeBody(responseWriter, `{"status":"ok"}`)
+		standardHandlerImpl(t, responseWriter, request, "/api/v1/client/profile", `{"status":"ok"}`)
 	})
 	// close the server when test finishes
 	defer server.Close()
@@ -329,14 +322,12 @@ func TestReadListOfConfigurationProfilesEmptyList(t *testing.T) {
 func TestReadListOfConfigurationProfilesOneProfile(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
-		checkURL(t, request, "/api/v1/client/profile")
-		responseAsString := `
+		const responseAsString = `
 		{
 			"profiles": [{}],
 			"status":"ok"
 		}`
-		// send response to be tested later
-		writeBody(responseWriter, responseAsString)
+		standardHandlerImpl(t, responseWriter, request, "/api/v1/client/profile", responseAsString)
 	})
 	// close the server when test finishes
 	defer server.Close()
@@ -358,9 +349,7 @@ func TestReadListOfConfigurationProfilesOneProfile(t *testing.T) {
 func TestReadListOfConfigurationProfilesErrorStatus(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
-		checkURL(t, request, "/api/v1/client/profile")
-		// send response to be tested later
-		writeBody(responseWriter, `{"status":"error"}`)
+		standardHandlerImpl(t, responseWriter, request, "/api/v1/client/profile", `{"status":"error"}`)
 	})
 	// close the server when test finishes
 	defer server.Close()
@@ -378,6 +367,7 @@ func TestReadListOfConfigurationProfilesErrorStatus(t *testing.T) {
 func TestReadListOfConfigurationProfilesEmptyResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		// just check the URL, don't send any body in the response
 		checkURL(t, request, "/api/v1/client/profile")
 	})
 	// close the server when test finishes
@@ -396,9 +386,7 @@ func TestReadListOfConfigurationProfilesEmptyResponse(t *testing.T) {
 func TestReadListOfConfigurationProfilesWrongJSON(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
-		checkURL(t, request, "/api/v1/client/profile")
-		// send response to be tested later
-		writeBody(responseWriter, `this is not proper JSON`)
+		standardHandlerImpl(t, responseWriter, request, "/api/v1/client/profile", `this is not proper JSON`)
 	})
 	// close the server when test finishes
 	defer server.Close()
