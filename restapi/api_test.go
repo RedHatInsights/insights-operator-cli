@@ -27,10 +27,11 @@ import (
 )
 
 const (
-	RESTApiPrefix   = "/api/v1/client/"
-	ReadClustersURL = RESTApiPrefix + "cluster"
-	ReadTriggersURL = RESTApiPrefix + "trigger"
-	ReadProfilesURL = RESTApiPrefix + "profile"
+	RESTApiPrefix         = "/api/v1/client/"
+	ReadClustersURL       = RESTApiPrefix + "cluster"
+	ReadTriggersURL       = RESTApiPrefix + "trigger"
+	ReadProfilesURL       = RESTApiPrefix + "profile"
+	ReadConfigurationsURL = RESTApiPrefix + "configuration"
 
 	StatusOKJSON    = `{"status":"ok"}`
 	StatusErrorJSON = `{"status":"error"}`
