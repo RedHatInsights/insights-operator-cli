@@ -3,7 +3,7 @@ module github.com/redhatinsighs/insights-operator-cli
 go 1.13
 
 require (
-	github.com/ThomasRooney/gexpect v0.0.0-20161231170123-5482f0350944 // indirect
+	github.com/ThomasRooney/gexpect v0.0.0-20161231170123-5482f0350944
 	github.com/c-bata/go-prompt v0.2.3
 	github.com/gorilla/mux v1.7.3
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
