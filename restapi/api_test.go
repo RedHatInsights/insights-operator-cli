@@ -21,6 +21,7 @@ import (
 	"net/http/httptest"
 
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
+	"github.com/redhatinsighs/insights-operator-cli/types"
 
 	"testing"
 )
@@ -400,6 +401,108 @@ func TestReadListOfConfigurationProfilesResponseError(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadListOfConfigurationProfiles()
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestReadTriggerByIDStandardResponse check the method ReadTriggerByID
+func TestReadTriggerByIDStandardResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		const responseAsString = `
+		{
+			"trigger": {"ID":1,"Type":"must-gather","Cluster":"ffff"},
+			"status":"ok"
+		}`
+		standardHandlerImpl(t, responseWriter, request, "/api/v1/client/trigger/1", responseAsString)
+	})
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	trigger, err := api.ReadTriggerByID("1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	expected := types.Trigger{
+		ID:      1,
+		Type:    "must-gather",
+		Cluster: "ffff",
+	}
+	if *trigger != expected {
+		t.Fatal("Improper trigger returned: ", trigger)
+	}
+}
+
+// TestReadTriggerByIDImproperJSON check the method ReadTriggerByID
+func TestReadTriggerByIDImproperJSON(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		standardHandlerImpl(t, responseWriter, request, "/api/v1/client/trigger/1", ImproperJSON)
+	})
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadTriggerByID("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestReadTriggerByIDErrorResponse check the method ReadTriggerByID
+func TestReadTriggerByIDErrorResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		standardHandlerImpl(t, responseWriter, request, "/api/v1/client/trigger/1", StatusErrorJSON)
+	})
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadTriggerByID("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestReadTriggerByIDEmptyResponse check the method ReadTriggerByID
+func TestReadTriggerByIDEmptyResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		// just check the URL, don't send any body in the response
+		checkURL(t, request, "/api/v1/client/trigger/1")
+	})
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadTriggerByID("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestReadTriggerByIDNotFoundResponse check the method ReadTriggerByID
+func TestReadTriggerByIDNotFoundResponse(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadTriggerByID("1")
 	if err == nil {
 		t.Fatal("Error is expected to be returned")
 	}
