@@ -712,3 +712,95 @@ func TestReadConfigurationProfileNotFoundResponse(t *testing.T) {
 		t.Fatal("Error is expected to be returned")
 	}
 }
+
+// TestReadClusterConfigurationByIDStandardResponse check the method ReadClusterConfigurationByID
+func TestReadClusterConfigurationByIDStandardResponse(t *testing.T) {
+	const responseAsString = `
+	{
+		"configuration": "config",
+		"status":"ok"
+	}`
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerImpl(t, "/api/v1/client/configuration/1", responseAsString))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	configuration, err := api.ReadClusterConfigurationByID("1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	expected := "config"
+	if *configuration != expected {
+		t.Fatal("Improper cluster configuration returned: ", *configuration)
+	}
+}
+
+// TestReadClusterConfigurationByIDImproperJSON check the method ReadClusterConfigurationByID
+func TestReadClusterConfigurationByIDImproperJSON(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerImpl(t, "/api/v1/client/configuration/1", ImproperJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadClusterConfigurationByID("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestReadClusterConfigurationByIDErrorResponse check the method ReadClusterConfigurationByID
+func TestReadClusterConfigurationByIDErrorResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerImpl(t, "/api/v1/client/configuration/1", StatusErrorJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadClusterConfigurationByID("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestReadClusterConfigurationByIDEmptyResponse check the method ReadClusterConfigurationByID
+func TestReadClusterConfigurationByIDEmptyResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		// just check the URL, don't send any body in the response
+		checkURL(t, request, "/api/v1/client/configuration/1")
+	})
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadClusterConfigurationByID("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestReadClusterConfigurationByIDNotFoundResponse check the method ReadClusterConfigurationByID
+func TestReadClusterConfigurationByIDNotFoundResponse(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadClusterConfigurationByID("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
