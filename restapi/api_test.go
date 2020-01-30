@@ -407,6 +407,118 @@ func TestReadListOfConfigurationProfilesResponseError(t *testing.T) {
 	}
 }
 
+// TestReadListOfConfigurationsEmptyList check the method ReadListOfConfigurations
+func TestReadListOfConfigurationsEmptyList(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerImpl(t, ReadConfigurationsURL, StatusOKJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	configurations, err := api.ReadListOfConfigurations()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(configurations) != 0 {
+		t.Fatal("Expected empty list of configurations")
+	}
+}
+
+// TestReadListOfConfigurationsOneConfiguration check the method ReadListOfConfigurations
+func TestReadListOfConfigurationsOneConfiguration(t *testing.T) {
+	// start a local HTTP server
+	const responseAsString = `
+	{
+		"configuration": [{}],
+		"status":"ok"
+	}`
+	server := mockedHTTPServer(standardHandlerImpl(t, ReadConfigurationsURL, responseAsString))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	configurations, err := api.ReadListOfConfigurations()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(configurations) != 1 {
+		t.Fatal("Expected list with one configuration only")
+	}
+}
+
+// TestReadListOfConfigurationsErrorStatus check the method ReadListOfConfigurations
+func TestReadListOfConfigurationsErrorStatus(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerImpl(t, ReadConfigurationsURL, StatusErrorJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadListOfConfigurations()
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestReadListOfConfigurationsEmptyResponse check the method ReadListOfConfigurations
+func TestReadListOfConfigurationsEmptyResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		// just check the URL, don't send any body in the response
+		checkURL(t, request, ReadConfigurationsURL)
+	})
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadListOfConfigurations()
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestReadListOfConfigurationsWrongJSON check the method ReadListOfConfigurations
+func TestReadListOfConfigurationsWrongJSON(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerImpl(t, ReadConfigurationsURL, ImproperJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadListOfConfigurations()
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestReadListOfConfigurationsResponseError check the method ReadListOfConfigurations
+func TestReadListOfConfigurationsResponseError(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadListOfConfigurations()
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
 // TestReadTriggerByIDStandardResponse check the method ReadTriggerByID
 func TestReadTriggerByIDStandardResponse(t *testing.T) {
 	const responseAsString = `
