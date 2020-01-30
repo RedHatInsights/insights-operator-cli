@@ -25,6 +25,7 @@ import (
 	"testing"
 )
 
+// mockedHttpServer prepares new instance of testing HTTP server
 func mockedHttpServer(handler func(responseWriter http.ResponseWriter, request *http.Request)) *httptest.Server {
 	return httptest.NewServer(http.HandlerFunc(handler))
 }
@@ -100,6 +101,25 @@ func TestPerformReadRequestEmptyBody(t *testing.T) {
 func TestPerformReadRequestErrorInCommunication(t *testing.T) {
 	// try to read response from the server, but by using improper URL
 	body, err := restapi.PerformReadRequest("")
+	if err == nil {
+		t.Fatal("Error is expected")
+	}
+
+	// body needs to be nil in case of any error
+	if body != nil {
+		t.Fatal("Body needs to be nil in case of any error")
+	}
+}
+
+// TestPerformReadRequestInvalidHTTPResponse check how response can be processed by performReadRequest function.
+func TestPerformReadRequestInvalidHTTPResponse(t *testing.T) {
+	// try to read response from the server, but from invalid HTTP response
+	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		// this is a trick described there:
+		// https://stackoverflow.com/questions/53171123/how-to-force-error-on-reading-response-body
+		responseWriter.Header().Set("Content-Length", "1")
+	})
+	body, err := restapi.PerformReadRequest(server.URL)
 	if err == nil {
 		t.Fatal("Error is expected")
 	}
@@ -189,6 +209,31 @@ func TestPerformWriteRequestErrorInCommunication(t *testing.T) {
 	}
 	if !strings.HasPrefix(err.Error(), "Communication error with the server") {
 		t.Fatal("Unexpected error message:", err.Error())
+	}
+}
+
+// TestPerformWriteRequestInvalidMethod check how response can be processed by performWriteRequest function.
+func TestPerformWriteRequestInvalidMethod(t *testing.T) {
+	err := restapi.PerformWriteRequest("", "\t", nil)
+	if err == nil {
+		t.Fatal("Error is expected")
+	}
+	if !strings.HasPrefix(err.Error(), "Error creating request net/http") {
+		t.Fatal("Unexpected error message:", err.Error())
+	}
+}
+
+// TestPerformWriteRequestInvalidHTTPResponse check how response can be processed by performWriteRequest function.
+func TestPerformWriteRequestInvalidHTTPResponse(t *testing.T) {
+	// try to read response from the server, but from invalid HTTP response
+	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		// this is a trick described there:
+		// https://stackoverflow.com/questions/53171123/how-to-force-error-on-reading-response-body
+		responseWriter.Header().Set("Content-Length", "1")
+	})
+	err := restapi.PerformWriteRequest(server.URL, "POST", nil)
+	if err == nil {
+		t.Fatal("Error is expected")
 	}
 }
 
