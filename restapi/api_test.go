@@ -614,3 +614,101 @@ func TestReadTriggerByIDNotFoundResponse(t *testing.T) {
 		t.Fatal("Error is expected to be returned")
 	}
 }
+
+// TestReadConfigurationProfileStandardResponse check the method ReadConfigurationProfile
+func TestReadConfigurationProfileStandardResponse(t *testing.T) {
+	const responseAsString = `
+	{
+		"profile": {"id":1,"configuration":"","changed_at":"2020-01-01","changed_by":"tester","description":"description"},
+		"status":"ok"
+	}`
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerImpl(t, "/api/v1/client/profile/1", responseAsString))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	profile, err := api.ReadConfigurationProfile("1")
+	if err != nil {
+		t.Fatal(err)
+	}
+	expected := types.ConfigurationProfile{
+		ID:            1,
+		Configuration: "",
+		ChangedAt:     "2020-01-01",
+		ChangedBy:     "tester",
+		Description:   "description",
+	}
+	if *profile != expected {
+		t.Fatal("Improper configuration profile returned: ", *profile)
+	}
+}
+
+// TestReadConfigurationProfileImproperJSON check the method ReadConfigurationProfile
+func TestReadConfigurationProfileImproperJSON(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerImpl(t, "/api/v1/client/profile/1", ImproperJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadConfigurationProfile("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestReadConfigurationProfileErrorResponse check the method ReadConfigurationProfile
+func TestReadConfigurationProfileErrorResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerImpl(t, "/api/v1/client/profile/1", StatusErrorJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadConfigurationProfile("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestReadConfigurationProfileEmptyResponse check the method ReadConfigurationProfile
+func TestReadConfigurationProfileEmptyResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(func(responseWriter http.ResponseWriter, request *http.Request) {
+		// just check the URL, don't send any body in the response
+		checkURL(t, request, "/api/v1/client/profile/1")
+	})
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadConfigurationProfile("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestReadConfigurationProfileNotFoundResponse check the method ReadConfigurationProfile
+func TestReadConfigurationProfileNotFoundResponse(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	_, err := api.ReadConfigurationProfile("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
