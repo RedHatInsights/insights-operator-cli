@@ -305,13 +305,13 @@ func TestReadListOfConfigurationProfilesEmptyList(t *testing.T) {
 	api := restapi.NewRestAPI(server.URL)
 
 	// perform REST API call against mocked HTTP server
-	triggers, err := api.ReadListOfConfigurationProfiles()
+	profiles, err := api.ReadListOfConfigurationProfiles()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if len(triggers) != 0 {
-		t.Fatal("Expected empty list of triggers")
+	if len(profiles) != 0 {
+		t.Fatal("Expected empty list of profiles")
 	}
 }
 
@@ -330,13 +330,13 @@ func TestReadListOfConfigurationProfilesOneProfile(t *testing.T) {
 	api := restapi.NewRestAPI(server.URL)
 
 	// perform REST API call against mocked HTTP server
-	triggers, err := api.ReadListOfConfigurationProfiles()
+	profiles, err := api.ReadListOfConfigurationProfiles()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if len(triggers) != 1 {
-		t.Fatal("Expected list with one trigger only")
+	if len(profiles) != 1 {
+		t.Fatal("Expected list with one profile only")
 	}
 }
 
@@ -409,15 +409,13 @@ func TestReadListOfConfigurationProfilesResponseError(t *testing.T) {
 
 // TestReadTriggerByIDStandardResponse check the method ReadTriggerByID
 func TestReadTriggerByIDStandardResponse(t *testing.T) {
+	const responseAsString = `
+	{
+		"trigger": {"ID":1,"Type":"must-gather","Cluster":"ffff"},
+		"status":"ok"
+	}`
 	// start a local HTTP server
-	server := mockedHTTPServer(func(responseWriter http.ResponseWriter, request *http.Request) {
-		const responseAsString = `
-		{
-			"trigger": {"ID":1,"Type":"must-gather","Cluster":"ffff"},
-			"status":"ok"
-		}`
-		standardHandlerImpl(t, responseWriter, request, "/api/v1/client/trigger/1", responseAsString)
-	})
+	server := mockedHTTPServer(standardHandlerImpl(t, "/api/v1/client/trigger/1", responseAsString))
 	// close the server when test finishes
 	defer server.Close()
 
@@ -441,9 +439,7 @@ func TestReadTriggerByIDStandardResponse(t *testing.T) {
 // TestReadTriggerByIDImproperJSON check the method ReadTriggerByID
 func TestReadTriggerByIDImproperJSON(t *testing.T) {
 	// start a local HTTP server
-	server := mockedHTTPServer(func(responseWriter http.ResponseWriter, request *http.Request) {
-		standardHandlerImpl(t, responseWriter, request, "/api/v1/client/trigger/1", ImproperJSON)
-	})
+	server := mockedHTTPServer(standardHandlerImpl(t, "/api/v1/client/trigger/1", ImproperJSON))
 	// close the server when test finishes
 	defer server.Close()
 
@@ -459,9 +455,7 @@ func TestReadTriggerByIDImproperJSON(t *testing.T) {
 // TestReadTriggerByIDErrorResponse check the method ReadTriggerByID
 func TestReadTriggerByIDErrorResponse(t *testing.T) {
 	// start a local HTTP server
-	server := mockedHTTPServer(func(responseWriter http.ResponseWriter, request *http.Request) {
-		standardHandlerImpl(t, responseWriter, request, "/api/v1/client/trigger/1", StatusErrorJSON)
-	})
+	server := mockedHTTPServer(standardHandlerImpl(t, "/api/v1/client/trigger/1", StatusErrorJSON))
 	// close the server when test finishes
 	defer server.Close()
 
