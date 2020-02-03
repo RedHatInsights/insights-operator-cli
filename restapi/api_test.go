@@ -55,6 +55,13 @@ func checkURL(t *testing.T, request *http.Request, expectedURL string) {
 
 }
 
+// checkMethod checks if the method in HTTP request is appropriate
+func checkMethod(t *testing.T, request *http.Request, method string) {
+	if request.Method != method {
+		t.Error("Inapropriate: method used to call REST API:", request.Method)
+	}
+}
+
 // writeBody writes a given text into the response that is to be send to receiver
 func writeBody(responseWriter http.ResponseWriter, body string) {
 	responseWriter.Write([]byte(body))
@@ -64,6 +71,19 @@ func writeBody(responseWriter http.ResponseWriter, body string) {
 // with body that contains a body filled with given response string
 func standardHandlerImpl(t *testing.T, expectedURL, responseStr string) func(responseWriter http.ResponseWriter, request *http.Request) {
 	return func(responseWriter http.ResponseWriter, request *http.Request) {
+		checkMethod(t, request, "GET")
+		// check if the URL is expected one
+		checkURL(t, request, expectedURL)
+		// send response to be tested later
+		writeBody(responseWriter, responseStr)
+	}
+}
+
+// standardHandlerForMethodImpl is an implementation of handler that checks URL and when it's expected send a response
+// with body that contains a body filled with given response string. Additionally used method is checked as well.
+func standardHandlerForMethodImpl(t *testing.T, expectedURL, method, responseStr string) func(responseWriter http.ResponseWriter, request *http.Request) {
+	return func(responseWriter http.ResponseWriter, request *http.Request) {
+		checkMethod(t, request, method)
 		// check if the URL is expected one
 		checkURL(t, request, expectedURL)
 		// send response to be tested later
@@ -800,6 +820,262 @@ func TestReadClusterConfigurationByIDNotFoundResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadClusterConfigurationByID("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestEnableClusterConfigurationStandardResponse check the method EnableClusterConfiguration
+func TestEnableClusterConfigurationStandardResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1/enable", "PUT", StatusOKJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.EnableClusterConfiguration("1")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+// TestEnableClusterConfigurationImproperJSON check the method EnableClusterConfiguration
+func TestEnableClusterConfigurationImproperJSON(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1/enable", "PUT", ImproperJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.EnableClusterConfiguration("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestEnableClusterConfigurationErrorResponse check the method EnableClusterConfiguration
+func TestEnableClusterConfigurationErrorResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1/enable", "PUT", StatusErrorJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.EnableClusterConfiguration("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestEnableClusterConfigurationNotFoundResponse check the method DeleteClusterConfiguration
+func TestEnableClusterConfigurationNotFoundResponse(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.EnableClusterConfiguration("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestDisableClusterConfigurationStandardResponse check the method DisableClusterConfiguration
+func TestDisableClusterConfigurationStandardResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1/disable", "PUT", StatusOKJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DisableClusterConfiguration("1")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+// TestDisableClusterConfigurationImproperJSON check the method DisableClusterConfiguration
+func TestDisableClusterConfigurationImproperJSON(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1/disable", "PUT", ImproperJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DisableClusterConfiguration("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestDisableClusterConfigurationErrorResponse check the method DisableClusterConfiguration
+func TestDisableClusterConfigurationErrorResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1/disable", "PUT", StatusErrorJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DisableClusterConfiguration("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestDisableClusterConfigurationNotFoundResponse check the method DeleteClusterConfiguration
+func TestDisableClusterConfigurationNotFoundResponse(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DisableClusterConfiguration("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestDeleteClusterConfigurationStandardResponse check the method DeleteClusterConfiguration
+func TestDeleteClusterConfigurationStandardResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1", "DELETE", StatusOKJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeleteClusterConfiguration("1")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+// TestDeleteClusterConfigurationImproperJSON check the method DeleteClusterConfiguration
+func TestDeleteClusterConfigurationImproperJSON(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1", "DELETE", ImproperJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeleteClusterConfiguration("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestDeleteClusterConfigurationErrorResponse check the method DeleteClusterConfiguration
+func TestDeleteClusterConfigurationErrorResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1", "DELETE", StatusErrorJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeleteClusterConfiguration("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestDeleteClusterConfigurationNotFoundResponse check the method DeleteClusterConfiguration
+func TestDeleteClusterConfigurationNotFoundResponse(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeleteClusterConfiguration("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestDeleteClusterStandardResponse check the method DeleteCluster
+func TestDeleteClusterStandardResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/cluster/1", "DELETE", StatusOKJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeleteCluster("1")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+// TestDeleteClusterImproperJSON check the method DeleteCluster
+func TestDeleteClusterImproperJSON(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/cluster/1", "DELETE", ImproperJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeleteCluster("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestDeleteClusterErrorResponse check the method DeleteCluster
+func TestDeleteClusterErrorResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/cluster/1", "DELETE", StatusErrorJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeleteCluster("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestDeleteClusterNotFoundResponse check the method DeleteCluster
+func TestDeleteClusterNotFoundResponse(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeleteCluster("1")
 	if err == nil {
 		t.Fatal("Error is expected to be returned")
 	}
