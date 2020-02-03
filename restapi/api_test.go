@@ -824,3 +824,67 @@ func TestReadClusterConfigurationByIDNotFoundResponse(t *testing.T) {
 		t.Fatal("Error is expected to be returned")
 	}
 }
+
+// TestEnableClusterConfigurationStandardResponse check the method EnableClusterConfiguration
+func TestEnableClusterConfigurationStandardResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1/enable", "PUT", StatusOKJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.EnableClusterConfiguration("1")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+// TestEnableClusterConfigurationImproperJSON check the method EnableClusterConfiguration
+func TestEnableClusterConfigurationImproperJSON(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1/enable", "PUT", ImproperJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.EnableClusterConfiguration("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestEnableClusterConfigurationErrorResponse check the method EnableClusterConfiguration
+func TestEnableClusterConfigurationErrorResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1/enable", "PUT", StatusErrorJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.EnableClusterConfiguration("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestEnableClusterConfigurationNotFoundResponse check the method DeleteClusterConfiguration
+func TestEnableClusterConfigurationNotFoundResponse(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.EnableClusterConfiguration("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
