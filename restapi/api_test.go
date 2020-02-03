@@ -55,6 +55,13 @@ func checkURL(t *testing.T, request *http.Request, expectedURL string) {
 
 }
 
+// checkMethod checks if the method in HTTP request is appropriate
+func checkMethod(t *testing.T, request *http.Request, method string) {
+	if request.Method != method {
+		t.Error("Inapropriate: method used to call REST API:", request.Method)
+	}
+}
+
 // writeBody writes a given text into the response that is to be send to receiver
 func writeBody(responseWriter http.ResponseWriter, body string) {
 	responseWriter.Write([]byte(body))
@@ -64,6 +71,19 @@ func writeBody(responseWriter http.ResponseWriter, body string) {
 // with body that contains a body filled with given response string
 func standardHandlerImpl(t *testing.T, expectedURL, responseStr string) func(responseWriter http.ResponseWriter, request *http.Request) {
 	return func(responseWriter http.ResponseWriter, request *http.Request) {
+		checkMethod(t, request, "GET")
+		// check if the URL is expected one
+		checkURL(t, request, expectedURL)
+		// send response to be tested later
+		writeBody(responseWriter, responseStr)
+	}
+}
+
+// standardHandlerForMethodImpl is an implementation of handler that checks URL and when it's expected send a response
+// with body that contains a body filled with given response string. Additionally used method is checked as well.
+func standardHandlerForMethodImpl(t *testing.T, expectedURL, method, responseStr string) func(responseWriter http.ResponseWriter, request *http.Request) {
+	return func(responseWriter http.ResponseWriter, request *http.Request) {
+		checkMethod(t, request, method)
 		// check if the URL is expected one
 		checkURL(t, request, expectedURL)
 		// send response to be tested later
