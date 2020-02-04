@@ -13,11 +13,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package main
+package main_test
 
 import (
 	"github.com/c-bata/go-prompt"
 	"testing"
+
+	"github.com/redhatinsighs/insights-operator-cli"
 )
 
 // createDocumentWithCommand construct an instance of prompt.Document containing the command and cursor position.
@@ -53,13 +55,13 @@ func checkSuggestion(t *testing.T, suggest prompt.Suggest, command string, descr
 
 // TestCompleterEmptyInput check which suggestions are returned for empty input
 func TestCompleterEmptyInput(t *testing.T) {
-	suggests := completer(createDocumentWithCommand(t, ""))
+	suggests := main.Completer(createDocumentWithCommand(t, ""))
 	checkSuggestionCount(t, suggests, 0)
 }
 
 // TestCompleterHelpCommand check which suggestions are returned for 'help' input
 func TestCompleterHelpCommand(t *testing.T) {
-	suggests := completer(createDocumentWithCommand(t, "help"))
+	suggests := main.Completer(createDocumentWithCommand(t, "help"))
 	checkSuggestionCount(t, suggests, 1)
 	checkSuggestion(t, suggests[0], "help", "show help with all commands")
 }
