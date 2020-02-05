@@ -1144,3 +1144,67 @@ func TestDeleteConfigurationProfileNotFoundResponse(t *testing.T) {
 		t.Fatal("Error is expected to be returned")
 	}
 }
+
+// TestActivateTriggerStandardResponse check the method ActivateTrigger
+func TestActivateTriggerStandardResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/trigger/1/activate", "PUT", StatusOKJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.ActivateTrigger("1")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+// TestActivateTriggerImproperJSON check the method ActivateTrigger
+func TestActivateTriggerImproperJSON(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/trigger/1/activate", "PUT", ImproperJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.ActivateTrigger("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestActivateTriggerErrorResponse check the method ActivateTrigger
+func TestActivateTriggerErrorResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/trigger/1/activate", "PUT", StatusErrorJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.ActivateTrigger("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestActivateTriggerNotFoundResponse check the method ActivateTrigger
+func TestActivateTriggerNotFoundResponse(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.ActivateTrigger("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
