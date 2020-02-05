@@ -1080,3 +1080,67 @@ func TestDeleteClusterNotFoundResponse(t *testing.T) {
 		t.Fatal("Error is expected to be returned")
 	}
 }
+
+// TestDeleteConfigurationProfileStandardResponse check the method DeleteConfigurationProfile
+func TestDeleteConfigurationProfileStandardResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/profile/1", "DELETE", StatusOKJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeleteConfigurationProfile("1")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+// TestDeleteConfigurationProfileImproperJSON check the method DeleteConfigurationProfile
+func TestDeleteConfigurationProfileImproperJSON(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/profile/1", "DELETE", ImproperJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeleteConfigurationProfile("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestDeleteConfigurationProfileErrorResponse check the method DeleteConfigurationProfile
+func TestDeleteConfigurationProfileErrorResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/profile/1", "DELETE", StatusErrorJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeleteConfigurationProfile("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestDeleteConfigurationProfileNotFoundResponse check the method DeleteConfigurationProfile
+func TestDeleteConfigurationProfileNotFoundResponse(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeleteConfigurationProfile("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
