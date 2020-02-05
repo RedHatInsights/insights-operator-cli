@@ -1336,3 +1336,63 @@ func TestDeleteTriggerNotFoundResponse(t *testing.T) {
 		t.Fatal("Error is expected to be returned")
 	}
 }
+
+func TestAddClusterStandardResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/cluster/cluster2", "POST", StatusOKJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.AddCluster("cluster2")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestAddClusterErrorResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/cluster/cluster2", "POST", StatusErrorJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.AddCluster("cluster2")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+func TestAddClusterImproperJSONResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/cluster/cluster2", "POST", ImproperJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.AddCluster("cluster2")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+func TestAddClusterNotFoundResponse(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.AddCluster("cluster2")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
