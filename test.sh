@@ -1,3 +1,5 @@
+#!/bin/bash
+
 go test -coverprofile coverage.out $(go list ./... | grep -v tests) $@
 exit_code=$?
 
