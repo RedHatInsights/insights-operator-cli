@@ -1459,3 +1459,66 @@ func TestAddTriggerImproperNotFoundResponse(t *testing.T) {
 		t.Fatal("Error is expected to be returned")
 	}
 }
+
+func TestAddConfigurationProfileStandardResponse(t *testing.T) {
+	// start a local HTTP server
+	URL := "/api/v1/client/profile?username=name&description=description"
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, URL, "POST", StatusOKJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.AddConfigurationProfile("name", "description", []byte{1, 2, 3})
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestAddConfigurationProfileErrorResponse(t *testing.T) {
+	// start a local HTTP server
+	URL := "/api/v1/client/profile?username=name&description=description"
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, URL, "POST", StatusErrorJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.AddConfigurationProfile("name", "description", []byte{1, 2, 3})
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+func TestAddConfigurationProfileImproperJSONResponse(t *testing.T) {
+	// start a local HTTP server
+	URL := "/api/v1/client/profile?username=name&description=description"
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, URL, "POST", ImproperJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.AddConfigurationProfile("name", "description", []byte{1, 2, 3})
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+func TestAddConfigurationProfileNotFoundResponse(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.AddConfigurationProfile("name", "description", []byte{1, 2, 3})
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
