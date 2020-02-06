@@ -1,3 +1,5 @@
+#!/bin/bash
+
 go build -race
 
 if [ $? -eq 0 ]
