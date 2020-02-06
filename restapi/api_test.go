@@ -91,6 +91,20 @@ func standardHandlerForMethodImpl(t *testing.T, expectedURL, method, responseStr
 	}
 }
 
+// expectNoErrors checks if the error is not reported by REST API call
+func expectNoErrors(t *testing.T, err error) {
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+// expectError checks if the error is reported by REST API call
+func expectError(t *testing.T, err error) {
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
 // TestReadListOfClustersEmptyList check the method ReadListOfClusters
 func TestReadListOfClustersEmptyList(t *testing.T) {
 	// start a local HTTP server
@@ -102,9 +116,7 @@ func TestReadListOfClustersEmptyList(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	clusters, err := api.ReadListOfClusters()
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 
 	if len(clusters) != 0 {
 		t.Fatal("Expected empty list of clusters")
@@ -127,9 +139,7 @@ func TestReadListOfClustersOneCluster(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	clusters, err := api.ReadListOfClusters()
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 
 	if len(clusters) != 1 {
 		t.Fatal("Expected list with one cluster only")
@@ -147,9 +157,7 @@ func TestReadListOfClustersErrorStatus(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadListOfClusters()
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadListOfClustersEmptyResponse check the method ReadListOfClusters
@@ -166,9 +174,7 @@ func TestReadListOfClustersEmptyResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadListOfClusters()
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadListOfClustersWrongJSON check the method ReadListOfClusters
@@ -182,9 +188,7 @@ func TestReadListOfClustersWrongJSON(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadListOfClusters()
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadListOfClustersResponseError check the method ReadListOfClusters
@@ -198,9 +202,7 @@ func TestReadListOfClustersResponseError(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadListOfClusters()
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadListOfTriggersEmptyList check the method ReadListOfTriggers
@@ -214,9 +216,7 @@ func TestReadListOfTriggersEmptyList(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	triggers, err := api.ReadListOfTriggers()
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 
 	if len(triggers) != 0 {
 		t.Fatal("Expected empty list of triggers")
@@ -239,9 +239,7 @@ func TestReadListOfTriggersOneTrigger(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	triggers, err := api.ReadListOfTriggers()
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 
 	if len(triggers) != 1 {
 		t.Fatal("Expected list with one trigger only")
@@ -259,9 +257,7 @@ func TestReadListOfTriggersErrorStatus(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadListOfTriggers()
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadListOfTriggersEmptyResponse check the method ReadListOfTriggers
@@ -278,9 +274,7 @@ func TestReadListOfTriggersEmptyResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadListOfTriggers()
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadListOfTriggersWrongJSON check the method ReadListOfTriggers
@@ -294,9 +288,7 @@ func TestReadListOfTriggersWrongJSON(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadListOfTriggers()
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadListOfTriggersResponseError check the method ReadListOfTriggers
@@ -310,9 +302,7 @@ func TestReadListOfTriggersResponseError(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadListOfTriggers()
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadListOfConfigurationProfilesEmptyList check the method ReadListOfConfigurationProfiles
@@ -326,9 +316,7 @@ func TestReadListOfConfigurationProfilesEmptyList(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	profiles, err := api.ReadListOfConfigurationProfiles()
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 
 	if len(profiles) != 0 {
 		t.Fatal("Expected empty list of profiles")
@@ -351,9 +339,7 @@ func TestReadListOfConfigurationProfilesOneProfile(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	profiles, err := api.ReadListOfConfigurationProfiles()
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 
 	if len(profiles) != 1 {
 		t.Fatal("Expected list with one profile only")
@@ -371,9 +357,7 @@ func TestReadListOfConfigurationProfilesErrorStatus(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadListOfConfigurationProfiles()
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadListOfConfigurationProfilesEmptyResponse check the method ReadListOfConfigurationProfiles
@@ -390,9 +374,7 @@ func TestReadListOfConfigurationProfilesEmptyResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadListOfConfigurationProfiles()
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadListOfConfigurationProfilesWrongJSON check the method ReadListOfConfigurationProfiles
@@ -406,9 +388,7 @@ func TestReadListOfConfigurationProfilesWrongJSON(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadListOfConfigurationProfiles()
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadListOfConfigurationProfilesResponseError check the method ReadListOfConfigurationProfiles
@@ -422,9 +402,7 @@ func TestReadListOfConfigurationProfilesResponseError(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadListOfConfigurationProfiles()
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadListOfConfigurationsEmptyList check the method ReadListOfConfigurations
@@ -438,9 +416,7 @@ func TestReadListOfConfigurationsEmptyList(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	configurations, err := api.ReadListOfConfigurations()
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 
 	if len(configurations) != 0 {
 		t.Fatal("Expected empty list of configurations")
@@ -463,9 +439,7 @@ func TestReadListOfConfigurationsOneConfiguration(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	configurations, err := api.ReadListOfConfigurations()
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 
 	if len(configurations) != 1 {
 		t.Fatal("Expected list with one configuration only")
@@ -483,9 +457,7 @@ func TestReadListOfConfigurationsErrorStatus(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadListOfConfigurations()
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadListOfConfigurationsEmptyResponse check the method ReadListOfConfigurations
@@ -502,9 +474,7 @@ func TestReadListOfConfigurationsEmptyResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadListOfConfigurations()
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadListOfConfigurationsWrongJSON check the method ReadListOfConfigurations
@@ -518,9 +488,7 @@ func TestReadListOfConfigurationsWrongJSON(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadListOfConfigurations()
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadListOfConfigurationsResponseError check the method ReadListOfConfigurations
@@ -534,9 +502,7 @@ func TestReadListOfConfigurationsResponseError(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadListOfConfigurations()
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadTriggerByIDStandardResponse check the method ReadTriggerByID
@@ -555,9 +521,7 @@ func TestReadTriggerByIDStandardResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	trigger, err := api.ReadTriggerByID("1")
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 	expected := types.Trigger{
 		ID:      1,
 		Type:    "must-gather",
@@ -579,9 +543,7 @@ func TestReadTriggerByIDImproperJSON(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadTriggerByID("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadTriggerByIDErrorResponse check the method ReadTriggerByID
@@ -595,9 +557,7 @@ func TestReadTriggerByIDErrorResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadTriggerByID("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadTriggerByIDEmptyResponse check the method ReadTriggerByID
@@ -614,9 +574,7 @@ func TestReadTriggerByIDEmptyResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadTriggerByID("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadTriggerByIDNotFoundResponse check the method ReadTriggerByID
@@ -630,9 +588,7 @@ func TestReadTriggerByIDNotFoundResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadTriggerByID("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadConfigurationProfileStandardResponse check the method ReadConfigurationProfile
@@ -651,9 +607,7 @@ func TestReadConfigurationProfileStandardResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	profile, err := api.ReadConfigurationProfile("1")
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 	expected := types.ConfigurationProfile{
 		ID:            1,
 		Configuration: "",
@@ -677,9 +631,7 @@ func TestReadConfigurationProfileImproperJSON(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadConfigurationProfile("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadConfigurationProfileErrorResponse check the method ReadConfigurationProfile
@@ -693,9 +645,7 @@ func TestReadConfigurationProfileErrorResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadConfigurationProfile("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadConfigurationProfileEmptyResponse check the method ReadConfigurationProfile
@@ -712,9 +662,7 @@ func TestReadConfigurationProfileEmptyResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadConfigurationProfile("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadConfigurationProfileNotFoundResponse check the method ReadConfigurationProfile
@@ -728,9 +676,7 @@ func TestReadConfigurationProfileNotFoundResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadConfigurationProfile("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadClusterConfigurationByIDStandardResponse check the method ReadClusterConfigurationByID
@@ -749,9 +695,7 @@ func TestReadClusterConfigurationByIDStandardResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	configuration, err := api.ReadClusterConfigurationByID("1")
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 	expected := "config"
 	if *configuration != expected {
 		t.Fatal("Improper cluster configuration returned: ", *configuration)
@@ -769,9 +713,7 @@ func TestReadClusterConfigurationByIDImproperJSON(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadClusterConfigurationByID("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadClusterConfigurationByIDErrorResponse check the method ReadClusterConfigurationByID
@@ -785,9 +727,7 @@ func TestReadClusterConfigurationByIDErrorResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadClusterConfigurationByID("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadClusterConfigurationByIDEmptyResponse check the method ReadClusterConfigurationByID
@@ -804,9 +744,7 @@ func TestReadClusterConfigurationByIDEmptyResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadClusterConfigurationByID("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestReadClusterConfigurationByIDNotFoundResponse check the method ReadClusterConfigurationByID
@@ -820,9 +758,7 @@ func TestReadClusterConfigurationByIDNotFoundResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	_, err := api.ReadClusterConfigurationByID("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestEnableClusterConfigurationStandardResponse check the method EnableClusterConfiguration
@@ -836,9 +772,7 @@ func TestEnableClusterConfigurationStandardResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.EnableClusterConfiguration("1")
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 }
 
 // TestEnableClusterConfigurationImproperJSON check the method EnableClusterConfiguration
@@ -852,9 +786,7 @@ func TestEnableClusterConfigurationImproperJSON(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.EnableClusterConfiguration("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestEnableClusterConfigurationErrorResponse check the method EnableClusterConfiguration
@@ -868,9 +800,7 @@ func TestEnableClusterConfigurationErrorResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.EnableClusterConfiguration("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestEnableClusterConfigurationNotFoundResponse check the method DeleteClusterConfiguration
@@ -884,9 +814,7 @@ func TestEnableClusterConfigurationNotFoundResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.EnableClusterConfiguration("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestDisableClusterConfigurationStandardResponse check the method DisableClusterConfiguration
@@ -900,9 +828,7 @@ func TestDisableClusterConfigurationStandardResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DisableClusterConfiguration("1")
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 }
 
 // TestDisableClusterConfigurationImproperJSON check the method DisableClusterConfiguration
@@ -916,9 +842,7 @@ func TestDisableClusterConfigurationImproperJSON(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DisableClusterConfiguration("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestDisableClusterConfigurationErrorResponse check the method DisableClusterConfiguration
@@ -932,9 +856,7 @@ func TestDisableClusterConfigurationErrorResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DisableClusterConfiguration("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestDisableClusterConfigurationNotFoundResponse check the method DeleteClusterConfiguration
@@ -948,9 +870,7 @@ func TestDisableClusterConfigurationNotFoundResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DisableClusterConfiguration("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestDeleteClusterConfigurationStandardResponse check the method DeleteClusterConfiguration
@@ -964,9 +884,7 @@ func TestDeleteClusterConfigurationStandardResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DeleteClusterConfiguration("1")
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 }
 
 // TestDeleteClusterConfigurationImproperJSON check the method DeleteClusterConfiguration
@@ -980,9 +898,7 @@ func TestDeleteClusterConfigurationImproperJSON(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DeleteClusterConfiguration("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestDeleteClusterConfigurationErrorResponse check the method DeleteClusterConfiguration
@@ -996,9 +912,7 @@ func TestDeleteClusterConfigurationErrorResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DeleteClusterConfiguration("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestDeleteClusterConfigurationNotFoundResponse check the method DeleteClusterConfiguration
@@ -1012,9 +926,7 @@ func TestDeleteClusterConfigurationNotFoundResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DeleteClusterConfiguration("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestDeleteClusterStandardResponse check the method DeleteCluster
@@ -1028,9 +940,7 @@ func TestDeleteClusterStandardResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DeleteCluster("1")
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 }
 
 // TestDeleteClusterImproperJSON check the method DeleteCluster
@@ -1044,9 +954,7 @@ func TestDeleteClusterImproperJSON(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DeleteCluster("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestDeleteClusterErrorResponse check the method DeleteCluster
@@ -1060,9 +968,7 @@ func TestDeleteClusterErrorResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DeleteCluster("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestDeleteClusterNotFoundResponse check the method DeleteCluster
@@ -1076,9 +982,7 @@ func TestDeleteClusterNotFoundResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DeleteCluster("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestDeleteConfigurationProfileStandardResponse check the method DeleteConfigurationProfile
@@ -1092,9 +996,7 @@ func TestDeleteConfigurationProfileStandardResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DeleteConfigurationProfile("1")
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 }
 
 // TestDeleteConfigurationProfileImproperJSON check the method DeleteConfigurationProfile
@@ -1108,9 +1010,7 @@ func TestDeleteConfigurationProfileImproperJSON(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DeleteConfigurationProfile("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestDeleteConfigurationProfileErrorResponse check the method DeleteConfigurationProfile
@@ -1124,9 +1024,7 @@ func TestDeleteConfigurationProfileErrorResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DeleteConfigurationProfile("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestDeleteConfigurationProfileNotFoundResponse check the method DeleteConfigurationProfile
@@ -1140,9 +1038,7 @@ func TestDeleteConfigurationProfileNotFoundResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DeleteConfigurationProfile("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestActivateTriggerStandardResponse check the method ActivateTrigger
@@ -1156,9 +1052,7 @@ func TestActivateTriggerStandardResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.ActivateTrigger("1")
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 }
 
 // TestActivateTriggerImproperJSON check the method ActivateTrigger
@@ -1172,9 +1066,7 @@ func TestActivateTriggerImproperJSON(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.ActivateTrigger("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestActivateTriggerErrorResponse check the method ActivateTrigger
@@ -1188,9 +1080,7 @@ func TestActivateTriggerErrorResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.ActivateTrigger("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestActivateTriggerNotFoundResponse check the method ActivateTrigger
@@ -1204,9 +1094,7 @@ func TestActivateTriggerNotFoundResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.ActivateTrigger("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestDeactivateTriggerStandardResponse check the method DeactivateTrigger
@@ -1220,9 +1108,7 @@ func TestDeactivateTriggerStandardResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DeactivateTrigger("1")
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 }
 
 // TestDeactivateTriggerImproperJSON check the method DeactivateTrigger
@@ -1236,9 +1122,7 @@ func TestDeactivateTriggerImproperJSON(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DeactivateTrigger("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestDeactivateTriggerErrorResponse check the method DeactivateTrigger
@@ -1252,9 +1136,7 @@ func TestDeactivateTriggerErrorResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DeactivateTrigger("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestDeactivateTriggerNotFoundResponse check the method DeactivateTrigger
@@ -1268,9 +1150,7 @@ func TestDeactivateTriggerNotFoundResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DeactivateTrigger("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestDeleteTriggerStandardResponse check the method DeleteTrigger
@@ -1284,9 +1164,7 @@ func TestDeleteTriggerStandardResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DeleteTrigger("1")
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 }
 
 // TestDeleteTriggerImproperJSON check the method DeleteTrigger
@@ -1300,9 +1178,7 @@ func TestDeleteTriggerImproperJSON(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DeleteTrigger("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestDeleteTriggerErrorResponse check the method DeleteTrigger
@@ -1316,9 +1192,7 @@ func TestDeleteTriggerErrorResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DeleteTrigger("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 // TestDeleteTriggerNotFoundResponse check the method DeleteTrigger
@@ -1332,9 +1206,7 @@ func TestDeleteTriggerNotFoundResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.DeleteTrigger("1")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 func TestAddClusterStandardResponse(t *testing.T) {
@@ -1347,9 +1219,7 @@ func TestAddClusterStandardResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.AddCluster("cluster2")
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 }
 
 func TestAddClusterErrorResponse(t *testing.T) {
@@ -1362,9 +1232,7 @@ func TestAddClusterErrorResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.AddCluster("cluster2")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 func TestAddClusterImproperJSONResponse(t *testing.T) {
@@ -1377,9 +1245,7 @@ func TestAddClusterImproperJSONResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.AddCluster("cluster2")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 func TestAddClusterNotFoundResponse(t *testing.T) {
@@ -1392,9 +1258,7 @@ func TestAddClusterNotFoundResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.AddCluster("cluster2")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 func TestAddTriggerStandardResponse(t *testing.T) {
@@ -1408,9 +1272,7 @@ func TestAddTriggerStandardResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.AddTrigger("name", "cluster2", "reason", "link")
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 }
 
 func TestAddTriggerErrorResponse(t *testing.T) {
@@ -1424,9 +1286,7 @@ func TestAddTriggerErrorResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.AddTrigger("name", "cluster2", "reason", "link")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 func TestAddTriggerImproperJSONResponse(t *testing.T) {
@@ -1440,9 +1300,7 @@ func TestAddTriggerImproperJSONResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.AddTrigger("name", "cluster2", "reason", "link")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 func TestAddTriggerImproperNotFoundResponse(t *testing.T) {
@@ -1455,9 +1313,7 @@ func TestAddTriggerImproperNotFoundResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.AddTrigger("name", "cluster2", "reason", "link")
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 func TestAddConfigurationProfileStandardResponse(t *testing.T) {
@@ -1471,9 +1327,7 @@ func TestAddConfigurationProfileStandardResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.AddConfigurationProfile("name", "description", []byte{1, 2, 3})
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 }
 
 func TestAddConfigurationProfileErrorResponse(t *testing.T) {
@@ -1487,9 +1341,7 @@ func TestAddConfigurationProfileErrorResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.AddConfigurationProfile("name", "description", []byte{1, 2, 3})
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 func TestAddConfigurationProfileImproperJSONResponse(t *testing.T) {
@@ -1503,9 +1355,7 @@ func TestAddConfigurationProfileImproperJSONResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.AddConfigurationProfile("name", "description", []byte{1, 2, 3})
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 func TestAddConfigurationProfileNotFoundResponse(t *testing.T) {
@@ -1518,9 +1368,7 @@ func TestAddConfigurationProfileNotFoundResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.AddConfigurationProfile("name", "description", []byte{1, 2, 3})
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 func TestAddClusterConfigurationStandardResponse(t *testing.T) {
@@ -1534,9 +1382,7 @@ func TestAddClusterConfigurationStandardResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.AddClusterConfiguration("name", "cluster2", "reason", "description", []byte{1, 2, 3})
-	if err != nil {
-		t.Fatal(err)
-	}
+	expectNoErrors(t, err)
 }
 
 func TestAddClusterConfigurationErrorResponse(t *testing.T) {
@@ -1550,9 +1396,7 @@ func TestAddClusterConfigurationErrorResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.AddClusterConfiguration("name", "cluster2", "reason", "description", []byte{1, 2, 3})
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 func TestAddClusterConfigurationImproperJSONResponse(t *testing.T) {
@@ -1566,9 +1410,7 @@ func TestAddClusterConfigurationImproperJSONResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.AddClusterConfiguration("name", "cluster2", "reason", "description", []byte{1, 2, 3})
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
 
 func TestAddClusterConfigurationNotFoundResponse(t *testing.T) {
@@ -1581,7 +1423,5 @@ func TestAddClusterConfigurationNotFoundResponse(t *testing.T) {
 
 	// perform REST API call against mocked HTTP server
 	err := api.AddClusterConfiguration("name", "cluster2", "reason", "description", []byte{1, 2, 3})
-	if err == nil {
-		t.Fatal("Error is expected to be returned")
-	}
+	expectError(t, err)
 }
