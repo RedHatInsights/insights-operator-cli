@@ -1396,3 +1396,66 @@ func TestAddClusterNotFoundResponse(t *testing.T) {
 		t.Fatal("Error is expected to be returned")
 	}
 }
+
+func TestAddTriggerStandardResponse(t *testing.T) {
+	// start a local HTTP server
+	URL := "/api/v1/client/cluster/cluster2/trigger/must-gather?username=name&reason=reason&link=link"
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, URL, "POST", StatusOKJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.AddTrigger("name", "cluster2", "reason", "link")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestAddTriggerErrorResponse(t *testing.T) {
+	// start a local HTTP server
+	URL := "/api/v1/client/cluster/cluster2/trigger/must-gather?username=name&reason=reason&link=link"
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, URL, "POST", StatusErrorJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.AddTrigger("name", "cluster2", "reason", "link")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+func TestAddTriggerImproperJSONResponse(t *testing.T) {
+	// start a local HTTP server
+	URL := "/api/v1/client/cluster/cluster2/trigger/must-gather?username=name&reason=reason&link=link"
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, URL, "POST", ImproperJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.AddTrigger("name", "cluster2", "reason", "link")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+func TestAddTriggerImproperNotFoundResponse(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.AddTrigger("name", "cluster2", "reason", "link")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
