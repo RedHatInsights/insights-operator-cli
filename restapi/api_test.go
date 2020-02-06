@@ -1080,3 +1080,319 @@ func TestDeleteClusterNotFoundResponse(t *testing.T) {
 		t.Fatal("Error is expected to be returned")
 	}
 }
+
+// TestDeleteConfigurationProfileStandardResponse check the method DeleteConfigurationProfile
+func TestDeleteConfigurationProfileStandardResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/profile/1", "DELETE", StatusOKJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeleteConfigurationProfile("1")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+// TestDeleteConfigurationProfileImproperJSON check the method DeleteConfigurationProfile
+func TestDeleteConfigurationProfileImproperJSON(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/profile/1", "DELETE", ImproperJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeleteConfigurationProfile("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestDeleteConfigurationProfileErrorResponse check the method DeleteConfigurationProfile
+func TestDeleteConfigurationProfileErrorResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/profile/1", "DELETE", StatusErrorJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeleteConfigurationProfile("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestDeleteConfigurationProfileNotFoundResponse check the method DeleteConfigurationProfile
+func TestDeleteConfigurationProfileNotFoundResponse(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeleteConfigurationProfile("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestActivateTriggerStandardResponse check the method ActivateTrigger
+func TestActivateTriggerStandardResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/trigger/1/activate", "PUT", StatusOKJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.ActivateTrigger("1")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+// TestActivateTriggerImproperJSON check the method ActivateTrigger
+func TestActivateTriggerImproperJSON(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/trigger/1/activate", "PUT", ImproperJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.ActivateTrigger("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestActivateTriggerErrorResponse check the method ActivateTrigger
+func TestActivateTriggerErrorResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/trigger/1/activate", "PUT", StatusErrorJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.ActivateTrigger("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestActivateTriggerNotFoundResponse check the method ActivateTrigger
+func TestActivateTriggerNotFoundResponse(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.ActivateTrigger("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestDeactivateTriggerStandardResponse check the method DeactivateTrigger
+func TestDeactivateTriggerStandardResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/trigger/1/deactivate", "PUT", StatusOKJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeactivateTrigger("1")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+// TestDeactivateTriggerImproperJSON check the method DeactivateTrigger
+func TestDeactivateTriggerImproperJSON(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/trigger/1/deactivate", "PUT", ImproperJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeactivateTrigger("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestDeactivateTriggerErrorResponse check the method DeactivateTrigger
+func TestDeactivateTriggerErrorResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/trigger/1/deactivate", "PUT", StatusErrorJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeactivateTrigger("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestDeactivateTriggerNotFoundResponse check the method DeactivateTrigger
+func TestDeactivateTriggerNotFoundResponse(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeactivateTrigger("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestDeleteTriggerStandardResponse check the method DeleteTrigger
+func TestDeleteTriggerStandardResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/trigger/1", "DELETE", StatusOKJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeleteTrigger("1")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+// TestDeleteTriggerImproperJSON check the method DeleteTrigger
+func TestDeleteTriggerImproperJSON(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/trigger/1", "DELETE", ImproperJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeleteTrigger("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestDeleteTriggerErrorResponse check the method DeleteTrigger
+func TestDeleteTriggerErrorResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/trigger/1", "DELETE", StatusErrorJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeleteTrigger("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+// TestDeleteTriggerNotFoundResponse check the method DeleteTrigger
+func TestDeleteTriggerNotFoundResponse(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.DeleteTrigger("1")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+func TestAddClusterStandardResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/cluster/cluster2", "POST", StatusOKJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.AddCluster("cluster2")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestAddClusterErrorResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/cluster/cluster2", "POST", StatusErrorJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.AddCluster("cluster2")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+func TestAddClusterImproperJSONResponse(t *testing.T) {
+	// start a local HTTP server
+	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/cluster/cluster2", "POST", ImproperJSON))
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.AddCluster("cluster2")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
+
+func TestAddClusterNotFoundResponse(t *testing.T) {
+	// start a local HTTP server
+	server := httptest.NewServer(http.NotFoundHandler())
+	// close the server when test finishes
+	defer server.Close()
+
+	api := restapi.NewRestAPI(server.URL)
+
+	// perform REST API call against mocked HTTP server
+	err := api.AddCluster("cluster2")
+	if err == nil {
+		t.Fatal("Error is expected to be returned")
+	}
+}
