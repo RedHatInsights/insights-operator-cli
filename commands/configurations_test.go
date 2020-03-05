@@ -226,9 +226,15 @@ func TestAddClusterConfigurationImpl(t *testing.T) {
 	restAPIMock := RestAPIMock{}
 
 	captured, err := capture.StandardOutput(func() {
-		os.Chdir("../")
+		err := os.Chdir("../")
+		if err != nil {
+			t.Fatal(err)
+		}
 		commands.AddClusterConfigurationImpl(restAPIMock, "tester", "cluster0", "reason", "description", "configuration1.json")
-		os.Chdir("./commands")
+		err = os.Chdir("./commands")
+		if err != nil {
+			t.Fatal(err)
+		}
 	})
 
 	checkCapturedOutput(t, captured, err)
@@ -243,9 +249,15 @@ func TestAddClusterConfigurationImplError(t *testing.T) {
 	restAPIMock := RestAPIMockErrors{}
 
 	captured, err := capture.StandardOutput(func() {
-		os.Chdir("../")
+		err := os.Chdir("../")
+		if err != nil {
+			t.Fatal(err)
+		}
 		commands.AddClusterConfigurationImpl(restAPIMock, "tester", "cluster0", "reason", "description", "configuration1.json")
-		os.Chdir("./commands")
+		err = os.Chdir("./commands")
+		if err != nil {
+			t.Fatal(err)
+		}
 	})
 
 	checkCapturedOutput(t, captured, err)
@@ -260,9 +272,15 @@ func TestAddClusterConfigurationImplBadConfiguration(t *testing.T) {
 	restAPIMock := RestAPIMock{}
 
 	captured, err := capture.StandardOutput(func() {
-		os.Chdir("../")
+		err := os.Chdir("../")
+		if err != nil {
+			t.Fatal(err)
+		}
 		commands.AddClusterConfigurationImpl(restAPIMock, "tester", "cluster0", "reason", "description", "strange_configuration1.json")
-		os.Chdir("./commands")
+		err = os.Chdir("./commands")
+		if err != nil {
+			t.Fatal(err)
+		}
 	})
 
 	checkCapturedOutput(t, captured, err)
