@@ -19,7 +19,6 @@ package commands_test
 import (
 	"github.com/redhatinsighs/insights-operator-cli/commands"
 	"github.com/tisnik/go-capture"
-	"os"
 	"strings"
 	"testing"
 )
