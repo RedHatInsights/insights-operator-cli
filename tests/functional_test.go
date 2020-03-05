@@ -61,7 +61,10 @@ func startCLI(t *testing.T) *gexpect.ExpectSubprocess {
 // quitCLI quits CLI
 func quitCLI(t *testing.T, child *gexpect.ExpectSubprocess) {
 	sendCommand(t, child, "quit")
-	child.Wait()
+	err := child.Wait()
+	if err != nil {
+		t.Fatal(err)
+	}
 }
 
 // expectOutput expects the specified output from the tested CLI client.
@@ -96,7 +99,10 @@ func TestCheckQuitCommand(t *testing.T) {
 	for _, command := range commands {
 		child := startCLI(t)
 		sendCommand(t, child, command)
-		child.Wait()
+		err := child.Wait()
+		if err != nil {
+			t.Fatal(err)
+		}
 	}
 }
 

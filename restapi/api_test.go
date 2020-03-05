@@ -63,8 +63,9 @@ func checkMethod(t *testing.T, request *http.Request, method string) {
 }
 
 // writeBody writes a given text into the response that is to be send to receiver
-func writeBody(responseWriter http.ResponseWriter, body string) {
-	responseWriter.Write([]byte(body))
+func writeBody(responseWriter http.ResponseWriter, body string) error {
+	_, err := responseWriter.Write([]byte(body))
+	return err
 }
 
 // standardHandlerImpl is an implementation of handler that checks URL and when it's expected send a response
@@ -75,7 +76,11 @@ func standardHandlerImpl(t *testing.T, expectedURL, responseStr string) func(res
 		// check if the URL is expected one
 		checkURL(t, request, expectedURL)
 		// send response to be tested later
-		writeBody(responseWriter, responseStr)
+		err := writeBody(responseWriter, responseStr)
+		if err != nil {
+			t.Fatal(err)
+		}
+
 	}
 }
 
@@ -87,7 +92,10 @@ func standardHandlerForMethodImpl(t *testing.T, expectedURL, method, responseStr
 		// check if the URL is expected one
 		checkURL(t, request, expectedURL)
 		// send response to be tested later
-		writeBody(responseWriter, responseStr)
+		err := writeBody(responseWriter, responseStr)
+		if err != nil {
+			t.Fatal(err)
+		}
 	}
 }
 

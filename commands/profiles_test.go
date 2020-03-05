@@ -19,7 +19,6 @@ package commands_test
 import (
 	"github.com/redhatinsighs/insights-operator-cli/commands"
 	"github.com/tisnik/go-capture"
-	"os"
 	"strings"
 	"testing"
 )
@@ -134,9 +133,9 @@ func TestAddConfigurationProfileImpl(t *testing.T) {
 	restAPIMock := RestAPIMock{}
 
 	captured, err := capture.StandardOutput(func() {
-		os.Chdir("../")
+		changeDirectory(t, "../")
 		commands.AddConfigurationProfileImpl(restAPIMock, "tester", "description", "configuration1.json")
-		os.Chdir("./commands")
+		changeDirectory(t, "./commands")
 	})
 
 	checkCapturedOutput(t, captured, err)
@@ -151,9 +150,9 @@ func TestAddConfigurationProfileImplWrongConfiguration(t *testing.T) {
 	restAPIMock := RestAPIMock{}
 
 	captured, err := capture.StandardOutput(func() {
-		os.Chdir("../")
+		changeDirectory(t, "../")
 		commands.AddConfigurationProfileImpl(restAPIMock, "tester", "description", "non-existing-configuration.json")
-		os.Chdir("./commands")
+		changeDirectory(t, "./commands")
 	})
 
 	checkCapturedOutput(t, captured, err)
@@ -168,9 +167,9 @@ func TestAddConfigurationProfileImplErrorHandling(t *testing.T) {
 	restAPIMock := RestAPIMockErrors{}
 
 	captured, err := capture.StandardOutput(func() {
-		os.Chdir("../")
+		changeDirectory(t, "../")
 		commands.AddConfigurationProfileImpl(restAPIMock, "tester", "description", "configuration1.json")
-		os.Chdir("./commands")
+		changeDirectory(t, "./commands")
 	})
 
 	checkCapturedOutput(t, captured, err)
