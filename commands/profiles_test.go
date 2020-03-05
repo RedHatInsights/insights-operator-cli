@@ -134,15 +134,9 @@ func TestAddConfigurationProfileImpl(t *testing.T) {
 	restAPIMock := RestAPIMock{}
 
 	captured, err := capture.StandardOutput(func() {
-		err := os.Chdir("../")
-		if err != nil {
-			t.Fatal(err)
-		}
+		changeDirectory(t, "../")
 		commands.AddConfigurationProfileImpl(restAPIMock, "tester", "description", "configuration1.json")
-		err = os.Chdir("./commands")
-		if err != nil {
-			t.Fatal(err)
-		}
+		changeDirectory(t, "./commands")
 	})
 
 	checkCapturedOutput(t, captured, err)
@@ -157,15 +151,9 @@ func TestAddConfigurationProfileImplWrongConfiguration(t *testing.T) {
 	restAPIMock := RestAPIMock{}
 
 	captured, err := capture.StandardOutput(func() {
-		err := os.Chdir("../")
-		if err != nil {
-			t.Fatal(err)
-		}
+		changeDirectory(t, "../")
 		commands.AddConfigurationProfileImpl(restAPIMock, "tester", "description", "non-existing-configuration.json")
-		err = os.Chdir("./commands")
-		if err != nil {
-			t.Fatal(err)
-		}
+		changeDirectory(t, "./commands")
 	})
 
 	checkCapturedOutput(t, captured, err)
@@ -180,15 +168,9 @@ func TestAddConfigurationProfileImplErrorHandling(t *testing.T) {
 	restAPIMock := RestAPIMockErrors{}
 
 	captured, err := capture.StandardOutput(func() {
-		err := os.Chdir("../")
-		if err != nil {
-			t.Fatal(err)
-		}
+		changeDirectory(t, "../")
 		commands.AddConfigurationProfileImpl(restAPIMock, "tester", "description", "configuration1.json")
-		err = os.Chdir("./commands")
-		if err != nil {
-			t.Fatal(err)
-		}
+		changeDirectory(t, "./commands")
 	})
 
 	checkCapturedOutput(t, captured, err)

@@ -30,6 +30,15 @@ func tryToFindConfiguration(t *testing.T, captured string, configuration string)
 	}
 }
 
+// changeDirectory tries to change current directory with additional test whether
+// the operation has been correct or not
+func changeDirectory(t *testing.T, path string) {
+	err := os.Chdir(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
 // TestListOfConfigurations checks whether the non-empty list of configurations read via REST API is displayed correctly
 func TestListOfConfigurations(t *testing.T) {
 	configureColorizer()
@@ -226,15 +235,9 @@ func TestAddClusterConfigurationImpl(t *testing.T) {
 	restAPIMock := RestAPIMock{}
 
 	captured, err := capture.StandardOutput(func() {
-		err := os.Chdir("../")
-		if err != nil {
-			t.Fatal(err)
-		}
+		changeDirectory(t, "../")
 		commands.AddClusterConfigurationImpl(restAPIMock, "tester", "cluster0", "reason", "description", "configuration1.json")
-		err = os.Chdir("./commands")
-		if err != nil {
-			t.Fatal(err)
-		}
+		changeDirectory(t, "./commands")
 	})
 
 	checkCapturedOutput(t, captured, err)
@@ -249,15 +252,9 @@ func TestAddClusterConfigurationImplError(t *testing.T) {
 	restAPIMock := RestAPIMockErrors{}
 
 	captured, err := capture.StandardOutput(func() {
-		err := os.Chdir("../")
-		if err != nil {
-			t.Fatal(err)
-		}
+		changeDirectory(t, "../")
 		commands.AddClusterConfigurationImpl(restAPIMock, "tester", "cluster0", "reason", "description", "configuration1.json")
-		err = os.Chdir("./commands")
-		if err != nil {
-			t.Fatal(err)
-		}
+		changeDirectory(t, "./commands")
 	})
 
 	checkCapturedOutput(t, captured, err)
@@ -272,15 +269,9 @@ func TestAddClusterConfigurationImplBadConfiguration(t *testing.T) {
 	restAPIMock := RestAPIMock{}
 
 	captured, err := capture.StandardOutput(func() {
-		err := os.Chdir("../")
-		if err != nil {
-			t.Fatal(err)
-		}
+		changeDirectory(t, "../")
 		commands.AddClusterConfigurationImpl(restAPIMock, "tester", "cluster0", "reason", "description", "strange_configuration1.json")
-		err = os.Chdir("./commands")
-		if err != nil {
-			t.Fatal(err)
-		}
+		changeDirectory(t, "./commands")
 	})
 
 	checkCapturedOutput(t, captured, err)
