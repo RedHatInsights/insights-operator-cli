@@ -35,7 +35,10 @@ func TestPerformReadRequestProperResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
 		// send response to be tested later
-		responseWriter.Write([]byte(`OK`))
+		_, err := responseWriter.Write([]byte(`OK`))
+		if err != nil {
+			t.Fatal(err)
+		}
 	})
 	// close the server when test finishes
 	defer server.Close()
@@ -58,7 +61,10 @@ func TestPerformReadRequestStatusCode(t *testing.T) {
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
 		// send response to be tested later
 		responseWriter.WriteHeader(http.StatusInternalServerError)
-		responseWriter.Write([]byte(`error`))
+		_, err := responseWriter.Write([]byte(`error`))
+		if err != nil {
+			t.Fatal(err)
+		}
 	})
 	// close the server when test finishes
 	defer server.Close()
@@ -135,7 +141,10 @@ func TestPerformWriteRequestProperResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
 		// send response to be tested later
-		responseWriter.Write([]byte(`{"status":"ok"}`))
+		_, err := responseWriter.Write([]byte(`{"status":"ok"}`))
+		if err != nil {
+			t.Fatal(err)
+		}
 	})
 	// close the server when test finishes
 	defer server.Close()
@@ -152,7 +161,10 @@ func TestPerformWriteRequestErrorResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
 		// send response to be tested later
-		responseWriter.Write([]byte(`{"status":"error"}`))
+		_, err := responseWriter.Write([]byte(`{"status":"error"}`))
+		if err != nil {
+			t.Fatal(err)
+		}
 	})
 	// close the server when test finishes
 	defer server.Close()
@@ -170,7 +182,10 @@ func TestPerformWriteRequestImproperStatusCode(t *testing.T) {
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
 		// send response to be tested later
 		responseWriter.WriteHeader(http.StatusInternalServerError)
-		responseWriter.Write([]byte(`{"status":"ok"}`))
+		_, err := responseWriter.Write([]byte(`{"status":"ok"}`))
+		if err != nil {
+			t.Fatal(err)
+		}
 	})
 	// close the server when test finishes
 	defer server.Close()
