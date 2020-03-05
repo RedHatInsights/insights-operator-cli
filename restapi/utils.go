@@ -22,6 +22,7 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli/types"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -34,7 +35,7 @@ func performReadRequest(url string) ([]byte, error) {
 		return nil, fmt.Errorf("Expected HTTP status 200 OK, got %d", response.StatusCode)
 	}
 	body, readErr := ioutil.ReadAll(response.Body)
-	defer response.Body.Close()
+	defer closeResponseBody(response)
 
 	if readErr != nil {
 		return nil, fmt.Errorf("Unable to read response body")
@@ -59,11 +60,20 @@ func performWriteRequest(url string, method string, payload io.Reader) error {
 		return fmt.Errorf("Expected HTTP status 200 OK, 201 Created or 202 Accepted, got %d", response.StatusCode)
 	}
 	body, readErr := ioutil.ReadAll(response.Body)
-	defer response.Body.Close()
+	defer closeResponseBody(response)
+
 	if readErr != nil {
 		return fmt.Errorf("Unable to read response body")
 	}
 	return parseResponse(body)
+}
+
+// closeResponseBody tries to close body of HTTP response with basic error check
+func closeResponseBody(response *http.Response) {
+	err := response.Body.Close()
+	if err != nil {
+		log.Println(err)
+	}
 }
 
 func parseResponse(body []byte) error {
