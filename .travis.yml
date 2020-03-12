@@ -6,7 +6,7 @@ jobs:
   include:
     - stage: style
       script:
-        - ./goconst.sh
+        - ./gofmt.sh
         - ./govet.sh
         - ./golint.sh
         - ./gocyclo.sh
