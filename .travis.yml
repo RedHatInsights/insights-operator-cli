@@ -6,10 +6,10 @@ jobs:
   include:
     - stage: style
       script:
-        - ./.travis.gofmt.sh
-        - ./.travis.govet.sh
-        - ./.travis.golint.sh
-        - ./.travis.gocyclo.sh
+        - ./gofmt.sh
+        - ./govet.sh
+        - ./golint.sh
+        - ./gocyclo.sh
     - stage: unit tests
       before_script: go build
       script:
@@ -19,7 +19,7 @@ jobs:
         - bash <(curl -s https://codecov.io/bash)
     - stage: functional tests
       before_script:
-        - ./.travis.insightscontroller.sh
+        - ./run_on_ci.sh
         - go build
       script:
         - go test ./tests -v
