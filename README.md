@@ -73,7 +73,11 @@ At this moment, just `CONTROLLER_URL` needs to be specified.
 
 ## Contributing
 
-Please make sure to run `./test.sh` to check all changes made in the source code.
+Please look into document [CONTRIBUTING.md](CONTRIBUTING.md) that contains all information about how to contribute to this project.
+
+Please look also at [Definitiot of Done](DoD.md) document with further informations.
+
+Also make sure to run `./test.sh` to check all changes made in the source code.
 
 ## Testing
 
@@ -98,6 +102,10 @@ It is also possible to specify CLI options for Go test. For example, if you need
 * `go vet` to report likely mistakes in source code, for example suspicious constructs, such as Printf calls whose arguments do not align with the format string.
 * `golint` as a linter for all Go sources stored in this repository
 * `gocyclo` to report all functions and methods with too high cyclomatic complexity. The cyclomatic complexity of a function is calculated according to the following rules: 1 is the base complexity of a function +1 for each 'if', 'for', 'case', '&&' or '||' Go Report Card warns on functions with cyclomatic complexity > 9
+* `goconst` to find repeated strings that could be replaced by a constant
+* `ineffassign` to detect and print all ineffectual assignments in Go code
+* `errcheck` for checking for all unchecked errors in go programs
+* `shellcheck` to perform static analysis for all shell scripts used in this repository
 
 History of checks done by CI is available at [RedHatInsights / insights-operator-cli](https://travis-ci.org/RedHatInsights/insights-operator-cli).
 
