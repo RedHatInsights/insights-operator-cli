@@ -211,7 +211,7 @@ func (api RestAPI) DeleteConfigurationProfile(profileID string) error {
 func (api RestAPI) AddCluster(name string) error {
 	query := name
 	url := api.controllerURL + APIPrefix + "client/cluster/" + query
-	err := performWriteRequest(url, "POST", nil)
+	err := performWriteRequest(url, http.MethodPost, nil)
 	return err
 }
 
@@ -219,7 +219,7 @@ func (api RestAPI) AddCluster(name string) error {
 func (api RestAPI) AddConfigurationProfile(username string, description string, configuration []byte) error {
 	query := "username=" + url.QueryEscape(username) + "&description=" + url.QueryEscape(description)
 	url := api.controllerURL + APIPrefix + "client/profile?" + query
-	err := performWriteRequest(url, "POST", bytes.NewReader(configuration))
+	err := performWriteRequest(url, http.MethodPost, bytes.NewReader(configuration))
 	return err
 }
 
@@ -227,7 +227,7 @@ func (api RestAPI) AddConfigurationProfile(username string, description string, 
 func (api RestAPI) AddClusterConfiguration(username string, cluster string, reason string, description string, configuration []byte) error {
 	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&description=" + url.QueryEscape(description)
 	url := api.controllerURL + APIPrefix + "client/cluster/" + url.PathEscape(cluster) + "/configuration/create?" + query
-	err := performWriteRequest(url, "POST", bytes.NewReader(configuration))
+	err := performWriteRequest(url, http.MethodPost, bytes.NewReader(configuration))
 	return err
 }
 
@@ -235,7 +235,7 @@ func (api RestAPI) AddClusterConfiguration(username string, cluster string, reas
 func (api RestAPI) AddTrigger(username string, clusterName string, reason string, link string) error {
 	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&link=" + url.QueryEscape(link)
 	url := api.controllerURL + APIPrefix + "client/cluster/" + url.PathEscape(clusterName) + "/trigger/must-gather?" + query
-	err := performWriteRequest(url, "POST", nil)
+	err := performWriteRequest(url, http.MethodPost, nil)
 	return err
 }
 
