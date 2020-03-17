@@ -21,6 +21,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/redhatinsighs/insights-operator-cli/types"
+	"net/http"
 	"net/url"
 )
 
@@ -175,35 +176,35 @@ func (api RestAPI) ReadClusterConfigurationByID(configurationID string) (*string
 // EnableClusterConfiguration access the REST API endpoint to enable existing cluster configuration
 func (api RestAPI) EnableClusterConfiguration(configurationID string) error {
 	url := api.controllerURL + APIPrefix + "client/configuration/" + configurationID + "/enable"
-	err := performWriteRequest(url, "PUT", nil)
+	err := performWriteRequest(url, http.MethodPut, nil)
 	return err
 }
 
 // DisableClusterConfiguration access the REST API endpoint to disable existing cluster configuration
 func (api RestAPI) DisableClusterConfiguration(configurationID string) error {
 	url := api.controllerURL + APIPrefix + "client/configuration/" + configurationID + "/disable"
-	err := performWriteRequest(url, "PUT", nil)
+	err := performWriteRequest(url, http.MethodPut, nil)
 	return err
 }
 
 // DeleteClusterConfiguration access the REST API endpoint to delete existing cluster configuration
 func (api RestAPI) DeleteClusterConfiguration(configurationID string) error {
 	url := api.controllerURL + APIPrefix + "client/configuration/" + configurationID
-	err := performWriteRequest(url, "DELETE", nil)
+	err := performWriteRequest(url, http.MethodDelete, nil)
 	return err
 }
 
 // DeleteCluster access the REST API endpoint to delete/deregister existing cluster
 func (api RestAPI) DeleteCluster(clusterID string) error {
 	url := api.controllerURL + APIPrefix + "client/cluster/" + clusterID
-	err := performWriteRequest(url, "DELETE", nil)
+	err := performWriteRequest(url, http.MethodDelete, nil)
 	return err
 }
 
 // DeleteConfigurationProfile access the REST API endpoint to delete existing configuration profile
 func (api RestAPI) DeleteConfigurationProfile(profileID string) error {
 	url := api.controllerURL + APIPrefix + "client/profile/" + profileID
-	err := performWriteRequest(url, "DELETE", nil)
+	err := performWriteRequest(url, http.MethodDelete, nil)
 	return err
 }
 
@@ -211,7 +212,7 @@ func (api RestAPI) DeleteConfigurationProfile(profileID string) error {
 func (api RestAPI) AddCluster(name string) error {
 	query := name
 	url := api.controllerURL + APIPrefix + "client/cluster/" + query
-	err := performWriteRequest(url, "POST", nil)
+	err := performWriteRequest(url, http.MethodPost, nil)
 	return err
 }
 
@@ -219,7 +220,7 @@ func (api RestAPI) AddCluster(name string) error {
 func (api RestAPI) AddConfigurationProfile(username string, description string, configuration []byte) error {
 	query := "username=" + url.QueryEscape(username) + "&description=" + url.QueryEscape(description)
 	url := api.controllerURL + APIPrefix + "client/profile?" + query
-	err := performWriteRequest(url, "POST", bytes.NewReader(configuration))
+	err := performWriteRequest(url, http.MethodPost, bytes.NewReader(configuration))
 	return err
 }
 
@@ -227,7 +228,7 @@ func (api RestAPI) AddConfigurationProfile(username string, description string, 
 func (api RestAPI) AddClusterConfiguration(username string, cluster string, reason string, description string, configuration []byte) error {
 	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&description=" + url.QueryEscape(description)
 	url := api.controllerURL + APIPrefix + "client/cluster/" + url.PathEscape(cluster) + "/configuration/create?" + query
-	err := performWriteRequest(url, "POST", bytes.NewReader(configuration))
+	err := performWriteRequest(url, http.MethodPost, bytes.NewReader(configuration))
 	return err
 }
 
@@ -235,27 +236,27 @@ func (api RestAPI) AddClusterConfiguration(username string, cluster string, reas
 func (api RestAPI) AddTrigger(username string, clusterName string, reason string, link string) error {
 	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&link=" + url.QueryEscape(link)
 	url := api.controllerURL + APIPrefix + "client/cluster/" + url.PathEscape(clusterName) + "/trigger/must-gather?" + query
-	err := performWriteRequest(url, "POST", nil)
+	err := performWriteRequest(url, http.MethodPost, nil)
 	return err
 }
 
 // DeleteTrigger access the REST API endpoint to delete the selected trigger
 func (api RestAPI) DeleteTrigger(triggerID string) error {
 	url := api.controllerURL + APIPrefix + "client/trigger/" + triggerID
-	err := performWriteRequest(url, "DELETE", nil)
+	err := performWriteRequest(url, http.MethodDelete, nil)
 	return err
 }
 
 // ActivateTrigger access the REST API endpoint to activate the selected trigger
 func (api RestAPI) ActivateTrigger(triggerID string) error {
 	url := api.controllerURL + APIPrefix + "client/trigger/" + triggerID + "/activate"
-	err := performWriteRequest(url, "PUT", nil)
+	err := performWriteRequest(url, http.MethodPut, nil)
 	return err
 }
 
 // DeactivateTrigger access the REST API endpoint to deactivate the selected trigger
 func (api RestAPI) DeactivateTrigger(triggerID string) error {
 	url := api.controllerURL + APIPrefix + "client/trigger/" + triggerID + "/deactivate"
-	err := performWriteRequest(url, "PUT", nil)
+	err := performWriteRequest(url, http.MethodPut, nil)
 	return err
 }
