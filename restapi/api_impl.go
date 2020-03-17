@@ -21,6 +21,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/redhatinsighs/insights-operator-cli/types"
+	"net/http"
 	"net/url"
 )
 
