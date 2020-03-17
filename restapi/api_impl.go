@@ -175,14 +175,14 @@ func (api RestAPI) ReadClusterConfigurationByID(configurationID string) (*string
 // EnableClusterConfiguration access the REST API endpoint to enable existing cluster configuration
 func (api RestAPI) EnableClusterConfiguration(configurationID string) error {
 	url := api.controllerURL + APIPrefix + "client/configuration/" + configurationID + "/enable"
-	err := performWriteRequest(url, "PUT", nil)
+	err := performWriteRequest(url, http.MethodPut, nil)
 	return err
 }
 
 // DisableClusterConfiguration access the REST API endpoint to disable existing cluster configuration
 func (api RestAPI) DisableClusterConfiguration(configurationID string) error {
 	url := api.controllerURL + APIPrefix + "client/configuration/" + configurationID + "/disable"
-	err := performWriteRequest(url, "PUT", nil)
+	err := performWriteRequest(url, http.MethodPut, nil)
 	return err
 }
 
@@ -249,13 +249,13 @@ func (api RestAPI) DeleteTrigger(triggerID string) error {
 // ActivateTrigger access the REST API endpoint to activate the selected trigger
 func (api RestAPI) ActivateTrigger(triggerID string) error {
 	url := api.controllerURL + APIPrefix + "client/trigger/" + triggerID + "/activate"
-	err := performWriteRequest(url, "PUT", nil)
+	err := performWriteRequest(url, http.MethodPut, nil)
 	return err
 }
 
 // DeactivateTrigger access the REST API endpoint to deactivate the selected trigger
 func (api RestAPI) DeactivateTrigger(triggerID string) error {
 	url := api.controllerURL + APIPrefix + "client/trigger/" + triggerID + "/deactivate"
-	err := performWriteRequest(url, "PUT", nil)
+	err := performWriteRequest(url, http.MethodPut, nil)
 	return err
 }
