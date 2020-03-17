@@ -189,21 +189,21 @@ func (api RestAPI) DisableClusterConfiguration(configurationID string) error {
 // DeleteClusterConfiguration access the REST API endpoint to delete existing cluster configuration
 func (api RestAPI) DeleteClusterConfiguration(configurationID string) error {
 	url := api.controllerURL + APIPrefix + "client/configuration/" + configurationID
-	err := performWriteRequest(url, "DELETE", nil)
+	err := performWriteRequest(url, http.MethodDelete, nil)
 	return err
 }
 
 // DeleteCluster access the REST API endpoint to delete/deregister existing cluster
 func (api RestAPI) DeleteCluster(clusterID string) error {
 	url := api.controllerURL + APIPrefix + "client/cluster/" + clusterID
-	err := performWriteRequest(url, "DELETE", nil)
+	err := performWriteRequest(url, http.MethodDelete, nil)
 	return err
 }
 
 // DeleteConfigurationProfile access the REST API endpoint to delete existing configuration profile
 func (api RestAPI) DeleteConfigurationProfile(profileID string) error {
 	url := api.controllerURL + APIPrefix + "client/profile/" + profileID
-	err := performWriteRequest(url, "DELETE", nil)
+	err := performWriteRequest(url, http.MethodDelete, nil)
 	return err
 }
 
@@ -242,7 +242,7 @@ func (api RestAPI) AddTrigger(username string, clusterName string, reason string
 // DeleteTrigger access the REST API endpoint to delete the selected trigger
 func (api RestAPI) DeleteTrigger(triggerID string) error {
 	url := api.controllerURL + APIPrefix + "client/trigger/" + triggerID
-	err := performWriteRequest(url, "DELETE", nil)
+	err := performWriteRequest(url, http.MethodDelete, nil)
 	return err
 }
 
