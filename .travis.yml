@@ -26,6 +26,7 @@ jobs:
         - ./gocyclo.sh
         - ./goerrcheck.sh
         - ./abcgo.sh
+        - ./ineffassign.sh
     - stage: unit tests
       before_script: go build
       script:
