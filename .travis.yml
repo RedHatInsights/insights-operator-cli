@@ -24,6 +24,7 @@ jobs:
         - ./govet.sh
         - ./golint.sh
         - ./gocyclo.sh
+        - ./abcgo.sh
     - stage: unit tests
       before_script: go build
       script:
