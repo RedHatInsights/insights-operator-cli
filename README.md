@@ -106,6 +106,7 @@ It is also possible to specify CLI options for Go test. For example, if you need
 * `ineffassign` to detect and print all ineffectual assignments in Go code
 * `errcheck` for checking for all unchecked errors in go programs
 * `shellcheck` to perform static analysis for all shell scripts used in this repository
+* `abcgo` to measure ABC metrics for Go source code and check if the metrics does not exceed specified threshold
 
 History of checks done by CI is available at [RedHatInsights / insights-operator-cli](https://travis-ci.org/RedHatInsights/insights-operator-cli).
 
