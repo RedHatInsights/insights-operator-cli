@@ -25,6 +25,8 @@ import (
 	"strings"
 )
 
+const configFileDirectory = "configurations/"
+
 // ListOfConfigurations displays list of all configurations gathered via REST API call to controller service
 func ListOfConfigurations(api restapi.API, filter string) {
 	// TODO: filter in query?
@@ -145,10 +147,14 @@ func AddClusterConfiguration(api restapi.API, username string) {
 	AddClusterConfigurationImpl(api, username, cluster, reason, description, configurationFileName)
 }
 
+func pathToConfigFile(directory string, filename string) string {
+	return directory + configurationFileName
+}
+
 // AddClusterConfigurationImpl creates a new cluster configuration
 func AddClusterConfigurationImpl(api restapi.API, username string, cluster string, reason string, description string, configurationFileName string) {
 	// TODO: make the directory fully configurable
-	configuration, err := ioutil.ReadFile("configurations/" + configurationFileName)
+	configuration, err := ioutil.ReadFile(pathToConfigFile(configFileDirectory, configurationFileName))
 	if err != nil {
 		fmt.Println(colorizer.Red(cannotReadConfigurationFileErrorMessage))
 		fmt.Println(err)
