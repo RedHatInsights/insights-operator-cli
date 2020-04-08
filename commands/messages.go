@@ -18,4 +18,5 @@ package commands
 
 const (
 	operationCancelled = "Cancelled"
+	changedAt          = "Changed at"
 )
