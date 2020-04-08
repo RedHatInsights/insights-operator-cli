@@ -148,7 +148,7 @@ func AddClusterConfiguration(api restapi.API, username string) {
 }
 
 func pathToConfigFile(directory string, filename string) string {
-	return directory + configurationFileName
+	return directory + filename
 }
 
 // AddClusterConfigurationImpl creates a new cluster configuration
