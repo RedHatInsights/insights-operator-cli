@@ -17,5 +17,6 @@ limitations under the License.
 package commands
 
 const (
-	cannotReadConfigurationFileErrorMessage = "Cannot read configuration file"
+	cannotReadConfigurationFileErrorMessage    = "Cannot read configuration file"
+	cannotReadAnyConfigurationFileErrorMessage = "Cannot read any configuration file"
 )
