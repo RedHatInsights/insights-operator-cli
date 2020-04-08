@@ -86,7 +86,7 @@ func AddConfigurationProfile(api restapi.API, username string) {
 
 	description := prompt.Input("description: ", LoginCompleter)
 	if description == "" {
-		fmt.Println(colorizer.Red("Cancelled"))
+		fmt.Println(colorizer.Red(operationCancelled))
 		return
 	}
 
@@ -99,7 +99,7 @@ func AddConfigurationProfile(api restapi.API, username string) {
 
 	configurationFileName := prompt.Input("configuration file (TAB to complete): ", ConfigFileCompleter)
 	if configurationFileName == "" {
-		fmt.Println(colorizer.Red("Cancelled"))
+		fmt.Println(colorizer.Red(operationCancelled))
 		return
 	}
 

@@ -113,19 +113,19 @@ func AddClusterConfiguration(api restapi.API, username string) {
 
 	cluster := prompt.Input("cluster: ", LoginCompleter)
 	if cluster == "" {
-		fmt.Println(colorizer.Red("Cancelled"))
+		fmt.Println(colorizer.Red(operationCancelled))
 		return
 	}
 
 	reason := prompt.Input("reason: ", LoginCompleter)
 	if reason == "" {
-		fmt.Println(colorizer.Red("Cancelled"))
+		fmt.Println(colorizer.Red(operationCancelled))
 		return
 	}
 
 	description := prompt.Input("description: ", LoginCompleter)
 	if description == "" {
-		fmt.Println(colorizer.Red("Cancelled"))
+		fmt.Println(colorizer.Red(operationCancelled))
 		return
 	}
 
@@ -138,7 +138,7 @@ func AddClusterConfiguration(api restapi.API, username string) {
 
 	configurationFileName := prompt.Input("configuration file (TAB to complete): ", ConfigFileCompleter)
 	if configurationFileName == "" {
-		fmt.Println(colorizer.Red("Cancelled"))
+		fmt.Println(colorizer.Red(operationCancelled))
 		return
 	}
 
