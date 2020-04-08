@@ -56,7 +56,7 @@ func ListOfConfigurations(api restapi.API, filter string) {
 func EnableClusterConfiguration(api restapi.API, configurationID string) {
 	err := api.EnableClusterConfiguration(configurationID)
 	if err != nil {
-		fmt.Println(colorizer.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
@@ -69,7 +69,7 @@ func EnableClusterConfiguration(api restapi.API, configurationID string) {
 func DisableClusterConfiguration(api restapi.API, configurationID string) {
 	err := api.DisableClusterConfiguration(configurationID)
 	if err != nil {
-		fmt.Println(colorizer.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
@@ -95,7 +95,7 @@ func DescribeConfiguration(api restapi.API, clusterID string) {
 func DeleteClusterConfiguration(api restapi.API, configurationID string) {
 	err := api.DeleteClusterConfiguration(configurationID)
 	if err != nil {
-		fmt.Println(colorizer.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
@@ -157,7 +157,7 @@ func AddClusterConfigurationImpl(api restapi.API, username string, cluster strin
 
 	err = api.AddClusterConfiguration(username, cluster, reason, description, configuration)
 	if err != nil {
-		fmt.Println(colorizer.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}

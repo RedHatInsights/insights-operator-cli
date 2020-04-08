@@ -68,7 +68,7 @@ func DeleteConfigurationProfile(api restapi.API, profileID string, askForConfirm
 
 	err := api.DeleteConfigurationProfile(profileID)
 	if err != nil {
-		fmt.Println(colorizer.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
@@ -112,7 +112,7 @@ func AddConfigurationProfile(api restapi.API, username string) {
 
 	err = api.AddConfigurationProfile(username, description, configuration)
 	if err != nil {
-		fmt.Println(colorizer.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
@@ -132,7 +132,7 @@ func AddConfigurationProfileImpl(api restapi.API, username string, description s
 
 	err = api.AddConfigurationProfile(username, description, configuration)
 	if err != nil {
-		fmt.Println(colorizer.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
