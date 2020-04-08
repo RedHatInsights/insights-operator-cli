@@ -22,4 +22,6 @@ const (
 
 	// any object (cluster, configuration, profile) has been deleted
 	deleted = "deleted"
+
+	configurationFilePrompt = "configuration file (TAB to complete): "
 )
