@@ -134,6 +134,10 @@ var commandsWithAPIParam = []commandWithAPIParam{
 	{"list profiles", commands.ListOfProfiles},
 }
 
+func configurationPrompt() string {
+	return prompt.Input("configuration: ", commands.LoginCompleter)
+}
+
 func executeFixedCommand(t string) {
 	// simple commands without parameters
 	for _, command := range simpleCommands {
@@ -173,7 +177,7 @@ func executeFixedCommand(t string) {
 		profile := prompt.Input("profile: ", commands.LoginCompleter)
 		commands.DescribeProfile(api, profile)
 	case "describe configuration":
-		configuration := prompt.Input("configuration: ", commands.LoginCompleter)
+		configuration := configurationPrompt()
 		commands.DescribeConfiguration(api, configuration)
 	case "describe must-gather":
 		fallthrough
@@ -181,16 +185,16 @@ func executeFixedCommand(t string) {
 		trigger := prompt.Input("trigger: ", commands.LoginCompleter)
 		commands.DescribeTrigger(api, trigger)
 	case "enable configuration":
-		configuration := prompt.Input("configuration: ", commands.LoginCompleter)
+		configuration := configurationPrompt()
 		commands.EnableClusterConfiguration(api, configuration)
 	case "disable configuration":
-		configuration := prompt.Input("configuration: ", commands.LoginCompleter)
+		configuration := configurationPrompt()
 		commands.DisableClusterConfiguration(api, configuration)
 	case "delete cluster":
 		cluster := prompt.Input("cluster: ", commands.LoginCompleter)
 		commands.DeleteCluster(api, cluster, *askForConfirmation)
 	case "delete configuration":
-		configuration := prompt.Input("configuration: ", commands.LoginCompleter)
+		configuration := configurationPrompt()
 		commands.DeleteClusterConfiguration(api, configuration)
 	case "delete profile":
 		profile := prompt.Input("profile: ", commands.LoginCompleter)
