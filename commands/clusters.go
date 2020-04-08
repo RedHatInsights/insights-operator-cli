@@ -53,7 +53,7 @@ func DeleteCluster(api restapi.API, clusterID string, askForConfirmation bool) {
 
 	err := api.DeleteCluster(clusterID)
 	if err != nil {
-		fmt.Println(colorizer.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
@@ -66,7 +66,7 @@ func DeleteCluster(api restapi.API, clusterID string, askForConfirmation bool) {
 func AddCluster(api restapi.API, clusterName string) {
 	err := api.AddCluster(clusterName)
 	if err != nil {
-		fmt.Println(colorizer.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}

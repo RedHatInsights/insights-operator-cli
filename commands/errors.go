@@ -19,4 +19,5 @@ package commands
 const (
 	cannotReadConfigurationFileErrorMessage    = "Cannot read configuration file"
 	cannotReadAnyConfigurationFileErrorMessage = "Cannot read any configuration file"
+	errorCommunicationWithServiceErrorMessage  = "Error communicating with the service"
 )

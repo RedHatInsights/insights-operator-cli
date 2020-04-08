@@ -102,7 +102,7 @@ func AddTrigger(api restapi.API, username string) {
 func AddTriggerImpl(api restapi.API, username string, clusterName string, reason string, link string) {
 	err := api.AddTrigger(username, clusterName, reason, link)
 	if err != nil {
-		fmt.Println("Error communicating with the service")
+		fmt.Println(errorCommunicationWithServiceErrorMessage)
 		fmt.Println(err)
 		return
 	}
@@ -115,7 +115,7 @@ func AddTriggerImpl(api restapi.API, username string, clusterName string, reason
 func DeleteTrigger(api restapi.API, triggerID string) {
 	err := api.DeleteTrigger(triggerID)
 	if err != nil {
-		fmt.Println(colorizer.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
@@ -128,7 +128,7 @@ func DeleteTrigger(api restapi.API, triggerID string) {
 func ActivateTrigger(api restapi.API, triggerID string) {
 	err := api.ActivateTrigger(triggerID)
 	if err != nil {
-		fmt.Println(colorizer.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
@@ -141,7 +141,7 @@ func ActivateTrigger(api restapi.API, triggerID string) {
 func DeactivateTrigger(api restapi.API, triggerID string) {
 	err := api.DeactivateTrigger(triggerID)
 	if err != nil {
-		fmt.Println(colorizer.Red("Error communicating with the service"))
+		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
