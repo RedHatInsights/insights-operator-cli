@@ -101,7 +101,7 @@ func DeleteClusterConfiguration(api restapi.API, configurationID string) {
 	}
 
 	// everything's ok, configuration has been deleted
-	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been"), colorizer.Red("deleted"))
+	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been"), colorizer.Red(deleted))
 }
 
 // AddClusterConfiguration ask for all information needed to create new cluster configuration

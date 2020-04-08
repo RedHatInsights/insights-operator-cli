@@ -59,7 +59,7 @@ func DeleteCluster(api restapi.API, clusterID string, askForConfirmation bool) {
 	}
 
 	// everything's ok
-	fmt.Println(colorizer.Blue("Cluster "+clusterID+" has been"), colorizer.Red("deleted"))
+	fmt.Println(colorizer.Blue("Cluster "+clusterID+" has been"), colorizer.Red(deleted))
 }
 
 // AddCluster inserts new cluster info into the database

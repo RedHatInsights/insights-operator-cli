@@ -121,7 +121,7 @@ func DeleteTrigger(api restapi.API, triggerID string) {
 	}
 
 	// everything's ok, trigger has been deleted
-	fmt.Println(colorizer.Blue("Trigger "+triggerID+" has been"), colorizer.Red("deleted"))
+	fmt.Println(colorizer.Blue("Trigger "+triggerID+" has been"), colorizer.Red(deleted))
 }
 
 // ActivateTrigger activates specified trigger

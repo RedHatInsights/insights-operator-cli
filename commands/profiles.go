@@ -74,7 +74,7 @@ func DeleteConfigurationProfile(api restapi.API, profileID string, askForConfirm
 	}
 
 	// everything's ok, configuration profile has been deleted
-	fmt.Println(colorizer.Blue("Configuration profile "+profileID+" has been"), colorizer.Red("deleted"))
+	fmt.Println(colorizer.Blue("Configuration profile "+profileID+" has been"), colorizer.Red(deleted))
 }
 
 // AddConfigurationProfile adds the profile to database

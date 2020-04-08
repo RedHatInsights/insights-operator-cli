@@ -19,4 +19,7 @@ package commands
 const (
 	operationCancelled = "Cancelled"
 	changedAt          = "Changed at"
+
+	// any object (cluster, configuration, profile) has been deleted
+	deleted = "deleted"
 )
