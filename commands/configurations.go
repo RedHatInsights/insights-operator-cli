@@ -136,7 +136,7 @@ func AddClusterConfiguration(api restapi.API, username string) {
 		fmt.Println(err)
 	}
 
-	configurationFileName := prompt.Input("configuration file (TAB to complete): ", ConfigFileCompleter)
+	configurationFileName := prompt.Input(configurationFilePrompt, ConfigFileCompleter)
 	if configurationFileName == "" {
 		fmt.Println(colorizer.Red(operationCancelled))
 		return
