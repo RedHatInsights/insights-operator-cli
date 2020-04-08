@@ -93,7 +93,7 @@ func AddConfigurationProfile(api restapi.API, username string) {
 	// TODO: make the directory fully configurable
 	err := FillInConfigurationList("configurations")
 	if err != nil {
-		fmt.Println(colorizer.Red("Cannot read any configuration file"))
+		fmt.Println(colorizer.Red(cannotReadAnyConfigurationFileErrorMessage))
 		fmt.Println(err)
 	}
 
