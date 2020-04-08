@@ -106,7 +106,7 @@ func AddConfigurationProfile(api restapi.API, username string) {
 	// TODO: make the directory fully configurable
 	configuration, err := ioutil.ReadFile("configurations/" + configurationFileName)
 	if err != nil {
-		fmt.Println(colorizer.Red("Cannot read configuration file"))
+		fmt.Println(colorizer.Red(cannotReadConfigurationFileErrorMessage))
 		fmt.Println(err)
 	}
 
@@ -126,7 +126,7 @@ func AddConfigurationProfileImpl(api restapi.API, username string, description s
 	// TODO: make the directory fully configurable
 	configuration, err := ioutil.ReadFile("configurations/" + configurationFileName)
 	if err != nil {
-		fmt.Println(colorizer.Red("Cannot read configuration file"))
+		fmt.Println(colorizer.Red(cannotReadConfigurationFileErrorMessage))
 		fmt.Println(err)
 	}
 
