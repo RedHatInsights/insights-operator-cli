@@ -138,6 +138,10 @@ func configurationPrompt() string {
 	return prompt.Input("configuration: ", commands.LoginCompleter)
 }
 
+func triggerPrompt() string {
+	return prompt.Input("trigger: ", commands.LoginCompleter)
+}
+
 func executeFixedCommand(t string) {
 	// simple commands without parameters
 	for _, command := range simpleCommands {
@@ -182,7 +186,7 @@ func executeFixedCommand(t string) {
 	case "describe must-gather":
 		fallthrough
 	case "describe trigger":
-		trigger := prompt.Input("trigger: ", commands.LoginCompleter)
+		trigger := triggerPrompt()
 		commands.DescribeTrigger(api, trigger)
 	case "enable configuration":
 		configuration := configurationPrompt()
@@ -200,17 +204,17 @@ func executeFixedCommand(t string) {
 		profile := prompt.Input("profile: ", commands.LoginCompleter)
 		commands.DeleteConfigurationProfile(api, profile, *askForConfirmation)
 	case "delete trigger":
-		trigger := prompt.Input("trigger: ", commands.LoginCompleter)
+		trigger := triggerPrompt()
 		commands.DeleteTrigger(api, trigger)
 	case "activate must-gather":
 		fallthrough
 	case "activate trigger":
-		trigger := prompt.Input("trigger: ", commands.LoginCompleter)
+		trigger := triggerPrompt()
 		commands.ActivateTrigger(api, trigger)
 	case "deactivate must-gather":
 		fallthrough
 	case "deactivate trigger":
-		trigger := prompt.Input("trigger: ", commands.LoginCompleter)
+		trigger := triggerPrompt()
 		commands.DeactivateTrigger(api, trigger)
 	default:
 		fmt.Println("Command not found")
