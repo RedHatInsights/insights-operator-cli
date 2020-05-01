@@ -38,7 +38,7 @@ func ListOfTriggers(api restapi.API) {
 	for i, trigger := range triggers {
 		var active aurora.Value
 		if trigger.Active == 1 {
-			active = colorizer.Green("yes")
+			active = colorizer.Green(conditionSet)
 		} else {
 			active = colorizer.Red("no")
 		}
@@ -59,7 +59,7 @@ func DescribeTrigger(api restapi.API, triggerID string) {
 
 	var active aurora.Value
 	if trigger.Active == 1 {
-		active = colorizer.Green("yes")
+		active = colorizer.Green(conditionSet)
 	} else {
 		active = colorizer.Red("no")
 	}

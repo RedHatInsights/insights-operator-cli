@@ -23,5 +23,8 @@ const (
 	// any object (cluster, configuration, profile) has been deleted
 	deleted = "deleted"
 
+	// prompt displayed for any TAB-completable inputs (file selection etc.)
 	configurationFilePrompt = "configuration file (TAB to complete): "
+
+	conditionSet = "yes"
 )
