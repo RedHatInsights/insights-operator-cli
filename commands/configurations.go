@@ -44,7 +44,7 @@ func ListOfConfigurations(api restapi.API, filter string) {
 		if strings.Contains(configuration.Cluster, filter) {
 			var active aurora.Value
 			if configuration.Active == "1" {
-				active = colorizer.Green("yes")
+				active = colorizer.Green(conditionSet)
 			} else {
 				active = colorizer.Red("no")
 			}
