@@ -195,7 +195,7 @@ func executeFixedCommand(t string) {
 		configuration := configurationPrompt()
 		commands.DisableClusterConfiguration(api, configuration)
 	case "delete cluster":
-		cluster := prompt.Input("cluster: ", commands.LoginCompleter)
+		cluster := prompt.Input("cluster to delete: ", commands.LoginCompleter)
 		commands.DeleteCluster(api, cluster, *askForConfirmation)
 	case "delete configuration":
 		configuration := configurationPrompt()
