@@ -124,6 +124,8 @@ func AddConfigurationProfile(api restapi.API, username string) {
 // AddConfigurationProfileImpl adds the profile to database
 func AddConfigurationProfileImpl(api restapi.API, username string, description string, configurationFileName string) {
 	// TODO: make the directory fully configurable
+	// disable "G304 (CWE-22): Potential file inclusion via variable"
+	// #nosec G304
 	configuration, err := ioutil.ReadFile("configurations/" + configurationFileName)
 	if err != nil {
 		fmt.Println(colorizer.Red(cannotReadConfigurationFileErrorMessage))
