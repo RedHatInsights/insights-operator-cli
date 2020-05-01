@@ -27,6 +27,8 @@ import (
 )
 
 func performReadRequest(url string) ([]byte, error) {
+	// disable "G107 (CWE-88): Potential HTTP request made with variable url"
+	// #nosec G107
 	response, err := http.Get(url)
 	if err != nil {
 		return nil, fmt.Errorf("Communication error with the server %v", err)
