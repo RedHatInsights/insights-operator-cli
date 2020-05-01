@@ -25,6 +25,7 @@ jobs:
         - ./golint.sh
         - ./gocyclo.sh
         - ./goerrcheck.sh
+        - ./gosec.sh
         - ./abcgo.sh
         - ./ineffassign.sh
     - stage: unit tests
