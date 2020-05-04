@@ -37,8 +37,19 @@ var BuildVersion string = "*not set*"
 // BuildTime contains timestamp when the CLI client has been built
 var BuildTime string = "*not set*"
 
-// enable or disable asking for confirmation for selected actions (like delete)
-var askForConfirmation *bool
+// Configuration represent insights operator CLI configuration
+type Configuration struct {
+	// enable or disable asking for confirmation for selected actions (like delete)
+	askForConfirmation *bool
+
+	// enable colors usage on CLI interface
+	colors *bool
+
+	// enable or disable Tab-completion
+	useCompleter *bool
+}
+
+var configuration Configuration
 
 var username string
 var password string
@@ -196,13 +207,13 @@ func executeFixedCommand(t string) {
 		commands.DisableClusterConfiguration(api, configuration)
 	case "delete cluster":
 		cluster := prompt.Input("cluster to delete: ", commands.LoginCompleter)
-		commands.DeleteCluster(api, cluster, *askForConfirmation)
+		commands.DeleteCluster(api, cluster, *configuration.askForConfirmation)
 	case "delete configuration":
 		configuration := configurationPrompt()
 		commands.DeleteClusterConfiguration(api, configuration)
 	case "delete profile":
 		profile := prompt.Input("profile: ", commands.LoginCompleter)
-		commands.DeleteConfigurationProfile(api, profile, *askForConfirmation)
+		commands.DeleteConfigurationProfile(api, profile, *configuration.askForConfirmation)
 	case "delete trigger":
 		trigger := triggerPrompt()
 		commands.DeleteTrigger(api, trigger)
@@ -325,29 +336,41 @@ func completer(in prompt.Document) []prompt.Suggest {
 	return prompt.FilterHasPrefix(firstWord, blocks[0], true)
 }
 
-func main() {
+func readConfiguration(filename string) (Configuration, error) {
+	var config Configuration
+
 	// read configuration first
-	viper.SetConfigName("config")
+	viper.SetConfigName(filename)
 	viper.AddConfigPath(".")
 
+	// try to read configuration and check for possible errors
 	err := viper.ReadInConfig()
 	if err != nil {
-		panic(fmt.Errorf("Fatal error config file: %s", err))
+		return config, err
 	}
 
 	// parse command line arguments and flags
-	var colors = flag.Bool("colors", true, "enable or disable colors")
-	var useCompleter = flag.Bool("completer", true, "enable or disable command line completer")
-	askForConfirmation = flag.Bool("confirmation", true, "enable or disable asking for confirmation for selected actions (like delete)")
+	config.colors = flag.Bool("colors", true, "enable or disable colors")
+	config.useCompleter = flag.Bool("completer", true, "enable or disable command line completer")
+	config.askForConfirmation = flag.Bool("confirmation", true, "enable or disable asking for confirmation for selected actions (like delete)")
 	flag.Parse()
 
-	colorizer = aurora.NewAurora(*colors)
+	return config, nil
+}
+
+func main() {
+	configuration, err := readConfiguration("config")
+	if err != nil {
+		panic(err)
+	}
+
+	colorizer = aurora.NewAurora(*configuration.colors)
 	commands.SetColorizer(colorizer)
 
 	controllerURL := viper.GetString("CONTROLLER_URL")
 	api = restapi.NewRestAPI(controllerURL)
 
-	if *useCompleter {
+	if *configuration.useCompleter {
 		p := prompt.New(executor, completer)
 		p.Run()
 	} else {
