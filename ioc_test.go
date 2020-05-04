@@ -17,6 +17,7 @@ package main_test
 
 import (
 	"github.com/c-bata/go-prompt"
+	"github.com/logrusorgru/aurora"
 	"testing"
 
 	"github.com/redhatinsighs/insights-operator-cli"
@@ -64,4 +65,27 @@ func TestCompleterHelpCommand(t *testing.T) {
 	suggests := main.Completer(createDocumentWithCommand(t, "help"))
 	checkSuggestionCount(t, suggests, 1)
 	checkSuggestion(t, suggests[0], "help", "show help with all commands")
+}
+
+// TestReadConfiguration tries to read configuration from existing configuration file
+func TestReadConfiguration(t *testing.T) {
+	_, err := main.ReadConfiguration("config")
+	if err != nil {
+		t.Fatal("Error during reading configuration", err)
+	}
+}
+
+// TestReadConfigurationNegative tries to read configuration from non-existing configuration file
+func TestReadConfigurationNegative(t *testing.T) {
+	_, err := main.ReadConfiguration("this_does_not_exists")
+	if err == nil {
+		t.Fatal("Error expected during reading configuration from non-existing file")
+	}
+}
+
+// TestPrintVersion is dummy ATM - we'll check versions etc. in integration tests
+func TestPrintVersion(t *testing.T) {
+	*main.Colorizer = aurora.NewAurora(true)
+
+	main.PrintVersion()
 }

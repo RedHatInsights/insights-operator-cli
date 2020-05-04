@@ -22,3 +22,6 @@ package main
 // https://medium.com/@robiplus/golang-trick-export-for-test-aa16cbd7b8cd
 // to see why this trick is needed.
 var Completer = completer
+var ReadConfiguration = readConfiguration
+var PrintVersion = printVersion
+var Colorizer = &colorizer
