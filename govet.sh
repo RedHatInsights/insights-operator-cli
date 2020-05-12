@@ -13,5 +13,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cd "$(dirname $0)"
-go vet `go list ./...`
+BLUE=$(tput setaf 4)
+RED_BG=$(tput setab 1)
+GREEN_BG=$(tput setab 2)
+NC=$(tput sgr0) # No Color
+
+cd "$(dirname "$0")" || exit
+
+echo -e "${BLUE}go vet check${NC}"
+
+# shellcheck disable=SC2046
+go vet $(go list ./...)
+
+# shellcheck disable=SC2181
+if [[ $? -ne 0 ]]
+then
+    echo -e "${RED_BG}[FAIL]${NC} go vet tool finds issues in source code"
+    exit 1
+else
+    echo -e "${GREEN_BG}[OK]${NC} All source codes are correct according to go vet"
+    exit 0
+fi
