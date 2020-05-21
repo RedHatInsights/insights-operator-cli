@@ -24,7 +24,7 @@ else
     exit 1
 fi
 
-go test -c -o ./functional-tests tests/functional_test.go
+go test -c -o ./functional-tests tests/*.go
 
 if [ $? -eq 0 ]
 then
