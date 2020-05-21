@@ -14,11 +14,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+// Implementation of functional tests for the CLI client (application). These
+// tests start CLI client, send commands to it and check the output (if it is
+// the same as expected). In order to work properly, the CLI client needs to be
+// configured to not to use TAB-completion and color output needs to be
+// disabled as well. Additionally, the controller service needs to be started
+// in background, because CLI client calls this service for almost all
+// commands.
 package main
 
 import (
-	"fmt"
-	"math/rand"
 	"os"
 	"strings"
 	"testing"
@@ -27,14 +32,22 @@ import (
 	"github.com/ThomasRooney/gexpect"
 )
 
-// startCLI starts CLI application w/o color output and w/o command-line completer.
+const (
+	commandTimeout = 2 * time.Second
+	prompt         = "> "
+)
+
+// startCLI function starts CLI application w/o color output and w/o command-line completer.
 func startCLI(t *testing.T) *gexpect.ExpectSubprocess {
+	// we need to know the current working directory so the CLI tool will be started from the right place
+	// (tests might be stored in different sub-directory)
 	dir, err := os.Getwd()
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	for !strings.HasSuffix(dir, "/insights-operator-cli") { // make sure it's executed from the correct path
+		// try to traverse through super-directories
 		err := os.Chdir("../")
 		if err != nil {
 			panic(err)
@@ -48,99 +61,57 @@ func startCLI(t *testing.T) *gexpect.ExpectSubprocess {
 		}
 	}
 
+	// start the CLI tool
 	child, err := gexpect.Spawn("./insights-operator-cli --colors=false --completer=false")
 	if err != nil {
 		t.Fatal(err)
 	}
 	t.Log("CLI client has been started")
 
+	// now, after the start, we should see prompt
 	expectPrompt(t, child)
 	return child
 }
 
-// quitCLI quits CLI
+// quitCLI function quits CLI tool that was started as children
 func quitCLI(t *testing.T, child *gexpect.ExpectSubprocess) {
+	// check if child process has been started before
+	if child == nil {
+		t.Fatal("Child process has not been started")
+	}
+
+	// the 'quit' command should quit the application
 	sendCommand(t, child, "quit")
+
+	// make it breath a bit
 	err := child.Wait()
 	if err != nil {
 		t.Fatal(err)
 	}
+	t.Log("CLI client has been stopped")
 }
 
-// expectOutput expects the specified output from the tested CLI client.
+// expectOutput function expects the specified output from the tested CLI client.
 func expectOutput(t *testing.T, child *gexpect.ExpectSubprocess, output string) {
-	err := child.ExpectTimeout(output, 2*time.Second)
+	// check if the expected output has been displayed
+	err := child.ExpectTimeout(output, commandTimeout)
 	if err != nil {
 		t.Fatal(err)
 	}
 	t.Log("Expected output '" + output + "' has been found")
 }
 
-// expectPrompt expects the prompt from the tested CLI client.
+// expectPrompt function expects the prompt from the tested CLI client.
 func expectPrompt(t *testing.T, child *gexpect.ExpectSubprocess) {
-	expectOutput(t, child, "> ")
+	expectOutput(t, child, prompt)
 }
 
 // sendCommand sends command to the tested CLI client.
 func sendCommand(t *testing.T, child *gexpect.ExpectSubprocess, command string) {
+	// send a command to the tested CLI client
 	err := child.SendLine(command)
 	if err != nil {
 		t.Fatal(err)
 	}
 	t.Log("Command '" + command + "' has been sent to CLI client")
-}
-
-// TestCheckQuitCommand check whether the client can be started and stopped using the 'quit', 'exit' or 'bye' command.
-func TestCheckQuitCommand(t *testing.T) {
-	commands := []string{
-		"quit", "exit", "bye",
-	}
-
-	for _, command := range commands {
-		child := startCLI(t)
-		sendCommand(t, child, command)
-		err := child.Wait()
-		if err != nil {
-			t.Fatal(err)
-		}
-	}
-}
-
-// TestCheckVersionCommand check the 'version' command.
-func TestCheckVersionCommand(t *testing.T) {
-	child := startCLI(t)
-	defer quitCLI(t, child)
-	sendCommand(t, child, "version")
-	expectOutput(t, child, "Insights operator CLI client")
-	expectOutput(t, child, "version")
-	expectOutput(t, child, "compiled")
-	expectPrompt(t, child)
-}
-
-// TestListClustersCommand check the 'list clusters' command
-func TestListClustersCommand(t *testing.T) {
-	child := startCLI(t)
-	defer quitCLI(t, child)
-	sendCommand(t, child, "list clusters")
-	expectOutput(t, child, "List of clusters")
-}
-
-// TestAddClusterCommand check the 'add cluster' command followed by 'list clusters' one
-func TestAddClusterCommand(t *testing.T) {
-	child := startCLI(t)
-	defer quitCLI(t, child)
-
-	b := make([]byte, 16)
-	_, err := rand.Read(b)
-	if err != nil {
-		t.Fatal(err)
-	}
-	clusterName := fmt.Sprintf("%x-%x-%x-%x-%x", b[0:4], b[4:6], b[6:8], b[8:10], b[10:])
-
-	command := fmt.Sprintf("add cluster %s", clusterName)
-	sendCommand(t, child, command)
-	expectOutput(t, child, "Cluster "+clusterName+" has been added")
-
-	sendCommand(t, child, "list clusters")
-	expectOutput(t, child, clusterName)
 }
