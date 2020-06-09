@@ -13,5 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-go get github.com/fzipp/gocyclo
-gocyclo -over 29 -avg .
+BLUE=$(tput setaf 4)
+RED_BG=$(tput setab 1)
+GREEN_BG=$(tput setab 2)
+NC=$(tput sgr0) # No Color
+
+echo -e "${BLUE}Finding functions and methods with high cyclomatic complexity${NC}"
+
+
+GO111MODULE=off go get github.com/fzipp/gocyclo
+
+if ! gocyclo -over 29 -avg .
+then
+    echo -e "${RED_BG}[FAIL]${NC} Functions/methods with high cyclomatic complexity detected"
+    exit 1
+else
+    echo -e "${GREEN_BG}[OK]${NC} All functions and methods have reasonable cyclomatic complexity"
+    exit 0
+fi
