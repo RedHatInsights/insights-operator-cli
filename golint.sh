@@ -13,12 +13,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cd "$(dirname $0)"
+BLUE=$(tput setaf 4)
+RED_BG=$(tput setab 1)
+GREEN_BG=$(tput setab 2)
+NC=$(tput sgr0) # No Color
 
-go get golang.org/x/lint/golint
+echo -e "${BLUE}Running linter for Go source code${NC}"
 
-if golint `go list ./...` |
+cd "$(dirname "$0")" || exit
+
+GO111MODULE=off go get golang.org/x/lint/golint 2> /dev/null
+
+# shellcheck disable=SC2046
+if golint $(go list ./...) |
     grep -v ALL_CAPS |
-    grep .; then
-  exit 1
+    grep .
+then
+    echo -e "${RED_BG}[FAIL]${NC} Linter have found some issues in Go source code"
+    exit 1
+else
+    echo -e "${GREEN_BG}[OK]${NC} No issues has been found"
+    exit 0
 fi
