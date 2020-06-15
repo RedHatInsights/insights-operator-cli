@@ -16,7 +16,8 @@ limitations under the License.
 
 package types
 
-// ConfigurationResponse represents response of controller service to configuration request.
+// ConfigurationResponse structure represents response of controller service to
+// configuration request.
 //     Status: status of response
 //     Configuration: JSON string of single configuration
 type ConfigurationResponse struct {

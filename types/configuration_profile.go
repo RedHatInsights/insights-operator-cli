@@ -16,7 +16,8 @@ limitations under the License.
 
 package types
 
-// ConfigurationProfile represents configuration profile record in the controller service.
+// ConfigurationProfile structure represents configuration profile record in
+// the controller service.
 //     ID: unique key
 //     Configuration: a JSON structure stored in a string
 //     ChangeAt: username of admin that created or updated the configuration
@@ -30,7 +31,8 @@ type ConfigurationProfile struct {
 	Description   string `json:"description"`
 }
 
-// ConfigurationProfilesResponse represents response of controller service to configuration profiles request.
+// ConfigurationProfilesResponse structure represents response of controller
+// service to configuration profiles request.
 //     Status: status of response
 //     Profiles: list of configuration profiles
 type ConfigurationProfilesResponse struct {
@@ -38,7 +40,8 @@ type ConfigurationProfilesResponse struct {
 	Profiles []ConfigurationProfile `json:"profiles"`
 }
 
-// ConfigurationProfileResponse represents response of controller service to single configuration profile request.
+// ConfigurationProfileResponse structure represents response of controller
+// service to single configuration profile request.
 //     Status: status of response
 //     Profile: single configuration profile
 type ConfigurationProfileResponse struct {

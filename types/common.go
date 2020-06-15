@@ -16,7 +16,8 @@ limitations under the License.
 
 package types
 
-// Response represents default response of controller service to different POST PUT requests.
+// Response structure represents default response of controller service to
+// different POST PUT requests.
 //     Status: status of response
 type Response struct {
 	Status string `json:"status"`

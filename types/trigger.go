@@ -16,7 +16,7 @@ limitations under the License.
 
 package types
 
-// Trigger represents trigger record in the controller service
+// Trigger structure represents trigger record in the controller service
 //     ID: unique key
 //     Type: ID of trigger type
 //     Cluster: cluster ID (not name)
@@ -40,7 +40,8 @@ type Trigger struct {
 	Active      int    `json:"active"`
 }
 
-// TriggersResponse represents response of controller service to triggers request.
+// TriggersResponse structure represents response of controller service to
+// triggers request.
 //     Status: status of response
 //     Triggers: list of triggers
 type TriggersResponse struct {
@@ -48,7 +49,8 @@ type TriggersResponse struct {
 	Triggers []Trigger `json:"triggers"`
 }
 
-// TriggerResponse represents response of controller service to single trigger request.
+// TriggerResponse structure represents response of controller service to
+// single trigger request.
 //     Status: status of response
 //     Trigger: single trigger
 type TriggerResponse struct {
