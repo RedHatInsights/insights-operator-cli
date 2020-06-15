@@ -16,7 +16,8 @@ limitations under the License.
 
 package types
 
-// ClusterConfiguration represents cluster configuration record in the controller service.
+// ClusterConfiguration structure represents cluster configuration record in
+// the controller service.
 //     ID: unique key
 //     Cluster: cluster ID (not name)
 //     Configuration: a JSON structure stored in a string

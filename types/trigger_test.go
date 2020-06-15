@@ -15,3 +15,6 @@ limitations under the License.
 */
 
 package types_test
+
+// Please note that currently the "types" package contains just declaration of
+// new data types w/o any other code. So there's no need to create unit tests.
