@@ -23,13 +23,19 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli"
 )
 
-// createDocumentWithCommand construct an instance of prompt.Document containing the command and cursor position.
+// createDocumentWithCommand function constructs an instance of prompt.Document
+// containing the command and cursor position.
 func createDocumentWithCommand(t *testing.T, command string) prompt.Document {
+	// try to allocate a buffer
 	buffer := prompt.NewBuffer()
 	if buffer == nil {
 		t.Fatal("Error in prompt library - can not constructs new buffer")
 	}
+
+	// insert command into buffer
 	buffer.InsertText(command, false, true)
+
+	// and gather instance of new document
 	document := buffer.Document()
 	if document == nil {
 		t.Fatal("Error in prompt library - can not get document for a buffer")
@@ -37,55 +43,74 @@ func createDocumentWithCommand(t *testing.T, command string) prompt.Document {
 	return *document
 }
 
-// checkSuggestionCount checks the number of suggestions returned by suggester
+// checkSuggestionCount function checks the number of suggestions returned by
+// suggester.
 func checkSuggestionCount(t *testing.T, suggests []prompt.Suggest, expected int) {
+	// test if number of suffestions is expected
 	if len(suggests) != expected {
 		t.Fatal("Invalid suggestion returned by completer:", suggests)
 	}
 }
 
-// checkSuggestionCount checks the suggestion text and description
+// checkSuggestionCount function checks the suggestion text and description.
 func checkSuggestion(t *testing.T, suggest prompt.Suggest, command string, description string) {
+	// test suggestion text by comparing it with command
 	if suggest.Text != command {
 		t.Fatal("Invalid suggestion command:", suggest.Text)
 	}
+
+	// test suggestion description
 	if suggest.Description != description {
 		t.Fatal("Invalid suggestion description:", suggest.Description)
 	}
 }
 
-// TestCompleterEmptyInput check which suggestions are returned for empty input
+// TestCompleterEmptyInput function checks which suggestions are returned for
+// empty input.
 func TestCompleterEmptyInput(t *testing.T) {
+	// test the suggestion(s) for empty input
 	suggests := main.Completer(createDocumentWithCommand(t, ""))
+	// no suggestions are expected
 	checkSuggestionCount(t, suggests, 0)
 }
 
-// TestCompleterHelpCommand check which suggestions are returned for 'help' input
+// TestCompleterHelpCommand function checks which suggestions are returned for
+// 'help' input.
 func TestCompleterHelpCommand(t *testing.T) {
+	// test the suggestion(s) for help command
 	suggests := main.Completer(createDocumentWithCommand(t, "help"))
+
+	// just one suggestion is expected
 	checkSuggestionCount(t, suggests, 1)
 	checkSuggestion(t, suggests[0], "help", "show help with all commands")
 }
 
-// TestReadConfiguration tries to read configuration from existing configuration file
+// TestReadConfiguration function tries to read configuration from existing
+// configuration file.
 func TestReadConfiguration(t *testing.T) {
+	// test the suggestion(s) for command for reading configuration file
 	_, err := main.ReadConfiguration("config")
 	if err != nil {
 		t.Fatal("Error during reading configuration", err)
 	}
 }
 
-// TestReadConfigurationNegative tries to read configuration from non-existing configuration file
+// TestReadConfigurationNegative function tries to read configuration from
+// non-existing configuration file.
 func TestReadConfigurationNegative(t *testing.T) {
+	// test the suggestion(s) for command for reading configuration file
 	_, err := main.ReadConfiguration("this_does_not_exists")
 	if err == nil {
 		t.Fatal("Error expected during reading configuration from non-existing file")
 	}
 }
 
-// TestPrintVersion is dummy ATM - we'll check versions etc. in integration tests
+// TestPrintVersion function is dummy ATM - we'll check versions etc. in
+// integration tests.
 func TestPrintVersion(t *testing.T) {
+	// make sure the colorizer is initialized
 	*main.Colorizer = aurora.NewAurora(true)
 
+	// just print the version w/o any checks
 	main.PrintVersion()
 }
