@@ -23,7 +23,8 @@ import (
 	"testing"
 )
 
-// TestCommandCopyright check if the command 'copyright' displays actual copyright
+// TestCommandCopyright check if the command 'copyright' displays actual
+// copyright
 func TestCommandCopyright(t *testing.T) {
 	configureColorizer()
 	captured, err := capture.StandardOutput(func() {

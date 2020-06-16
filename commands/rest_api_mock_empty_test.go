@@ -20,7 +20,8 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli/types"
 )
 
-// RestAPIMockErrors is an implementation of mocked REST API that returns empty data structures in all cases.
+// RestAPIMockErrors is an implementation of mocked REST API that returns empty
+// data structures in all cases.
 type RestAPIMockEmpty struct {
 }
 
@@ -42,51 +43,60 @@ func (api RestAPIMockEmpty) ReadTriggerByID(triggerID string) (*types.Trigger, e
 	return &trigger, nil
 }
 
-// ReadListOfConfigurationProfiles reads mocked empty list of configuration profiles via the REST API
+// ReadListOfConfigurationProfiles reads mocked empty list of configuration
+// profiles via the REST API
 func (api RestAPIMockEmpty) ReadListOfConfigurationProfiles() ([]types.ConfigurationProfile, error) {
 	profiles := []types.ConfigurationProfile{}
 	return profiles, nil
 }
 
-// ReadListOfConfigurations reads mocked empty list of configuration via the REST API
+// ReadListOfConfigurations reads mocked empty list of configuration via the
+// REST API
 func (api RestAPIMockEmpty) ReadListOfConfigurations() ([]types.ClusterConfiguration, error) {
 	configurations := []types.ClusterConfiguration{}
 	return configurations, nil
 }
 
-// ReadConfigurationProfile access the REST API endpoint to read selected configuration profile
+// ReadConfigurationProfile access the REST API endpoint to read selected
+// configuration profile
 func (api RestAPIMockEmpty) ReadConfigurationProfile(profileID string) (*types.ConfigurationProfile, error) {
 	profile := types.ConfigurationProfile{}
 	return &profile, nil
 }
 
-// ReadClusterConfigurationByID access the REST API endpoint to read cluster configuration for cluster defined by its ID
+// ReadClusterConfigurationByID access the REST API endpoint to read cluster
+// configuration for cluster defined by its ID
 func (api RestAPIMockEmpty) ReadClusterConfigurationByID(configurationID string) (*string, error) {
 	configuration := ""
 	return &configuration, nil
 }
 
-// EnableClusterConfiguration access the REST API endpoint to enable existing cluster configuration
+// EnableClusterConfiguration access the REST API endpoint to enable existing
+// cluster configuration
 func (api RestAPIMockEmpty) EnableClusterConfiguration(configurationID string) error {
 	return nil
 }
 
-// DisableClusterConfiguration access the REST API endpoint to disable existing cluster configuration
+// DisableClusterConfiguration access the REST API endpoint to disable existing
+// cluster configuration
 func (api RestAPIMockEmpty) DisableClusterConfiguration(configurationID string) error {
 	return nil
 }
 
-// DeleteClusterConfiguration access the REST API endpoint to delete existing cluster configuration
+// DeleteClusterConfiguration access the REST API endpoint to delete existing
+// cluster configuration
 func (api RestAPIMockEmpty) DeleteClusterConfiguration(configurationID string) error {
 	return nil
 }
 
-// DeleteCluster access the REST API endpoint to delete/deregister existing cluster
+// DeleteCluster access the REST API endpoint to delete/deregister existing
+// cluster
 func (api RestAPIMockEmpty) DeleteCluster(clusterID string) error {
 	return nil
 }
 
-// DeleteConfigurationProfile access the REST API endpoint to delete existing configuration profile
+// DeleteConfigurationProfile access the REST API endpoint to delete existing
+// configuration profile
 func (api RestAPIMockEmpty) DeleteConfigurationProfile(profileID string) error {
 	return nil
 }
@@ -96,12 +106,14 @@ func (api RestAPIMockEmpty) AddCluster(name string) error {
 	return nil
 }
 
-// AddConfigurationProfile access the REST API endpoint to add new configuration profile
+// AddConfigurationProfile access the REST API endpoint to add new
+// configuration profile
 func (api RestAPIMockEmpty) AddConfigurationProfile(username string, description string, configuration []byte) error {
 	return nil
 }
 
-// AddClusterConfiguration access the REST API endpoint to add new cluster configuration
+// AddClusterConfiguration access the REST API endpoint to add new cluster
+// configuration
 func (api RestAPIMockEmpty) AddClusterConfiguration(username string, cluster string, reason string, description string, configuration []byte) error {
 	return nil
 }
@@ -121,7 +133,8 @@ func (api RestAPIMockEmpty) ActivateTrigger(triggerID string) error {
 	return nil
 }
 
-// DeactivateTrigger access the REST API endpoint to deactivate the selected trigger
+// DeactivateTrigger access the REST API endpoint to deactivate the selected
+// trigger
 func (api RestAPIMockEmpty) DeactivateTrigger(triggerID string) error {
 	return nil
 }

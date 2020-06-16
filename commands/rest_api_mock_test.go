@@ -137,7 +137,8 @@ func (api RestAPIMock) ReadTriggerByID(triggerID string) (*types.Trigger, error)
 	return &trigger.Trigger, nil
 }
 
-// ReadListOfConfigurationProfiles reads mocked list of configuration profiles via the REST API
+// ReadListOfConfigurationProfiles reads mocked list of configuration profiles
+// via the REST API
 func (api RestAPIMock) ReadListOfConfigurationProfiles() ([]types.ConfigurationProfile, error) {
 	profiles := []types.ConfigurationProfile{
 		{
@@ -187,7 +188,8 @@ func (api RestAPIMock) ReadListOfConfigurations() ([]types.ClusterConfiguration,
 	return configurations, nil
 }
 
-// ReadConfigurationProfile access the REST API endpoint to read selected configuration profile
+// ReadConfigurationProfile access the REST API endpoint to read selected
+// configuration profile
 func (api RestAPIMock) ReadConfigurationProfile(profileID string) (*types.ConfigurationProfile, error) {
 	if profileID == "0" {
 		profile := types.ConfigurationProfile{
@@ -202,7 +204,8 @@ func (api RestAPIMock) ReadConfigurationProfile(profileID string) (*types.Config
 	return &profile, nil
 }
 
-// ReadClusterConfigurationByID access the REST API endpoint to read cluster configuration for cluster defined by its ID
+// ReadClusterConfigurationByID access the REST API endpoint to read cluster
+// configuration for cluster defined by its ID
 func (api RestAPIMock) ReadClusterConfigurationByID(configurationID string) (*string, error) {
 	if configurationID == "0" {
 		configuration := "configuration#0"
@@ -211,27 +214,32 @@ func (api RestAPIMock) ReadClusterConfigurationByID(configurationID string) (*st
 	return nil, nil
 }
 
-// EnableClusterConfiguration access the REST API endpoint to enable existing cluster configuration
+// EnableClusterConfiguration access the REST API endpoint to enable existing
+// cluster configuration
 func (api RestAPIMock) EnableClusterConfiguration(configurationID string) error {
 	return nil
 }
 
-// DisableClusterConfiguration access the REST API endpoint to disable existing cluster configuration
+// DisableClusterConfiguration access the REST API endpoint to disable existing
+// cluster configuration
 func (api RestAPIMock) DisableClusterConfiguration(configurationID string) error {
 	return nil
 }
 
-// DeleteClusterConfiguration access the REST API endpoint to delete existing cluster configuration
+// DeleteClusterConfiguration access the REST API endpoint to delete existing
+// cluster configuration
 func (api RestAPIMock) DeleteClusterConfiguration(configurationID string) error {
 	return nil
 }
 
-// DeleteCluster access the REST API endpoint to delete/deregister existing cluster
+// DeleteCluster access the REST API endpoint to delete/deregister existing
+// cluster
 func (api RestAPIMock) DeleteCluster(clusterID string) error {
 	return nil
 }
 
-// DeleteConfigurationProfile access the REST API endpoint to delete existing configuration profile
+// DeleteConfigurationProfile access the REST API endpoint to delete existing
+// configuration profile
 func (api RestAPIMock) DeleteConfigurationProfile(profileID string) error {
 	return nil
 }
@@ -241,12 +249,14 @@ func (api RestAPIMock) AddCluster(name string) error {
 	return nil
 }
 
-// AddConfigurationProfile access the REST API endpoint to add new configuration profile
+// AddConfigurationProfile access the REST API endpoint to add new
+// configuration profile
 func (api RestAPIMock) AddConfigurationProfile(username string, description string, configuration []byte) error {
 	return nil
 }
 
-// AddClusterConfiguration access the REST API endpoint to add new cluster configuration
+// AddClusterConfiguration access the REST API endpoint to add new cluster
+// configuration
 func (api RestAPIMock) AddClusterConfiguration(username string, cluster string, reason string, description string, configuration []byte) error {
 	return nil
 }
@@ -261,12 +271,14 @@ func (api RestAPIMock) DeleteTrigger(triggerID string) error {
 	return nil
 }
 
-// ActivateTrigger access the REST API endpoint to activate the selected trigger
+// ActivateTrigger access the REST API endpoint to activate the selected
+// trigger
 func (api RestAPIMock) ActivateTrigger(triggerID string) error {
 	return nil
 }
 
-// DeactivateTrigger access the REST API endpoint to deactivate the selected trigger
+// DeactivateTrigger access the REST API endpoint to deactivate the selected
+// trigger
 func (api RestAPIMock) DeactivateTrigger(triggerID string) error {
 	return nil
 }
