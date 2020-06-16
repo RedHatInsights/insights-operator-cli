@@ -27,7 +27,8 @@ import (
 
 const configFileDirectory = "configurations/"
 
-// ListOfConfigurations displays list of all configurations gathered via REST API call to controller service
+// ListOfConfigurations displays list of all configurations gathered via REST
+// API call to controller service
 func ListOfConfigurations(api restapi.API, filter string) {
 	// TODO: filter in query?
 	configurations, err := api.ReadListOfConfigurations()
@@ -54,7 +55,8 @@ func ListOfConfigurations(api restapi.API, filter string) {
 	}
 }
 
-// EnableClusterConfiguration enables the selected cluster configuration in the controller service
+// EnableClusterConfiguration enables the selected cluster configuration in the
+// controller service
 func EnableClusterConfiguration(api restapi.API, configurationID string) {
 	err := api.EnableClusterConfiguration(configurationID)
 	if err != nil {
@@ -67,7 +69,8 @@ func EnableClusterConfiguration(api restapi.API, configurationID string) {
 	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been"), colorizer.Green("enabled"))
 }
 
-// DisableClusterConfiguration disables the selected cluster configuration in the controller service
+// DisableClusterConfiguration disables the selected cluster configuration in
+// the controller service
 func DisableClusterConfiguration(api restapi.API, configurationID string) {
 	err := api.DisableClusterConfiguration(configurationID)
 	if err != nil {
@@ -80,7 +83,8 @@ func DisableClusterConfiguration(api restapi.API, configurationID string) {
 	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been"), colorizer.Red("disabled"))
 }
 
-// DescribeConfiguration displays additional information about selected configuration
+// DescribeConfiguration displays additional information about selected
+// configuration
 func DescribeConfiguration(api restapi.API, clusterID string) {
 	configuration, err := api.ReadClusterConfigurationByID(clusterID)
 	if err != nil {
@@ -93,7 +97,8 @@ func DescribeConfiguration(api restapi.API, clusterID string) {
 	fmt.Println(*configuration)
 }
 
-// DeleteClusterConfiguration deletes selected cluster configuration from database
+// DeleteClusterConfiguration deletes selected cluster configuration from
+// database
 func DeleteClusterConfiguration(api restapi.API, configurationID string) {
 	err := api.DeleteClusterConfiguration(configurationID)
 	if err != nil {
@@ -106,7 +111,8 @@ func DeleteClusterConfiguration(api restapi.API, configurationID string) {
 	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been"), colorizer.Red(deleted))
 }
 
-// AddClusterConfiguration ask for all information needed to create new cluster configuration
+// AddClusterConfiguration ask for all information needed to create new cluster
+// configuration
 func AddClusterConfiguration(api restapi.API, username string) {
 	if username == "" {
 		fmt.Println(colorizer.Red("Not logged in"))

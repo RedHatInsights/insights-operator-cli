@@ -29,7 +29,8 @@ func tryToFindProfile(t *testing.T, captured string, profileDescription string) 
 	}
 }
 
-// TestListOfProfiles checks whether the non-empty list of configuration profiles read via REST API is displayed correctly
+// TestListOfProfiles checks whether the non-empty list of configuration
+// profiles read via REST API is displayed correctly
 func TestListOfProfiles(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMock{}
@@ -58,7 +59,8 @@ func TestListOfProfiles(t *testing.T) {
 	}
 }
 
-// TestListOfProfilesNoProfiles checks whether the empty list of configuration profiles read via REST API is displayed correctly
+// TestListOfProfilesNoProfiles checks whether the empty list of configuration
+// profiles read via REST API is displayed correctly
 func TestListOfProfilesNoProfiles(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockEmpty{}
@@ -79,7 +81,8 @@ func TestListOfProfilesNoProfiles(t *testing.T) {
 	}
 }
 
-// TestListOfProfilesNoProfiles checks whether error returned by REST API is handled correctly
+// TestListOfProfilesNoProfiles checks whether error returned by REST API is
+// handled correctly
 func TestListOfProfilesErrorHandling(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
@@ -127,7 +130,8 @@ func TestDescribeProfileErrorHandling(t *testing.T) {
 	}
 }
 
-// TestAddConfigurationProfileImpl checks the command 'add profile' when no error is reported by REST API
+// TestAddConfigurationProfileImpl checks the command 'add profile' when no
+// error is reported by REST API
 func TestAddConfigurationProfileImpl(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMock{}
@@ -144,7 +148,8 @@ func TestAddConfigurationProfileImpl(t *testing.T) {
 	}
 }
 
-// TestAddConfigurationProfileImplWrongConfiguration checks the command 'add profile' when configuration file does not exist
+// TestAddConfigurationProfileImplWrongConfiguration checks the command 'add
+// profile' when configuration file does not exist
 func TestAddConfigurationProfileImplWrongConfiguration(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMock{}
@@ -161,7 +166,8 @@ func TestAddConfigurationProfileImplWrongConfiguration(t *testing.T) {
 	}
 }
 
-// TestAddConfigurationProfileImplErrorHandling checks the command 'add profile' when error is reported by REST API
+// TestAddConfigurationProfileImplErrorHandling checks the command 'add
+// profile' when error is reported by REST API
 func TestAddConfigurationProfileImplErrorHandling(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
@@ -178,7 +184,8 @@ func TestAddConfigurationProfileImplErrorHandling(t *testing.T) {
 	}
 }
 
-// TestDeleteConfigurationProfile checks the command 'delete profile' when no error is reported by REST API
+// TestDeleteConfigurationProfile checks the command 'delete profile' when no
+// error is reported by REST API
 func TestDeleteConfigurationProfile(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMock{}
@@ -193,7 +200,8 @@ func TestDeleteConfigurationProfile(t *testing.T) {
 	}
 }
 
-// TestDeleteConfigurationProfile checks the command 'delete profile' when error is reported by REST API
+// TestDeleteConfigurationProfile checks the command 'delete profile' when
+// error is reported by REST API
 func TestDeleteConfigurationProfileErrorHandling(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
@@ -208,7 +216,8 @@ func TestDeleteConfigurationProfileErrorHandling(t *testing.T) {
 	}
 }
 
-// TestDeleteConfigurationProfileNoConfirm checks the command 'delete profile' when no error is reported by REST API
+// TestDeleteConfigurationProfileNoConfirm checks the command 'delete profile'
+// when no error is reported by REST API
 func TestDeleteConfigurationProfileNoConfirm(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMock{}
@@ -223,7 +232,8 @@ func TestDeleteConfigurationProfileNoConfirm(t *testing.T) {
 	}
 }
 
-// TestDeleteConfigurationProfileNoConfirm checks the command 'delete profile' when error is reported by REST API
+// TestDeleteConfigurationProfileNoConfirm checks the command 'delete profile'
+// when error is reported by REST API
 func TestDeleteConfigurationProfileNoConfirmErrorHandling(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}

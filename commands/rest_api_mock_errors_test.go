@@ -21,7 +21,8 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli/types"
 )
 
-// RestAPIMockErrors is an implementation of mocked REST API that returns errors in all cases.
+// RestAPIMockErrors is an implementation of mocked REST API that returns
+// errors in all cases.
 type RestAPIMockErrors struct {
 }
 
@@ -97,7 +98,8 @@ func (api RestAPIMockErrors) AddCluster(name string) error {
 	return errors.New("AddCluster error")
 }
 
-// AddConfigurationProfile access the REST API endpoint to add new configuration profile
+// AddConfigurationProfile access the REST API endpoint to add new
+// configuration profile
 func (api RestAPIMockErrors) AddConfigurationProfile(username string, description string, configuration []byte) error {
 	return errors.New("AddConfigurationProfile error")
 }

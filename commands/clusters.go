@@ -22,7 +22,8 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 )
 
-// ListOfClusters displays list of clusters gathered via REST API call to the controller service
+// ListOfClusters displays list of clusters gathered via REST API call to the
+// controller service
 func ListOfClusters(api restapi.API) {
 	clusters, err := api.ReadListOfClusters()
 	if err != nil {
@@ -38,7 +39,8 @@ func ListOfClusters(api restapi.API) {
 	}
 }
 
-// DeleteClusterNoConfirm deletes all info about selected cluster w/o asking for confirmation of this operation
+// DeleteClusterNoConfirm deletes all info about selected cluster w/o asking
+// for confirmation of this operation
 func DeleteClusterNoConfirm(api restapi.API, clusterID string) {
 	DeleteCluster(api, clusterID, false)
 }

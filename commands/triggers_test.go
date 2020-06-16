@@ -30,7 +30,8 @@ func tryToFindTrigger(t *testing.T, captured string, trigger string) {
 	}
 }
 
-// TestListOfTriggers checks whether the non-empty list of triggers read via REST API is displayed correctly
+// TestListOfTriggers checks whether the non-empty list of triggers read via
+// REST API is displayed correctly
 func TestListOfTriggers(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMock{}
@@ -61,7 +62,8 @@ func TestListOfTriggers(t *testing.T) {
 	}
 }
 
-// TestListOfTriggers checks whether the empty list of triggers read via REST API is displayed correctly
+// TestListOfTriggers checks whether the empty list of triggers read via REST
+// API is displayed correctly
 func TestListOfTriggersEmptyList(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockEmpty{}
@@ -82,7 +84,8 @@ func TestListOfTriggersEmptyList(t *testing.T) {
 	}
 }
 
-// TestListOfTriggersErrorHandling checks whether error returned by REST API is handled correctly
+// TestListOfTriggersErrorHandling checks whether error returned by REST API is
+// handled correctly
 func TestListOfTriggersErrorHandling(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
@@ -97,7 +100,8 @@ func TestListOfTriggersErrorHandling(t *testing.T) {
 	}
 }
 
-// TestDescribeActivatedTrigger checks whether it is possible to read and displays information about activated trigger
+// TestDescribeActivatedTrigger checks whether it is possible to read and
+// displays information about activated trigger
 func TestDescribeActivatedTrigger(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMock{}
@@ -125,7 +129,8 @@ func TestDescribeActivatedTrigger(t *testing.T) {
 	}
 }
 
-// TestDescribeInactivatedTrigger checks whether it is possible to read and displays information about inactivated trigger
+// TestDescribeInactivatedTrigger checks whether it is possible to read and
+// displays information about inactivated trigger
 func TestDescribeInactivatedTrigger(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMock{}
@@ -153,7 +158,8 @@ func TestDescribeInactivatedTrigger(t *testing.T) {
 	}
 }
 
-// TestDescribeNonMustGatherTrigger checks whether it is possible to read and displays information about other type of trigger
+// TestDescribeNonMustGatherTrigger checks whether it is possible to read and
+// displays information about other type of trigger
 func TestDescribeNonMustGatherTrigger(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMock{}
@@ -181,7 +187,8 @@ func TestDescribeNonMustGatherTrigger(t *testing.T) {
 	}
 }
 
-// TestDescribeTriggerErrorHandling checks how REST API-related issues are reported and handled
+// TestDescribeTriggerErrorHandling checks how REST API-related issues are
+// reported and handled
 func TestDescribeTriggerErrorHandling(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
@@ -241,7 +248,8 @@ func TestDeleteTrigger(t *testing.T) {
 	}
 }
 
-// TestDeleteTriggerErrorHandling check error handling for the command 'delete trigger'
+// TestDeleteTriggerErrorHandling check error handling for the command 'delete
+// trigger'
 func TestDeleteTriggerErrorHandling(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
@@ -271,7 +279,8 @@ func TestActivateTrigger(t *testing.T) {
 	}
 }
 
-// TestActivateTriggerErrorHandling check the error handling for command 'activate trigger'
+// TestActivateTriggerErrorHandling check the error handling for command
+// 'activate trigger'
 func TestActivateTriggerErrorHandling(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
@@ -301,7 +310,8 @@ func TestDeactivateTrigger(t *testing.T) {
 	}
 }
 
-// TestDeactivateTriggerErrorHandling check the error handling for command 'deactivate trigger'
+// TestDeactivateTriggerErrorHandling check the error handling for command
+// 'deactivate trigger'
 func TestDeactivateTriggerErrorHandling(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}

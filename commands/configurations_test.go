@@ -30,8 +30,8 @@ func tryToFindConfiguration(t *testing.T, captured string, configuration string)
 	}
 }
 
-// changeDirectory tries to change current directory with additional test whether
-// the operation has been correct or not
+// changeDirectory tries to change current directory with additional test
+// whether the operation has been correct or not
 func changeDirectory(t *testing.T, path string) {
 	err := os.Chdir(path)
 	if err != nil {
@@ -39,7 +39,8 @@ func changeDirectory(t *testing.T, path string) {
 	}
 }
 
-// TestListOfConfigurations checks whether the non-empty list of configurations read via REST API is displayed correctly
+// TestListOfConfigurations checks whether the non-empty list of configurations
+// read via REST API is displayed correctly
 func TestListOfConfigurations(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMock{}
@@ -55,7 +56,8 @@ func TestListOfConfigurations(t *testing.T) {
 
 	numlines := strings.Count(captured, "\n")
 
-	// Mocked REST API returns three configurations, so we expect at least one caption + 3 other lines in the output
+	// Mocked REST API returns three configurations, so we expect at least
+	// one caption + 3 other lines in the output
 	if numlines <= 4 {
 		t.Fatal("Configurations are not listed in the output:\n", captured)
 	}
@@ -69,7 +71,8 @@ func TestListOfConfigurations(t *testing.T) {
 	}
 }
 
-// TestListOfConfigurationsEmptyList checks whether the empty list of configurations read via REST API is displayed correctly
+// TestListOfConfigurationsEmptyList checks whether the empty list of
+// configurations read via REST API is displayed correctly
 func TestListOfConfigurationsEmptyList(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockEmpty{}
@@ -85,13 +88,15 @@ func TestListOfConfigurationsEmptyList(t *testing.T) {
 
 	numlines := strings.Count(captured, "\n")
 
-	// Mocked REST API returns empty list, so just one caption + one message is expected
+	// Mocked REST API returns empty list, so just one caption + one
+	// message is expected
 	if numlines > 2 {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
 
-// TestListOfConfigurationsErrorHandling checks whether error returned by REST API is handled correctly
+// TestListOfConfigurationsErrorHandling checks whether error returned by REST
+// API is handled correctly
 func TestListOfConfigurationsErrorHandling(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
@@ -121,7 +126,8 @@ func TestDeleteClusterConfiguration(t *testing.T) {
 	}
 }
 
-// TestDeleteClusterConfigurationError checks the command 'delete configuration' when error is reported by REST API
+// TestDeleteClusterConfigurationError checks the command 'delete
+// configuration' when error is reported by REST API
 func TestDeleteClusterConfigurationError(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
@@ -151,7 +157,8 @@ func TestEnableClusterConfiguration(t *testing.T) {
 	}
 }
 
-// TestEnableClusterConfigurationError checks the command 'enable configuration' when error is reported by REST API
+// TestEnableClusterConfigurationError checks the command 'enable
+// configuration' when error is reported by REST API
 func TestEnableClusterConfigurationError(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
@@ -181,7 +188,8 @@ func TestDisableClusterConfiguration(t *testing.T) {
 	}
 }
 
-// TestDisableClusterConfigurationError checks the command 'disable configuration' when error is reported by REST API
+// TestDisableClusterConfigurationError checks the command 'disable
+// configuration' when error is reported by REST API
 func TestDisableClusterConfigurationError(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
@@ -214,7 +222,8 @@ func TestDescribeConfiguration(t *testing.T) {
 	}
 }
 
-// TestDescribeConfigurationError checks the command 'describe configuration' when error is reported by REST API
+// TestDescribeConfigurationError checks the command 'describe configuration'
+// when error is reported by REST API
 func TestDescribeConfigurationError(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
@@ -246,7 +255,8 @@ func TestAddClusterConfigurationImpl(t *testing.T) {
 	}
 }
 
-// TestAddClusterConfigurationImplError checks the command 'add configuration' when REST API fails with error
+// TestAddClusterConfigurationImplError checks the command 'add configuration'
+// when REST API fails with error
 func TestAddClusterConfigurationImplError(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
@@ -263,7 +273,8 @@ func TestAddClusterConfigurationImplError(t *testing.T) {
 	}
 }
 
-// TestAddClusterConfigurationImplBadConfiguration checks the command 'add configuration' for non-existing configuration file
+// TestAddClusterConfigurationImplBadConfiguration checks the command 'add
+// configuration' for non-existing configuration file
 func TestAddClusterConfigurationImplBadConfiguration(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMock{}

@@ -23,7 +23,8 @@ import (
 	"io/ioutil"
 )
 
-// ListOfProfiles displays list of configuration profiles gathered via REST API call to controller service
+// ListOfProfiles displays list of configuration profiles gathered via REST API
+// call to controller service
 func ListOfProfiles(api restapi.API) {
 	profiles, err := api.ReadListOfConfigurationProfiles()
 	if err != nil {
@@ -53,7 +54,8 @@ func DescribeProfile(api restapi.API, profileID string) {
 	fmt.Println(profile.Configuration)
 }
 
-// DeleteConfigurationProfileNoConfirm deletes the profile selected by its ID w/o asking for confirmation
+// DeleteConfigurationProfileNoConfirm deletes the profile selected by its ID
+// w/o asking for confirmation
 func DeleteConfigurationProfileNoConfirm(api restapi.API, profileID string) {
 	DeleteConfigurationProfile(api, profileID, false)
 }

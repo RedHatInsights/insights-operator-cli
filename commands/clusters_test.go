@@ -38,7 +38,8 @@ func tryToFindCluster(t *testing.T, captured string, clusterName string) {
 	}
 }
 
-// TestListOfClusters checks whether the non-empty list of clusters read via REST API is displayed correctly
+// TestListOfClusters checks whether the non-empty list of clusters read via
+// REST API is displayed correctly
 func TestListOfClusters(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMock{}
@@ -66,7 +67,8 @@ func TestListOfClusters(t *testing.T) {
 	}
 }
 
-// TestListOfClustersNoClusters checks whether the empty list of clusters read via REST API is displayed correctly
+// TestListOfClustersNoClusters checks whether the empty list of clusters read
+// via REST API is displayed correctly
 func TestListOfClustersNoClusters(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockEmpty{}
@@ -86,7 +88,8 @@ func TestListOfClustersNoClusters(t *testing.T) {
 	}
 }
 
-// TestListOfClusters checks whether error returned by REST API is handled correctly
+// TestListOfClusters checks whether error returned by REST API is handled
+// correctly
 func TestListOfClustersErrorHandling(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
@@ -116,7 +119,8 @@ func TestAddCluster(t *testing.T) {
 	}
 }
 
-// TestAddClusterError checks the command 'add cluster' when error is reported by REST API
+// TestAddClusterError checks the command 'add cluster' when error is reported
+// by REST API
 func TestAddClusterError(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
@@ -146,7 +150,8 @@ func TestDeleteCluster(t *testing.T) {
 	}
 }
 
-// TestDeleteClusterError checks the command 'delete cluster' when error is reported by REST API
+// TestDeleteClusterError checks the command 'delete cluster' when error is
+// reported by REST API
 func TestDeleteClusterError(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
@@ -161,7 +166,8 @@ func TestDeleteClusterError(t *testing.T) {
 	}
 }
 
-// TestDeleteClusterNoConfirm checks the command 'delete cluster' w/o confirmation of the command
+// TestDeleteClusterNoConfirm checks the command 'delete cluster' w/o
+// confirmation of the command
 func TestDeleteClusterNoConfirm(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMock{}
@@ -176,7 +182,8 @@ func TestDeleteClusterNoConfirm(t *testing.T) {
 	}
 }
 
-// TestDeleteClusterNoConfirmError checks the command 'delete cluster' when error is reported by REST API
+// TestDeleteClusterNoConfirmError checks the command 'delete cluster' when
+// error is reported by REST API
 func TestDeleteClusterNoConfirmError(t *testing.T) {
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
