@@ -30,7 +30,8 @@ func mockedHttpServer(handler func(responseWriter http.ResponseWriter, request *
 	return httptest.NewServer(http.HandlerFunc(handler))
 }
 
-// TestPerformReadRequestProperResponse check if body of response can be processed correctly by performReadRequest function.
+// TestPerformReadRequestProperResponse check if body of response can be
+// processed correctly by performReadRequest function.
 func TestPerformReadRequestProperResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
@@ -55,7 +56,8 @@ func TestPerformReadRequestProperResponse(t *testing.T) {
 	}
 }
 
-// TestPerformReadRequestStatusCode check how response can be processed by performReadRequest function.
+// TestPerformReadRequestStatusCode check how response can be processed by
+// performReadRequest function.
 func TestPerformReadRequestStatusCode(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
@@ -81,7 +83,8 @@ func TestPerformReadRequestStatusCode(t *testing.T) {
 	}
 }
 
-// TestPerformReadRequestEmptyBody check how response can be processed by performReadRequest function.
+// TestPerformReadRequestEmptyBody check how response can be processed by
+// performReadRequest function.
 func TestPerformReadRequestEmptyBody(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
@@ -103,7 +106,8 @@ func TestPerformReadRequestEmptyBody(t *testing.T) {
 	}
 }
 
-// TestPerformReadRequestErrorInCommunication check how response can be processed by performReadRequest function.
+// TestPerformReadRequestErrorInCommunication check how response can be
+// processed by performReadRequest function.
 func TestPerformReadRequestErrorInCommunication(t *testing.T) {
 	// try to read response from the server, but by using improper URL
 	body, err := restapi.PerformReadRequest("")
@@ -117,7 +121,8 @@ func TestPerformReadRequestErrorInCommunication(t *testing.T) {
 	}
 }
 
-// TestPerformReadRequestInvalidHTTPResponse check how response can be processed by performReadRequest function.
+// TestPerformReadRequestInvalidHTTPResponse check how response can be
+// processed by performReadRequest function.
 func TestPerformReadRequestInvalidHTTPResponse(t *testing.T) {
 	// try to read response from the server, but from invalid HTTP response
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
@@ -136,7 +141,8 @@ func TestPerformReadRequestInvalidHTTPResponse(t *testing.T) {
 	}
 }
 
-// TestPerformWriteRequestProperResponse check the behaviour of function performWriteRequest
+// TestPerformWriteRequestProperResponse check the behaviour of function
+// performWriteRequest
 func TestPerformWriteRequestProperResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
@@ -156,7 +162,8 @@ func TestPerformWriteRequestProperResponse(t *testing.T) {
 	}
 }
 
-// TestPerformWriteRequestErrorResponse check the behaviour of function performWriteRequest
+// TestPerformWriteRequestErrorResponse check the behaviour of function
+// performWriteRequest
 func TestPerformWriteRequestErrorResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
@@ -176,7 +183,8 @@ func TestPerformWriteRequestErrorResponse(t *testing.T) {
 	}
 }
 
-// TestPerformWriteRequestImproperStatusCode check the behaviour of function performWriteRequest
+// TestPerformWriteRequestImproperStatusCode check the behaviour of function
+// performWriteRequest
 func TestPerformWriteRequestImproperStatusCode(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
@@ -200,7 +208,8 @@ func TestPerformWriteRequestImproperStatusCode(t *testing.T) {
 	}
 }
 
-// TestPerformWriteRequestEmptyBody check the behaviour of function performWriteRequest
+// TestPerformWriteRequestEmptyBody check the behaviour of function
+// performWriteRequest
 func TestPerformWriteRequesttEmptyBody(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {
@@ -216,7 +225,8 @@ func TestPerformWriteRequesttEmptyBody(t *testing.T) {
 	}
 }
 
-// TestPerformWriteRequestErrorInCommunication check how response can be processed by performWriteRequest function.
+// TestPerformWriteRequestErrorInCommunication check how response can be
+// processed by performWriteRequest function.
 func TestPerformWriteRequestErrorInCommunication(t *testing.T) {
 	err := restapi.PerformWriteRequest("", "POST", nil)
 	if err == nil {
@@ -227,7 +237,8 @@ func TestPerformWriteRequestErrorInCommunication(t *testing.T) {
 	}
 }
 
-// TestPerformWriteRequestInvalidMethod check how response can be processed by performWriteRequest function.
+// TestPerformWriteRequestInvalidMethod check how response can be processed by
+// performWriteRequest function.
 func TestPerformWriteRequestInvalidMethod(t *testing.T) {
 	err := restapi.PerformWriteRequest("", "\t", nil)
 	if err == nil {
@@ -238,7 +249,8 @@ func TestPerformWriteRequestInvalidMethod(t *testing.T) {
 	}
 }
 
-// TestPerformWriteRequestInvalidHTTPResponse check how response can be processed by performWriteRequest function.
+// TestPerformWriteRequestInvalidHTTPResponse check how response can be
+// processed by performWriteRequest function.
 func TestPerformWriteRequestInvalidHTTPResponse(t *testing.T) {
 	// try to read response from the server, but from invalid HTTP response
 	server := mockedHttpServer(func(responseWriter http.ResponseWriter, request *http.Request) {

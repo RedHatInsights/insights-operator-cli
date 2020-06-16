@@ -95,7 +95,8 @@ func (api RestAPI) ReadTriggerByID(triggerID string) (*types.Trigger, error) {
 	return &trigger.Trigger, nil
 }
 
-// ReadListOfConfigurationProfiles reads list of configuration profiles via the REST API
+// ReadListOfConfigurationProfiles reads list of configuration profiles via the
+// REST API
 func (api RestAPI) ReadListOfConfigurationProfiles() ([]types.ConfigurationProfile, error) {
 	profiles := types.ConfigurationProfilesResponse{}
 
@@ -135,7 +136,8 @@ func (api RestAPI) ReadListOfConfigurations() ([]types.ClusterConfiguration, err
 	return configurations.Configurations, nil
 }
 
-// ReadConfigurationProfile access the REST API endpoint to read selected configuration profile
+// ReadConfigurationProfile access the REST API endpoint to read selected
+// configuration profile
 func (api RestAPI) ReadConfigurationProfile(profileID string) (*types.ConfigurationProfile, error) {
 	profile := types.ConfigurationProfileResponse{}
 	url := api.controllerURL + APIPrefix + "client/profile/" + profileID
@@ -154,7 +156,8 @@ func (api RestAPI) ReadConfigurationProfile(profileID string) (*types.Configurat
 	return &profile.Profile, nil
 }
 
-// ReadClusterConfigurationByID access the REST API endpoint to read cluster configuration for cluster defined by its ID
+// ReadClusterConfigurationByID access the REST API endpoint to read cluster
+// configuration for cluster defined by its ID
 func (api RestAPI) ReadClusterConfigurationByID(configurationID string) (*string, error) {
 	configuration := types.ConfigurationResponse{}
 	url := api.controllerURL + APIPrefix + "client/configuration/" + configurationID
@@ -173,35 +176,40 @@ func (api RestAPI) ReadClusterConfigurationByID(configurationID string) (*string
 	return &configuration.Configuration, nil
 }
 
-// EnableClusterConfiguration access the REST API endpoint to enable existing cluster configuration
+// EnableClusterConfiguration access the REST API endpoint to enable existing
+// cluster configuration
 func (api RestAPI) EnableClusterConfiguration(configurationID string) error {
 	url := api.controllerURL + APIPrefix + "client/configuration/" + configurationID + "/enable"
 	err := performWriteRequest(url, http.MethodPut, nil)
 	return err
 }
 
-// DisableClusterConfiguration access the REST API endpoint to disable existing cluster configuration
+// DisableClusterConfiguration access the REST API endpoint to disable existing
+// cluster configuration
 func (api RestAPI) DisableClusterConfiguration(configurationID string) error {
 	url := api.controllerURL + APIPrefix + "client/configuration/" + configurationID + "/disable"
 	err := performWriteRequest(url, http.MethodPut, nil)
 	return err
 }
 
-// DeleteClusterConfiguration access the REST API endpoint to delete existing cluster configuration
+// DeleteClusterConfiguration access the REST API endpoint to delete existing
+// cluster configuration
 func (api RestAPI) DeleteClusterConfiguration(configurationID string) error {
 	url := api.controllerURL + APIPrefix + "client/configuration/" + configurationID
 	err := performWriteRequest(url, http.MethodDelete, nil)
 	return err
 }
 
-// DeleteCluster access the REST API endpoint to delete/deregister existing cluster
+// DeleteCluster access the REST API endpoint to delete/deregister existing
+// cluster
 func (api RestAPI) DeleteCluster(clusterID string) error {
 	url := api.controllerURL + APIPrefix + "client/cluster/" + clusterID
 	err := performWriteRequest(url, http.MethodDelete, nil)
 	return err
 }
 
-// DeleteConfigurationProfile access the REST API endpoint to delete existing configuration profile
+// DeleteConfigurationProfile access the REST API endpoint to delete existing
+// configuration profile
 func (api RestAPI) DeleteConfigurationProfile(profileID string) error {
 	url := api.controllerURL + APIPrefix + "client/profile/" + profileID
 	err := performWriteRequest(url, http.MethodDelete, nil)
@@ -216,7 +224,8 @@ func (api RestAPI) AddCluster(name string) error {
 	return err
 }
 
-// AddConfigurationProfile access the REST API endpoint to add new configuration profile
+// AddConfigurationProfile access the REST API endpoint to add new
+// configuration profile
 func (api RestAPI) AddConfigurationProfile(username string, description string, configuration []byte) error {
 	query := "username=" + url.QueryEscape(username) + "&description=" + url.QueryEscape(description)
 	url := api.controllerURL + APIPrefix + "client/profile?" + query
@@ -224,7 +233,8 @@ func (api RestAPI) AddConfigurationProfile(username string, description string, 
 	return err
 }
 
-// AddClusterConfiguration access the REST API endpoint to add new cluster configuration
+// AddClusterConfiguration access the REST API endpoint to add new cluster
+// configuration
 func (api RestAPI) AddClusterConfiguration(username string, cluster string, reason string, description string, configuration []byte) error {
 	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&description=" + url.QueryEscape(description)
 	url := api.controllerURL + APIPrefix + "client/cluster/" + url.PathEscape(cluster) + "/configuration/create?" + query
@@ -247,14 +257,16 @@ func (api RestAPI) DeleteTrigger(triggerID string) error {
 	return err
 }
 
-// ActivateTrigger access the REST API endpoint to activate the selected trigger
+// ActivateTrigger access the REST API endpoint to activate the selected
+// trigger
 func (api RestAPI) ActivateTrigger(triggerID string) error {
 	url := api.controllerURL + APIPrefix + "client/trigger/" + triggerID + "/activate"
 	err := performWriteRequest(url, http.MethodPut, nil)
 	return err
 }
 
-// DeactivateTrigger access the REST API endpoint to deactivate the selected trigger
+// DeactivateTrigger access the REST API endpoint to deactivate the selected
+// trigger
 func (api RestAPI) DeactivateTrigger(triggerID string) error {
 	url := api.controllerURL + APIPrefix + "client/trigger/" + triggerID + "/deactivate"
 	err := performWriteRequest(url, http.MethodPut, nil)

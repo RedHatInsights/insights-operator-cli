@@ -20,7 +20,8 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli/types"
 )
 
-// API represents API to the controller service. Normally it is implemented via REST API, but other methods can be used as well.
+// API represents API to the controller service. Normally it is implemented via
+// REST API, but other methods can be used as well.
 type API interface {
 	// cluster related commands
 	ReadListOfClusters() ([]types.Cluster, error)

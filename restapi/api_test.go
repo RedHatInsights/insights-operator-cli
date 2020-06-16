@@ -43,7 +43,8 @@ func mockedHTTPServer(handler func(responseWriter http.ResponseWriter, request *
 	return httptest.NewServer(http.HandlerFunc(handler))
 }
 
-// checkURL checks that the request URL is expected for given usage of HTTP server
+// checkURL checks that the request URL is expected for given usage of HTTP
+// server
 func checkURL(t *testing.T, request *http.Request, expectedURL string) {
 	if request == nil {
 		t.Error("Ptr. to request structure is nil")
@@ -62,14 +63,16 @@ func checkMethod(t *testing.T, request *http.Request, method string) {
 	}
 }
 
-// writeBody writes a given text into the response that is to be send to receiver
+// writeBody writes a given text into the response that is to be send to
+// receiver
 func writeBody(responseWriter http.ResponseWriter, body string) error {
 	_, err := responseWriter.Write([]byte(body))
 	return err
 }
 
-// standardHandlerImpl is an implementation of handler that checks URL and when it's expected send a response
-// with body that contains a body filled with given response string
+// standardHandlerImpl is an implementation of handler that checks URL and when
+// it's expected send a response with body that contains a body filled with
+// given response string
 func standardHandlerImpl(t *testing.T, expectedURL, responseStr string) func(responseWriter http.ResponseWriter, request *http.Request) {
 	return func(responseWriter http.ResponseWriter, request *http.Request) {
 		checkMethod(t, request, "GET")
@@ -84,8 +87,9 @@ func standardHandlerImpl(t *testing.T, expectedURL, responseStr string) func(res
 	}
 }
 
-// standardHandlerForMethodImpl is an implementation of handler that checks URL and when it's expected send a response
-// with body that contains a body filled with given response string. Additionally used method is checked as well.
+// standardHandlerForMethodImpl is an implementation of handler that checks URL
+// and when it's expected send a response with body that contains a body filled
+// with given response string. Additionally used method is checked as well.
 func standardHandlerForMethodImpl(t *testing.T, expectedURL, method, responseStr string) func(responseWriter http.ResponseWriter, request *http.Request) {
 	return func(responseWriter http.ResponseWriter, request *http.Request) {
 		checkMethod(t, request, method)
@@ -313,7 +317,8 @@ func TestReadListOfTriggersResponseError(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestReadListOfConfigurationProfilesEmptyList check the method ReadListOfConfigurationProfiles
+// TestReadListOfConfigurationProfilesEmptyList check the method
+// ReadListOfConfigurationProfiles
 func TestReadListOfConfigurationProfilesEmptyList(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerImpl(t, ReadProfilesURL, StatusOKJSON))
@@ -331,7 +336,8 @@ func TestReadListOfConfigurationProfilesEmptyList(t *testing.T) {
 	}
 }
 
-// TestReadListOfConfigurationProfilesOneProfile check the method ReadListOfConfigurationProfiles
+// TestReadListOfConfigurationProfilesOneProfile check the method
+// ReadListOfConfigurationProfiles
 func TestReadListOfConfigurationProfilesOneProfile(t *testing.T) {
 	// start a local HTTP server
 	const responseAsString = `
@@ -354,7 +360,8 @@ func TestReadListOfConfigurationProfilesOneProfile(t *testing.T) {
 	}
 }
 
-// TestReadListOfConfigurationProfilesErrorStatus check the method ReadListOfConfigurationProfiles
+// TestReadListOfConfigurationProfilesErrorStatus check the method
+// ReadListOfConfigurationProfiles
 func TestReadListOfConfigurationProfilesErrorStatus(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerImpl(t, ReadProfilesURL, StatusErrorJSON))
@@ -368,7 +375,8 @@ func TestReadListOfConfigurationProfilesErrorStatus(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestReadListOfConfigurationProfilesEmptyResponse check the method ReadListOfConfigurationProfiles
+// TestReadListOfConfigurationProfilesEmptyResponse check the method
+// ReadListOfConfigurationProfiles
 func TestReadListOfConfigurationProfilesEmptyResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(func(responseWriter http.ResponseWriter, request *http.Request) {
@@ -385,7 +393,8 @@ func TestReadListOfConfigurationProfilesEmptyResponse(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestReadListOfConfigurationProfilesWrongJSON check the method ReadListOfConfigurationProfiles
+// TestReadListOfConfigurationProfilesWrongJSON check the method
+// ReadListOfConfigurationProfiles
 func TestReadListOfConfigurationProfilesWrongJSON(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerImpl(t, ReadProfilesURL, ImproperJSON))
@@ -399,7 +408,8 @@ func TestReadListOfConfigurationProfilesWrongJSON(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestReadListOfConfigurationProfilesResponseError check the method ReadListOfConfigurationProfiles
+// TestReadListOfConfigurationProfilesResponseError check the method
+// ReadListOfConfigurationProfiles
 func TestReadListOfConfigurationProfilesResponseError(t *testing.T) {
 	// start a local HTTP server
 	server := httptest.NewServer(http.NotFoundHandler())
@@ -413,7 +423,8 @@ func TestReadListOfConfigurationProfilesResponseError(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestReadListOfConfigurationsEmptyList check the method ReadListOfConfigurations
+// TestReadListOfConfigurationsEmptyList check the method
+// ReadListOfConfigurations
 func TestReadListOfConfigurationsEmptyList(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerImpl(t, ReadConfigurationsURL, StatusOKJSON))
@@ -431,7 +442,8 @@ func TestReadListOfConfigurationsEmptyList(t *testing.T) {
 	}
 }
 
-// TestReadListOfConfigurationsOneConfiguration check the method ReadListOfConfigurations
+// TestReadListOfConfigurationsOneConfiguration check the method
+// ReadListOfConfigurations
 func TestReadListOfConfigurationsOneConfiguration(t *testing.T) {
 	// start a local HTTP server
 	const responseAsString = `
@@ -454,7 +466,8 @@ func TestReadListOfConfigurationsOneConfiguration(t *testing.T) {
 	}
 }
 
-// TestReadListOfConfigurationsErrorStatus check the method ReadListOfConfigurations
+// TestReadListOfConfigurationsErrorStatus check the method
+// ReadListOfConfigurations
 func TestReadListOfConfigurationsErrorStatus(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerImpl(t, ReadConfigurationsURL, StatusErrorJSON))
@@ -468,7 +481,8 @@ func TestReadListOfConfigurationsErrorStatus(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestReadListOfConfigurationsEmptyResponse check the method ReadListOfConfigurations
+// TestReadListOfConfigurationsEmptyResponse check the method
+// ReadListOfConfigurations
 func TestReadListOfConfigurationsEmptyResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(func(responseWriter http.ResponseWriter, request *http.Request) {
@@ -485,7 +499,8 @@ func TestReadListOfConfigurationsEmptyResponse(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestReadListOfConfigurationsWrongJSON check the method ReadListOfConfigurations
+// TestReadListOfConfigurationsWrongJSON check the method
+// ReadListOfConfigurations
 func TestReadListOfConfigurationsWrongJSON(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerImpl(t, ReadConfigurationsURL, ImproperJSON))
@@ -499,7 +514,8 @@ func TestReadListOfConfigurationsWrongJSON(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestReadListOfConfigurationsResponseError check the method ReadListOfConfigurations
+// TestReadListOfConfigurationsResponseError check the method
+// ReadListOfConfigurations
 func TestReadListOfConfigurationsResponseError(t *testing.T) {
 	// start a local HTTP server
 	server := httptest.NewServer(http.NotFoundHandler())
@@ -599,7 +615,8 @@ func TestReadTriggerByIDNotFoundResponse(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestReadConfigurationProfileStandardResponse check the method ReadConfigurationProfile
+// TestReadConfigurationProfileStandardResponse check the method
+// ReadConfigurationProfile
 func TestReadConfigurationProfileStandardResponse(t *testing.T) {
 	const responseAsString = `
 	{
@@ -628,7 +645,8 @@ func TestReadConfigurationProfileStandardResponse(t *testing.T) {
 	}
 }
 
-// TestReadConfigurationProfileImproperJSON check the method ReadConfigurationProfile
+// TestReadConfigurationProfileImproperJSON check the method
+// ReadConfigurationProfile
 func TestReadConfigurationProfileImproperJSON(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerImpl(t, "/api/v1/client/profile/1", ImproperJSON))
@@ -642,7 +660,8 @@ func TestReadConfigurationProfileImproperJSON(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestReadConfigurationProfileErrorResponse check the method ReadConfigurationProfile
+// TestReadConfigurationProfileErrorResponse check the method
+// ReadConfigurationProfile
 func TestReadConfigurationProfileErrorResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerImpl(t, "/api/v1/client/profile/1", StatusErrorJSON))
@@ -656,7 +675,8 @@ func TestReadConfigurationProfileErrorResponse(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestReadConfigurationProfileEmptyResponse check the method ReadConfigurationProfile
+// TestReadConfigurationProfileEmptyResponse check the method
+// ReadConfigurationProfile
 func TestReadConfigurationProfileEmptyResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(func(responseWriter http.ResponseWriter, request *http.Request) {
@@ -673,7 +693,8 @@ func TestReadConfigurationProfileEmptyResponse(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestReadConfigurationProfileNotFoundResponse check the method ReadConfigurationProfile
+// TestReadConfigurationProfileNotFoundResponse check the method
+// ReadConfigurationProfile
 func TestReadConfigurationProfileNotFoundResponse(t *testing.T) {
 	// start a local HTTP server
 	server := httptest.NewServer(http.NotFoundHandler())
@@ -687,7 +708,8 @@ func TestReadConfigurationProfileNotFoundResponse(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestReadClusterConfigurationByIDStandardResponse check the method ReadClusterConfigurationByID
+// TestReadClusterConfigurationByIDStandardResponse check the method
+// ReadClusterConfigurationByID
 func TestReadClusterConfigurationByIDStandardResponse(t *testing.T) {
 	const responseAsString = `
 	{
@@ -710,7 +732,8 @@ func TestReadClusterConfigurationByIDStandardResponse(t *testing.T) {
 	}
 }
 
-// TestReadClusterConfigurationByIDImproperJSON check the method ReadClusterConfigurationByID
+// TestReadClusterConfigurationByIDImproperJSON check the method
+// ReadClusterConfigurationByID
 func TestReadClusterConfigurationByIDImproperJSON(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerImpl(t, "/api/v1/client/configuration/1", ImproperJSON))
@@ -724,7 +747,8 @@ func TestReadClusterConfigurationByIDImproperJSON(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestReadClusterConfigurationByIDErrorResponse check the method ReadClusterConfigurationByID
+// TestReadClusterConfigurationByIDErrorResponse check the method
+// ReadClusterConfigurationByID
 func TestReadClusterConfigurationByIDErrorResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerImpl(t, "/api/v1/client/configuration/1", StatusErrorJSON))
@@ -738,7 +762,8 @@ func TestReadClusterConfigurationByIDErrorResponse(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestReadClusterConfigurationByIDEmptyResponse check the method ReadClusterConfigurationByID
+// TestReadClusterConfigurationByIDEmptyResponse check the method
+// ReadClusterConfigurationByID
 func TestReadClusterConfigurationByIDEmptyResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(func(responseWriter http.ResponseWriter, request *http.Request) {
@@ -755,7 +780,8 @@ func TestReadClusterConfigurationByIDEmptyResponse(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestReadClusterConfigurationByIDNotFoundResponse check the method ReadClusterConfigurationByID
+// TestReadClusterConfigurationByIDNotFoundResponse check the method
+// ReadClusterConfigurationByID
 func TestReadClusterConfigurationByIDNotFoundResponse(t *testing.T) {
 	// start a local HTTP server
 	server := httptest.NewServer(http.NotFoundHandler())
@@ -769,7 +795,8 @@ func TestReadClusterConfigurationByIDNotFoundResponse(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestEnableClusterConfigurationStandardResponse check the method EnableClusterConfiguration
+// TestEnableClusterConfigurationStandardResponse check the method
+// EnableClusterConfiguration
 func TestEnableClusterConfigurationStandardResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1/enable", "PUT", StatusOKJSON))
@@ -783,7 +810,8 @@ func TestEnableClusterConfigurationStandardResponse(t *testing.T) {
 	expectNoErrors(t, err)
 }
 
-// TestEnableClusterConfigurationImproperJSON check the method EnableClusterConfiguration
+// TestEnableClusterConfigurationImproperJSON check the method
+// EnableClusterConfiguration
 func TestEnableClusterConfigurationImproperJSON(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1/enable", "PUT", ImproperJSON))
@@ -797,7 +825,8 @@ func TestEnableClusterConfigurationImproperJSON(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestEnableClusterConfigurationErrorResponse check the method EnableClusterConfiguration
+// TestEnableClusterConfigurationErrorResponse check the method
+// EnableClusterConfiguration
 func TestEnableClusterConfigurationErrorResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1/enable", "PUT", StatusErrorJSON))
@@ -811,7 +840,8 @@ func TestEnableClusterConfigurationErrorResponse(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestEnableClusterConfigurationNotFoundResponse check the method DeleteClusterConfiguration
+// TestEnableClusterConfigurationNotFoundResponse check the method
+// DeleteClusterConfiguration
 func TestEnableClusterConfigurationNotFoundResponse(t *testing.T) {
 	// start a local HTTP server
 	server := httptest.NewServer(http.NotFoundHandler())
@@ -825,7 +855,8 @@ func TestEnableClusterConfigurationNotFoundResponse(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestDisableClusterConfigurationStandardResponse check the method DisableClusterConfiguration
+// TestDisableClusterConfigurationStandardResponse check the method
+// DisableClusterConfiguration
 func TestDisableClusterConfigurationStandardResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1/disable", "PUT", StatusOKJSON))
@@ -839,7 +870,8 @@ func TestDisableClusterConfigurationStandardResponse(t *testing.T) {
 	expectNoErrors(t, err)
 }
 
-// TestDisableClusterConfigurationImproperJSON check the method DisableClusterConfiguration
+// TestDisableClusterConfigurationImproperJSON check the method
+// DisableClusterConfiguration
 func TestDisableClusterConfigurationImproperJSON(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1/disable", "PUT", ImproperJSON))
@@ -853,7 +885,8 @@ func TestDisableClusterConfigurationImproperJSON(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestDisableClusterConfigurationErrorResponse check the method DisableClusterConfiguration
+// TestDisableClusterConfigurationErrorResponse check the method
+// DisableClusterConfiguration
 func TestDisableClusterConfigurationErrorResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1/disable", "PUT", StatusErrorJSON))
@@ -867,7 +900,8 @@ func TestDisableClusterConfigurationErrorResponse(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestDisableClusterConfigurationNotFoundResponse check the method DeleteClusterConfiguration
+// TestDisableClusterConfigurationNotFoundResponse check the method
+// DeleteClusterConfiguration
 func TestDisableClusterConfigurationNotFoundResponse(t *testing.T) {
 	// start a local HTTP server
 	server := httptest.NewServer(http.NotFoundHandler())
@@ -881,7 +915,8 @@ func TestDisableClusterConfigurationNotFoundResponse(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestDeleteClusterConfigurationStandardResponse check the method DeleteClusterConfiguration
+// TestDeleteClusterConfigurationStandardResponse check the method
+// DeleteClusterConfiguration
 func TestDeleteClusterConfigurationStandardResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1", "DELETE", StatusOKJSON))
@@ -895,7 +930,8 @@ func TestDeleteClusterConfigurationStandardResponse(t *testing.T) {
 	expectNoErrors(t, err)
 }
 
-// TestDeleteClusterConfigurationImproperJSON check the method DeleteClusterConfiguration
+// TestDeleteClusterConfigurationImproperJSON check the method
+// DeleteClusterConfiguration
 func TestDeleteClusterConfigurationImproperJSON(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1", "DELETE", ImproperJSON))
@@ -909,7 +945,8 @@ func TestDeleteClusterConfigurationImproperJSON(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestDeleteClusterConfigurationErrorResponse check the method DeleteClusterConfiguration
+// TestDeleteClusterConfigurationErrorResponse check the method
+// DeleteClusterConfiguration
 func TestDeleteClusterConfigurationErrorResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/configuration/1", "DELETE", StatusErrorJSON))
@@ -923,7 +960,8 @@ func TestDeleteClusterConfigurationErrorResponse(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestDeleteClusterConfigurationNotFoundResponse check the method DeleteClusterConfiguration
+// TestDeleteClusterConfigurationNotFoundResponse check the method
+// DeleteClusterConfiguration
 func TestDeleteClusterConfigurationNotFoundResponse(t *testing.T) {
 	// start a local HTTP server
 	server := httptest.NewServer(http.NotFoundHandler())
@@ -993,7 +1031,8 @@ func TestDeleteClusterNotFoundResponse(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestDeleteConfigurationProfileStandardResponse check the method DeleteConfigurationProfile
+// TestDeleteConfigurationProfileStandardResponse check the method
+// DeleteConfigurationProfile
 func TestDeleteConfigurationProfileStandardResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/profile/1", "DELETE", StatusOKJSON))
@@ -1007,7 +1046,8 @@ func TestDeleteConfigurationProfileStandardResponse(t *testing.T) {
 	expectNoErrors(t, err)
 }
 
-// TestDeleteConfigurationProfileImproperJSON check the method DeleteConfigurationProfile
+// TestDeleteConfigurationProfileImproperJSON check the method
+// DeleteConfigurationProfile
 func TestDeleteConfigurationProfileImproperJSON(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/profile/1", "DELETE", ImproperJSON))
@@ -1021,7 +1061,8 @@ func TestDeleteConfigurationProfileImproperJSON(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestDeleteConfigurationProfileErrorResponse check the method DeleteConfigurationProfile
+// TestDeleteConfigurationProfileErrorResponse check the method
+// DeleteConfigurationProfile
 func TestDeleteConfigurationProfileErrorResponse(t *testing.T) {
 	// start a local HTTP server
 	server := mockedHTTPServer(standardHandlerForMethodImpl(t, "/api/v1/client/profile/1", "DELETE", StatusErrorJSON))
@@ -1035,7 +1076,8 @@ func TestDeleteConfigurationProfileErrorResponse(t *testing.T) {
 	expectError(t, err)
 }
 
-// TestDeleteConfigurationProfileNotFoundResponse check the method DeleteConfigurationProfile
+// TestDeleteConfigurationProfileNotFoundResponse check the method
+// DeleteConfigurationProfile
 func TestDeleteConfigurationProfileNotFoundResponse(t *testing.T) {
 	// start a local HTTP server
 	server := httptest.NewServer(http.NotFoundHandler())
