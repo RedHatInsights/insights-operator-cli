@@ -16,5 +16,5 @@ limitations under the License.
 
 package restapi
 
-// APIPrefix is appended before all REST API endpoint addresses
+// APIPrefix string is inserted before all REST API endpoint addresses
 const APIPrefix = "/api/v1/"

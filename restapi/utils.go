@@ -26,6 +26,8 @@ import (
 	"net/http"
 )
 
+// performReadRequest function try to perform HTTP request using the HTTP GET
+// method and if the call is successful read the body of response.
 func performReadRequest(url string) ([]byte, error) {
 	// disable "G107 (CWE-88): Potential HTTP request made with variable url"
 	// #nosec G107
@@ -46,6 +48,9 @@ func performReadRequest(url string) ([]byte, error) {
 	return body, nil
 }
 
+// performWriteRequest function try to perform HTTP request using the specified
+// HTTP method (POST, PUT, DELETE) and if the call is successful read the body
+// of response.
 func performWriteRequest(url string, method string, payload io.Reader) error {
 	var client http.Client
 
@@ -70,7 +75,8 @@ func performWriteRequest(url string, method string, payload io.Reader) error {
 	return parseResponse(body)
 }
 
-// closeResponseBody tries to close body of HTTP response with basic error check
+// closeResponseBody function tries to close body of HTTP response with basic
+// error check
 func closeResponseBody(response *http.Response) {
 	err := response.Body.Close()
 	if err != nil {
@@ -78,6 +84,9 @@ func closeResponseBody(response *http.Response) {
 	}
 }
 
+// parseResponse function tries to parse the body of HTTP response into JSON
+// structure that should contain at least one attribute stored under key
+// "Status".
 func parseResponse(body []byte) error {
 	resp := types.Response{}
 	err := json.Unmarshal(body, &resp)
