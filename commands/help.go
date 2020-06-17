@@ -20,7 +20,7 @@ import (
 	"fmt"
 )
 
-// PrintHelp can be used to display help on (color) terminal.
+// PrintHelp function can be used to display help on (color) terminal.
 func PrintHelp() {
 	fmt.Println(colorizer.Magenta("HELP:"))
 	fmt.Println()

@@ -26,6 +26,8 @@ import (
 // ListOfProfiles displays list of configuration profiles gathered via REST API
 // call to controller service
 func ListOfProfiles(api restapi.API) {
+	// try to read list of configuration profiles and display error when
+	// something wrong happens
 	profiles, err := api.ReadListOfConfigurationProfiles()
 	if err != nil {
 		fmt.Println(colorizer.Red("Error reading list of configuration profiles"))
@@ -43,6 +45,8 @@ func ListOfProfiles(api restapi.API) {
 
 // DescribeProfile displays additional information about selected profile
 func DescribeProfile(api restapi.API, profileID string) {
+	// try to read configuration profile identified by its ID and display
+	// error when something wrong happens
 	profile, err := api.ReadConfigurationProfile(profileID)
 	if err != nil {
 		fmt.Println(colorizer.Red("Error reading configuration profile"))
@@ -68,6 +72,8 @@ func DeleteConfigurationProfile(api restapi.API, profileID string, askForConfirm
 		}
 	}
 
+	// try to delete configuration profile identified by its ID and display
+	// error when something wrong happens
 	err := api.DeleteConfigurationProfile(profileID)
 	if err != nil {
 		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
@@ -112,6 +118,8 @@ func AddConfigurationProfile(api restapi.API, username string) {
 		fmt.Println(err)
 	}
 
+	// try to add configuration profile and display error when something
+	// wrong happens
 	err = api.AddConfigurationProfile(username, description, configuration)
 	if err != nil {
 		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
@@ -134,6 +142,8 @@ func AddConfigurationProfileImpl(api restapi.API, username string, description s
 		fmt.Println(err)
 	}
 
+	// try to add configuration profile and display error when something
+	// wrong happens
 	err = api.AddConfigurationProfile(username, description, configuration)
 	if err != nil {
 		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))

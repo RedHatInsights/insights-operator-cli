@@ -20,7 +20,7 @@ import (
 	"fmt"
 )
 
-// PrintCopyright displays copyright notice
+// PrintCopyright function displays copyright notice
 func PrintCopyright() {
 	fmt.Println(colorizer.Magenta("Copyright"))
 	fmt.Println()

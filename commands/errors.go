@@ -16,6 +16,7 @@ limitations under the License.
 
 package commands
 
+// constants used to display various error messages
 const (
 	cannotReadConfigurationFileErrorMessage    = "Cannot read configuration file"
 	cannotReadAnyConfigurationFileErrorMessage = "Cannot read any configuration file"

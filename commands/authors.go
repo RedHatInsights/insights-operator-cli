@@ -20,7 +20,7 @@ import (
 	"fmt"
 )
 
-// PrintAuthors displays list of authors
+// PrintAuthors function displays list of authors
 func PrintAuthors() {
 	fmt.Println(colorizer.Magenta("Authors"))
 	fmt.Println(`
