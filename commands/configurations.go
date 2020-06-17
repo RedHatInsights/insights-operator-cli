@@ -31,6 +31,8 @@ const configFileDirectory = "configurations/"
 // API call to controller service
 func ListOfConfigurations(api restapi.API, filter string) {
 	// TODO: filter in query?
+	// try to read list of configurations and display error if something
+	// wrong happens
 	configurations, err := api.ReadListOfConfigurations()
 	if err != nil {
 		fmt.Println(colorizer.Red("Error reading list of configurations"))
@@ -58,6 +60,8 @@ func ListOfConfigurations(api restapi.API, filter string) {
 // EnableClusterConfiguration enables the selected cluster configuration in the
 // controller service
 func EnableClusterConfiguration(api restapi.API, configurationID string) {
+	// try to enable cluster configuration and display error if something
+	// wrong happens
 	err := api.EnableClusterConfiguration(configurationID)
 	if err != nil {
 		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
@@ -72,6 +76,8 @@ func EnableClusterConfiguration(api restapi.API, configurationID string) {
 // DisableClusterConfiguration disables the selected cluster configuration in
 // the controller service
 func DisableClusterConfiguration(api restapi.API, configurationID string) {
+	// try to disable cluster configuration and display error if something
+	// wrong happens
 	err := api.DisableClusterConfiguration(configurationID)
 	if err != nil {
 		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
@@ -86,6 +92,8 @@ func DisableClusterConfiguration(api restapi.API, configurationID string) {
 // DescribeConfiguration displays additional information about selected
 // configuration
 func DescribeConfiguration(api restapi.API, clusterID string) {
+	// try to read cluster configuration by using its ID and display error
+	// if something wrong happens
 	configuration, err := api.ReadClusterConfigurationByID(clusterID)
 	if err != nil {
 		fmt.Println(colorizer.Red("Error reading cluster configuration"))
@@ -100,6 +108,8 @@ func DescribeConfiguration(api restapi.API, clusterID string) {
 // DeleteClusterConfiguration deletes selected cluster configuration from
 // database
 func DeleteClusterConfiguration(api restapi.API, configurationID string) {
+	// try to delete cluster configuration and display error if something
+	// wrong happens
 	err := api.DeleteClusterConfiguration(configurationID)
 	if err != nil {
 		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
@@ -150,6 +160,7 @@ func AddClusterConfiguration(api restapi.API, username string) {
 		return
 	}
 
+	// try to add new cluster configuration
 	AddClusterConfigurationImpl(api, username, cluster, reason, description, configurationFileName)
 }
 
@@ -167,6 +178,8 @@ func AddClusterConfigurationImpl(api restapi.API, username string, cluster strin
 		return
 	}
 
+	// try to add cluster configuration and display error if something
+	// wrong happens
 	err = api.AddClusterConfiguration(username, cluster, reason, description, configuration)
 	if err != nil {
 		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))

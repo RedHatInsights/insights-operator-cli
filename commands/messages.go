@@ -16,6 +16,7 @@ limitations under the License.
 
 package commands
 
+// various messages to be displayed to user
 const (
 	operationCancelled = "Cancelled"
 	changedAt          = "Changed at"
@@ -23,7 +24,8 @@ const (
 	// any object (cluster, configuration, profile) has been deleted
 	deleted = "deleted"
 
-	// prompt displayed for any TAB-completable inputs (file selection etc.)
+	// prompt displayed for any TAB-completable inputs (file selection
+	// etc.)
 	configurationFilePrompt = "configuration file (TAB to complete): "
 
 	conditionSet = "yes"

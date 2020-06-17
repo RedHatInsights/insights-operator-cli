@@ -59,6 +59,7 @@ func FillInConfigurationList(directory string) error {
 	files = []prompt.Suggest{}
 
 	root := directory
+	// iterate over all files and directories found
 	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
 		if !info.IsDir() {
 			suggest := prompt.Suggest{

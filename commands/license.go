@@ -20,7 +20,7 @@ import (
 	"fmt"
 )
 
-// PrintLicense displays license used by this project
+// PrintLicense function displays license used by this project
 func PrintLicense() {
 	fmt.Println(colorizer.Magenta("License"))
 	fmt.Println(`

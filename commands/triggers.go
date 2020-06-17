@@ -27,6 +27,8 @@ import (
 // gathered via REST API call to controller service
 func ListOfTriggers(api restapi.API) {
 	// TODO: filter in query?
+	// try to read list of triggers and display error message if anything
+	// wrong happens
 	triggers, err := api.ReadListOfTriggers()
 	if err != nil {
 		fmt.Println(colorizer.Red("Error reading list of triggers"))
@@ -51,6 +53,8 @@ func ListOfTriggers(api restapi.API) {
 
 // DescribeTrigger displays additional information about selected trigger
 func DescribeTrigger(api restapi.API, triggerID string) {
+	// try to read trigger idintified by its ID and display error message
+	// if anything wrong happens
 	trigger, err := api.ReadTriggerByID(triggerID)
 	if err != nil {
 		fmt.Println(colorizer.Red("Error reading selected trigger"))
@@ -101,6 +105,8 @@ func AddTrigger(api restapi.API, username string) {
 
 // AddTriggerImpl calls REST API to add a new trigger into the database
 func AddTriggerImpl(api restapi.API, username string, clusterName string, reason string, link string) {
+	// try to add a new trigger and display error message if anything wrong
+	// happens
 	err := api.AddTrigger(username, clusterName, reason, link)
 	if err != nil {
 		fmt.Println(errorCommunicationWithServiceErrorMessage)
@@ -114,6 +120,8 @@ func AddTriggerImpl(api restapi.API, username string, clusterName string, reason
 
 // DeleteTrigger deletes specified trigger
 func DeleteTrigger(api restapi.API, triggerID string) {
+	// try to delete trigger idintified by its ID and display error message
+	// if anything wrong happens
 	err := api.DeleteTrigger(triggerID)
 	if err != nil {
 		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
@@ -127,6 +135,8 @@ func DeleteTrigger(api restapi.API, triggerID string) {
 
 // ActivateTrigger activates specified trigger
 func ActivateTrigger(api restapi.API, triggerID string) {
+	// try to activate trigger idintified by its ID and display error
+	// message if anything wrong happens
 	err := api.ActivateTrigger(triggerID)
 	if err != nil {
 		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
@@ -140,6 +150,8 @@ func ActivateTrigger(api restapi.API, triggerID string) {
 
 // DeactivateTrigger deactivates specified trigger
 func DeactivateTrigger(api restapi.API, triggerID string) {
+	// try to deactivate trigger idintified by its ID and display error
+	// message if anything wrong happens
 	err := api.DeactivateTrigger(triggerID)
 	if err != nil {
 		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
