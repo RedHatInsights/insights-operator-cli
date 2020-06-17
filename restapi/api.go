@@ -21,7 +21,8 @@ import (
 )
 
 // API represents API to the controller service. Normally it is implemented via
-// REST API, but other methods can be used as well.
+// REST API, but other methods can be used as well (for example for testing or
+// to use asynchronous mechanisms).
 type API interface {
 	// cluster related commands
 	ReadListOfClusters() ([]types.Cluster, error)
