@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>triggers_test.go</title>
+<meta charset="utf-8"/>
+<style type="text/css">body {
+    background: rgb(225, 225, 225);
+    margin: 0px;
+    padding: 0px;
+}
+
+#docgo p {
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 15px;
+    margin-left: 0px;
+}
+
+#docgo div {
+    display: inline;
+}
+
+#docgo #background {
+    position: fixed;
+    top: 0; left: 525px; right: 0; bottom: 0;
+    background: rgb(47, 47, 47);
+    border-left: 1px solid #e5e5ee;
+    z-index: -1;
+}
+
+#docgo .keyword {
+    color: rgb(250, 200, 100);
+}
+
+#docgo .literal {
+    color: rgb(140, 190, 100);
+}
+
+#docgo .ident {
+    color: white;
+}
+
+#docgo .operator {
+    color: white;
+}
+
+#docgo .comment {
+}
+
+#docgo h1, h2, h3, h4, h5 {
+    text-align: left;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 15px;
+    margin-left: 0px;
+}
+
+#docgo h1 {
+    margin-top: 40px;
+}
+
+#docgo .doc {
+    vertical-align: top;
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
+    font-size: 15px;
+    line-height: 22px;
+    color: black;
+    min-width: 450px;
+    max-width: 450px;
+    padding-top: 10px;
+    padding-right: 25px;
+    padding-bottom: 1px;
+    padding-left: 50px;
+    overflow-x: hidden;
+}
+
+#docgo .code {
+    min-width: 650px;
+    max-width: 650px;
+    padding-left: 25px;
+    padding-right: 15px;
+    border-left: 1px;
+    overflow-x: hidden;
+    vertical-align: top;
+}
+
+#docgo .code pre code  {
+    font-size: 12px;
+    line-height: 18px;
+    font-family: Menlo, Monaco, Consolas, "Lucida Console", monospace;
+    color: rgb(120, 120, 120);
+}
+</style>
+</head>
+<body>
+<div id="docgo">
+  <div id="background"></div>
+  <table>
+    <thead><tr><th class="doc"><h1>triggers_test.go</h1></th><th class="code"></th></tr></thead>
+    <tbody>
+      
+      <tr class="section">
+	<td class="doc"></td>
+	<td class="code"><pre><code><div class="comment">/*
+Copyright © 2019, 2020 Red Hat, Inc.
+
+Licensed under the Apache License, Version 2.0 (the &#34;License&#34;);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &#34;AS IS&#34; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/</div>
+
+<div class="keyword">package</div> <div class="ident">commands_test</div><div class="operator"></div>
+
+<div class="keyword">import</div> <div class="operator">(</div>
+	<div class="literal">&#34;github.com/redhatinsighs/insights-operator-cli/commands&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;github.com/tisnik/go-capture&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;regexp&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;strings&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;testing&#34;</div><div class="operator"></div>
+<div class="operator">)</div><div class="operator"></div>
+
+<div class="keyword">func</div> <div class="ident">tryToFindTrigger</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">,</div> <div class="ident">captured</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">trigger</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="ident">trigger</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find trigger:&#34;</div><div class="operator">,</div> <div class="ident">trigger</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestListOfTriggers checks whether the non-empty list of triggers read via
+REST API is displayed correctly</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestListOfTriggers</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">ListOfTriggers</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+
+	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;List of triggers for all clusters&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>we expect six lines - title, column headers and four triggers</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">numlines</div> <div class="operator">:=</div> <div class="ident">strings</div><div class="operator">.</div><div class="ident">Count</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;\n&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">numlines</div> <div class="operator">&lt;</div> <div class="literal">6</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Not all triggers are listed in the output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+
+	<div class="ident">expectedTriggers</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">string</div><div class="operator">{</div>
+		<div class="literal">&#34;must-gather&#34;</div><div class="operator">,</div>
+		<div class="literal">&#34;must-gather&#34;</div><div class="operator">,</div>
+		<div class="literal">&#34;must-gather&#34;</div><div class="operator">,</div>
+		<div class="literal">&#34;different-trigger&#34;</div><div class="operator">,</div>
+	<div class="operator">}</div><div class="operator"></div>
+	<div class="keyword">for</div> <div class="ident">_</div><div class="operator">,</div> <div class="ident">expectedTrigger</div> <div class="operator">:=</div> <div class="keyword">range</div> <div class="ident">expectedTriggers</div> <div class="operator">{</div>
+		<div class="ident">tryToFindTrigger</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">expectedTrigger</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestListOfTriggers checks whether the empty list of triggers read via REST
+API is displayed correctly</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestListOfTriggersEmptyList</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">ListOfTriggers</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+
+	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;List of triggers for all clusters&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>we expect two lines - title and column headers</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">numlines</div> <div class="operator">:=</div> <div class="ident">strings</div><div class="operator">.</div><div class="ident">Count</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;\n&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">numlines</div> <div class="operator">&gt;</div> <div class="literal">2</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestListOfTriggersErrorHandling checks whether error returned by REST API is
+handled correctly</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestListOfTriggersErrorHandling</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">ListOfTriggers</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+
+	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error reading list of triggers&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestDescribeActivatedTrigger checks whether it is possible to read and
+displays information about activated trigger</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestDescribeActivatedTrigger</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DescribeTrigger</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;0&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+
+	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Trigger info&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;ffffffff-ffff-ffff-ffff-ffffffffffff&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find cluster ID:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;tester&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find name of user two triggered the trigger:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+	<div class="ident">match</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">regexp</div><div class="operator">.</div><div class="ident">MatchString</div><div class="operator">(</div><div class="literal">`Active:.*yes`</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">match</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Trigger is not activated as expected:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestDescribeInactivatedTrigger checks whether it is possible to read and
+displays information about inactivated trigger</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestDescribeInactivatedTrigger</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DescribeTrigger</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;1&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+
+	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Trigger info&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;ffffffff-ffff-ffff-ffff-ffffffffffff&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find cluster ID:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;tester&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find name of user two triggered the trigger:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+	<div class="ident">match</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">regexp</div><div class="operator">.</div><div class="ident">MatchString</div><div class="operator">(</div><div class="literal">`Active:.*no`</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">match</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Trigger is not deactivated as expected:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestDescribeNonMustGatherTrigger checks whether it is possible to read and
+displays information about other type of trigger</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestDescribeNonMustGatherTrigger</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DescribeTrigger</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;2&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+
+	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Trigger info&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;00000000-0000-0000-0000-000000000000&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find cluster ID:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;tester&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find name of user two triggered the trigger:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+	<div class="ident">match</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">regexp</div><div class="operator">.</div><div class="ident">MatchString</div><div class="operator">(</div><div class="literal">`Active:.*no`</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">match</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Trigger is not deactivated as expected:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestDescribeTriggerErrorHandling checks how REST API-related issues are
+reported and handled</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestDescribeTriggerErrorHandling</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DescribeTrigger</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;1&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+
+	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error reading selected trigger&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestAddTriggerImpl check the ability to add a new trigger via REST API</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestAddTriggerImpl</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">AddTriggerImpl</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;tester&#34;</div><div class="operator">,</div> <div class="literal">&#34;cluster&#34;</div><div class="operator">,</div> <div class="literal">&#34;reason&#34;</div><div class="operator">,</div> <div class="literal">&#34;link&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+
+	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Trigger has been created&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestAddTriggerImplError check error handling during new trigger registration</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestAddTriggerImplErrorHandling</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">AddTriggerImpl</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;tester&#34;</div><div class="operator">,</div> <div class="literal">&#34;cluster&#34;</div><div class="operator">,</div> <div class="literal">&#34;reason&#34;</div><div class="operator">,</div> <div class="literal">&#34;link&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+
+	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error communicating with the service&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestDeleteTrigger check the command 'delete trigger'</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestDeleteTrigger</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteTrigger</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;0&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+
+	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Trigger 0 has been deleted&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestDeleteTriggerErrorHandling check error handling for the command 'delete
+trigger'</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestDeleteTriggerErrorHandling</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteTrigger</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;0&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+
+	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error communicating with the service&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestActivateTrigger check the command 'activate trigger'</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestActivateTrigger</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">ActivateTrigger</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;0&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+
+	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Trigger 0 has been activated&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestActivateTriggerErrorHandling check the error handling for command
+'activate trigger'</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestActivateTriggerErrorHandling</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">ActivateTrigger</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;0&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+
+	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error communicating with the service&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestDeactivateTrigger check the command 'deactivate trigger'</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestDeactivateTrigger</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DeactivateTrigger</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;0&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+
+	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Trigger 0 has been deactivated&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestDeactivateTriggerErrorHandling check the error handling for command
+'deactivate trigger'</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestDeactivateTriggerErrorHandling</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DeactivateTrigger</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;0&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+
+	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error communicating with the service&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

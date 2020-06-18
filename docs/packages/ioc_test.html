@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ioc_test.go</title>
+<meta charset="utf-8"/>
+<style type="text/css">body {
+    background: rgb(225, 225, 225);
+    margin: 0px;
+    padding: 0px;
+}
+
+#docgo p {
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 15px;
+    margin-left: 0px;
+}
+
+#docgo div {
+    display: inline;
+}
+
+#docgo #background {
+    position: fixed;
+    top: 0; left: 525px; right: 0; bottom: 0;
+    background: rgb(47, 47, 47);
+    border-left: 1px solid #e5e5ee;
+    z-index: -1;
+}
+
+#docgo .keyword {
+    color: rgb(250, 200, 100);
+}
+
+#docgo .literal {
+    color: rgb(140, 190, 100);
+}
+
+#docgo .ident {
+    color: white;
+}
+
+#docgo .operator {
+    color: white;
+}
+
+#docgo .comment {
+}
+
+#docgo h1, h2, h3, h4, h5 {
+    text-align: left;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 15px;
+    margin-left: 0px;
+}
+
+#docgo h1 {
+    margin-top: 40px;
+}
+
+#docgo .doc {
+    vertical-align: top;
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
+    font-size: 15px;
+    line-height: 22px;
+    color: black;
+    min-width: 450px;
+    max-width: 450px;
+    padding-top: 10px;
+    padding-right: 25px;
+    padding-bottom: 1px;
+    padding-left: 50px;
+    overflow-x: hidden;
+}
+
+#docgo .code {
+    min-width: 650px;
+    max-width: 650px;
+    padding-left: 25px;
+    padding-right: 15px;
+    border-left: 1px;
+    overflow-x: hidden;
+    vertical-align: top;
+}
+
+#docgo .code pre code  {
+    font-size: 12px;
+    line-height: 18px;
+    font-family: Menlo, Monaco, Consolas, "Lucida Console", monospace;
+    color: rgb(120, 120, 120);
+}
+</style>
+</head>
+<body>
+<div id="docgo">
+  <div id="background"></div>
+  <table>
+    <thead><tr><th class="doc"><h1>ioc_test.go</h1></th><th class="code"></th></tr></thead>
+    <tbody>
+      
+      <tr class="section">
+	<td class="doc"></td>
+	<td class="code"><pre><code><div class="comment">/*
+Copyright © 2019, 2020 Red Hat, Inc.
+
+Licensed under the Apache License, Version 2.0 (the &#34;License&#34;);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &#34;AS IS&#34; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/</div>
+<div class="keyword">package</div> <div class="ident">main_test</div><div class="operator"></div>
+
+<div class="keyword">import</div> <div class="operator">(</div>
+	<div class="literal">&#34;github.com/c-bata/go-prompt&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;github.com/logrusorgru/aurora&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;testing&#34;</div><div class="operator"></div>
+
+	<div class="literal">&#34;github.com/redhatinsighs/insights-operator-cli&#34;</div><div class="operator"></div>
+<div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>createDocumentWithCommand function constructs an instance of prompt.Document
+containing the command and cursor position.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">createDocumentWithCommand</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">,</div> <div class="ident">command</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Document</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>try to allocate a buffer</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">buffer</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">NewBuffer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">buffer</div> <div class="operator">==</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Error in prompt library - can not constructs new buffer&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>insert command into buffer</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">buffer</div><div class="operator">.</div><div class="ident">InsertText</div><div class="operator">(</div><div class="ident">command</div><div class="operator">,</div> <div class="ident">false</div><div class="operator">,</div> <div class="ident">true</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>and gather instance of new document</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">document</div> <div class="operator">:=</div> <div class="ident">buffer</div><div class="operator">.</div><div class="ident">Document</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">document</div> <div class="operator">==</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Error in prompt library - can not get document for a buffer&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+	<div class="keyword">return</div> <div class="operator">*</div><div class="ident">document</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>checkSuggestionCount function checks the number of suggestions returned by
+suggester.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">checkSuggestionCount</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">,</div> <div class="ident">suggests</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div><div class="operator">,</div> <div class="ident">expected</div> <div class="ident">int</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test if number of suffestions is expected</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="ident">len</div><div class="operator">(</div><div class="ident">suggests</div><div class="operator">)</div> <div class="operator">!=</div> <div class="ident">expected</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Invalid suggestion returned by completer:&#34;</div><div class="operator">,</div> <div class="ident">suggests</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>checkSuggestionCount function checks the suggestion text and description.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">checkSuggestion</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">,</div> <div class="ident">suggest</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div><div class="operator">,</div> <div class="ident">command</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">description</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test suggestion text by comparing it with command</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="ident">suggest</div><div class="operator">.</div><div class="ident">Text</div> <div class="operator">!=</div> <div class="ident">command</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Invalid suggestion command:&#34;</div><div class="operator">,</div> <div class="ident">suggest</div><div class="operator">.</div><div class="ident">Text</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test suggestion description</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="ident">suggest</div><div class="operator">.</div><div class="ident">Description</div> <div class="operator">!=</div> <div class="ident">description</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Invalid suggestion description:&#34;</div><div class="operator">,</div> <div class="ident">suggest</div><div class="operator">.</div><div class="ident">Description</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestCompleterEmptyInput function checks which suggestions are returned for
+empty input.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestCompleterEmptyInput</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test the suggestion(s) for empty input</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">suggests</div> <div class="operator">:=</div> <div class="ident">main</div><div class="operator">.</div><div class="ident">Completer</div><div class="operator">(</div><div class="ident">createDocumentWithCommand</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="literal">&#34;&#34;</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>no suggestions are expected</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkSuggestionCount</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">suggests</div><div class="operator">,</div> <div class="literal">0</div><div class="operator">)</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestCompleterHelpCommand function checks which suggestions are returned for
+'help' input.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestCompleterHelpCommand</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test the suggestion(s) for help command</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">suggests</div> <div class="operator">:=</div> <div class="ident">main</div><div class="operator">.</div><div class="ident">Completer</div><div class="operator">(</div><div class="ident">createDocumentWithCommand</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="literal">&#34;help&#34;</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>just one suggestion is expected</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkSuggestionCount</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">suggests</div><div class="operator">,</div> <div class="literal">1</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">checkSuggestion</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">suggests</div><div class="operator">[</div><div class="literal">0</div><div class="operator">]</div><div class="operator">,</div> <div class="literal">&#34;help&#34;</div><div class="operator">,</div> <div class="literal">&#34;show help with all commands&#34;</div><div class="operator">)</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestReadConfiguration function tries to read configuration from existing
+configuration file.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestReadConfiguration</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test the suggestion(s) for command for reading configuration file</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">_</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">main</div><div class="operator">.</div><div class="ident">ReadConfiguration</div><div class="operator">(</div><div class="literal">&#34;config&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Error during reading configuration&#34;</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestReadConfigurationNegative function tries to read configuration from
+non-existing configuration file.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestReadConfigurationNegative</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test the suggestion(s) for command for reading configuration file</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">_</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">main</div><div class="operator">.</div><div class="ident">ReadConfiguration</div><div class="operator">(</div><div class="literal">&#34;this_does_not_exists&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">==</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Error expected during reading configuration from non-existing file&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestPrintVersion function is dummy ATM - we'll check versions etc. in
+integration tests.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestPrintVersion</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>make sure the colorizer is initialized</p>
+</td>
+	<td class="code"><pre><code>	<div class="operator">*</div><div class="ident">main</div><div class="operator">.</div><div class="ident">Colorizer</div> <div class="operator">=</div> <div class="ident">aurora</div><div class="operator">.</div><div class="ident">NewAurora</div><div class="operator">(</div><div class="ident">true</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>just print the version w/o any checks</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">main</div><div class="operator">.</div><div class="ident">PrintVersion</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

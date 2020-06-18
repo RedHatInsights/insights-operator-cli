@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ioc.go</title>
+<meta charset="utf-8"/>
+<style type="text/css">body {
+    background: rgb(225, 225, 225);
+    margin: 0px;
+    padding: 0px;
+}
+
+#docgo p {
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 15px;
+    margin-left: 0px;
+}
+
+#docgo div {
+    display: inline;
+}
+
+#docgo #background {
+    position: fixed;
+    top: 0; left: 525px; right: 0; bottom: 0;
+    background: rgb(47, 47, 47);
+    border-left: 1px solid #e5e5ee;
+    z-index: -1;
+}
+
+#docgo .keyword {
+    color: rgb(250, 200, 100);
+}
+
+#docgo .literal {
+    color: rgb(140, 190, 100);
+}
+
+#docgo .ident {
+    color: white;
+}
+
+#docgo .operator {
+    color: white;
+}
+
+#docgo .comment {
+}
+
+#docgo h1, h2, h3, h4, h5 {
+    text-align: left;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 15px;
+    margin-left: 0px;
+}
+
+#docgo h1 {
+    margin-top: 40px;
+}
+
+#docgo .doc {
+    vertical-align: top;
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
+    font-size: 15px;
+    line-height: 22px;
+    color: black;
+    min-width: 450px;
+    max-width: 450px;
+    padding-top: 10px;
+    padding-right: 25px;
+    padding-bottom: 1px;
+    padding-left: 50px;
+    overflow-x: hidden;
+}
+
+#docgo .code {
+    min-width: 650px;
+    max-width: 650px;
+    padding-left: 25px;
+    padding-right: 15px;
+    border-left: 1px;
+    overflow-x: hidden;
+    vertical-align: top;
+}
+
+#docgo .code pre code  {
+    font-size: 12px;
+    line-height: 18px;
+    font-family: Menlo, Monaco, Consolas, "Lucida Console", monospace;
+    color: rgb(120, 120, 120);
+}
+</style>
+</head>
+<body>
+<div id="docgo">
+  <div id="background"></div>
+  <table>
+    <thead><tr><th class="doc"><h1>ioc.go</h1></th><th class="code"></th></tr></thead>
+    <tbody>
+      
+      <tr class="section">
+	<td class="doc"></td>
+	<td class="code"><pre><code><div class="comment">/*
+Copyright © 2019, 2020 Red Hat, Inc.
+
+Licensed under the Apache License, Version 2.0 (the &#34;License&#34;);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &#34;AS IS&#34; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/</div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>Implementation of command-line client for the insights operator
+instrumentation service.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">package</div> <div class="ident">main</div><div class="operator"></div>
+
+<div class="keyword">import</div> <div class="operator">(</div>
+	<div class="literal">&#34;bufio&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;flag&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;fmt&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;github.com/c-bata/go-prompt&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;github.com/logrusorgru/aurora&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;github.com/redhatinsighs/insights-operator-cli/commands&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;github.com/redhatinsighs/insights-operator-cli/restapi&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;github.com/spf13/viper&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;golang.org/x/crypto/ssh/terminal&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;os&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;strings&#34;</div><div class="operator"></div>
+<div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>BuildVersion contains the major.minor version of the CLI client</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">var</div> <div class="ident">BuildVersion</div> <div class="ident">string</div> <div class="operator">=</div> <div class="literal">&#34;*not set*&#34;</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>BuildTime contains timestamp when the CLI client has been built</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">var</div> <div class="ident">BuildTime</div> <div class="ident">string</div> <div class="operator">=</div> <div class="literal">&#34;*not set*&#34;</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>Configuration represent insights operator CLI configuration</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">type</div> <div class="ident">Configuration</div> <div class="keyword">struct</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>enable or disable asking for confirmation for selected actions
+(like all delete commands)</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">askForConfirmation</div> <div class="operator">*</div><div class="ident">bool</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>enable colors usage on CLI interface</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">colors</div> <div class="operator">*</div><div class="ident">bool</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>enable or disable Tab-completion</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">useCompleter</div> <div class="operator">*</div><div class="ident">bool</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>configuration represents current CLI configuration</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">var</div> <div class="ident">configuration</div> <div class="ident">Configuration</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>username used to access REST API</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">var</div> <div class="ident">username</div> <div class="ident">string</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>password used to access REST API</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">var</div> <div class="ident">password</div> <div class="ident">string</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>api represents instance of REST API</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">var</div> <div class="ident">api</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">API</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>colorizer represents implementation of interface used to provide (display)
+color output on terminal</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">var</div> <div class="ident">colorizer</div> <div class="ident">aurora</div><div class="operator">.</div><div class="ident">Aurora</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>tryToLogin tries to login to service via REST API</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">tryToLogin</div><div class="operator">(</div><div class="ident">username</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">password</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Blue</div><div class="operator">(</div><div class="literal">&#34;\nDone&#34;</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>printVersion displays version of Insights operator CLI client</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">printVersion</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Blue</div><div class="operator">(</div><div class="literal">&#34;Insights operator CLI client &#34;</div><div class="operator">)</div><div class="operator">,</div>
+		<div class="literal">&#34;version&#34;</div><div class="operator">,</div> <div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Yellow</div><div class="operator">(</div><div class="ident">BuildVersion</div><div class="operator">)</div><div class="operator">,</div> <div class="literal">&#34;compiled&#34;</div><div class="operator">,</div>
+		<div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Yellow</div><div class="operator">(</div><div class="ident">BuildTime</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>login prompts for username and password and then tries to login to the
+service via REST API</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">login</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">username</div> <div class="operator">=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="literal">&#34;login: &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">LoginCompleter</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Print</div><div class="operator">(</div><div class="literal">&#34;password: &#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">p</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">terminal</div><div class="operator">.</div><div class="ident">ReadPassword</div><div class="operator">(</div><div class="literal">0</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="literal">&#34;Password is not set&#34;</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div> <div class="keyword">else</div> <div class="operator">{</div>
+		<div class="ident">password</div> <div class="operator">=</div> <div class="ident">string</div><div class="operator">(</div><div class="ident">p</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">tryToLogin</div><div class="operator">(</div><div class="ident">username</div><div class="operator">,</div> <div class="ident">password</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>commandWithParam represents any commands than needs to be followed by
+parameter</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">type</div> <div class="ident">commandWithParam</div> <div class="keyword">struct</div> <div class="operator">{</div>
+	<div class="ident">prefix</div>  <div class="ident">string</div><div class="operator"></div>
+	<div class="ident">handler</div> <div class="keyword">func</div><div class="operator">(</div><div class="ident">restapi</div><div class="operator">.</div><div class="ident">API</div><div class="operator">,</div> <div class="ident">string</div><div class="operator">)</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>commandsWithParam is a list of all supported commands with parameters</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">var</div> <div class="ident">commandsWithParam</div> <div class="operator">=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">commandWithParam</div><div class="operator">{</div>
+	<div class="operator">{</div><div class="literal">&#34;describe profile &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">DescribeProfile</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;describe configuration &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">DescribeConfiguration</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;describe trigger &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">DescribeTrigger</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;enable configuration &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">EnableClusterConfiguration</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;disable configuration &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">DisableClusterConfiguration</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;list configurations &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">ListOfConfigurations</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;delete cluster &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteClusterNoConfirm</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;delete profile &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteConfigurationProfileNoConfirm</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;delete configuration &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteClusterConfiguration</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;delete trigger &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteTrigger</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;activate must-gather &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">ActivateTrigger</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;activate trigger &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">ActivateTrigger</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;deactivate must-gather &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">DeactivateTrigger</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;deactivate trigger &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">DeactivateTrigger</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;add cluster &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">AddCluster</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;new cluster &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">AddCluster</div><div class="operator">}</div><div class="operator">,</div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>executor tries to call the command specified on command line</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">executor</div><div class="operator">(</div><div class="ident">t</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">blocks</div> <div class="operator">:=</div> <div class="ident">strings</div><div class="operator">.</div><div class="ident">Split</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="literal">&#34; &#34;</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>commands with variable parts</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">for</div> <div class="ident">_</div><div class="operator">,</div> <div class="ident">command</div> <div class="operator">:=</div> <div class="keyword">range</div> <div class="ident">commandsWithParam</div> <div class="operator">{</div>
+		<div class="keyword">if</div> <div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">command</div><div class="operator">.</div><div class="ident">prefix</div><div class="operator">)</div> <div class="operator">{</div>
+			<div class="ident">command</div><div class="operator">.</div><div class="ident">handler</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">blocks</div><div class="operator">[</div><div class="literal">2</div><div class="operator">]</div><div class="operator">)</div><div class="operator"></div>
+			<div class="keyword">return</div><div class="operator"></div>
+		<div class="operator">}</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>no match? try commands without variable parts</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">executeFixedCommand</div><div class="operator">(</div><div class="ident">t</div><div class="operator">)</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>simpleCommand represents any command without parameter</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">type</div> <div class="ident">simpleCommand</div> <div class="keyword">struct</div> <div class="operator">{</div>
+	<div class="ident">prefix</div>  <div class="ident">string</div><div class="operator"></div>
+	<div class="ident">handler</div> <div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>simpleCommands is a list of all supported commands without parameters</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">var</div> <div class="ident">simpleCommands</div> <div class="operator">=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">simpleCommand</div><div class="operator">{</div>
+	<div class="operator">{</div><div class="literal">&#34;login&#34;</div><div class="operator">,</div> <div class="ident">login</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;bye&#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">Quit</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;exit&#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">Quit</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;quit&#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">Quit</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;?&#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">PrintHelp</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;help&#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">PrintHelp</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;version&#34;</div><div class="operator">,</div> <div class="ident">printVersion</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;license&#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">PrintLicense</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;authors&#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">PrintAuthors</div><div class="operator">}</div><div class="operator">,</div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>commandsWithAPIParam represents any command with REST API parameter</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">type</div> <div class="ident">commandWithAPIParam</div> <div class="keyword">struct</div> <div class="operator">{</div>
+	<div class="ident">prefix</div>  <div class="ident">string</div><div class="operator"></div>
+	<div class="ident">handler</div> <div class="keyword">func</div><div class="operator">(</div><div class="ident">restapi</div><div class="operator">.</div><div class="ident">API</div><div class="operator">)</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>commandsWithAPIParam is a list of all supported commands with REST API
+parameter</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">var</div> <div class="ident">commandsWithAPIParam</div> <div class="operator">=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">commandWithAPIParam</div><div class="operator">{</div>
+	<div class="operator">{</div><div class="literal">&#34;list must-gather&#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">ListOfTriggers</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;list triggers&#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">ListOfTriggers</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;list clusters&#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">ListOfClusters</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">{</div><div class="literal">&#34;list profiles&#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">ListOfProfiles</div><div class="operator">}</div><div class="operator">,</div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>configurationPrompt function displays input prompt for configuration file
+(with completer)</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">configurationPrompt</div><div class="operator">(</div><div class="operator">)</div> <div class="ident">string</div> <div class="operator">{</div>
+	<div class="keyword">return</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="literal">&#34;configuration: &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">LoginCompleter</div><div class="operator">)</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>triggerPrompt function displays input prompt for trigger configuration file
+(with completer)</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">triggerPrompt</div><div class="operator">(</div><div class="operator">)</div> <div class="ident">string</div> <div class="operator">{</div>
+	<div class="keyword">return</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="literal">&#34;trigger: &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">LoginCompleter</div><div class="operator">)</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>executeFixedCommand tries to execute command stored in argument</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">executeFixedCommand</div><div class="operator">(</div><div class="ident">t</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>simple commands without parameters</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">for</div> <div class="ident">_</div><div class="operator">,</div> <div class="ident">command</div> <div class="operator">:=</div> <div class="keyword">range</div> <div class="ident">simpleCommands</div> <div class="operator">{</div>
+		<div class="keyword">if</div> <div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">command</div><div class="operator">.</div><div class="ident">prefix</div><div class="operator">)</div> <div class="operator">{</div>
+			<div class="ident">command</div><div class="operator">.</div><div class="ident">handler</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+			<div class="keyword">return</div><div class="operator"></div>
+		<div class="operator">}</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>fixed commands with API as param</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">for</div> <div class="ident">_</div><div class="operator">,</div> <div class="ident">command</div> <div class="operator">:=</div> <div class="keyword">range</div> <div class="ident">commandsWithAPIParam</div> <div class="operator">{</div>
+		<div class="keyword">if</div> <div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">command</div><div class="operator">.</div><div class="ident">prefix</div><div class="operator">)</div> <div class="operator">{</div>
+			<div class="ident">command</div><div class="operator">.</div><div class="ident">handler</div><div class="operator">(</div><div class="ident">api</div><div class="operator">)</div><div class="operator"></div>
+			<div class="keyword">return</div><div class="operator"></div>
+		<div class="operator">}</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>other commands, usually ones constructed from two words</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">switch</div> <div class="ident">t</div> <div class="operator">{</div>
+	<div class="keyword">case</div> <div class="literal">&#34;list configurations&#34;</div><div class="operator">:</div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">ListOfConfigurations</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="literal">&#34;&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;add cluster&#34;</div><div class="operator">:</div>
+		<div class="ident">clusterName</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="literal">&#34;clusterName: &#34;</div><div class="operator">,</div>
+			<div class="ident">commands</div><div class="operator">.</div><div class="ident">LoginCompleter</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">AddCluster</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">clusterName</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;add profile&#34;</div><div class="operator">:</div>
+		<div class="keyword">fallthrough</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;new profile&#34;</div><div class="operator">:</div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">AddConfigurationProfile</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">username</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;add configuration&#34;</div><div class="operator">:</div>
+		<div class="keyword">fallthrough</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;new configuration&#34;</div><div class="operator">:</div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">AddClusterConfiguration</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">username</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;request must-gather&#34;</div><div class="operator">:</div>
+		<div class="keyword">fallthrough</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;add trigger&#34;</div><div class="operator">:</div>
+		<div class="keyword">fallthrough</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;new trigger&#34;</div><div class="operator">:</div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">AddTrigger</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">username</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;describe profile&#34;</div><div class="operator">:</div>
+		<div class="ident">profile</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="literal">&#34;profile: &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">LoginCompleter</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DescribeProfile</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">profile</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;describe configuration&#34;</div><div class="operator">:</div>
+		<div class="ident">configuration</div> <div class="operator">:=</div> <div class="ident">configurationPrompt</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DescribeConfiguration</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">configuration</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;describe must-gather&#34;</div><div class="operator">:</div>
+		<div class="keyword">fallthrough</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;describe trigger&#34;</div><div class="operator">:</div>
+		<div class="ident">trigger</div> <div class="operator">:=</div> <div class="ident">triggerPrompt</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DescribeTrigger</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">trigger</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;enable configuration&#34;</div><div class="operator">:</div>
+		<div class="ident">configuration</div> <div class="operator">:=</div> <div class="ident">configurationPrompt</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">EnableClusterConfiguration</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">configuration</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;disable configuration&#34;</div><div class="operator">:</div>
+		<div class="ident">configuration</div> <div class="operator">:=</div> <div class="ident">configurationPrompt</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DisableClusterConfiguration</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">configuration</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;delete cluster&#34;</div><div class="operator">:</div>
+		<div class="ident">cluster</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="literal">&#34;cluster to delete: &#34;</div><div class="operator">,</div>
+			<div class="ident">commands</div><div class="operator">.</div><div class="ident">LoginCompleter</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteCluster</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">cluster</div><div class="operator">,</div>
+			<div class="operator">*</div><div class="ident">configuration</div><div class="operator">.</div><div class="ident">askForConfirmation</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;delete configuration&#34;</div><div class="operator">:</div>
+		<div class="ident">configuration</div> <div class="operator">:=</div> <div class="ident">configurationPrompt</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteClusterConfiguration</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">configuration</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;delete profile&#34;</div><div class="operator">:</div>
+		<div class="ident">profile</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="literal">&#34;profile: &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">LoginCompleter</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteConfigurationProfile</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">profile</div><div class="operator">,</div>
+			<div class="operator">*</div><div class="ident">configuration</div><div class="operator">.</div><div class="ident">askForConfirmation</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;delete trigger&#34;</div><div class="operator">:</div>
+		<div class="ident">trigger</div> <div class="operator">:=</div> <div class="ident">triggerPrompt</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteTrigger</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">trigger</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;activate must-gather&#34;</div><div class="operator">:</div>
+		<div class="keyword">fallthrough</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;activate trigger&#34;</div><div class="operator">:</div>
+		<div class="ident">trigger</div> <div class="operator">:=</div> <div class="ident">triggerPrompt</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">ActivateTrigger</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">trigger</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;deactivate must-gather&#34;</div><div class="operator">:</div>
+		<div class="keyword">fallthrough</div><div class="operator"></div>
+	<div class="keyword">case</div> <div class="literal">&#34;deactivate trigger&#34;</div><div class="operator">:</div>
+		<div class="ident">trigger</div> <div class="operator">:=</div> <div class="ident">triggerPrompt</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DeactivateTrigger</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">trigger</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">default</div><div class="operator">:</div>
+		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="literal">&#34;Command not found&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>completer function is called by Aurora to autocomplete command typed by user
+on command line.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">completer</div><div class="operator">(</div><div class="ident">in</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Document</div><div class="operator">)</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>suggestions for the first word for all commands</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">firstWord</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div><div class="operator">{</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;login&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;provide login info&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;help&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;show help with all commands&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;exit&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;quit the application&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;quit&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;quit the application&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;bye&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;quit the application&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;list&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;list resources (clusters, profiles, configurations, triggers)&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;describe&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;describe the selected resource&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;request&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;request selected operation to be performed&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;add&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;add resource (cluster, profile, configuration, trigger)&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;new&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;alias for add&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;delete&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;delete resource (configuration, trigger)&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;enable&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;enable selected cluster profile&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;disable&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;disable selected cluster profile&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;activate&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;activate resource (trigger)&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;deactivate&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;deactivate resource (trigger)&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;version&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;prints the build information for CLI executable&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;copyright&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;displays copyright notice&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;license&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;displays license used by this project&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;authors&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;displays list of authors&#34;</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>map with autocompletion for commands consisting from two words</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">secondWord</div> <div class="operator">:=</div> <div class="ident">make</div><div class="operator">(</div><div class="keyword">map</div><div class="operator">[</div><div class="ident">string</div><div class="operator">]</div><div class="operator">[</div><div class="operator">]</div><div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>list operations</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">secondWord</div><div class="operator">[</div><div class="literal">&#34;list&#34;</div><div class="operator">]</div> <div class="operator">=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div><div class="operator">{</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;clusters&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;show list of all clusters available&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;profiles&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;show list of all configuration profiles&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;configurations&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;show list all cluster configurations&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;must-gather&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;show list all must-gathers&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;triggers&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;show list with all must-gather triggers&#34;</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>add operations</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">secondWord</div><div class="operator">[</div><div class="literal">&#34;add&#34;</div><div class="operator">]</div> <div class="operator">=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div><div class="operator">{</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;cluster&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;add/register new cluster&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;profile&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;add new configuration profile&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;configuration&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;add new cluster configuration&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;trigger&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;add new must-gather trigger&#34;</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>new operations (aliases for add)</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">secondWord</div><div class="operator">[</div><div class="literal">&#34;new&#34;</div><div class="operator">]</div> <div class="operator">=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div><div class="operator">{</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;cluster&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;add/register new cluster&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;profile&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;add new configuration profile&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;configuration&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;add new cluster configuration&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;trigger&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;add new must-gather trigger&#34;</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>request operations</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">secondWord</div><div class="operator">[</div><div class="literal">&#34;request&#34;</div><div class="operator">]</div> <div class="operator">=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div><div class="operator">{</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;must-gather&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;request must-gather&#34;</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>enable operations</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">secondWord</div><div class="operator">[</div><div class="literal">&#34;enable&#34;</div><div class="operator">]</div> <div class="operator">=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div><div class="operator">{</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;configuration&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;enable cluster configuration&#34;</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>disable operations</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">secondWord</div><div class="operator">[</div><div class="literal">&#34;disable&#34;</div><div class="operator">]</div> <div class="operator">=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div><div class="operator">{</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;configuration&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;disable cluster configuration&#34;</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>delete operations</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">secondWord</div><div class="operator">[</div><div class="literal">&#34;delete&#34;</div><div class="operator">]</div> <div class="operator">=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div><div class="operator">{</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;cluster&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;delete cluster and its configuration&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;profile&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;delete configuration profile&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;configuration&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;delete cluster configuration&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;trigger&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;delete trigger&#34;</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>descripbe operations</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">secondWord</div><div class="operator">[</div><div class="literal">&#34;describe&#34;</div><div class="operator">]</div> <div class="operator">=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div><div class="operator">{</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;profile&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;describe selected configuration profile&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;configuration&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;describe configuration for selected cluster&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;trigger&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;describe selected must-gather trigger&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;must-gather&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;describe selected must-gather trigger&#34;</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>activate operations</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">secondWord</div><div class="operator">[</div><div class="literal">&#34;activate&#34;</div><div class="operator">]</div> <div class="operator">=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div><div class="operator">{</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;trigger&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;activate selected must-gather trigger&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;must-gather&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;activate selected must-gather&#34;</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>deactivate operations</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">secondWord</div><div class="operator">[</div><div class="literal">&#34;deactivate&#34;</div><div class="operator">]</div> <div class="operator">=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div><div class="operator">{</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;trigger&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;deactivate selected must-gather trigger&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;must-gather&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;deactivate selected must-gather&#34;</div><div class="operator">}</div><div class="operator">,</div>
+	<div class="operator">}</div><div class="operator"></div>
+
+	<div class="ident">emptySuggest</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+	<div class="ident">blocks</div> <div class="operator">:=</div> <div class="ident">strings</div><div class="operator">.</div><div class="ident">Split</div><div class="operator">(</div><div class="ident">in</div><div class="operator">.</div><div class="ident">TextBeforeCursor</div><div class="operator">(</div><div class="operator">)</div><div class="operator">,</div> <div class="literal">&#34; &#34;</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>handle commands with two words or one word + parameter</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="ident">len</div><div class="operator">(</div><div class="ident">blocks</div><div class="operator">)</div> <div class="operator">==</div> <div class="literal">2</div> <div class="operator">{</div>
+		<div class="ident">sec</div><div class="operator">,</div> <div class="ident">ok</div> <div class="operator">:=</div> <div class="ident">secondWord</div><div class="operator">[</div><div class="ident">blocks</div><div class="operator">[</div><div class="literal">0</div><div class="operator">]</div><div class="operator">]</div><div class="operator"></div>
+		<div class="keyword">if</div> <div class="ident">ok</div> <div class="operator">{</div>
+			<div class="keyword">return</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">FilterHasPrefix</div><div class="operator">(</div><div class="ident">sec</div><div class="operator">,</div> <div class="ident">blocks</div><div class="operator">[</div><div class="literal">1</div><div class="operator">]</div><div class="operator">,</div> <div class="ident">true</div><div class="operator">)</div><div class="operator"></div>
+		<div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>second word is not known</p>
+</td>
+	<td class="code"><pre><code>		<div class="keyword">return</div> <div class="ident">emptySuggest</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">in</div><div class="operator">.</div><div class="ident">GetWordBeforeCursor</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">==</div> <div class="literal">&#34;&#34;</div> <div class="operator">{</div>
+		<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>commands consisting of just one word</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">FilterHasPrefix</div><div class="operator">(</div><div class="ident">firstWord</div><div class="operator">,</div> <div class="ident">blocks</div><div class="operator">[</div><div class="literal">0</div><div class="operator">]</div><div class="operator">,</div> <div class="ident">true</div><div class="operator">)</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>readConfiguration function reads configuration from configuration file and
+via CLI flags.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">readConfiguration</div><div class="operator">(</div><div class="ident">filename</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">(</div><div class="ident">Configuration</div><div class="operator">,</div> <div class="ident">error</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="keyword">var</div> <div class="ident">config</div> <div class="ident">Configuration</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>read configuration first</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">viper</div><div class="operator">.</div><div class="ident">SetConfigName</div><div class="operator">(</div><div class="ident">filename</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">viper</div><div class="operator">.</div><div class="ident">AddConfigPath</div><div class="operator">(</div><div class="literal">&#34;.&#34;</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>try to read configuration and check for possible errors</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">err</div> <div class="operator">:=</div> <div class="ident">viper</div><div class="operator">.</div><div class="ident">ReadInConfig</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="keyword">return</div> <div class="ident">config</div><div class="operator">,</div> <div class="ident">err</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>parse command line arguments and flags</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">config</div><div class="operator">.</div><div class="ident">colors</div> <div class="operator">=</div> <div class="ident">flag</div><div class="operator">.</div><div class="ident">Bool</div><div class="operator">(</div><div class="literal">&#34;colors&#34;</div><div class="operator">,</div> <div class="ident">true</div><div class="operator">,</div> <div class="literal">&#34;enable or disable colors&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">config</div><div class="operator">.</div><div class="ident">useCompleter</div> <div class="operator">=</div> <div class="ident">flag</div><div class="operator">.</div><div class="ident">Bool</div><div class="operator">(</div><div class="literal">&#34;completer&#34;</div><div class="operator">,</div> <div class="ident">true</div><div class="operator">,</div>
+		<div class="literal">&#34;enable or disable command line completer&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">config</div><div class="operator">.</div><div class="ident">askForConfirmation</div> <div class="operator">=</div> <div class="ident">flag</div><div class="operator">.</div><div class="ident">Bool</div><div class="operator">(</div><div class="literal">&#34;confirmation&#34;</div><div class="operator">,</div> <div class="ident">true</div><div class="operator">,</div>
+		<div class="literal">&#34;enable or disable asking for confirmation for selected actions (like delete)&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">flag</div><div class="operator">.</div><div class="ident">Parse</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+
+	<div class="keyword">return</div> <div class="ident">config</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>main function represents entry point to CLI client called right after the
+process is started.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">main</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>read configuration</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configuration</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">readConfiguration</div><div class="operator">(</div><div class="literal">&#34;config&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">panic</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>initialize colorizers</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">colorizer</div> <div class="operator">=</div> <div class="ident">aurora</div><div class="operator">.</div><div class="ident">NewAurora</div><div class="operator">(</div><div class="operator">*</div><div class="ident">configuration</div><div class="operator">.</div><div class="ident">colors</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">commands</div><div class="operator">.</div><div class="ident">SetColorizer</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>initialize REST API connection to service</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">controllerURL</div> <div class="operator">:=</div> <div class="ident">viper</div><div class="operator">.</div><div class="ident">GetString</div><div class="operator">(</div><div class="literal">&#34;CONTROLLER_URL&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">api</div> <div class="operator">=</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">NewRestAPI</div><div class="operator">(</div><div class="ident">controllerURL</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>start the command line</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">*</div><div class="ident">configuration</div><div class="operator">.</div><div class="ident">useCompleter</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>command line prompt with autocompleter</p>
+</td>
+	<td class="code"><pre><code>		<div class="ident">p</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="ident">executor</div><div class="operator">,</div> <div class="ident">completer</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">p</div><div class="operator">.</div><div class="ident">Run</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div> <div class="keyword">else</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>command line prompt without autocompleter</p>
+</td>
+	<td class="code"><pre><code>		<div class="ident">scanner</div> <div class="operator">:=</div> <div class="ident">bufio</div><div class="operator">.</div><div class="ident">NewScanner</div><div class="operator">(</div><div class="ident">os</div><div class="operator">.</div><div class="ident">Stdin</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Print</div><div class="operator">(</div><div class="literal">&#34;&gt; &#34;</div><div class="operator">)</div><div class="operator"></div>
+		<div class="keyword">for</div> <div class="ident">scanner</div><div class="operator">.</div><div class="ident">Scan</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+			<div class="ident">line</div> <div class="operator">:=</div> <div class="ident">scanner</div><div class="operator">.</div><div class="ident">Text</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+			<div class="ident">executor</div><div class="operator">(</div><div class="ident">line</div><div class="operator">)</div><div class="operator"></div>
+			<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Print</div><div class="operator">(</div><div class="literal">&#34;&gt; &#34;</div><div class="operator">)</div><div class="operator"></div>
+		<div class="operator">}</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
