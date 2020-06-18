@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>utils_test.go</title>
+<meta charset="utf-8"/>
+<style type="text/css">body {
+    background: rgb(225, 225, 225);
+    margin: 0px;
+    padding: 0px;
+}
+
+#docgo p {
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 15px;
+    margin-left: 0px;
+}
+
+#docgo div {
+    display: inline;
+}
+
+#docgo #background {
+    position: fixed;
+    top: 0; left: 525px; right: 0; bottom: 0;
+    background: rgb(47, 47, 47);
+    border-left: 1px solid #e5e5ee;
+    z-index: -1;
+}
+
+#docgo .keyword {
+    color: rgb(250, 200, 100);
+}
+
+#docgo .literal {
+    color: rgb(140, 190, 100);
+}
+
+#docgo .ident {
+    color: white;
+}
+
+#docgo .operator {
+    color: white;
+}
+
+#docgo .comment {
+}
+
+#docgo h1, h2, h3, h4, h5 {
+    text-align: left;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 15px;
+    margin-left: 0px;
+}
+
+#docgo h1 {
+    margin-top: 40px;
+}
+
+#docgo .doc {
+    vertical-align: top;
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, FreeSerif, serif;
+    font-size: 15px;
+    line-height: 22px;
+    color: black;
+    min-width: 450px;
+    max-width: 450px;
+    padding-top: 10px;
+    padding-right: 25px;
+    padding-bottom: 1px;
+    padding-left: 50px;
+    overflow-x: hidden;
+}
+
+#docgo .code {
+    min-width: 650px;
+    max-width: 650px;
+    padding-left: 25px;
+    padding-right: 15px;
+    border-left: 1px;
+    overflow-x: hidden;
+    vertical-align: top;
+}
+
+#docgo .code pre code  {
+    font-size: 12px;
+    line-height: 18px;
+    font-family: Menlo, Monaco, Consolas, "Lucida Console", monospace;
+    color: rgb(120, 120, 120);
+}
+</style>
+</head>
+<body>
+<div id="docgo">
+  <div id="background"></div>
+  <table>
+    <thead><tr><th class="doc"><h1>utils_test.go</h1></th><th class="code"></th></tr></thead>
+    <tbody>
+      
+      <tr class="section">
+	<td class="doc"></td>
+	<td class="code"><pre><code><div class="comment">/*
+Copyright © 2019, 2020 Red Hat, Inc.
+
+Licensed under the Apache License, Version 2.0 (the &#34;License&#34;);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &#34;AS IS&#34; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/</div>
+
+<div class="keyword">package</div> <div class="ident">restapi_test</div><div class="operator"></div>
+
+<div class="keyword">import</div> <div class="operator">(</div>
+	<div class="literal">&#34;bytes&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;github.com/redhatinsighs/insights-operator-cli/restapi&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;net/http&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;net/http/httptest&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;strings&#34;</div><div class="operator"></div>
+	<div class="literal">&#34;testing&#34;</div><div class="operator"></div>
+<div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>mockedHttpServer prepares new instance of testing HTTP server</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">mockedHttpServer</div><div class="operator">(</div><div class="ident">handler</div> <div class="keyword">func</div><div class="operator">(</div><div class="ident">responseWriter</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">ResponseWriter</div><div class="operator">,</div> <div class="ident">request</div> <div class="operator">*</div><div class="ident">http</div><div class="operator">.</div><div class="ident">Request</div><div class="operator">)</div><div class="operator">)</div> <div class="operator">*</div><div class="ident">httptest</div><div class="operator">.</div><div class="ident">Server</div> <div class="operator">{</div>
+	<div class="keyword">return</div> <div class="ident">httptest</div><div class="operator">.</div><div class="ident">NewServer</div><div class="operator">(</div><div class="ident">http</div><div class="operator">.</div><div class="ident">HandlerFunc</div><div class="operator">(</div><div class="ident">handler</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestPerformReadRequestProperResponse check if body of response can be
+processed correctly by performReadRequest function.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestPerformReadRequestProperResponse</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>start a local HTTP server</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">server</div> <div class="operator">:=</div> <div class="ident">mockedHttpServer</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="ident">responseWriter</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">ResponseWriter</div><div class="operator">,</div> <div class="ident">request</div> <div class="operator">*</div><div class="ident">http</div><div class="operator">.</div><div class="ident">Request</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>send response to be tested later</p>
+</td>
+	<td class="code"><pre><code>		<div class="ident">_</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">responseWriter</div><div class="operator">.</div><div class="ident">Write</div><div class="operator">(</div><div class="operator">[</div><div class="operator">]</div><div class="ident">byte</div><div class="operator">(</div><div class="literal">`OK`</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+		<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+			<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+		<div class="operator">}</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>close the server when test finishes</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">defer</div> <div class="ident">server</div><div class="operator">.</div><div class="ident">Close</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>try to read response from the server</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">body</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">PerformReadRequest</div><div class="operator">(</div><div class="ident">server</div><div class="operator">.</div><div class="ident">URL</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unable to perform request&#34;</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check for proper body</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">bytes</div><div class="operator">.</div><div class="ident">Equal</div><div class="operator">(</div><div class="ident">body</div><div class="operator">,</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">byte</div><div class="operator">(</div><div class="literal">`OK`</div><div class="operator">)</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Improper response body&#34;</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestPerformReadRequestStatusCode check how response can be processed by
+performReadRequest function.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestPerformReadRequestStatusCode</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>start a local HTTP server</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">server</div> <div class="operator">:=</div> <div class="ident">mockedHttpServer</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="ident">responseWriter</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">ResponseWriter</div><div class="operator">,</div> <div class="ident">request</div> <div class="operator">*</div><div class="ident">http</div><div class="operator">.</div><div class="ident">Request</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>send response to be tested later</p>
+</td>
+	<td class="code"><pre><code>		<div class="ident">responseWriter</div><div class="operator">.</div><div class="ident">WriteHeader</div><div class="operator">(</div><div class="ident">http</div><div class="operator">.</div><div class="ident">StatusInternalServerError</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">_</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">responseWriter</div><div class="operator">.</div><div class="ident">Write</div><div class="operator">(</div><div class="operator">[</div><div class="operator">]</div><div class="ident">byte</div><div class="operator">(</div><div class="literal">`error`</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+		<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+			<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+		<div class="operator">}</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>close the server when test finishes</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">defer</div> <div class="ident">server</div><div class="operator">.</div><div class="ident">Close</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>try to read response from the server</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">body</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">PerformReadRequest</div><div class="operator">(</div><div class="ident">server</div><div class="operator">.</div><div class="ident">URL</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">==</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Error is expected&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>body needs to be nil in case of any error</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="ident">body</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Body needs to be nil in case of any error&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestPerformReadRequestEmptyBody check how response can be processed by
+performReadRequest function.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestPerformReadRequestEmptyBody</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>start a local HTTP server</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">server</div> <div class="operator">:=</div> <div class="ident">mockedHttpServer</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="ident">responseWriter</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">ResponseWriter</div><div class="operator">,</div> <div class="ident">request</div> <div class="operator">*</div><div class="ident">http</div><div class="operator">.</div><div class="ident">Request</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>send response to be tested later</p>
+</td>
+	<td class="code"><pre><code>		<div class="ident">responseWriter</div><div class="operator">.</div><div class="ident">WriteHeader</div><div class="operator">(</div><div class="ident">http</div><div class="operator">.</div><div class="ident">StatusOK</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>close the server when test finishes</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">defer</div> <div class="ident">server</div><div class="operator">.</div><div class="ident">Close</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>try to read response from the server</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">body</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">PerformReadRequest</div><div class="operator">(</div><div class="ident">server</div><div class="operator">.</div><div class="ident">URL</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unable to perform request&#34;</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check for proper body - it needs to be empty this time</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="ident">len</div><div class="operator">(</div><div class="ident">body</div><div class="operator">)</div> <div class="operator">&gt;</div> <div class="literal">0</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Improper response body&#34;</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestPerformReadRequestErrorInCommunication check how response can be
+processed by performReadRequest function.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestPerformReadRequestErrorInCommunication</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>try to read response from the server, but by using improper URL</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">body</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">PerformReadRequest</div><div class="operator">(</div><div class="literal">&#34;&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">==</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Error is expected&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>body needs to be nil in case of any error</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="ident">body</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Body needs to be nil in case of any error&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestPerformReadRequestInvalidHTTPResponse check how response can be
+processed by performReadRequest function.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestPerformReadRequestInvalidHTTPResponse</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>try to read response from the server, but from invalid HTTP response</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">server</div> <div class="operator">:=</div> <div class="ident">mockedHttpServer</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="ident">responseWriter</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">ResponseWriter</div><div class="operator">,</div> <div class="ident">request</div> <div class="operator">*</div><div class="ident">http</div><div class="operator">.</div><div class="ident">Request</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>this is a trick described there:
+https://stackoverflow.com/questions/53171123/how-to-force-error-on-reading-response-body</p>
+</td>
+	<td class="code"><pre><code>		<div class="ident">responseWriter</div><div class="operator">.</div><div class="ident">Header</div><div class="operator">(</div><div class="operator">)</div><div class="operator">.</div><div class="ident">Set</div><div class="operator">(</div><div class="literal">&#34;Content-Length&#34;</div><div class="operator">,</div> <div class="literal">&#34;1&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">body</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">PerformReadRequest</div><div class="operator">(</div><div class="ident">server</div><div class="operator">.</div><div class="ident">URL</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">==</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Error is expected&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>body needs to be nil in case of any error</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="ident">body</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Body needs to be nil in case of any error&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestPerformWriteRequestProperResponse check the behaviour of function
+performWriteRequest</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestPerformWriteRequestProperResponse</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>start a local HTTP server</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">server</div> <div class="operator">:=</div> <div class="ident">mockedHttpServer</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="ident">responseWriter</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">ResponseWriter</div><div class="operator">,</div> <div class="ident">request</div> <div class="operator">*</div><div class="ident">http</div><div class="operator">.</div><div class="ident">Request</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>send response to be tested later</p>
+</td>
+	<td class="code"><pre><code>		<div class="ident">_</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">responseWriter</div><div class="operator">.</div><div class="ident">Write</div><div class="operator">(</div><div class="operator">[</div><div class="operator">]</div><div class="ident">byte</div><div class="operator">(</div><div class="literal">`{&#34;status&#34;:&#34;ok&#34;}`</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+		<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+			<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+		<div class="operator">}</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>close the server when test finishes</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">defer</div> <div class="ident">server</div><div class="operator">.</div><div class="ident">Close</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>try to read response from the server</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">err</div> <div class="operator">:=</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">PerformWriteRequest</div><div class="operator">(</div><div class="ident">server</div><div class="operator">.</div><div class="ident">URL</div><div class="operator">,</div> <div class="literal">&#34;POST&#34;</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unable to perform request&#34;</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestPerformWriteRequestErrorResponse check the behaviour of function
+performWriteRequest</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestPerformWriteRequestErrorResponse</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>start a local HTTP server</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">server</div> <div class="operator">:=</div> <div class="ident">mockedHttpServer</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="ident">responseWriter</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">ResponseWriter</div><div class="operator">,</div> <div class="ident">request</div> <div class="operator">*</div><div class="ident">http</div><div class="operator">.</div><div class="ident">Request</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>send response to be tested later</p>
+</td>
+	<td class="code"><pre><code>		<div class="ident">_</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">responseWriter</div><div class="operator">.</div><div class="ident">Write</div><div class="operator">(</div><div class="operator">[</div><div class="operator">]</div><div class="ident">byte</div><div class="operator">(</div><div class="literal">`{&#34;status&#34;:&#34;error&#34;}`</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+		<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+			<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+		<div class="operator">}</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>close the server when test finishes</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">defer</div> <div class="ident">server</div><div class="operator">.</div><div class="ident">Close</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>try to read response from the server</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">err</div> <div class="operator">:=</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">PerformWriteRequest</div><div class="operator">(</div><div class="ident">server</div><div class="operator">.</div><div class="ident">URL</div><div class="operator">,</div> <div class="literal">&#34;POST&#34;</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">==</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Error should be reported&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestPerformWriteRequestImproperStatusCode check the behaviour of function
+performWriteRequest</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestPerformWriteRequestImproperStatusCode</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>start a local HTTP server</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">server</div> <div class="operator">:=</div> <div class="ident">mockedHttpServer</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="ident">responseWriter</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">ResponseWriter</div><div class="operator">,</div> <div class="ident">request</div> <div class="operator">*</div><div class="ident">http</div><div class="operator">.</div><div class="ident">Request</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>send response to be tested later</p>
+</td>
+	<td class="code"><pre><code>		<div class="ident">responseWriter</div><div class="operator">.</div><div class="ident">WriteHeader</div><div class="operator">(</div><div class="ident">http</div><div class="operator">.</div><div class="ident">StatusInternalServerError</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">_</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">responseWriter</div><div class="operator">.</div><div class="ident">Write</div><div class="operator">(</div><div class="operator">[</div><div class="operator">]</div><div class="ident">byte</div><div class="operator">(</div><div class="literal">`{&#34;status&#34;:&#34;ok&#34;}`</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+		<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+			<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+		<div class="operator">}</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>close the server when test finishes</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">defer</div> <div class="ident">server</div><div class="operator">.</div><div class="ident">Close</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>try to read response from the server</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">err</div> <div class="operator">:=</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">PerformWriteRequest</div><div class="operator">(</div><div class="ident">server</div><div class="operator">.</div><div class="ident">URL</div><div class="operator">,</div> <div class="literal">&#34;POST&#34;</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">==</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Error should be reported&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">err</div><div class="operator">.</div><div class="ident">Error</div><div class="operator">(</div><div class="operator">)</div><div class="operator">,</div> <div class="literal">&#34;Expected HTTP status 200 OK, 201 Created or 202 Accepted&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected error message:&#34;</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">.</div><div class="ident">Error</div><div class="operator">(</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestPerformWriteRequestEmptyBody check the behaviour of function
+performWriteRequest</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestPerformWriteRequesttEmptyBody</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>start a local HTTP server</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">server</div> <div class="operator">:=</div> <div class="ident">mockedHttpServer</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="ident">responseWriter</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">ResponseWriter</div><div class="operator">,</div> <div class="ident">request</div> <div class="operator">*</div><div class="ident">http</div><div class="operator">.</div><div class="ident">Request</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>send empty response to be tested later</p>
+</td>
+	<td class="code"><pre><code>	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>close the server when test finishes</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">defer</div> <div class="ident">server</div><div class="operator">.</div><div class="ident">Close</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>try to read response from the server</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">err</div> <div class="operator">:=</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">PerformWriteRequest</div><div class="operator">(</div><div class="ident">server</div><div class="operator">.</div><div class="ident">URL</div><div class="operator">,</div> <div class="literal">&#34;POST&#34;</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">==</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Error should be reported&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestPerformWriteRequestErrorInCommunication check how response can be
+processed by performWriteRequest function.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestPerformWriteRequestErrorInCommunication</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">err</div> <div class="operator">:=</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">PerformWriteRequest</div><div class="operator">(</div><div class="literal">&#34;&#34;</div><div class="operator">,</div> <div class="literal">&#34;POST&#34;</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">==</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Error is expected&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">err</div><div class="operator">.</div><div class="ident">Error</div><div class="operator">(</div><div class="operator">)</div><div class="operator">,</div> <div class="literal">&#34;Communication error with the server&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected error message:&#34;</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">.</div><div class="ident">Error</div><div class="operator">(</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestPerformWriteRequestInvalidMethod check how response can be processed by
+performWriteRequest function.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestPerformWriteRequestInvalidMethod</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">err</div> <div class="operator">:=</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">PerformWriteRequest</div><div class="operator">(</div><div class="literal">&#34;&#34;</div><div class="operator">,</div> <div class="literal">&#34;\t&#34;</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">==</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Error is expected&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">err</div><div class="operator">.</div><div class="ident">Error</div><div class="operator">(</div><div class="operator">)</div><div class="operator">,</div> <div class="literal">&#34;Error creating request net/http&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected error message:&#34;</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">.</div><div class="ident">Error</div><div class="operator">(</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestPerformWriteRequestInvalidHTTPResponse check how response can be
+processed by performWriteRequest function.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestPerformWriteRequestInvalidHTTPResponse</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>try to read response from the server, but from invalid HTTP response</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">server</div> <div class="operator">:=</div> <div class="ident">mockedHttpServer</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="ident">responseWriter</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">ResponseWriter</div><div class="operator">,</div> <div class="ident">request</div> <div class="operator">*</div><div class="ident">http</div><div class="operator">.</div><div class="ident">Request</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>this is a trick described there:
+https://stackoverflow.com/questions/53171123/how-to-force-error-on-reading-response-body</p>
+</td>
+	<td class="code"><pre><code>		<div class="ident">responseWriter</div><div class="operator">.</div><div class="ident">Header</div><div class="operator">(</div><div class="operator">)</div><div class="operator">.</div><div class="ident">Set</div><div class="operator">(</div><div class="literal">&#34;Content-Length&#34;</div><div class="operator">,</div> <div class="literal">&#34;1&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">err</div> <div class="operator">:=</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">PerformWriteRequest</div><div class="operator">(</div><div class="ident">server</div><div class="operator">.</div><div class="ident">URL</div><div class="operator">,</div> <div class="literal">&#34;POST&#34;</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">==</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Error is expected&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestParseResponseOkStatus check the behaviour of function parseResponse</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestParseResponseOkStatus</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">body</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">byte</div><div class="operator">(</div><div class="literal">`{&#34;status&#34;:&#34;ok&#34;}`</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">err</div> <div class="operator">:=</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">ParseResponse</div><div class="operator">(</div><div class="ident">body</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestParseResponseErrorStatus check the behaviour of function parseResponse</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestParseResponseErrorStatus</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">body</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">byte</div><div class="operator">(</div><div class="literal">`{&#34;status&#34;:&#34;error&#34;}`</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">err</div> <div class="operator">:=</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">ParseResponse</div><div class="operator">(</div><div class="ident">body</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">==</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Error report is expected&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div><div class="operator">.</div><div class="ident">Error</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">!=</div> <div class="literal">&#34;Error response: error&#34;</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Invalid error response:&#34;</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TestParseResponseImproperJSON check the behaviour of function parseResponse</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestParseResponseImproperJSON</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
+	<div class="ident">body</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">byte</div><div class="operator">(</div><div class="literal">`this is not JSON`</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">err</div> <div class="operator">:=</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">ParseResponse</div><div class="operator">(</div><div class="ident">body</div><div class="operator">)</div><div class="operator"></div>
+	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">==</div> <div class="ident">nil</div> <div class="operator">{</div>
+		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Error report is expected&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="operator">}</div><div class="operator"></div>
+<div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
