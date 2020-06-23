@@ -1,6 +1,7 @@
 # Command-line client for managing Insights operator
 
 [![GoDoc](https://godoc.org/github.com/RedHatInsights/insights-operator-cli?status.svg)](https://godoc.org/github.com/RedHatInsights/insights-operator-cli)
+[![GitHub Pages](https://img.shields.io/badge/%20-GitHub%20Pages-informational)](https://redhatinsights.github.io/insights-operator-cli/)
 [![Go Report Card](https://goreportcard.com/badge/github.com/RedHatInsights/insights-operator-cli)](https://goreportcard.com/report/github.com/RedHatInsights/insights-operator-cli)
 [![Build Status](https://travis-ci.org/RedHatInsights/insights-operator-cli.svg?branch=master)](https://travis-ci.org/RedHatInsights/insights-operator-cli)
 [![codecov](https://codecov.io/gh/RedHatInsights/insights-operator-cli/branch/master/graph/badge.svg)](https://codecov.io/gh/RedHatInsights/insights-operator-cli)
