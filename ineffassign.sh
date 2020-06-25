@@ -20,7 +20,12 @@ NC=$(tput sgr0) # No Color
 
 echo -e "${BLUE}Detecting ineffectual assignments in Go code${NC}"
 
-GO111MODULE=off go get github.com/gordonklaus/ineffassign
+if ! [ -x "$(command -v ineffassign)" ]
+then
+    echo -e "${BLUE}Installing ineffassign${NC}"
+    GO111MODULE=off go get github.com/gordonklaus/ineffassign
+fi
+
 
 if ! ineffassign .
 then

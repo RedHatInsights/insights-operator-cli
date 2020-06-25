@@ -20,7 +20,11 @@ RED_BG=$(tput setab 1)
 GREEN_BG=$(tput setab 2)
 NC=$(tput sgr0) # No Color
 
-go get -u github.com/droptheplot/abcgo
+if ! [ -x "$(command -v abcgo)" ]
+then
+    echo -e "${BLUE}Installing abcgo${NC}"
+    GO111MODULE=off go get -u github.com/droptheplot/abcgo
+fi
 
 echo -e "${BLUE}ABC metric${NC}"
 abcgo -path .

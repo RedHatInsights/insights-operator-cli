@@ -21,7 +21,12 @@ NC=$(tput sgr0) # No Color
 
 echo -e "${BLUE}Finding all unchecked errors${NC}"
 
-GO111MODULE=off go get github.com/kisielk/errcheck
+if ! [ -x "$(command -v errcheck)" ]
+then
+    echo -e "${BLUE}Installing errcheck ${NC}"
+    GO111MODULE=off go get github.com/kisielk/errcheck
+fi
+
 
 if ! errcheck ./...
 then

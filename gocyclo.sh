@@ -21,7 +21,11 @@ NC=$(tput sgr0) # No Color
 echo -e "${BLUE}Finding functions and methods with high cyclomatic complexity${NC}"
 
 
-GO111MODULE=off go get github.com/fzipp/gocyclo
+if ! [ -x "$(command -v gocyclo)" ]
+then
+    echo -e "${BLUE}Installing gocyclo${NC}"
+    GO111MODULE=off go get github.com/fzipp/gocyclo
+fi
 
 if ! gocyclo -over 29 -avg .
 then
