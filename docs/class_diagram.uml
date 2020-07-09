@@ -1,0 +1,157 @@
+@startuml
+namespace main {
+    class Configuration << (S,Aquamarine) >> {
+        - askForConfirmation *bool
+        - colors *bool
+        - useCompleter *bool
+
+    }
+    class commandWithAPIParam << (S,Aquamarine) >> {
+        - prefix string
+        - handler <font color=blue>func</font>(restapi.API) 
+
+    }
+    class commandWithParam << (S,Aquamarine) >> {
+        - prefix string
+        - handler <font color=blue>func</font>(restapi.API, string) 
+
+    }
+    class simpleCommand << (S,Aquamarine) >> {
+        - prefix string
+        - handler <font color=blue>func</font>() 
+
+    }
+}
+
+
+namespace restapi {
+    interface API  {
+        + ReadListOfClusters() ([]types.Cluster, error)
+        + AddCluster(name string) error
+        + DeleteCluster(clusterID string) error
+        + ReadListOfConfigurationProfiles() ([]types.ConfigurationProfile, error)
+        + ReadConfigurationProfile(profileID string) (*types.ConfigurationProfile, error)
+        + AddConfigurationProfile(username string, description string, configuration []byte) error
+        + DeleteConfigurationProfile(profileID string) error
+        + ReadListOfConfigurations() ([]types.ClusterConfiguration, error)
+        + ReadClusterConfigurationByID(configurationID string) (*string, error)
+        + AddClusterConfiguration(username string, cluster string, reason string, description string, configuration []byte) error
+        + EnableClusterConfiguration(configurationID string) error
+        + DisableClusterConfiguration(configurationID string) error
+        + DeleteClusterConfiguration(configurationID string) error
+        + ReadListOfTriggers() ([]types.Trigger, error)
+        + ReadTriggerByID(triggerID string) (*types.Trigger, error)
+        + AddTrigger(username string, clusterName string, reason string, link string) error
+        + DeleteTrigger(triggerID string) error
+        + ActivateTrigger(triggerID string) error
+        + DeactivateTrigger(triggerID string) error
+
+    }
+    class RestAPI << (S,Aquamarine) >> {
+        - controllerURL string
+
+        + ReadListOfClusters() ([]types.Cluster, error)
+        + ReadListOfTriggers() ([]types.Trigger, error)
+        + ReadTriggerByID(triggerID string) (*types.Trigger, error)
+        + ReadListOfConfigurationProfiles() ([]types.ConfigurationProfile, error)
+        + ReadListOfConfigurations() ([]types.ClusterConfiguration, error)
+        + ReadConfigurationProfile(profileID string) (*types.ConfigurationProfile, error)
+        + ReadClusterConfigurationByID(configurationID string) (*string, error)
+        + EnableClusterConfiguration(configurationID string) error
+        + DisableClusterConfiguration(configurationID string) error
+        + DeleteClusterConfiguration(configurationID string) error
+        + DeleteCluster(clusterID string) error
+        + DeleteConfigurationProfile(profileID string) error
+        + AddCluster(name string) error
+        + AddConfigurationProfile(username string, description string, configuration []byte) error
+        + AddClusterConfiguration(username string, cluster string, reason string, description string, configuration []byte) error
+        + AddTrigger(username string, clusterName string, reason string, link string) error
+        + DeleteTrigger(triggerID string) error
+        + ActivateTrigger(triggerID string) error
+        + DeactivateTrigger(triggerID string) error
+
+    }
+}
+
+"restapi.API" <|-- "restapi.RestAPI"
+
+namespace types {
+    class Cluster << (S,Aquamarine) >> {
+        + ID int
+        + Name string
+
+    }
+    class ClusterConfiguration << (S,Aquamarine) >> {
+        + ID int
+        + Cluster string
+        + Configuration string
+        + ChangedAt string
+        + ChangedBy string
+        + Active string
+        + Reason string
+
+    }
+    class ClusterConfigurationsResponse << (S,Aquamarine) >> {
+        + Status string
+        + Configurations []ClusterConfiguration
+
+    }
+    class ClustersResponse << (S,Aquamarine) >> {
+        + Status string
+        + Clusters []Cluster
+
+    }
+    class ConfigurationProfile << (S,Aquamarine) >> {
+        + ID int
+        + Configuration string
+        + ChangedAt string
+        + ChangedBy string
+        + Description string
+
+    }
+    class ConfigurationProfileResponse << (S,Aquamarine) >> {
+        + Status string
+        + Profile ConfigurationProfile
+
+    }
+    class ConfigurationProfilesResponse << (S,Aquamarine) >> {
+        + Status string
+        + Profiles []ConfigurationProfile
+
+    }
+    class ConfigurationResponse << (S,Aquamarine) >> {
+        + Status string
+        + Configuration string
+
+    }
+    class Response << (S,Aquamarine) >> {
+        + Status string
+
+    }
+    class Trigger << (S,Aquamarine) >> {
+        + ID int
+        + Type string
+        + Cluster string
+        + Reason string
+        + Link string
+        + TriggeredAt string
+        + TriggeredBy string
+        + AckedAt string
+        + Parameters string
+        + Active int
+
+    }
+    class TriggerResponse << (S,Aquamarine) >> {
+        + Status string
+        + Trigger Trigger
+
+    }
+    class TriggersResponse << (S,Aquamarine) >> {
+        + Status string
+        + Triggers []Trigger
+
+    }
+}
+
+
+@enduml
