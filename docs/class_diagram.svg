@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="954px" preserveAspectRatio="none" style="width:2027px;height:954px;" version="1.1" viewBox="0 0 2027 954" width="2027px" zoomAndPan="magnify">
+  <defs>
+    <filter height="300%" id="f1ceqab1hlmkv6" width="300%" x="-1" y="-1">
+      <feGaussianBlur result="blurOut" stdDeviation="2.0"/>
+      <feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/>
+      <feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/>
+      <feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/>
+    </filter>
+  </defs>
+  <g>
+    <!--MD5=[a70b0d373322012744ecc119c63f921b]
+cluster main-->
+    <polygon fill="#FFFFFF" filter="url(#f1ceqab1hlmkv6)" points="14,118.5,59,118.5,66,140.7969,413,140.7969,413,591,14,591,14,118.5" style="stroke: #000000; stroke-width: 1.5;"/>
+    <line style="stroke: #000000; stroke-width: 1.5;" x1="14" x2="66" y1="140.7969" y2="140.7969"/>
+    <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="39" x="18" y="133.4951">main</text>
+    <!--MD5=[282cc9a80380503feb70bb251cefa274]
+cluster restapi-->
+    <polygon fill="#FFFFFF" filter="url(#f1ceqab1hlmkv6)" points="1301,16,1363,16,1370,38.2969,2005,38.2969,2005,706,1301,706,1301,16" style="stroke: #000000; stroke-width: 1.5;"/>
+    <line style="stroke: #000000; stroke-width: 1.5;" x1="1301" x2="1370" y1="38.2969" y2="38.2969"/>
+    <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="56" x="1305" y="30.9951">restapi</text>
+    <!--MD5=[67cd15ce44b6dd54f77054b62c31bf42]
+cluster types-->
+    <polygon fill="#FFFFFF" filter="url(#f1ceqab1hlmkv6)" points="423,92.5,473,92.5,480,114.7969,1282,114.7969,1282,942,423,942,423,92.5" style="stroke: #000000; stroke-width: 1.5;"/>
+    <line style="stroke: #000000; stroke-width: 1.5;" x1="423" x2="480" y1="114.7969" y2="114.7969"/>
+    <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="44" x="427" y="107.4951">types</text>
+    <!--MD5=[aec58f9466af3527059fdc88120d053b]
+class main.Configuration-->
+    <rect fill="#FEFECE" filter="url(#f1ceqab1hlmkv6)" height="86.4141" id="main.Configuration" style="stroke: #A80036; stroke-width: 1.5;" width="170" x="22" y="145.5"/>
+    <ellipse cx="62.65" cy="161.5" fill="#7FFFD4" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/>
+    <path d="M61.8844,162.0625 Q60.025,161.3594 59.3766,160.5859 Q58.7281,159.8125 58.7281,158.5 Q58.7281,156.8125 59.8063,155.8438 Q60.8844,154.875 62.7594,154.875 Q63.6188,154.875 64.4703,155.0703 Q65.3219,155.2656 66.1656,155.6563 L66.1656,158.0469 Q65.3844,157.4844 64.5641,157.1953 Q63.7438,156.9063 62.9469,156.9063 Q62.0719,156.9063 61.5953,157.2656 Q61.1188,157.625 61.1188,158.2813 Q61.1188,158.7969 61.4625,159.1328 Q61.8063,159.4688 62.9,159.875 L63.9625,160.2813 Q65.4469,160.8281 66.1578,161.7344 Q66.8688,162.6406 66.8688,164.0156 Q66.8688,165.8906 65.7594,166.8125 Q64.65,167.7344 62.4,167.7344 Q61.4781,167.7344 60.5563,167.5156 Q59.6344,167.2969 58.775,166.875 L58.775,164.3438 Q59.7438,165.0313 60.6656,165.375 Q61.5875,165.7188 62.4781,165.7188 Q63.3844,165.7188 63.8844,165.3047 Q64.3844,164.8906 64.3844,164.1563 Q64.3844,163.5938 64.0484,163.1797 Q63.7125,162.7656 63.0875,162.5156 L61.8844,162.0625 Z "/>
+    <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="81" x="82.35" y="165.6543">Configuration</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="23" x2="191" y1="177.5" y2="177.5"/>
+    <rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="30" y="185.5"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="144" x="42" y="191.7104">askForConfirmation *bool</text>
+    <rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="30" y="198.3047"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="68" x="42" y="204.5151">colors *bool</text>
+    <rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="30" y="211.1094"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="113" x="42" y="217.3198">useCompleter *bool</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="23" x2="191" y1="223.9141" y2="223.9141"/>
+    <!--MD5=[29ce3555fdf470971c821bb258e5a554]
+class main.commandWithAPIParam-->
+    <rect fill="#FEFECE" filter="url(#f1ceqab1hlmkv6)" height="73.6094" id="main.commandWithAPIParam" style="stroke: #A80036; stroke-width: 1.5;" width="178" x="227" y="151.5"/>
+    <ellipse cx="242" cy="167.5" fill="#7FFFD4" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/>
+    <path d="M241.2344,168.0625 Q239.375,167.3594 238.7266,166.5859 Q238.0781,165.8125 238.0781,164.5 Q238.0781,162.8125 239.1563,161.8438 Q240.2344,160.875 242.1094,160.875 Q242.9688,160.875 243.8203,161.0703 Q244.6719,161.2656 245.5156,161.6563 L245.5156,164.0469 Q244.7344,163.4844 243.9141,163.1953 Q243.0938,162.9063 242.2969,162.9063 Q241.4219,162.9063 240.9453,163.2656 Q240.4688,163.625 240.4688,164.2813 Q240.4688,164.7969 240.8125,165.1328 Q241.1563,165.4688 242.25,165.875 L243.3125,166.2813 Q244.7969,166.8281 245.5078,167.7344 Q246.2188,168.6406 246.2188,170.0156 Q246.2188,171.8906 245.1094,172.8125 Q244,173.7344 241.75,173.7344 Q240.8281,173.7344 239.9063,173.5156 Q238.9844,173.2969 238.125,172.875 L238.125,170.3438 Q239.0938,171.0313 240.0156,171.375 Q240.9375,171.7188 241.8281,171.7188 Q242.7344,171.7188 243.2344,171.3047 Q243.7344,170.8906 243.7344,170.1563 Q243.7344,169.5938 243.3984,169.1797 Q243.0625,168.7656 242.4375,168.5156 L241.2344,168.0625 Z "/>
+    <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="146" x="256" y="171.6543">commandWithAPIParam</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="228" x2="404" y1="183.5" y2="183.5"/>
+    <rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="235" y="191.5"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="69" x="247" y="197.7104">prefix string</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="228" x2="404" y1="204.3047" y2="204.3047"/>
+    <rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="235" y="212.3047"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="43" x="247" y="218.5151">handler</text>
+    <text fill="#0000FF" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="24" x="294" y="218.5151">func</text>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="69" x="318" y="218.5151">(restapi.API)</text>
+    <!--MD5=[3fd9009939506deb042661c8d3ffbe45]
+class main.commandWithParam-->
+    <rect fill="#FEFECE" filter="url(#f1ceqab1hlmkv6)" height="73.6094" id="main.commandWithParam" style="stroke: #A80036; stroke-width: 1.5;" width="206" x="22" y="509"/>
+    <ellipse cx="58.15" cy="525" fill="#7FFFD4" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/>
+    <path d="M57.3844,525.5625 Q55.525,524.8594 54.8766,524.0859 Q54.2281,523.3125 54.2281,522 Q54.2281,520.3125 55.3063,519.3438 Q56.3844,518.375 58.2594,518.375 Q59.1188,518.375 59.9703,518.5703 Q60.8219,518.7656 61.6656,519.1563 L61.6656,521.5469 Q60.8844,520.9844 60.0641,520.6953 Q59.2438,520.4063 58.4469,520.4063 Q57.5719,520.4063 57.0953,520.7656 Q56.6188,521.125 56.6188,521.7813 Q56.6188,522.2969 56.9625,522.6328 Q57.3063,522.9688 58.4,523.375 L59.4625,523.7813 Q60.9469,524.3281 61.6578,525.2344 Q62.3688,526.1406 62.3688,527.5156 Q62.3688,529.3906 61.2594,530.3125 Q60.15,531.2344 57.9,531.2344 Q56.9781,531.2344 56.0563,531.0156 Q55.1344,530.7969 54.275,530.375 L54.275,527.8438 Q55.2438,528.5313 56.1656,528.875 Q57.0875,529.2188 57.9781,529.2188 Q58.8844,529.2188 59.3844,528.8047 Q59.8844,528.3906 59.8844,527.6563 Q59.8844,527.0938 59.5484,526.6797 Q59.2125,526.2656 58.5875,526.0156 L57.3844,525.5625 Z "/>
+    <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="127" x="76.85" y="529.1543">commandWithParam</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="23" x2="227" y1="541" y2="541"/>
+    <rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="30" y="549"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="69" x="42" y="555.2104">prefix string</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="23" x2="227" y1="561.8047" y2="561.8047"/>
+    <rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="30" y="569.8047"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="43" x="42" y="576.0151">handler</text>
+    <text fill="#0000FF" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="24" x="89" y="576.0151">func</text>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="109" x="113" y="576.0151">(restapi.API, string)</text>
+    <!--MD5=[3a843b65cab97716f8810b0e6ba3580f]
+class main.simpleCommand-->
+    <rect fill="#FEFECE" filter="url(#f1ceqab1hlmkv6)" height="73.6094" id="main.simpleCommand" style="stroke: #A80036; stroke-width: 1.5;" width="133" x="263.5" y="509"/>
+    <ellipse cx="278.5" cy="525" fill="#7FFFD4" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/>
+    <path d="M277.7344,525.5625 Q275.875,524.8594 275.2266,524.0859 Q274.5781,523.3125 274.5781,522 Q274.5781,520.3125 275.6563,519.3438 Q276.7344,518.375 278.6094,518.375 Q279.4688,518.375 280.3203,518.5703 Q281.1719,518.7656 282.0156,519.1563 L282.0156,521.5469 Q281.2344,520.9844 280.4141,520.6953 Q279.5938,520.4063 278.7969,520.4063 Q277.9219,520.4063 277.4453,520.7656 Q276.9688,521.125 276.9688,521.7813 Q276.9688,522.2969 277.3125,522.6328 Q277.6563,522.9688 278.75,523.375 L279.8125,523.7813 Q281.2969,524.3281 282.0078,525.2344 Q282.7188,526.1406 282.7188,527.5156 Q282.7188,529.3906 281.6094,530.3125 Q280.5,531.2344 278.25,531.2344 Q277.3281,531.2344 276.4063,531.0156 Q275.4844,530.7969 274.625,530.375 L274.625,527.8438 Q275.5938,528.5313 276.5156,528.875 Q277.4375,529.2188 278.3281,529.2188 Q279.2344,529.2188 279.7344,528.8047 Q280.2344,528.3906 280.2344,527.6563 Q280.2344,527.0938 279.8984,526.6797 Q279.5625,526.2656 278.9375,526.0156 L277.7344,525.5625 Z "/>
+    <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="101" x="292.5" y="529.1543">simpleCommand</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="264.5" x2="395.5" y1="541" y2="541"/>
+    <rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="271.5" y="549"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="69" x="283.5" y="555.2104">prefix string</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="264.5" x2="395.5" y1="561.8047" y2="561.8047"/>
+    <rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="271.5" y="569.8047"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="43" x="283.5" y="576.0151">handler</text>
+    <text fill="#0000FF" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="24" x="330.5" y="576.0151">func</text>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="8" x="354.5" y="576.0151">()</text>
+    <!--MD5=[8f6bcdc7f3fa01217cbaf95d0733f25c]
+class restapi.API-->
+    <rect fill="#FEFECE" filter="url(#f1ceqab1hlmkv6)" height="291.2891" id="restapi.API" style="stroke: #A80036; stroke-width: 1.5;" width="688" x="1309" y="43"/>
+    <ellipse cx="1639.25" cy="59" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/>
+    <path d="M1635.6719,54.7656 L1635.6719,52.6094 L1643.0625,52.6094 L1643.0625,54.7656 L1640.5938,54.7656 L1640.5938,62.8438 L1643.0625,62.8438 L1643.0625,65 L1635.6719,65 L1635.6719,62.8438 L1638.1406,62.8438 L1638.1406,54.7656 L1635.6719,54.7656 Z "/>
+    <text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="19" x="1659.75" y="63.1543">API</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="1310" x2="1996" y1="75" y2="75"/>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="1310" x2="1996" y1="83" y2="83"/>
+    <ellipse cx="1320" cy="94" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="247" x="1329" y="97.2104">ReadListOfClusters() ([]types.Cluster, error)</text>
+    <ellipse cx="1320" cy="106.8047" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="171" x="1329" y="110.0151">AddCluster(name string) error</text>
+    <ellipse cx="1320" cy="119.6094" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="202" x="1329" y="122.8198">DeleteCluster(clusterID string) error</text>
+    <ellipse cx="1320" cy="132.4141" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="391" x="1329" y="135.6245">ReadListOfConfigurationProfiles() ([]types.ConfigurationProfile, error)</text>
+    <ellipse cx="1320" cy="145.2188" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="434" x="1329" y="148.4292">ReadConfigurationProfile(profileID string) (*types.ConfigurationProfile, error)</text>
+    <ellipse cx="1320" cy="158.0234" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="493" x="1329" y="161.2339">AddConfigurationProfile(username string, description string, configuration []byte) error</text>
+    <ellipse cx="1320" cy="170.8281" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="272" x="1329" y="174.0386">DeleteConfigurationProfile(profileID string) error</text>
+    <ellipse cx="1320" cy="183.6328" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="359" x="1329" y="186.8433">ReadListOfConfigurations() ([]types.ClusterConfiguration, error)</text>
+    <ellipse cx="1320" cy="196.4375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="387" x="1329" y="199.6479">ReadClusterConfigurationByID(configurationID string) (*string, error)</text>
+    <ellipse cx="1320" cy="209.2422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="662" x="1329" y="212.4526">AddClusterConfiguration(username string, cluster string, reason string, description string, configuration []byte) error</text>
+    <ellipse cx="1320" cy="222.0469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="316" x="1329" y="225.2573">EnableClusterConfiguration(configurationID string) error</text>
+    <ellipse cx="1320" cy="234.8516" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="319" x="1329" y="238.062">DisableClusterConfiguration(configurationID string) error</text>
+    <ellipse cx="1320" cy="247.6563" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="314" x="1329" y="250.8667">DeleteClusterConfiguration(configurationID string) error</text>
+    <ellipse cx="1320" cy="260.4609" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="249" x="1329" y="263.6714">ReadListOfTriggers() ([]types.Trigger, error)</text>
+    <ellipse cx="1320" cy="273.2656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="320" x="1329" y="276.4761">ReadTriggerByID(triggerID string) (*types.Trigger, error)</text>
+    <ellipse cx="1320" cy="286.0703" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="458" x="1329" y="289.2808">AddTrigger(username string, clusterName string, reason string, link string) error</text>
+    <ellipse cx="1320" cy="298.875" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="203" x="1329" y="302.0854">DeleteTrigger(triggerID string) error</text>
+    <ellipse cx="1320" cy="311.6797" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="213" x="1329" y="314.8901">ActivateTrigger(triggerID string) error</text>
+    <ellipse cx="1320" cy="324.4844" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="227" x="1329" y="327.6948">DeactivateTrigger(triggerID string) error</text>
+    <!--MD5=[7fb50232175d3bcb729e3304080862cd]
+class restapi.RestAPI-->
+    <rect fill="#FEFECE" filter="url(#f1ceqab1hlmkv6)" height="304.0938" id="restapi.RestAPI" style="stroke: #A80036; stroke-width: 1.5;" width="688" x="1309" y="394"/>
+    <ellipse cx="1626.25" cy="410" fill="#7FFFD4" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/>
+    <path d="M1625.4844,410.5625 Q1623.625,409.8594 1622.9766,409.0859 Q1622.3281,408.3125 1622.3281,407 Q1622.3281,405.3125 1623.4063,404.3438 Q1624.4844,403.375 1626.3594,403.375 Q1627.2188,403.375 1628.0703,403.5703 Q1628.9219,403.7656 1629.7656,404.1563 L1629.7656,406.5469 Q1628.9844,405.9844 1628.1641,405.6953 Q1627.3438,405.4063 1626.5469,405.4063 Q1625.6719,405.4063 1625.1953,405.7656 Q1624.7188,406.125 1624.7188,406.7813 Q1624.7188,407.2969 1625.0625,407.6328 Q1625.4063,407.9688 1626.5,408.375 L1627.5625,408.7813 Q1629.0469,409.3281 1629.7578,410.2344 Q1630.4688,411.1406 1630.4688,412.5156 Q1630.4688,414.3906 1629.3594,415.3125 Q1628.25,416.2344 1626,416.2344 Q1625.0781,416.2344 1624.1563,416.0156 Q1623.2344,415.7969 1622.375,415.375 L1622.375,412.8438 Q1623.3438,413.5313 1624.2656,413.875 Q1625.1875,414.2188 1626.0781,414.2188 Q1626.9844,414.2188 1627.4844,413.8047 Q1627.9844,413.3906 1627.9844,412.6563 Q1627.9844,412.0938 1627.6484,411.6797 Q1627.3125,411.2656 1626.6875,411.0156 L1625.4844,410.5625 Z "/>
+    <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="45" x="1646.75" y="414.1543">RestAPI</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="1310" x2="1996" y1="426" y2="426"/>
+    <rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="1317" y="434"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="112" x="1329" y="440.2104">controllerURL string</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="1310" x2="1996" y1="446.8047" y2="446.8047"/>
+    <ellipse cx="1320" cy="457.8047" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="247" x="1329" y="461.0151">ReadListOfClusters() ([]types.Cluster, error)</text>
+    <ellipse cx="1320" cy="470.6094" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="249" x="1329" y="473.8198">ReadListOfTriggers() ([]types.Trigger, error)</text>
+    <ellipse cx="1320" cy="483.4141" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="320" x="1329" y="486.6245">ReadTriggerByID(triggerID string) (*types.Trigger, error)</text>
+    <ellipse cx="1320" cy="496.2188" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="391" x="1329" y="499.4292">ReadListOfConfigurationProfiles() ([]types.ConfigurationProfile, error)</text>
+    <ellipse cx="1320" cy="509.0234" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="359" x="1329" y="512.2339">ReadListOfConfigurations() ([]types.ClusterConfiguration, error)</text>
+    <ellipse cx="1320" cy="521.8281" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="434" x="1329" y="525.0386">ReadConfigurationProfile(profileID string) (*types.ConfigurationProfile, error)</text>
+    <ellipse cx="1320" cy="534.6328" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="387" x="1329" y="537.8433">ReadClusterConfigurationByID(configurationID string) (*string, error)</text>
+    <ellipse cx="1320" cy="547.4375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="316" x="1329" y="550.6479">EnableClusterConfiguration(configurationID string) error</text>
+    <ellipse cx="1320" cy="560.2422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="319" x="1329" y="563.4526">DisableClusterConfiguration(configurationID string) error</text>
+    <ellipse cx="1320" cy="573.0469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="314" x="1329" y="576.2573">DeleteClusterConfiguration(configurationID string) error</text>
+    <ellipse cx="1320" cy="585.8516" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="202" x="1329" y="589.062">DeleteCluster(clusterID string) error</text>
+    <ellipse cx="1320" cy="598.6563" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="272" x="1329" y="601.8667">DeleteConfigurationProfile(profileID string) error</text>
+    <ellipse cx="1320" cy="611.4609" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="171" x="1329" y="614.6714">AddCluster(name string) error</text>
+    <ellipse cx="1320" cy="624.2656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="493" x="1329" y="627.4761">AddConfigurationProfile(username string, description string, configuration []byte) error</text>
+    <ellipse cx="1320" cy="637.0703" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="662" x="1329" y="640.2808">AddClusterConfiguration(username string, cluster string, reason string, description string, configuration []byte) error</text>
+    <ellipse cx="1320" cy="649.875" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="458" x="1329" y="653.0854">AddTrigger(username string, clusterName string, reason string, link string) error</text>
+    <ellipse cx="1320" cy="662.6797" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="203" x="1329" y="665.8901">DeleteTrigger(triggerID string) error</text>
+    <ellipse cx="1320" cy="675.4844" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="213" x="1329" y="678.6948">ActivateTrigger(triggerID string) error</text>
+    <ellipse cx="1320" cy="688.2891" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="227" x="1329" y="691.4995">DeactivateTrigger(triggerID string) error</text>
+    <!--MD5=[b3063ea5ceb5fbbaefd8382b9bfb3bbd]
+class types.Cluster-->
+    <rect fill="#FEFECE" filter="url(#f1ceqab1hlmkv6)" height="73.6094" id="types.Cluster" style="stroke: #A80036; stroke-width: 1.5;" width="95" x="458.5" y="151.5"/>
+    <ellipse cx="482.95" cy="167.5" fill="#7FFFD4" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/>
+    <path d="M482.1844,168.0625 Q480.325,167.3594 479.6766,166.5859 Q479.0281,165.8125 479.0281,164.5 Q479.0281,162.8125 480.1063,161.8438 Q481.1844,160.875 483.0594,160.875 Q483.9188,160.875 484.7703,161.0703 Q485.6219,161.2656 486.4656,161.6563 L486.4656,164.0469 Q485.6844,163.4844 484.8641,163.1953 Q484.0438,162.9063 483.2469,162.9063 Q482.3719,162.9063 481.8953,163.2656 Q481.4188,163.625 481.4188,164.2813 Q481.4188,164.7969 481.7625,165.1328 Q482.1063,165.4688 483.2,165.875 L484.2625,166.2813 Q485.7469,166.8281 486.4578,167.7344 Q487.1688,168.6406 487.1688,170.0156 Q487.1688,171.8906 486.0594,172.8125 Q484.95,173.7344 482.7,173.7344 Q481.7781,173.7344 480.8563,173.5156 Q479.9344,173.2969 479.075,172.875 L479.075,170.3438 Q480.0438,171.0313 480.9656,171.375 Q481.8875,171.7188 482.7781,171.7188 Q483.6844,171.7188 484.1844,171.3047 Q484.6844,170.8906 484.6844,170.1563 Q484.6844,169.5938 484.3484,169.1797 Q484.0125,168.7656 483.3875,168.5156 L482.1844,168.0625 Z "/>
+    <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="42" x="499.05" y="171.6543">Cluster</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="459.5" x2="552.5" y1="183.5" y2="183.5"/>
+    <ellipse cx="469.5" cy="194.5" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="29" x="478.5" y="197.7104">ID int</text>
+    <ellipse cx="469.5" cy="207.3047" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="69" x="478.5" y="210.5151">Name string</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="459.5" x2="552.5" y1="217.1094" y2="217.1094"/>
+    <!--MD5=[ce8448061dd96fc151c72e5e3308baef]
+class types.ClusterConfiguration-->
+    <rect fill="#FEFECE" filter="url(#f1ceqab1hlmkv6)" height="137.6328" id="types.ClusterConfiguration" style="stroke: #A80036; stroke-width: 1.5;" width="155" x="588.5" y="119.5"/>
+    <ellipse cx="603.5" cy="135.5" fill="#7FFFD4" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/>
+    <path d="M602.7344,136.0625 Q600.875,135.3594 600.2266,134.5859 Q599.5781,133.8125 599.5781,132.5 Q599.5781,130.8125 600.6563,129.8438 Q601.7344,128.875 603.6094,128.875 Q604.4688,128.875 605.3203,129.0703 Q606.1719,129.2656 607.0156,129.6563 L607.0156,132.0469 Q606.2344,131.4844 605.4141,131.1953 Q604.5938,130.9063 603.7969,130.9063 Q602.9219,130.9063 602.4453,131.2656 Q601.9688,131.625 601.9688,132.2813 Q601.9688,132.7969 602.3125,133.1328 Q602.6563,133.4688 603.75,133.875 L604.8125,134.2813 Q606.2969,134.8281 607.0078,135.7344 Q607.7188,136.6406 607.7188,138.0156 Q607.7188,139.8906 606.6094,140.8125 Q605.5,141.7344 603.25,141.7344 Q602.3281,141.7344 601.4063,141.5156 Q600.4844,141.2969 599.625,140.875 L599.625,138.3438 Q600.5938,139.0313 601.5156,139.375 Q602.4375,139.7188 603.3281,139.7188 Q604.2344,139.7188 604.7344,139.3047 Q605.2344,138.8906 605.2344,138.1563 Q605.2344,137.5938 604.8984,137.1797 Q604.5625,136.7656 603.9375,136.5156 L602.7344,136.0625 Z "/>
+    <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="123" x="617.5" y="139.6543">ClusterConfiguration</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="589.5" x2="742.5" y1="151.5" y2="151.5"/>
+    <ellipse cx="599.5" cy="162.5" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="29" x="608.5" y="165.7104">ID int</text>
+    <ellipse cx="599.5" cy="175.3047" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="76" x="608.5" y="178.5151">Cluster string</text>
+    <ellipse cx="599.5" cy="188.1094" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="112" x="608.5" y="191.3198">Configuration string</text>
+    <ellipse cx="599.5" cy="200.9141" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="98" x="608.5" y="204.1245">ChangedAt string</text>
+    <ellipse cx="599.5" cy="213.7188" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="101" x="608.5" y="216.9292">ChangedBy string</text>
+    <ellipse cx="599.5" cy="226.5234" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="71" x="608.5" y="229.7339">Active string</text>
+    <ellipse cx="599.5" cy="239.3281" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="78" x="608.5" y="242.5386">Reason string</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="589.5" x2="742.5" y1="249.1328" y2="249.1328"/>
+    <!--MD5=[d25a250b8b0c01a6d8a534b752606d34]
+class types.ClusterConfigurationsResponse-->
+    <rect fill="#FEFECE" filter="url(#f1ceqab1hlmkv6)" height="73.6094" id="types.ClusterConfigurationsResponse" style="stroke: #A80036; stroke-width: 1.5;" width="236" x="779" y="151.5"/>
+    <ellipse cx="802.1" cy="167.5" fill="#7FFFD4" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/>
+    <path d="M801.3344,168.0625 Q799.475,167.3594 798.8266,166.5859 Q798.1781,165.8125 798.1781,164.5 Q798.1781,162.8125 799.2563,161.8438 Q800.3344,160.875 802.2094,160.875 Q803.0688,160.875 803.9203,161.0703 Q804.7719,161.2656 805.6156,161.6563 L805.6156,164.0469 Q804.8344,163.4844 804.0141,163.1953 Q803.1938,162.9063 802.3969,162.9063 Q801.5219,162.9063 801.0453,163.2656 Q800.5688,163.625 800.5688,164.2813 Q800.5688,164.7969 800.9125,165.1328 Q801.2563,165.4688 802.35,165.875 L803.4125,166.2813 Q804.8969,166.8281 805.6078,167.7344 Q806.3188,168.6406 806.3188,170.0156 Q806.3188,171.8906 805.2094,172.8125 Q804.1,173.7344 801.85,173.7344 Q800.9281,173.7344 800.0063,173.5156 Q799.0844,173.2969 798.225,172.875 L798.225,170.3438 Q799.1938,171.0313 800.1156,171.375 Q801.0375,171.7188 801.9281,171.7188 Q802.8344,171.7188 803.3344,171.3047 Q803.8344,170.8906 803.8344,170.1563 Q803.8344,169.5938 803.4984,169.1797 Q803.1625,168.7656 802.5375,168.5156 L801.3344,168.0625 Z "/>
+    <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="186" x="817.9" y="171.6543">ClusterConfigurationsResponse</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="780" x2="1014" y1="183.5" y2="183.5"/>
+    <ellipse cx="790" cy="194.5" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="71" x="799" y="197.7104">Status string</text>
+    <ellipse cx="790" cy="207.3047" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="210" x="799" y="210.5151">Configurations []ClusterConfiguration</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="780" x2="1014" y1="217.1094" y2="217.1094"/>
+    <!--MD5=[eea77ff8b93233bfaa06a66b49d1e29d]
+class types.ClustersResponse-->
+    <rect fill="#FEFECE" filter="url(#f1ceqab1hlmkv6)" height="73.6094" id="types.ClustersResponse" style="stroke: #A80036; stroke-width: 1.5;" width="137" x="1050.5" y="151.5"/>
+    <ellipse cx="1065.5" cy="167.5" fill="#7FFFD4" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/>
+    <path d="M1064.7344,168.0625 Q1062.875,167.3594 1062.2266,166.5859 Q1061.5781,165.8125 1061.5781,164.5 Q1061.5781,162.8125 1062.6563,161.8438 Q1063.7344,160.875 1065.6094,160.875 Q1066.4688,160.875 1067.3203,161.0703 Q1068.1719,161.2656 1069.0156,161.6563 L1069.0156,164.0469 Q1068.2344,163.4844 1067.4141,163.1953 Q1066.5938,162.9063 1065.7969,162.9063 Q1064.9219,162.9063 1064.4453,163.2656 Q1063.9688,163.625 1063.9688,164.2813 Q1063.9688,164.7969 1064.3125,165.1328 Q1064.6563,165.4688 1065.75,165.875 L1066.8125,166.2813 Q1068.2969,166.8281 1069.0078,167.7344 Q1069.7188,168.6406 1069.7188,170.0156 Q1069.7188,171.8906 1068.6094,172.8125 Q1067.5,173.7344 1065.25,173.7344 Q1064.3281,173.7344 1063.4063,173.5156 Q1062.4844,173.2969 1061.625,172.875 L1061.625,170.3438 Q1062.5938,171.0313 1063.5156,171.375 Q1064.4375,171.7188 1065.3281,171.7188 Q1066.2344,171.7188 1066.7344,171.3047 Q1067.2344,170.8906 1067.2344,170.1563 Q1067.2344,169.5938 1066.8984,169.1797 Q1066.5625,168.7656 1065.9375,168.5156 L1064.7344,168.0625 Z "/>
+    <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="105" x="1079.5" y="171.6543">ClustersResponse</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="1051.5" x2="1186.5" y1="183.5" y2="183.5"/>
+    <ellipse cx="1061.5" cy="194.5" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="71" x="1070.5" y="197.7104">Status string</text>
+    <ellipse cx="1061.5" cy="207.3047" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="98" x="1070.5" y="210.5151">Clusters []Cluster</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="1051.5" x2="1186.5" y1="217.1094" y2="217.1094"/>
+    <!--MD5=[824efa16d85b5ed6d2160b6eaefcd753]
+class types.ConfigurationProfile-->
+    <rect fill="#FEFECE" filter="url(#f1ceqab1hlmkv6)" height="112.0234" id="types.ConfigurationProfile" style="stroke: #A80036; stroke-width: 1.5;" width="149" x="431.5" y="490"/>
+    <ellipse cx="446.5" cy="506" fill="#7FFFD4" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/>
+    <path d="M445.7344,506.5625 Q443.875,505.8594 443.2266,505.0859 Q442.5781,504.3125 442.5781,503 Q442.5781,501.3125 443.6563,500.3438 Q444.7344,499.375 446.6094,499.375 Q447.4688,499.375 448.3203,499.5703 Q449.1719,499.7656 450.0156,500.1563 L450.0156,502.5469 Q449.2344,501.9844 448.4141,501.6953 Q447.5938,501.4063 446.7969,501.4063 Q445.9219,501.4063 445.4453,501.7656 Q444.9688,502.125 444.9688,502.7813 Q444.9688,503.2969 445.3125,503.6328 Q445.6563,503.9688 446.75,504.375 L447.8125,504.7813 Q449.2969,505.3281 450.0078,506.2344 Q450.7188,507.1406 450.7188,508.5156 Q450.7188,510.3906 449.6094,511.3125 Q448.5,512.2344 446.25,512.2344 Q445.3281,512.2344 444.4063,512.0156 Q443.4844,511.7969 442.625,511.375 L442.625,508.8438 Q443.5938,509.5313 444.5156,509.875 Q445.4375,510.2188 446.3281,510.2188 Q447.2344,510.2188 447.7344,509.8047 Q448.2344,509.3906 448.2344,508.6563 Q448.2344,508.0938 447.8984,507.6797 Q447.5625,507.2656 446.9375,507.0156 L445.7344,506.5625 Z "/>
+    <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="117" x="460.5" y="510.1543">ConfigurationProfile</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="432.5" x2="579.5" y1="522" y2="522"/>
+    <ellipse cx="442.5" cy="533" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="29" x="451.5" y="536.2104">ID int</text>
+    <ellipse cx="442.5" cy="545.8047" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="112" x="451.5" y="549.0151">Configuration string</text>
+    <ellipse cx="442.5" cy="558.6094" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="98" x="451.5" y="561.8198">ChangedAt string</text>
+    <ellipse cx="442.5" cy="571.4141" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="101" x="451.5" y="574.6245">ChangedBy string</text>
+    <ellipse cx="442.5" cy="584.2188" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="99" x="451.5" y="587.4292">Description string</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="432.5" x2="579.5" y1="594.0234" y2="594.0234"/>
+    <!--MD5=[953db1abc1d2f3117c5ee989fc1eaff2]
+class types.ConfigurationProfileResponse-->
+    <rect fill="#FEFECE" filter="url(#f1ceqab1hlmkv6)" height="73.6094" id="types.ConfigurationProfileResponse" style="stroke: #A80036; stroke-width: 1.5;" width="206" x="616" y="509"/>
+    <ellipse cx="631" cy="525" fill="#7FFFD4" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/>
+    <path d="M630.2344,525.5625 Q628.375,524.8594 627.7266,524.0859 Q627.0781,523.3125 627.0781,522 Q627.0781,520.3125 628.1563,519.3438 Q629.2344,518.375 631.1094,518.375 Q631.9688,518.375 632.8203,518.5703 Q633.6719,518.7656 634.5156,519.1563 L634.5156,521.5469 Q633.7344,520.9844 632.9141,520.6953 Q632.0938,520.4063 631.2969,520.4063 Q630.4219,520.4063 629.9453,520.7656 Q629.4688,521.125 629.4688,521.7813 Q629.4688,522.2969 629.8125,522.6328 Q630.1563,522.9688 631.25,523.375 L632.3125,523.7813 Q633.7969,524.3281 634.5078,525.2344 Q635.2188,526.1406 635.2188,527.5156 Q635.2188,529.3906 634.1094,530.3125 Q633,531.2344 630.75,531.2344 Q629.8281,531.2344 628.9063,531.0156 Q627.9844,530.7969 627.125,530.375 L627.125,527.8438 Q628.0938,528.5313 629.0156,528.875 Q629.9375,529.2188 630.8281,529.2188 Q631.7344,529.2188 632.2344,528.8047 Q632.7344,528.3906 632.7344,527.6563 Q632.7344,527.0938 632.3984,526.6797 Q632.0625,526.2656 631.4375,526.0156 L630.2344,525.5625 Z "/>
+    <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="174" x="645" y="529.1543">ConfigurationProfileResponse</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="617" x2="821" y1="541" y2="541"/>
+    <ellipse cx="627" cy="552" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="71" x="636" y="555.2104">Status string</text>
+    <ellipse cx="627" cy="564.8047" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="152" x="636" y="568.0151">Profile ConfigurationProfile</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="617" x2="821" y1="574.6094" y2="574.6094"/>
+    <!--MD5=[66a921b31c5f6091febdf3e9b67d9aea]
+class types.ConfigurationProfilesResponse-->
+    <rect fill="#FEFECE" filter="url(#f1ceqab1hlmkv6)" height="73.6094" id="types.ConfigurationProfilesResponse" style="stroke: #A80036; stroke-width: 1.5;" width="212" x="857" y="509"/>
+    <ellipse cx="872" cy="525" fill="#7FFFD4" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/>
+    <path d="M871.2344,525.5625 Q869.375,524.8594 868.7266,524.0859 Q868.0781,523.3125 868.0781,522 Q868.0781,520.3125 869.1563,519.3438 Q870.2344,518.375 872.1094,518.375 Q872.9688,518.375 873.8203,518.5703 Q874.6719,518.7656 875.5156,519.1563 L875.5156,521.5469 Q874.7344,520.9844 873.9141,520.6953 Q873.0938,520.4063 872.2969,520.4063 Q871.4219,520.4063 870.9453,520.7656 Q870.4688,521.125 870.4688,521.7813 Q870.4688,522.2969 870.8125,522.6328 Q871.1563,522.9688 872.25,523.375 L873.3125,523.7813 Q874.7969,524.3281 875.5078,525.2344 Q876.2188,526.1406 876.2188,527.5156 Q876.2188,529.3906 875.1094,530.3125 Q874,531.2344 871.75,531.2344 Q870.8281,531.2344 869.9063,531.0156 Q868.9844,530.7969 868.125,530.375 L868.125,527.8438 Q869.0938,528.5313 870.0156,528.875 Q870.9375,529.2188 871.8281,529.2188 Q872.7344,529.2188 873.2344,528.8047 Q873.7344,528.3906 873.7344,527.6563 Q873.7344,527.0938 873.3984,526.6797 Q873.0625,526.2656 872.4375,526.0156 L871.2344,525.5625 Z "/>
+    <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="180" x="886" y="529.1543">ConfigurationProfilesResponse</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="858" x2="1068" y1="541" y2="541"/>
+    <ellipse cx="868" cy="552" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="71" x="877" y="555.2104">Status string</text>
+    <ellipse cx="868" cy="564.8047" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="166" x="877" y="568.0151">Profiles []ConfigurationProfile</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="858" x2="1068" y1="574.6094" y2="574.6094"/>
+    <!--MD5=[c2db8b37ca12da9a3b46bbf4883086a9]
+class types.ConfigurationResponse-->
+    <rect fill="#FEFECE" filter="url(#f1ceqab1hlmkv6)" height="73.6094" id="types.ConfigurationResponse" style="stroke: #A80036; stroke-width: 1.5;" width="170" x="1104" y="509"/>
+    <ellipse cx="1119" cy="525" fill="#7FFFD4" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/>
+    <path d="M1118.2344,525.5625 Q1116.375,524.8594 1115.7266,524.0859 Q1115.0781,523.3125 1115.0781,522 Q1115.0781,520.3125 1116.1563,519.3438 Q1117.2344,518.375 1119.1094,518.375 Q1119.9688,518.375 1120.8203,518.5703 Q1121.6719,518.7656 1122.5156,519.1563 L1122.5156,521.5469 Q1121.7344,520.9844 1120.9141,520.6953 Q1120.0938,520.4063 1119.2969,520.4063 Q1118.4219,520.4063 1117.9453,520.7656 Q1117.4688,521.125 1117.4688,521.7813 Q1117.4688,522.2969 1117.8125,522.6328 Q1118.1563,522.9688 1119.25,523.375 L1120.3125,523.7813 Q1121.7969,524.3281 1122.5078,525.2344 Q1123.2188,526.1406 1123.2188,527.5156 Q1123.2188,529.3906 1122.1094,530.3125 Q1121,531.2344 1118.75,531.2344 Q1117.8281,531.2344 1116.9063,531.0156 Q1115.9844,530.7969 1115.125,530.375 L1115.125,527.8438 Q1116.0938,528.5313 1117.0156,528.875 Q1117.9375,529.2188 1118.8281,529.2188 Q1119.7344,529.2188 1120.2344,528.8047 Q1120.7344,528.3906 1120.7344,527.6563 Q1120.7344,527.0938 1120.3984,526.6797 Q1120.0625,526.2656 1119.4375,526.0156 L1118.2344,525.5625 Z "/>
+    <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="138" x="1133" y="529.1543">ConfigurationResponse</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="1105" x2="1273" y1="541" y2="541"/>
+    <ellipse cx="1115" cy="552" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="71" x="1124" y="555.2104">Status string</text>
+    <ellipse cx="1115" cy="564.8047" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="112" x="1124" y="568.0151">Configuration string</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="1105" x2="1273" y1="574.6094" y2="574.6094"/>
+    <!--MD5=[95edebe26947c87a2415318d4e659964]
+class types.Response-->
+    <rect fill="#FEFECE" filter="url(#f1ceqab1hlmkv6)" height="60.8047" id="types.Response" style="stroke: #A80036; stroke-width: 1.5;" width="97" x="457.5" y="815.5"/>
+    <ellipse cx="476.1" cy="831.5" fill="#7FFFD4" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/>
+    <path d="M475.3344,832.0625 Q473.475,831.3594 472.8266,830.5859 Q472.1781,829.8125 472.1781,828.5 Q472.1781,826.8125 473.2563,825.8438 Q474.3344,824.875 476.2094,824.875 Q477.0688,824.875 477.9203,825.0703 Q478.7719,825.2656 479.6156,825.6563 L479.6156,828.0469 Q478.8344,827.4844 478.0141,827.1953 Q477.1938,826.9063 476.3969,826.9063 Q475.5219,826.9063 475.0453,827.2656 Q474.5688,827.625 474.5688,828.2813 Q474.5688,828.7969 474.9125,829.1328 Q475.2563,829.4688 476.35,829.875 L477.4125,830.2813 Q478.8969,830.8281 479.6078,831.7344 Q480.3188,832.6406 480.3188,834.0156 Q480.3188,835.8906 479.2094,836.8125 Q478.1,837.7344 475.85,837.7344 Q474.9281,837.7344 474.0063,837.5156 Q473.0844,837.2969 472.225,836.875 L472.225,834.3438 Q473.1938,835.0313 474.1156,835.375 Q475.0375,835.7188 475.9281,835.7188 Q476.8344,835.7188 477.3344,835.3047 Q477.8344,834.8906 477.8344,834.1563 Q477.8344,833.5938 477.4984,833.1797 Q477.1625,832.7656 476.5375,832.5156 L475.3344,832.0625 Z "/>
+    <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="57" x="490.9" y="835.6543">Response</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="458.5" x2="553.5" y1="847.5" y2="847.5"/>
+    <ellipse cx="468.5" cy="858.5" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="71" x="477.5" y="861.7104">Status string</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="458.5" x2="553.5" y1="868.3047" y2="868.3047"/>
+    <!--MD5=[b88599a535ede3b48f962737a4e1df3f]
+class types.Trigger-->
+    <rect fill="#FEFECE" filter="url(#f1ceqab1hlmkv6)" height="176.0469" id="types.Trigger" style="stroke: #A80036; stroke-width: 1.5;" width="132" x="590" y="758"/>
+    <ellipse cx="630.65" cy="774" fill="#7FFFD4" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/>
+    <path d="M629.8844,774.5625 Q628.025,773.8594 627.3766,773.0859 Q626.7281,772.3125 626.7281,771 Q626.7281,769.3125 627.8063,768.3438 Q628.8844,767.375 630.7594,767.375 Q631.6188,767.375 632.4703,767.5703 Q633.3219,767.7656 634.1656,768.1563 L634.1656,770.5469 Q633.3844,769.9844 632.5641,769.6953 Q631.7438,769.4063 630.9469,769.4063 Q630.0719,769.4063 629.5953,769.7656 Q629.1188,770.125 629.1188,770.7813 Q629.1188,771.2969 629.4625,771.6328 Q629.8063,771.9688 630.9,772.375 L631.9625,772.7813 Q633.4469,773.3281 634.1578,774.2344 Q634.8688,775.1406 634.8688,776.5156 Q634.8688,778.3906 633.7594,779.3125 Q632.65,780.2344 630.4,780.2344 Q629.4781,780.2344 628.5563,780.0156 Q627.6344,779.7969 626.775,779.375 L626.775,776.8438 Q627.7438,777.5313 628.6656,777.875 Q629.5875,778.2188 630.4781,778.2188 Q631.3844,778.2188 631.8844,777.8047 Q632.3844,777.3906 632.3844,776.6563 Q632.3844,776.0938 632.0484,775.6797 Q631.7125,775.2656 631.0875,775.0156 L629.8844,774.5625 Z "/>
+    <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="43" x="650.35" y="778.1543">Trigger</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="591" x2="721" y1="790" y2="790"/>
+    <ellipse cx="601" cy="801" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="29" x="610" y="804.2104">ID int</text>
+    <ellipse cx="601" cy="813.8047" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="64" x="610" y="817.0151">Type string</text>
+    <ellipse cx="601" cy="826.6094" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="76" x="610" y="829.8198">Cluster string</text>
+    <ellipse cx="601" cy="839.4141" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="78" x="610" y="842.6245">Reason string</text>
+    <ellipse cx="601" cy="852.2188" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="58" x="610" y="855.4292">Link string</text>
+    <ellipse cx="601" cy="865.0234" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="103" x="610" y="868.2339">TriggeredAt string</text>
+    <ellipse cx="601" cy="877.8281" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="106" x="610" y="881.0386">TriggeredBy string</text>
+    <ellipse cx="601" cy="890.6328" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="82" x="610" y="893.8433">AckedAt string</text>
+    <ellipse cx="601" cy="903.4375" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="102" x="610" y="906.6479">Parameters string</text>
+    <ellipse cx="601" cy="916.2422" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="53" x="610" y="919.4526">Active int</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="591" x2="721" y1="926.0469" y2="926.0469"/>
+    <!--MD5=[d43040db27eaa1fb441f783879ae83dd]
+class types.TriggerResponse-->
+    <rect fill="#FEFECE" filter="url(#f1ceqab1hlmkv6)" height="73.6094" id="types.TriggerResponse" style="stroke: #A80036; stroke-width: 1.5;" width="132" x="757" y="809"/>
+    <ellipse cx="772" cy="825" fill="#7FFFD4" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/>
+    <path d="M771.2344,825.5625 Q769.375,824.8594 768.7266,824.0859 Q768.0781,823.3125 768.0781,822 Q768.0781,820.3125 769.1563,819.3438 Q770.2344,818.375 772.1094,818.375 Q772.9688,818.375 773.8203,818.5703 Q774.6719,818.7656 775.5156,819.1563 L775.5156,821.5469 Q774.7344,820.9844 773.9141,820.6953 Q773.0938,820.4063 772.2969,820.4063 Q771.4219,820.4063 770.9453,820.7656 Q770.4688,821.125 770.4688,821.7813 Q770.4688,822.2969 770.8125,822.6328 Q771.1563,822.9688 772.25,823.375 L773.3125,823.7813 Q774.7969,824.3281 775.5078,825.2344 Q776.2188,826.1406 776.2188,827.5156 Q776.2188,829.3906 775.1094,830.3125 Q774,831.2344 771.75,831.2344 Q770.8281,831.2344 769.9063,831.0156 Q768.9844,830.7969 768.125,830.375 L768.125,827.8438 Q769.0938,828.5313 770.0156,828.875 Q770.9375,829.2188 771.8281,829.2188 Q772.7344,829.2188 773.2344,828.8047 Q773.7344,828.3906 773.7344,827.6563 Q773.7344,827.0938 773.3984,826.6797 Q773.0625,826.2656 772.4375,826.0156 L771.2344,825.5625 Z "/>
+    <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="100" x="786" y="829.1543">TriggerResponse</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="758" x2="888" y1="841" y2="841"/>
+    <ellipse cx="768" cy="852" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="71" x="777" y="855.2104">Status string</text>
+    <ellipse cx="768" cy="864.8047" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="86" x="777" y="868.0151">Trigger Trigger</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="758" x2="888" y1="874.6094" y2="874.6094"/>
+    <!--MD5=[c6c738d8a707d75f70319290f650b487]
+class types.TriggersResponse-->
+    <rect fill="#FEFECE" filter="url(#f1ceqab1hlmkv6)" height="73.6094" id="types.TriggersResponse" style="stroke: #A80036; stroke-width: 1.5;" width="138" x="924" y="809"/>
+    <ellipse cx="939" cy="825" fill="#7FFFD4" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/>
+    <path d="M938.2344,825.5625 Q936.375,824.8594 935.7266,824.0859 Q935.0781,823.3125 935.0781,822 Q935.0781,820.3125 936.1563,819.3438 Q937.2344,818.375 939.1094,818.375 Q939.9688,818.375 940.8203,818.5703 Q941.6719,818.7656 942.5156,819.1563 L942.5156,821.5469 Q941.7344,820.9844 940.9141,820.6953 Q940.0938,820.4063 939.2969,820.4063 Q938.4219,820.4063 937.9453,820.7656 Q937.4688,821.125 937.4688,821.7813 Q937.4688,822.2969 937.8125,822.6328 Q938.1563,822.9688 939.25,823.375 L940.3125,823.7813 Q941.7969,824.3281 942.5078,825.2344 Q943.2188,826.1406 943.2188,827.5156 Q943.2188,829.3906 942.1094,830.3125 Q941,831.2344 938.75,831.2344 Q937.8281,831.2344 936.9063,831.0156 Q935.9844,830.7969 935.125,830.375 L935.125,827.8438 Q936.0938,828.5313 937.0156,828.875 Q937.9375,829.2188 938.8281,829.2188 Q939.7344,829.2188 940.2344,828.8047 Q940.7344,828.3906 940.7344,827.6563 Q940.7344,827.0938 940.3984,826.6797 Q940.0625,826.2656 939.4375,826.0156 L938.2344,825.5625 Z "/>
+    <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="106" x="953" y="829.1543">TriggersResponse</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="925" x2="1061" y1="841" y2="841"/>
+    <ellipse cx="935" cy="852" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="71" x="944" y="855.2104">Status string</text>
+    <ellipse cx="935" cy="864.8047" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/>
+    <text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="100" x="944" y="868.0151">Triggers []Trigger</text>
+    <line style="stroke: #A80036; stroke-width: 1.5;" x1="925" x2="1061" y1="874.6094" y2="874.6094"/>
+    <!--MD5=[087c4b90ec1ef809a154a68b6d19cead]
+reverse link restapi.API to restapi.RestAPI-->
+    <path d="M1653,354.1764 C1653,367.4349 1653,380.7899 1653,393.9474 " fill="none" id="restapi.API&lt;-restapi.RestAPI" style="stroke: #A80036; stroke-width: 1.0;"/>
+    <polygon fill="none" points="1646.0001,354.1668,1653,334.1667,1660.0001,354.1667,1646.0001,354.1668" style="stroke: #A80036; stroke-width: 1.0;"/>
+    <!--MD5=[5d55afe548a0ddace7720695351b6eba]
+link main.Configuration to main.commandWithAPIParam-->
+    <!--MD5=[765916f3476dc003049cc0cfc89a1bed]
+link main.Configuration to main.commandWithParam-->
+    <!--MD5=[8be0e54e020d1ca0f3a2d9d7fe2d11cb]
+link main.commandWithParam to main.simpleCommand-->
+    <!--MD5=[2d1c9c1ade5f15606f172d8cbca49e9b]
+link types.Cluster to types.ClusterConfiguration-->
+    <!--MD5=[ceb475304215f40e9a2ba4826593342a]
+link types.ClusterConfiguration to types.ClusterConfigurationsResponse-->
+    <!--MD5=[943793ccd228c9be71829d282b4ac86e]
+link types.ClusterConfigurationsResponse to types.ClustersResponse-->
+    <!--MD5=[94f03c931351870cdfc497e54aff54b6]
+link types.Cluster to types.ConfigurationProfile-->
+    <!--MD5=[a73f5f242d5c67a3eab853ae4e452cbb]
+link types.ConfigurationProfile to types.ConfigurationProfileResponse-->
+    <!--MD5=[9927cda5ce852eeb5717fc416e64c956]
+link types.ConfigurationProfileResponse to types.ConfigurationProfilesResponse-->
+    <!--MD5=[4b1ce5c1230cfbaa49e3d8710eb57e65]
+link types.ConfigurationProfilesResponse to types.ConfigurationResponse-->
+    <!--MD5=[c56b61ef356fff8cad4b3826ef094d19]
+link types.ConfigurationProfile to types.Response-->
+    <!--MD5=[74ebc9f5d23e55a28089675367f8f928]
+link types.Response to types.Trigger-->
+    <!--MD5=[e9fb54e534f62242c0afe73a153f5709]
+link types.Trigger to types.TriggerResponse-->
+    <!--MD5=[a65c670c4999f94cedcce611c478b5dd]
+link types.TriggerResponse to types.TriggersResponse-->
+    <!--MD5=[5a42107eceb49cc6e923323fc614808b]
+@startuml
+namespace main {
+    class Configuration << (S,Aquamarine) >> {
+        - askForConfirmation *bool
+        - colors *bool
+        - useCompleter *bool
+
+    }
+    class commandWithAPIParam << (S,Aquamarine) >> {
+        - prefix string
+        - handler <font color=blue>func</font>(restapi.API) 
+
+    }
+    class commandWithParam << (S,Aquamarine) >> {
+        - prefix string
+        - handler <font color=blue>func</font>(restapi.API, string) 
+
+    }
+    class simpleCommand << (S,Aquamarine) >> {
+        - prefix string
+        - handler <font color=blue>func</font>() 
+
+    }
+}
+
+
+namespace restapi {
+    interface API  {
+        + ReadListOfClusters() ([]types.Cluster, error)
+        + AddCluster(name string) error
+        + DeleteCluster(clusterID string) error
+        + ReadListOfConfigurationProfiles() ([]types.ConfigurationProfile, error)
+        + ReadConfigurationProfile(profileID string) (*types.ConfigurationProfile, error)
+        + AddConfigurationProfile(username string, description string, configuration []byte) error
+        + DeleteConfigurationProfile(profileID string) error
+        + ReadListOfConfigurations() ([]types.ClusterConfiguration, error)
+        + ReadClusterConfigurationByID(configurationID string) (*string, error)
+        + AddClusterConfiguration(username string, cluster string, reason string, description string, configuration []byte) error
+        + EnableClusterConfiguration(configurationID string) error
+        + DisableClusterConfiguration(configurationID string) error
+        + DeleteClusterConfiguration(configurationID string) error
+        + ReadListOfTriggers() ([]types.Trigger, error)
+        + ReadTriggerByID(triggerID string) (*types.Trigger, error)
+        + AddTrigger(username string, clusterName string, reason string, link string) error
+        + DeleteTrigger(triggerID string) error
+        + ActivateTrigger(triggerID string) error
+        + DeactivateTrigger(triggerID string) error
+
+    }
+    class RestAPI << (S,Aquamarine) >> {
+        - controllerURL string
+
+        + ReadListOfClusters() ([]types.Cluster, error)
+        + ReadListOfTriggers() ([]types.Trigger, error)
+        + ReadTriggerByID(triggerID string) (*types.Trigger, error)
+        + ReadListOfConfigurationProfiles() ([]types.ConfigurationProfile, error)
+        + ReadListOfConfigurations() ([]types.ClusterConfiguration, error)
+        + ReadConfigurationProfile(profileID string) (*types.ConfigurationProfile, error)
+        + ReadClusterConfigurationByID(configurationID string) (*string, error)
+        + EnableClusterConfiguration(configurationID string) error
+        + DisableClusterConfiguration(configurationID string) error
+        + DeleteClusterConfiguration(configurationID string) error
+        + DeleteCluster(clusterID string) error
+        + DeleteConfigurationProfile(profileID string) error
+        + AddCluster(name string) error
+        + AddConfigurationProfile(username string, description string, configuration []byte) error
+        + AddClusterConfiguration(username string, cluster string, reason string, description string, configuration []byte) error
+        + AddTrigger(username string, clusterName string, reason string, link string) error
+        + DeleteTrigger(triggerID string) error
+        + ActivateTrigger(triggerID string) error
+        + DeactivateTrigger(triggerID string) error
+
+    }
+}
+
+"restapi.API" <|- - "restapi.RestAPI"
+
+namespace types {
+    class Cluster << (S,Aquamarine) >> {
+        + ID int
+        + Name string
+
+    }
+    class ClusterConfiguration << (S,Aquamarine) >> {
+        + ID int
+        + Cluster string
+        + Configuration string
+        + ChangedAt string
+        + ChangedBy string
+        + Active string
+        + Reason string
+
+    }
+    class ClusterConfigurationsResponse << (S,Aquamarine) >> {
+        + Status string
+        + Configurations []ClusterConfiguration
+
+    }
+    class ClustersResponse << (S,Aquamarine) >> {
+        + Status string
+        + Clusters []Cluster
+
+    }
+    class ConfigurationProfile << (S,Aquamarine) >> {
+        + ID int
+        + Configuration string
+        + ChangedAt string
+        + ChangedBy string
+        + Description string
+
+    }
+    class ConfigurationProfileResponse << (S,Aquamarine) >> {
+        + Status string
+        + Profile ConfigurationProfile
+
+    }
+    class ConfigurationProfilesResponse << (S,Aquamarine) >> {
+        + Status string
+        + Profiles []ConfigurationProfile
+
+    }
+    class ConfigurationResponse << (S,Aquamarine) >> {
+        + Status string
+        + Configuration string
+
+    }
+    class Response << (S,Aquamarine) >> {
+        + Status string
+
+    }
+    class Trigger << (S,Aquamarine) >> {
+        + ID int
+        + Type string
+        + Cluster string
+        + Reason string
+        + Link string
+        + TriggeredAt string
+        + TriggeredBy string
+        + AckedAt string
+        + Parameters string
+        + Active int
+
+    }
+    class TriggerResponse << (S,Aquamarine) >> {
+        + Status string
+        + Trigger Trigger
+
+    }
+    class TriggersResponse << (S,Aquamarine) >> {
+        + Status string
+        + Triggers []Trigger
+
+    }
+}
+
+
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 11:24:54 CET 2019)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 1.8.0_191-b12
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: US
+-->
+  </g>
+</svg>
