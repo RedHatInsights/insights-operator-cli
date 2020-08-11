@@ -145,23 +145,61 @@ limitations under the License.
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>TestListOfClusters checks whether the non-empty list of clusters read via
-REST API is displayed correctly</p>
+	<td class="doc"><p>TestListOfClusters function checks whether the non-empty list of clusters
+read via REST API is displayed correctly</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestListOfClusters</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use mocked REST API instead of the real one</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">ListOfClusters</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;List of clusters&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture operation was finished correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if header was written into standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;List of clusters&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 
-	<div class="ident">numlines</div> <div class="operator">:=</div> <div class="ident">strings</div><div class="operator">.</div><div class="ident">Count</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;\n&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if list of clusters was written onto standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">numlines</div> <div class="operator">:=</div> <div class="ident">strings</div><div class="operator">.</div><div class="ident">Count</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;\n&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">numlines</div> <div class="operator">&lt;=</div> <div class="literal">4</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Clusters are not listed in the output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
@@ -179,23 +217,61 @@ REST API is displayed correctly</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>TestListOfClustersNoClusters checks whether the empty list of clusters read
-via REST API is displayed correctly</p>
+	<td class="doc"><p>TestListOfClustersNoClusters function checks whether the empty list of
+clusters read via REST API is displayed correctly</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestListOfClustersNoClusters</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use mocked REST API instead of the real one</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">ListOfClusters</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;List of clusters&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture operation was finished correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if header was written into standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;List of clusters&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 
-	<div class="ident">numlines</div> <div class="operator">:=</div> <div class="ident">strings</div><div class="operator">.</div><div class="ident">Count</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;\n&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if list of clusters was written onto standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">numlines</div> <div class="operator">:=</div> <div class="ident">strings</div><div class="operator">.</div><div class="ident">Count</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;\n&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">numlines</div> <div class="operator">&gt;</div> <div class="literal">2</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
@@ -205,19 +281,51 @@ via REST API is displayed correctly</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>TestListOfClusters checks whether error returned by REST API is handled
-correctly</p>
+	<td class="doc"><p>TestListOfClusters function checks whether error returned by REST API is
+handled correctly</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestListOfClustersErrorHandling</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use mocked REST API instead of the real one</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">ListOfClusters</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error reading list of clusters&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture operation was finished correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if error message was written into standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error reading list of clusters&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -226,18 +334,50 @@ correctly</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>TestAddCluster checks the command 'add cluster'</p>
+	<td class="doc"><p>TestAddCluster function checks the command 'add cluster'</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestAddCluster</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use mocked REST API instead of the real one</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">AddCluster</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;c8590f31-e97e-4b85-b506-c45ce1911a12&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Cluster c8590f31-e97e-4b85-b506-c45ce1911a12 has been added&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture operation was finished correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if cluster has been added via mocked REST API</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Cluster c8590f31-e97e-4b85-b506-c45ce1911a12 has been added&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -250,15 +390,47 @@ correctly</p>
 by REST API</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestAddClusterError</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use mocked REST API instead of the real one</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">AddCluster</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;clusterName&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error communicating with the service&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture operation was finished correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if error message was written into standard output as expected</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error communicating with the service&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -270,15 +442,40 @@ by REST API</p>
 	<td class="doc"><p>TestDeleteCluster checks the command 'delete cluster'</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestDeleteCluster</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteCluster</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;c8590f31-e97e-4b85-b506-c45ce1911a12&#34;</div><div class="operator">,</div> <div class="ident">false</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Cluster c8590f31-e97e-4b85-b506-c45ce1911a12 has been deleted&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture operation was finished correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if cluster has been deleted via mocked REST API</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Cluster c8590f31-e97e-4b85-b506-c45ce1911a12 has been deleted&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -291,15 +488,40 @@ by REST API</p>
 reported by REST API</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestDeleteClusterError</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteCluster</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;c8590f31-e97e-4b85-b506-c45ce1911a12&#34;</div><div class="operator">,</div> <div class="ident">false</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error communicating with the service&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture operation was finished correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if error message was written into standard output as expected</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error communicating with the service&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -312,15 +534,40 @@ reported by REST API</p>
 confirmation of the command</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestDeleteClusterNoConfirm</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteClusterNoConfirm</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;c8590f31-e97e-4b85-b506-c45ce1911a12&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Cluster c8590f31-e97e-4b85-b506-c45ce1911a12 has been deleted&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture operation was finished correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if cluster has been deleted via mocked REST API</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Cluster c8590f31-e97e-4b85-b506-c45ce1911a12 has been deleted&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -333,15 +580,40 @@ confirmation of the command</p>
 error is reported by REST API</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestDeleteClusterNoConfirmError</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteClusterNoConfirm</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;c8590f31-e97e-4b85-b506-c45ce1911a12&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error communicating with the service&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture operation was finished correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if error message was written into standard output as expected</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error communicating with the service&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
