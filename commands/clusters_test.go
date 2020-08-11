@@ -38,21 +38,29 @@ func tryToFindCluster(t *testing.T, captured string, clusterName string) {
 	}
 }
 
-// TestListOfClusters checks whether the non-empty list of clusters read via
-// REST API is displayed correctly
+// TestListOfClusters function checks whether the non-empty list of clusters
+// read via REST API is displayed correctly
 func TestListOfClusters(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.ListOfClusters(restAPIMock)
 	})
 
+	// check if capture operation was finished correctly
 	checkCapturedOutput(t, captured, err)
+
+	// check if header was written into standard output
 	if !strings.HasPrefix(captured, "List of clusters") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 
+	// check if list of clusters was written onto standard output
 	numlines := strings.Count(captured, "\n")
 	if numlines <= 4 {
 		t.Fatal("Clusters are not listed in the output:\n", captured)
@@ -67,53 +75,75 @@ func TestListOfClusters(t *testing.T) {
 	}
 }
 
-// TestListOfClustersNoClusters checks whether the empty list of clusters read
-// via REST API is displayed correctly
+// TestListOfClustersNoClusters function checks whether the empty list of
+// clusters read via REST API is displayed correctly
 func TestListOfClustersNoClusters(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockEmpty{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.ListOfClusters(restAPIMock)
 	})
 
+	// check if capture operation was finished correctly
 	checkCapturedOutput(t, captured, err)
+
+	// check if header was written into standard output
 	if !strings.HasPrefix(captured, "List of clusters") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 
+	// check if list of clusters was written onto standard output
 	numlines := strings.Count(captured, "\n")
 	if numlines > 2 {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
 
-// TestListOfClusters checks whether error returned by REST API is handled
-// correctly
+// TestListOfClusters function checks whether error returned by REST API is
+// handled correctly
 func TestListOfClustersErrorHandling(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.ListOfClusters(restAPIMock)
 	})
 
+	// check if capture operation was finished correctly
 	checkCapturedOutput(t, captured, err)
+
+	// check if error message was written into standard output
 	if !strings.HasPrefix(captured, "Error reading list of clusters") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
 
-// TestAddCluster checks the command 'add cluster'
+// TestAddCluster function checks the command 'add cluster'
 func TestAddCluster(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.AddCluster(restAPIMock, "c8590f31-e97e-4b85-b506-c45ce1911a12")
 	})
 
+	// check if capture operation was finished correctly
 	checkCapturedOutput(t, captured, err)
+
+	// check if cluster has been added via mocked REST API
 	if !strings.HasPrefix(captured, "Cluster c8590f31-e97e-4b85-b506-c45ce1911a12 has been added") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -122,14 +152,21 @@ func TestAddCluster(t *testing.T) {
 // TestAddClusterError checks the command 'add cluster' when error is reported
 // by REST API
 func TestAddClusterError(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.AddCluster(restAPIMock, "clusterName")
 	})
 
+	// check if capture operation was finished correctly
 	checkCapturedOutput(t, captured, err)
+
+	// check if error message was written into standard output as expected
 	if !strings.HasPrefix(captured, "Error communicating with the service") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -137,14 +174,19 @@ func TestAddClusterError(t *testing.T) {
 
 // TestDeleteCluster checks the command 'delete cluster'
 func TestDeleteCluster(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DeleteCluster(restAPIMock, "c8590f31-e97e-4b85-b506-c45ce1911a12", false)
 	})
 
+	// check if capture operation was finished correctly
 	checkCapturedOutput(t, captured, err)
+
+	// check if cluster has been deleted via mocked REST API
 	if !strings.HasPrefix(captured, "Cluster c8590f31-e97e-4b85-b506-c45ce1911a12 has been deleted") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -153,14 +195,19 @@ func TestDeleteCluster(t *testing.T) {
 // TestDeleteClusterError checks the command 'delete cluster' when error is
 // reported by REST API
 func TestDeleteClusterError(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DeleteCluster(restAPIMock, "c8590f31-e97e-4b85-b506-c45ce1911a12", false)
 	})
 
+	// check if capture operation was finished correctly
 	checkCapturedOutput(t, captured, err)
+
+	// check if error message was written into standard output as expected
 	if !strings.HasPrefix(captured, "Error communicating with the service") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -169,14 +216,19 @@ func TestDeleteClusterError(t *testing.T) {
 // TestDeleteClusterNoConfirm checks the command 'delete cluster' w/o
 // confirmation of the command
 func TestDeleteClusterNoConfirm(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DeleteClusterNoConfirm(restAPIMock, "c8590f31-e97e-4b85-b506-c45ce1911a12")
 	})
 
+	// check if capture operation was finished correctly
 	checkCapturedOutput(t, captured, err)
+
+	// check if cluster has been deleted via mocked REST API
 	if !strings.HasPrefix(captured, "Cluster c8590f31-e97e-4b85-b506-c45ce1911a12 has been deleted") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -185,14 +237,19 @@ func TestDeleteClusterNoConfirm(t *testing.T) {
 // TestDeleteClusterNoConfirmError checks the command 'delete cluster' when
 // error is reported by REST API
 func TestDeleteClusterNoConfirmError(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DeleteClusterNoConfirm(restAPIMock, "c8590f31-e97e-4b85-b506-c45ce1911a12")
 	})
 
+	// check if capture operation was finished correctly
 	checkCapturedOutput(t, captured, err)
+
+	// check if error message was written into standard output as expected
 	if !strings.HasPrefix(captured, "Error communicating with the service") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
