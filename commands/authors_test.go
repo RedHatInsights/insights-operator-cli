@@ -23,21 +23,34 @@ import (
 	"testing"
 )
 
-// TestCommandAuthors check if the command 'authors' displays list of authors
+// TestCommandAuthors function checks if the command 'authors' really displays
+// list of authors to standard output
 func TestCommandAuthors(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.PrintAuthors()
 	})
+
+	// check if capture operation was finished correctly
 	if err != nil {
 		t.Fatal("Unable to capture standard output", err)
 	}
+
+	// check if standard output is empty, ie. if capture failed or nothing
+	// was displayed
 	if captured == "" {
 		t.Fatal("Standard output is empty")
 	}
+
+	// check if header was written into standard output
 	if !strings.HasPrefix(captured, "Authors") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
+
+	// check if list of authors was written into standard output
 	numlines := strings.Count(captured, "\n")
 	if numlines <= 1 {
 		t.Fatal("Authors are not listed in the output:\n", captured)
