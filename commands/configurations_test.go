@@ -24,16 +24,19 @@ import (
 	"testing"
 )
 
+// tryToFindConfiguration function checks if the error message about unable to
+// find configuration is displayed on standard output or not.
 func tryToFindConfiguration(t *testing.T, captured string, configuration string) {
 	if !strings.Contains(captured, configuration) {
 		t.Fatal("Can not find configuration:", configuration)
 	}
 }
 
-// changeDirectory tries to change current directory with additional test
-// whether the operation has been correct or not
+// changeDirectory function tries to change current directory with additional
+// test whether the operation has been correct or not
 func changeDirectory(t *testing.T, path string) {
 	err := os.Chdir(path)
+	// it is expected that the "change dir" operation is successful
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -42,9 +45,13 @@ func changeDirectory(t *testing.T, path string) {
 // TestListOfConfigurations checks whether the non-empty list of configurations
 // read via REST API is displayed correctly
 func TestListOfConfigurations(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.ListOfConfigurations(restAPIMock, "")
 	})
@@ -74,9 +81,13 @@ func TestListOfConfigurations(t *testing.T) {
 // TestListOfConfigurationsEmptyList checks whether the empty list of
 // configurations read via REST API is displayed correctly
 func TestListOfConfigurationsEmptyList(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockEmpty{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.ListOfConfigurations(restAPIMock, "")
 	})
@@ -98,9 +109,13 @@ func TestListOfConfigurationsEmptyList(t *testing.T) {
 // TestListOfConfigurationsErrorHandling checks whether error returned by REST
 // API is handled correctly
 func TestListOfConfigurationsErrorHandling(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.ListOfConfigurations(restAPIMock, "")
 	})
@@ -113,9 +128,13 @@ func TestListOfConfigurationsErrorHandling(t *testing.T) {
 
 // TestDeleteClusterConfiguration checks the command 'delete configuration'
 func TestDeleteClusterConfiguration(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DeleteClusterConfiguration(restAPIMock, "1")
 	})
@@ -129,9 +148,13 @@ func TestDeleteClusterConfiguration(t *testing.T) {
 // TestDeleteClusterConfigurationError checks the command 'delete
 // configuration' when error is reported by REST API
 func TestDeleteClusterConfigurationError(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DeleteClusterConfiguration(restAPIMock, "0")
 	})
@@ -144,9 +167,13 @@ func TestDeleteClusterConfigurationError(t *testing.T) {
 
 // TestEnableClusterConfiguration checks the command 'enable configuration'
 func TestEnableClusterConfiguration(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.EnableClusterConfiguration(restAPIMock, "1")
 	})
@@ -160,9 +187,13 @@ func TestEnableClusterConfiguration(t *testing.T) {
 // TestEnableClusterConfigurationError checks the command 'enable
 // configuration' when error is reported by REST API
 func TestEnableClusterConfigurationError(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.EnableClusterConfiguration(restAPIMock, "0")
 	})
@@ -175,9 +206,13 @@ func TestEnableClusterConfigurationError(t *testing.T) {
 
 // TestDisableClusterConfiguration checks the command 'disable configuration'
 func TestDisableClusterConfiguration(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DisableClusterConfiguration(restAPIMock, "1")
 	})
@@ -191,9 +226,13 @@ func TestDisableClusterConfiguration(t *testing.T) {
 // TestDisableClusterConfigurationError checks the command 'disable
 // configuration' when error is reported by REST API
 func TestDisableClusterConfigurationError(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DisableClusterConfiguration(restAPIMock, "0")
 	})
@@ -206,9 +245,13 @@ func TestDisableClusterConfigurationError(t *testing.T) {
 
 // TestDescribeConfiguration checks the command 'describe configuration'
 func TestDescribeConfiguration(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DescribeConfiguration(restAPIMock, "0")
 	})
@@ -225,9 +268,13 @@ func TestDescribeConfiguration(t *testing.T) {
 // TestDescribeConfigurationError checks the command 'describe configuration'
 // when error is reported by REST API
 func TestDescribeConfigurationError(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DescribeConfiguration(restAPIMock, "0")
 	})
@@ -240,9 +287,13 @@ func TestDescribeConfigurationError(t *testing.T) {
 
 // TestAddClusterConfigurationImpl checks the command 'add configuration'
 func TestAddClusterConfigurationImpl(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		changeDirectory(t, "../")
 		commands.AddClusterConfigurationImpl(restAPIMock, "tester", "cluster0", "reason", "description", "configuration1.json")
@@ -258,9 +309,13 @@ func TestAddClusterConfigurationImpl(t *testing.T) {
 // TestAddClusterConfigurationImplError checks the command 'add configuration'
 // when REST API fails with error
 func TestAddClusterConfigurationImplError(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		changeDirectory(t, "../")
 		commands.AddClusterConfigurationImpl(restAPIMock, "tester", "cluster0", "reason", "description", "configuration1.json")
@@ -276,9 +331,13 @@ func TestAddClusterConfigurationImplError(t *testing.T) {
 // TestAddClusterConfigurationImplBadConfiguration checks the command 'add
 // configuration' for non-existing configuration file
 func TestAddClusterConfigurationImplBadConfiguration(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		changeDirectory(t, "../")
 		commands.AddClusterConfigurationImpl(restAPIMock, "tester", "cluster0", "reason", "description", "strange_configuration1.json")
