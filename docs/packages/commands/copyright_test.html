@@ -130,24 +130,65 @@ limitations under the License.
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>TestCommandCopyright check if the command 'copyright' displays actual
-copyright</p>
+	<td class="doc"><p>TestCommandCopyright checks if the command 'copyright' displays actual
+copyright message on the standard output.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestCommandCopyright</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">PrintCopyright</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture operation was finished correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unable to capture standard output&#34;</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="ident">captured</div> <div class="operator">==</div> <div class="literal">&#34;&#34;</div> <div class="operator">{</div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture operation captures at least some output</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="ident">captured</div> <div class="operator">==</div> <div class="literal">&#34;&#34;</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Standard output is empty&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Copyright\n&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if header was written into standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Copyright\n&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
-	<div class="ident">numlines</div> <div class="operator">:=</div> <div class="ident">strings</div><div class="operator">.</div><div class="ident">Count</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;\n&#34;</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if copyright message was written onto standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">numlines</div> <div class="operator">:=</div> <div class="ident">strings</div><div class="operator">.</div><div class="ident">Count</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;\n&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">numlines</div> <div class="operator">&lt;=</div> <div class="literal">1</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Copyright is trimmed:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
