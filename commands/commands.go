@@ -22,15 +22,26 @@ limitations under the License.
 // source files:
 //
 // authors.go
+//
 // clusters.go
+//
 // commands.go
+//
 // common.go
+//
 // configurations.go
+//
 // copyright.go
+//
 // errors.go
+//
 // help.go
+//
 // license.go
+//
 // messages.go
+//
 // profiles.go
+//
 // triggers.go
 package commands
