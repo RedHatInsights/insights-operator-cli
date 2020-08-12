@@ -23,22 +23,33 @@ import (
 	"testing"
 )
 
-// TestCommandCopyright check if the command 'copyright' displays actual
-// copyright
+// TestCommandCopyright checks if the command 'copyright' displays actual
+// copyright message on the standard output.
 func TestCommandCopyright(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.PrintCopyright()
 	})
+
+	// check if capture operation was finished correctly
 	if err != nil {
 		t.Fatal("Unable to capture standard output", err)
 	}
+
+	// check if capture operation captures at least some output
 	if captured == "" {
 		t.Fatal("Standard output is empty")
 	}
+
+	// check if header was written into standard output
 	if !strings.HasPrefix(captured, "Copyright\n") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
+
+	// check if copyright message was written onto standard output
 	numlines := strings.Count(captured, "\n")
 	if numlines <= 1 {
 		t.Fatal("Copyright is trimmed:\n", captured)
