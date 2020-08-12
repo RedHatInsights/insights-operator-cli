@@ -15,4 +15,30 @@ limitations under the License.
 */
 
 // Package commands_test contains unit tests created for the commands package.
+//
+// Actual unit tests are stored in following source files:
+//
+// authors_test.go
+//
+// clusters_test.go
+//
+// common_test.go
+//
+// configurations_test.go
+//
+// copyright_test.go
+//
+// help_test.go
+//
+// license_test.go
+//
+// profiles_test.go
+//
+// rest_api_mock_empty_test.go
+//
+// rest_api_mock_errors_test.go
+//
+// rest_api_mock_test.go
+//
+// triggers_test.go
 package commands_test
