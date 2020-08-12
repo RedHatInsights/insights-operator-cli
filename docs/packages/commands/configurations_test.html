@@ -127,7 +127,14 @@ limitations under the License.
 	<div class="literal">&#34;testing&#34;</div><div class="operator"></div>
 <div class="operator">)</div><div class="operator"></div>
 
-<div class="keyword">func</div> <div class="ident">tryToFindConfiguration</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">,</div> <div class="ident">captured</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">configuration</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>tryToFindConfiguration function checks if the error message about unable to
+find configuration is displayed on standard output or not.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">tryToFindConfiguration</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">,</div> <div class="ident">captured</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">configuration</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
 	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="ident">configuration</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find configuration:&#34;</div><div class="operator">,</div> <div class="ident">configuration</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
@@ -137,12 +144,18 @@ limitations under the License.
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>changeDirectory tries to change current directory with additional test
-whether the operation has been correct or not</p>
+	<td class="doc"><p>changeDirectory function tries to change current directory with additional
+test whether the operation has been correct or not</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">changeDirectory</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">,</div> <div class="ident">path</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
 	<div class="ident">err</div> <div class="operator">:=</div> <div class="ident">os</div><div class="operator">.</div><div class="ident">Chdir</div><div class="operator">(</div><div class="ident">path</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>it is expected that the &quot;change dir&quot; operation is successful</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -155,10 +168,29 @@ whether the operation has been correct or not</p>
 read via REST API is displayed correctly</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestListOfConfigurations</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use mocked REST API instead of the real one</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">ListOfConfigurations</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
@@ -197,10 +229,29 @@ one caption + 3 other lines in the output</p>
 configurations read via REST API is displayed correctly</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestListOfConfigurationsEmptyList</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use mocked REST API instead of the real one</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">ListOfConfigurations</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
@@ -231,10 +282,29 @@ message is expected</p>
 API is handled correctly</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestListOfConfigurationsErrorHandling</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use mocked REST API instead of the real one</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">ListOfConfigurations</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
@@ -251,10 +321,29 @@ API is handled correctly</p>
 	<td class="doc"><p>TestDeleteClusterConfiguration checks the command 'delete configuration'</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestDeleteClusterConfiguration</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use mocked REST API instead of the real one</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteClusterConfiguration</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;1&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
@@ -272,10 +361,29 @@ API is handled correctly</p>
 configuration' when error is reported by REST API</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestDeleteClusterConfigurationError</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use mocked REST API instead of the real one</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteClusterConfiguration</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;0&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
@@ -292,10 +400,29 @@ configuration' when error is reported by REST API</p>
 	<td class="doc"><p>TestEnableClusterConfiguration checks the command 'enable configuration'</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestEnableClusterConfiguration</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use mocked REST API instead of the real one</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">EnableClusterConfiguration</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;1&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
@@ -313,10 +440,29 @@ configuration' when error is reported by REST API</p>
 configuration' when error is reported by REST API</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestEnableClusterConfigurationError</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use mocked REST API instead of the real one</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">EnableClusterConfiguration</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;0&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
@@ -333,10 +479,29 @@ configuration' when error is reported by REST API</p>
 	<td class="doc"><p>TestDisableClusterConfiguration checks the command 'disable configuration'</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestDisableClusterConfiguration</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use mocked REST API instead of the real one</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DisableClusterConfiguration</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;1&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
@@ -354,10 +519,29 @@ configuration' when error is reported by REST API</p>
 configuration' when error is reported by REST API</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestDisableClusterConfigurationError</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use mocked REST API instead of the real one</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DisableClusterConfiguration</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;0&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
@@ -374,10 +558,29 @@ configuration' when error is reported by REST API</p>
 	<td class="doc"><p>TestDescribeConfiguration checks the command 'describe configuration'</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestDescribeConfiguration</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use mocked REST API instead of the real one</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DescribeConfiguration</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;0&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
@@ -398,10 +601,29 @@ configuration' when error is reported by REST API</p>
 when error is reported by REST API</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestDescribeConfigurationError</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use mocked REST API instead of the real one</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DescribeConfiguration</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;0&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
@@ -418,10 +640,29 @@ when error is reported by REST API</p>
 	<td class="doc"><p>TestAddClusterConfigurationImpl checks the command 'add configuration'</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestAddClusterConfigurationImpl</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use mocked REST API instead of the real one</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">changeDirectory</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="literal">&#34;../&#34;</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">AddClusterConfigurationImpl</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;tester&#34;</div><div class="operator">,</div> <div class="literal">&#34;cluster0&#34;</div><div class="operator">,</div> <div class="literal">&#34;reason&#34;</div><div class="operator">,</div> <div class="literal">&#34;description&#34;</div><div class="operator">,</div> <div class="literal">&#34;configuration1.json&#34;</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">changeDirectory</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="literal">&#34;./commands&#34;</div><div class="operator">)</div><div class="operator"></div>
@@ -441,10 +682,29 @@ when error is reported by REST API</p>
 when REST API fails with error</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestAddClusterConfigurationImplError</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use mocked REST API instead of the real one</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">changeDirectory</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="literal">&#34;../&#34;</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">AddClusterConfigurationImpl</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;tester&#34;</div><div class="operator">,</div> <div class="literal">&#34;cluster0&#34;</div><div class="operator">,</div> <div class="literal">&#34;reason&#34;</div><div class="operator">,</div> <div class="literal">&#34;description&#34;</div><div class="operator">,</div> <div class="literal">&#34;configuration1.json&#34;</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">changeDirectory</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="literal">&#34;./commands&#34;</div><div class="operator">)</div><div class="operator"></div>
@@ -464,10 +724,29 @@ when REST API fails with error</p>
 configuration' for non-existing configuration file</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestAddClusterConfigurationImplBadConfiguration</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>turn off any colorization on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use mocked REST API instead of the real one</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>use go-capture package to capture all writes to standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">capture</div><div class="operator">.</div><div class="ident">StandardOutput</div><div class="operator">(</div><div class="keyword">func</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">changeDirectory</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="literal">&#34;../&#34;</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">AddClusterConfigurationImpl</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;tester&#34;</div><div class="operator">,</div> <div class="literal">&#34;cluster0&#34;</div><div class="operator">,</div> <div class="literal">&#34;reason&#34;</div><div class="operator">,</div> <div class="literal">&#34;description&#34;</div><div class="operator">,</div> <div class="literal">&#34;strange_configuration1.json&#34;</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">changeDirectory</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="literal">&#34;./commands&#34;</div><div class="operator">)</div><div class="operator"></div>
