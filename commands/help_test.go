@@ -23,21 +23,32 @@ import (
 	"testing"
 )
 
-// TestCommandHelp check if the command 'help' displays actual help
+// TestCommandHelp checks if the command 'help' displays actual help
 func TestCommandHelp(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.PrintHelp()
 	})
+
+	// check if capture operation was finished correctly
 	if err != nil {
 		t.Fatal("Unable to capture standard output", err)
 	}
+
+	// check if capture operation captures at least some output
 	if captured == "" {
 		t.Fatal("Standard output is empty")
 	}
+
+	// check if header was written into standard output
 	if !strings.HasPrefix(captured, "HELP:") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
+
+	// check if message with help was written onto standard output
 	numlines := strings.Count(captured, "\n")
 	if numlines <= 1 {
 		t.Fatal("Help is trimmed:\n", captured)
