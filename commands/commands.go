@@ -21,27 +21,27 @@ limitations under the License.
 // Types, functions, and methods from this package are implemented in following
 // source files:
 //
-// authors.go
+// * authors.go
 //
-// clusters.go
+// * clusters.go
 //
-// commands.go
+// * commands.go
 //
-// common.go
+// * common.go
 //
-// configurations.go
+// * configurations.go
 //
-// copyright.go
+// * copyright.go
 //
-// errors.go
+// * errors.go
 //
-// help.go
+// * help.go
 //
-// license.go
+// * license.go
 //
-// messages.go
+// * messages.go
 //
-// profiles.go
+// * profiles.go
 //
-// triggers.go
+// * triggers.go
 package commands
