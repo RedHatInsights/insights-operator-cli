@@ -21,8 +21,9 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli/commands"
 )
 
-// configureColorizer configures the Aurora colorizer. For tests
-// it is preferred to turn-off colorization.
+// configureColorizer function configures the Aurora colorizer. For tests (i.e.
+// unit tests and functional tests as well) it is preferred to turn-off
+// the colorization.
 func configureColorizer() {
 	colorizer := aurora.NewAurora(false)
 	commands.SetColorizer(colorizer)
