@@ -30,17 +30,24 @@ func tryToFindTrigger(t *testing.T, captured string, trigger string) {
 	}
 }
 
-// TestListOfTriggers checks whether the non-empty list of triggers read via
-// REST API is displayed correctly
+// TestListOfTriggers function checks whether the non-empty list of triggers
+// read via REST API is displayed correctly.
 func TestListOfTriggers(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.ListOfTriggers(restAPIMock)
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "List of triggers for all clusters") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -62,17 +69,24 @@ func TestListOfTriggers(t *testing.T) {
 	}
 }
 
-// TestListOfTriggers checks whether the empty list of triggers read via REST
-// API is displayed correctly
+// TestListOfTriggers function checks whether the empty list of triggers read
+// via REST API is displayed correctly.
 func TestListOfTriggersEmptyList(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockEmpty{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.ListOfTriggers(restAPIMock)
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "List of triggers for all clusters") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -84,33 +98,47 @@ func TestListOfTriggersEmptyList(t *testing.T) {
 	}
 }
 
-// TestListOfTriggersErrorHandling checks whether error returned by REST API is
-// handled correctly
+// TestListOfTriggersErrorHandling function checks whether error returned by
+// REST API is handled correctly.
 func TestListOfTriggersErrorHandling(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.ListOfTriggers(restAPIMock)
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Error reading list of triggers") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
 
-// TestDescribeActivatedTrigger checks whether it is possible to read and
-// displays information about activated trigger
+// TestDescribeActivatedTrigger function checks whether it is possible to read
+// and displays information about activated trigger.
 func TestDescribeActivatedTrigger(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DescribeTrigger(restAPIMock, "0")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Trigger info") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -129,17 +157,24 @@ func TestDescribeActivatedTrigger(t *testing.T) {
 	}
 }
 
-// TestDescribeInactivatedTrigger checks whether it is possible to read and
-// displays information about inactivated trigger
+// TestDescribeInactivatedTrigger function checks whether it is possible to
+// read and displays information about inactivated trigger.
 func TestDescribeInactivatedTrigger(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DescribeTrigger(restAPIMock, "1")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Trigger info") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -158,17 +193,24 @@ func TestDescribeInactivatedTrigger(t *testing.T) {
 	}
 }
 
-// TestDescribeNonMustGatherTrigger checks whether it is possible to read and
-// displays information about other type of trigger
+// TestDescribeNonMustGatherTrigger function checks whether it is possible to
+// read and displays information about other type of trigger.
 func TestDescribeNonMustGatherTrigger(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DescribeTrigger(restAPIMock, "2")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Trigger info") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -187,140 +229,205 @@ func TestDescribeNonMustGatherTrigger(t *testing.T) {
 	}
 }
 
-// TestDescribeTriggerErrorHandling checks how REST API-related issues are
-// reported and handled
+// TestDescribeTriggerErrorHandling function checks how REST API-related issues
+// are reported and handled.
 func TestDescribeTriggerErrorHandling(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DescribeTrigger(restAPIMock, "1")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Error reading selected trigger") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
 
-// TestAddTriggerImpl check the ability to add a new trigger via REST API
+// TestAddTriggerImpl function checks the ability to add a new trigger via REST
+// API.
 func TestAddTriggerImpl(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.AddTriggerImpl(restAPIMock, "tester", "cluster", "reason", "link")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Trigger has been created") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
 
-// TestAddTriggerImplError check error handling during new trigger registration
+// TestAddTriggerImplError function checks error handling during new trigger
+// registration.
 func TestAddTriggerImplErrorHandling(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.AddTriggerImpl(restAPIMock, "tester", "cluster", "reason", "link")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Error communicating with the service") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
 
-// TestDeleteTrigger check the command 'delete trigger'
+// TestDeleteTrigger function checks. the command 'delete trigger'.
 func TestDeleteTrigger(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DeleteTrigger(restAPIMock, "0")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Trigger 0 has been deleted") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
 
-// TestDeleteTriggerErrorHandling check error handling for the command 'delete
-// trigger'
+// TestDeleteTriggerErrorHandling function check error handling for the command
+// 'delete trigger'.
 func TestDeleteTriggerErrorHandling(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DeleteTrigger(restAPIMock, "0")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Error communicating with the service") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
 
-// TestActivateTrigger check the command 'activate trigger'
+// TestActivateTrigger function checks the command 'activate trigger'.
 func TestActivateTrigger(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.ActivateTrigger(restAPIMock, "0")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Trigger 0 has been activated") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
 
-// TestActivateTriggerErrorHandling check the error handling for command
-// 'activate trigger'
+// TestActivateTriggerErrorHandling function checks the error handling for
+// command 'activate trigger'.
 func TestActivateTriggerErrorHandling(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.ActivateTrigger(restAPIMock, "0")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Error communicating with the service") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
 
-// TestDeactivateTrigger check the command 'deactivate trigger'
+// TestDeactivateTrigger function checks the command 'deactivate trigger'.
 func TestDeactivateTrigger(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DeactivateTrigger(restAPIMock, "0")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Trigger 0 has been deactivated") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
 
-// TestDeactivateTriggerErrorHandling check the error handling for command
-// 'deactivate trigger'
+// TestDeactivateTriggerErrorHandling function checks the error handling for
+// command 'deactivate trigger'.
 func TestDeactivateTriggerErrorHandling(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DeactivateTrigger(restAPIMock, "0")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Error communicating with the service") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
