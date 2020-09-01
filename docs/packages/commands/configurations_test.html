@@ -136,7 +136,13 @@ find configuration is displayed on standard output or not.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">tryToFindConfiguration</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">,</div> <div class="ident">captured</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">configuration</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
 	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="ident">configuration</div><div class="operator">)</div> <div class="operator">{</div>
-		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find configuration:&#34;</div><div class="operator">,</div> <div class="ident">configuration</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>TODO: make the string configurable</p>
+</td>
+	<td class="code"><pre><code>		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find configuration:&#34;</div><div class="operator">,</div> <div class="ident">configuration</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
@@ -145,7 +151,7 @@ find configuration is displayed on standard output or not.</p>
       
       <tr class="section">
 	<td class="doc"><p>changeDirectory function tries to change current directory with additional
-test whether the operation has been correct or not</p>
+test whether the operation has been correct or not.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">changeDirectory</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">,</div> <div class="ident">path</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
 	<div class="ident">err</div> <div class="operator">:=</div> <div class="ident">os</div><div class="operator">.</div><div class="ident">Chdir</div><div class="operator">(</div><div class="ident">path</div><div class="operator">)</div><div class="operator"></div>
@@ -164,8 +170,8 @@ test whether the operation has been correct or not</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>TestListOfConfigurations checks whether the non-empty list of configurations
-read via REST API is displayed correctly</p>
+	<td class="doc"><p>TestListOfConfigurations unit test checks whether the non-empty list of
+configurations read via REST API is displayed correctly</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestListOfConfigurations</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
 </code></pre></td>
@@ -194,8 +200,21 @@ read via REST API is displayed correctly</p>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">ListOfConfigurations</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;List of configurations for all clusters&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture was done correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test the captured output</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;List of configurations for all clusters&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 
@@ -255,8 +274,21 @@ configurations read via REST API is displayed correctly</p>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">ListOfConfigurations</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;List of configurations for all clusters&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture was done correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test the captured output</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;List of configurations for all clusters&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 
@@ -308,8 +340,21 @@ API is handled correctly</p>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">ListOfConfigurations</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error reading list of configurations&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture was done correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test the captured output</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error reading list of configurations&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -347,8 +392,21 @@ API is handled correctly</p>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteClusterConfiguration</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;1&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Configuration 1 has been deleted&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture was done correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test the captured output</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Configuration 1 has been deleted&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -387,8 +445,21 @@ configuration' when error is reported by REST API</p>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteClusterConfiguration</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;0&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error communicating with the service&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture was done correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test the captured output</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error communicating with the service&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -426,8 +497,21 @@ configuration' when error is reported by REST API</p>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">EnableClusterConfiguration</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;1&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Configuration 1 has been enabled&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture was done correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test the captured output</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Configuration 1 has been enabled&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -466,8 +550,21 @@ configuration' when error is reported by REST API</p>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">EnableClusterConfiguration</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;0&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error communicating with the service&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture was done correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test the captured output</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error communicating with the service&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -505,8 +602,21 @@ configuration' when error is reported by REST API</p>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DisableClusterConfiguration</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;1&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Configuration 1 has been disabled&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture was done correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test the captured output</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Configuration 1 has been disabled&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -545,8 +655,21 @@ configuration' when error is reported by REST API</p>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DisableClusterConfiguration</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;0&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error communicating with the service&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture was done correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test the captured output</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error communicating with the service&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -584,8 +707,21 @@ configuration' when error is reported by REST API</p>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DescribeConfiguration</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;0&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Configuration for cluster 0&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture was done correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test the captured output</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Configuration for cluster 0&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;configuration#0&#34;</div><div class="operator">)</div> <div class="operator">{</div>
@@ -627,8 +763,21 @@ when error is reported by REST API</p>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DescribeConfiguration</div><div class="operator">(</div><div class="ident">restAPIMock</div><div class="operator">,</div> <div class="literal">&#34;0&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error reading cluster configuration&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture was done correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test the captured output</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error reading cluster configuration&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -668,8 +817,21 @@ when error is reported by REST API</p>
 		<div class="ident">changeDirectory</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="literal">&#34;./commands&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Configuration has been created&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture was done correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test the captured output</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Configuration has been created&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -710,8 +872,21 @@ when REST API fails with error</p>
 		<div class="ident">changeDirectory</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="literal">&#34;./commands&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error communicating with the service&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture was done correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test the captured output</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error communicating with the service&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -752,8 +927,21 @@ configuration' for non-existing configuration file</p>
 		<div class="ident">changeDirectory</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="literal">&#34;./commands&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
 
-	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Cannot read configuration file&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if capture was done correctly</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>test the captured output</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Cannot read configuration file&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;no such file or directory&#34;</div><div class="operator">)</div> <div class="operator">{</div>
