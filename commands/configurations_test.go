@@ -28,12 +28,13 @@ import (
 // find configuration is displayed on standard output or not.
 func tryToFindConfiguration(t *testing.T, captured string, configuration string) {
 	if !strings.Contains(captured, configuration) {
+		// TODO: make the string configurable
 		t.Fatal("Can not find configuration:", configuration)
 	}
 }
 
 // changeDirectory function tries to change current directory with additional
-// test whether the operation has been correct or not
+// test whether the operation has been correct or not.
 func changeDirectory(t *testing.T, path string) {
 	err := os.Chdir(path)
 	// it is expected that the "change dir" operation is successful
@@ -42,8 +43,8 @@ func changeDirectory(t *testing.T, path string) {
 	}
 }
 
-// TestListOfConfigurations checks whether the non-empty list of configurations
-// read via REST API is displayed correctly
+// TestListOfConfigurations unit test checks whether the non-empty list of
+// configurations read via REST API is displayed correctly
 func TestListOfConfigurations(t *testing.T) {
 	// turn off any colorization on standard output
 	configureColorizer()
@@ -56,7 +57,10 @@ func TestListOfConfigurations(t *testing.T) {
 		commands.ListOfConfigurations(restAPIMock, "")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "List of configurations for all clusters") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -92,7 +96,10 @@ func TestListOfConfigurationsEmptyList(t *testing.T) {
 		commands.ListOfConfigurations(restAPIMock, "")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "List of configurations for all clusters") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -120,7 +127,10 @@ func TestListOfConfigurationsErrorHandling(t *testing.T) {
 		commands.ListOfConfigurations(restAPIMock, "")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Error reading list of configurations") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -139,7 +149,10 @@ func TestDeleteClusterConfiguration(t *testing.T) {
 		commands.DeleteClusterConfiguration(restAPIMock, "1")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Configuration 1 has been deleted") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -159,7 +172,10 @@ func TestDeleteClusterConfigurationError(t *testing.T) {
 		commands.DeleteClusterConfiguration(restAPIMock, "0")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Error communicating with the service") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -178,7 +194,10 @@ func TestEnableClusterConfiguration(t *testing.T) {
 		commands.EnableClusterConfiguration(restAPIMock, "1")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Configuration 1 has been enabled") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -198,7 +217,10 @@ func TestEnableClusterConfigurationError(t *testing.T) {
 		commands.EnableClusterConfiguration(restAPIMock, "0")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Error communicating with the service") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -217,7 +239,10 @@ func TestDisableClusterConfiguration(t *testing.T) {
 		commands.DisableClusterConfiguration(restAPIMock, "1")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Configuration 1 has been disabled") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -237,7 +262,10 @@ func TestDisableClusterConfigurationError(t *testing.T) {
 		commands.DisableClusterConfiguration(restAPIMock, "0")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Error communicating with the service") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -256,7 +284,10 @@ func TestDescribeConfiguration(t *testing.T) {
 		commands.DescribeConfiguration(restAPIMock, "0")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Configuration for cluster 0") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -279,7 +310,10 @@ func TestDescribeConfigurationError(t *testing.T) {
 		commands.DescribeConfiguration(restAPIMock, "0")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Error reading cluster configuration") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -300,7 +334,10 @@ func TestAddClusterConfigurationImpl(t *testing.T) {
 		changeDirectory(t, "./commands")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Configuration has been created") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -322,7 +359,10 @@ func TestAddClusterConfigurationImplError(t *testing.T) {
 		changeDirectory(t, "./commands")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Error communicating with the service") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -344,7 +384,10 @@ func TestAddClusterConfigurationImplBadConfiguration(t *testing.T) {
 		changeDirectory(t, "./commands")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.Contains(captured, "Cannot read configuration file") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
