@@ -25,10 +25,12 @@ import (
 	"strings"
 )
 
+// configFileDirectory constant contains path to directory containing all
+// configuration files for this tool.
 const configFileDirectory = "configurations/"
 
-// ListOfConfigurations displays list of all configurations gathered via REST
-// API call to controller service
+// ListOfConfigurations function displays list of all configurations gathered
+// via REST API call to the Controller Service.
 func ListOfConfigurations(api restapi.API, filter string) {
 	// TODO: filter in query?
 	// try to read list of configurations and display error if something
@@ -40,10 +42,11 @@ func ListOfConfigurations(api restapi.API, filter string) {
 		return
 	}
 
+	// list all configurations returned in HTTP response
 	fmt.Println(colorizer.Magenta("List of configurations for all clusters"))
 	fmt.Printf("%4s %4s %4s    %-20s %-20s %-10s %-12s %s\n", "#", "ID", "Profile", "Cluster", changedAt, "Changed by", "Active", "Reason")
 	for i, configuration := range configurations {
-		// poor man's filtering
+		// perform poor man's filtering on client side
 		if strings.Contains(configuration.Cluster, filter) {
 			var active aurora.Value
 			if configuration.Active == "1" {
@@ -57,8 +60,8 @@ func ListOfConfigurations(api restapi.API, filter string) {
 	}
 }
 
-// EnableClusterConfiguration enables the selected cluster configuration in the
-// controller service
+// EnableClusterConfiguration function enables the selected cluster
+// configuration in the controller service via REST API call.
 func EnableClusterConfiguration(api restapi.API, configurationID string) {
 	// try to enable cluster configuration and display error if something
 	// wrong happens
@@ -73,8 +76,8 @@ func EnableClusterConfiguration(api restapi.API, configurationID string) {
 	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been"), colorizer.Green("enabled"))
 }
 
-// DisableClusterConfiguration disables the selected cluster configuration in
-// the controller service
+// DisableClusterConfiguration function disables the selected cluster
+// configuration in the controller service via REST API call.
 func DisableClusterConfiguration(api restapi.API, configurationID string) {
 	// try to disable cluster configuration and display error if something
 	// wrong happens
@@ -89,8 +92,8 @@ func DisableClusterConfiguration(api restapi.API, configurationID string) {
 	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been"), colorizer.Red("disabled"))
 }
 
-// DescribeConfiguration displays additional information about selected
-// configuration
+// DescribeConfiguration function displays additional information about
+// selected configuration read via REST API call.
 func DescribeConfiguration(api restapi.API, clusterID string) {
 	// try to read cluster configuration by using its ID and display error
 	// if something wrong happens
@@ -105,8 +108,8 @@ func DescribeConfiguration(api restapi.API, clusterID string) {
 	fmt.Println(*configuration)
 }
 
-// DeleteClusterConfiguration deletes selected cluster configuration from
-// database
+// DeleteClusterConfiguration function deletes selected cluster configuration
+// from database via REST API call.
 func DeleteClusterConfiguration(api restapi.API, configurationID string) {
 	// try to delete cluster configuration and display error if something
 	// wrong happens
@@ -121,26 +124,29 @@ func DeleteClusterConfiguration(api restapi.API, configurationID string) {
 	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been"), colorizer.Red(deleted))
 }
 
-// AddClusterConfiguration ask for all information needed to create new cluster
-// configuration
+// AddClusterConfiguration function asks for all information needed to create
+// new cluster configuration, all done via REST API call.
 func AddClusterConfiguration(api restapi.API, username string) {
 	if username == "" {
 		fmt.Println(colorizer.Red("Not logged in"))
 		return
 	}
 
+	// ask user about cluster ID
 	cluster := prompt.Input("cluster: ", LoginCompleter)
 	if cluster == "" {
 		fmt.Println(colorizer.Red(operationCancelled))
 		return
 	}
 
+	// ask user about reason
 	reason := prompt.Input("reason: ", LoginCompleter)
 	if reason == "" {
 		fmt.Println(colorizer.Red(operationCancelled))
 		return
 	}
 
+	// ask user about description
 	description := prompt.Input("description: ", LoginCompleter)
 	if description == "" {
 		fmt.Println(colorizer.Red(operationCancelled))
@@ -154,6 +160,7 @@ func AddClusterConfiguration(api restapi.API, username string) {
 		fmt.Println(err)
 	}
 
+	// user need to select the configuration file
 	configurationFileName := prompt.Input(configurationFilePrompt, ConfigFileCompleter)
 	if configurationFileName == "" {
 		fmt.Println(colorizer.Red(operationCancelled))
@@ -168,7 +175,7 @@ func pathToConfigFile(directory string, filename string) string {
 	return directory + filename
 }
 
-// AddClusterConfigurationImpl creates a new cluster configuration
+// AddClusterConfigurationImpl function creates a new cluster configuration.
 func AddClusterConfigurationImpl(api restapi.API, username string, cluster string, reason string, description string, configurationFileName string) {
 	// TODO: make the directory fully configurable
 	configuration, err := ioutil.ReadFile(pathToConfigFile(configFileDirectory, configurationFileName))
