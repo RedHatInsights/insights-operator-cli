@@ -29,17 +29,24 @@ func tryToFindProfile(t *testing.T, captured string, profileDescription string) 
 	}
 }
 
-// TestListOfProfiles checks whether the non-empty list of configuration
-// profiles read via REST API is displayed correctly
+// TestListOfProfiles function checks whether the non-empty list of
+// configuration profiles read via REST API is displayed correctly.
 func TestListOfProfiles(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.ListOfProfiles(restAPIMock)
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "List of configuration profiles") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -59,17 +66,24 @@ func TestListOfProfiles(t *testing.T) {
 	}
 }
 
-// TestListOfProfilesNoProfiles checks whether the empty list of configuration
-// profiles read via REST API is displayed correctly
+// TestListOfProfilesNoProfiles function checks whether the empty list of
+// configuration profiles read via REST API is displayed correctly.
 func TestListOfProfilesNoProfiles(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockEmpty{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.ListOfProfiles(restAPIMock)
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "List of configuration profiles") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -81,32 +95,47 @@ func TestListOfProfilesNoProfiles(t *testing.T) {
 	}
 }
 
-// TestListOfProfilesNoProfiles checks whether error returned by REST API is
-// handled correctly
+// TestListOfProfilesNoProfiles function checks whether error returned by REST
+// API is handled correctly.
 func TestListOfProfilesErrorHandling(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.ListOfProfiles(restAPIMock)
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Error reading list of configuration profiles") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
 
-// TestDescribeProfile checks how the configuration profile is displayed on CLI
+// TestDescribeProfile function checks how the configuration profile is
+// displayed on CLI.
 func TestDescribeProfile(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DescribeProfile(restAPIMock, "0")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Configuration profile") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -115,134 +144,190 @@ func TestDescribeProfile(t *testing.T) {
 	}
 }
 
-// TestDescribeProfile checks error handling of REST API
+// TestDescribeProfile function checks error handling of REST API.
 func TestDescribeProfileErrorHandling(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DescribeProfile(restAPIMock, "0")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Error reading configuration profile") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
 
-// TestAddConfigurationProfileImpl checks the command 'add profile' when no
-// error is reported by REST API
+// TestAddConfigurationProfileImpl function checks the command 'add profile'
+// when no error is reported by REST API.
 func TestAddConfigurationProfileImpl(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		changeDirectory(t, "../")
 		commands.AddConfigurationProfileImpl(restAPIMock, "tester", "description", "configuration1.json")
 		changeDirectory(t, "./commands")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Configuration profile has been created") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
 
-// TestAddConfigurationProfileImplWrongConfiguration checks the command 'add
-// profile' when configuration file does not exist
+// TestAddConfigurationProfileImplWrongConfiguration function checks the
+// command 'add profile' when configuration file does not exist.
 func TestAddConfigurationProfileImplWrongConfiguration(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		changeDirectory(t, "../")
 		commands.AddConfigurationProfileImpl(restAPIMock, "tester", "description", "non-existing-configuration.json")
 		changeDirectory(t, "./commands")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Cannot read configuration file") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
 
-// TestAddConfigurationProfileImplErrorHandling checks the command 'add
-// profile' when error is reported by REST API
+// TestAddConfigurationProfileImplErrorHandling function checks the command
+// 'add profile' when error is reported by REST API.
 func TestAddConfigurationProfileImplErrorHandling(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		changeDirectory(t, "../")
 		commands.AddConfigurationProfileImpl(restAPIMock, "tester", "description", "configuration1.json")
 		changeDirectory(t, "./commands")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Error communicating with the service") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
 
-// TestDeleteConfigurationProfile checks the command 'delete profile' when no
-// error is reported by REST API
+// TestDeleteConfigurationProfile function checks the command 'delete profile'
+// when no error is reported by REST API.
 func TestDeleteConfigurationProfile(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DeleteConfigurationProfile(restAPIMock, "0", false)
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Configuration profile 0 has been deleted") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
 
-// TestDeleteConfigurationProfile checks the command 'delete profile' when
-// error is reported by REST API
+// TestDeleteConfigurationProfile function checks the command 'delete profile'
+// when error is reported by REST API.
 func TestDeleteConfigurationProfileErrorHandling(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DeleteConfigurationProfile(restAPIMock, "0", false)
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Error communicating with the service") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
 
-// TestDeleteConfigurationProfileNoConfirm checks the command 'delete profile'
-// when no error is reported by REST API
+// TestDeleteConfigurationProfileNoConfirm function checks the command 'delete
+// profile' when no error is reported by REST API.
 func TestDeleteConfigurationProfileNoConfirm(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMock{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DeleteConfigurationProfileNoConfirm(restAPIMock, "0")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Configuration profile 0 has been deleted") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
 
-// TestDeleteConfigurationProfileNoConfirm checks the command 'delete profile'
-// when error is reported by REST API
+// TestDeleteConfigurationProfileNoConfirm function checks the command 'delete
+// profile' when error is reported by REST API.
 func TestDeleteConfigurationProfileNoConfirmErrorHandling(t *testing.T) {
+	// turn off any colorization on standard output
 	configureColorizer()
+
+	// use mocked REST API instead of the real one
 	restAPIMock := RestAPIMockErrors{}
 
+	// use go-capture package to capture all writes to standard output
 	captured, err := capture.StandardOutput(func() {
 		commands.DeleteConfigurationProfileNoConfirm(restAPIMock, "0")
 	})
 
+	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
+
+	// test the captured output
 	if !strings.HasPrefix(captured, "Error communicating with the service") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
