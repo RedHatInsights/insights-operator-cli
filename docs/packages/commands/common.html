@@ -127,15 +127,28 @@ limitations under the License.
 	<div class="literal">&#34;path/filepath&#34;</div><div class="operator"></div>
 <div class="operator">)</div><div class="operator"></div>
 
-<div class="keyword">var</div> <div class="ident">files</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div><div class="operator"></div>
-
-<div class="keyword">var</div> <div class="ident">colorizer</div> <div class="ident">aurora</div><div class="operator">.</div><div class="ident">Aurora</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>files will be filled by list of files that are found in given directory and
+displayed to user to select one of them</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">var</div> <div class="ident">files</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>SetColorizer set the terminal colorizer</p>
+	<td class="doc"><p>colorizer contains instance of terminal colorizer interface</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">var</div> <div class="ident">colorizer</div> <div class="ident">aurora</div><div class="operator">.</div><div class="ident">Aurora</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>SetColorizer function set the terminal colorizer.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">SetColorizer</div><div class="operator">(</div><div class="ident">c</div> <div class="ident">aurora</div><div class="operator">.</div><div class="ident">Aurora</div><div class="operator">)</div> <div class="operator">{</div>
 	<div class="ident">colorizer</div> <div class="operator">=</div> <div class="ident">c</div><div class="operator"></div>
@@ -145,7 +158,8 @@ limitations under the License.
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>LoginCompleter implements a no-op completer needed to input random data</p>
+	<td class="doc"><p>LoginCompleter implements a no-op completer needed to input random data, for
+example during testing.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">LoginCompleter</div><div class="operator">(</div><div class="ident">in</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Document</div><div class="operator">)</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div> <div class="operator">{</div>
 	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
@@ -155,7 +169,7 @@ limitations under the License.
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>ConfigFileCompleter implements completer based on list of files</p>
+	<td class="doc"><p>ConfigFileCompleter function implements completer based on list of files.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">ConfigFileCompleter</div><div class="operator">(</div><div class="ident">in</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Document</div><div class="operator">)</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div> <div class="operator">{</div>
 	<div class="keyword">return</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">FilterHasPrefix</div><div class="operator">(</div><div class="ident">files</div><div class="operator">,</div> <div class="ident">in</div><div class="operator">.</div><div class="ident">Text</div><div class="operator">,</div> <div class="ident">true</div><div class="operator">)</div><div class="operator"></div>
@@ -169,8 +183,20 @@ limitations under the License.
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">ProceedQuestion</div><div class="operator">(</div><div class="ident">question</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">bool</div> <div class="operator">{</div>
 	<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">question</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">proceed</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="literal">&#34;proceed? [y/n] &#34;</div><div class="operator">,</div> <div class="ident">LoginCompleter</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="ident">proceed</div> <div class="operator">!=</div> <div class="literal">&#34;y&#34;</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>ask user and wait for input</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">proceed</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="literal">&#34;proceed? [y/n] &#34;</div><div class="operator">,</div> <div class="ident">LoginCompleter</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>only 'y' is accepted as &quot;Yes&quot; answer right now</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="ident">proceed</div> <div class="operator">!=</div> <div class="literal">&#34;y&#34;</div> <div class="operator">{</div>
 		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Blue</div><div class="operator">(</div><div class="literal">&#34;cancelled&#34;</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 		<div class="keyword">return</div> <div class="ident">false</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
@@ -181,7 +207,8 @@ limitations under the License.
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>FillInConfigurationList prepares a list of configuration files</p>
+	<td class="doc"><p>FillInConfigurationList function prepares a list of configuration files that
+are found in specified directory.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">FillInConfigurationList</div><div class="operator">(</div><div class="ident">directory</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
 	<div class="ident">files</div> <div class="operator">=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">prompt</div><div class="operator">.</div><div class="ident">Suggest</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
@@ -201,7 +228,14 @@ limitations under the License.
 		<div class="operator">}</div><div class="operator"></div>
 		<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check for any error</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
 		<div class="keyword">return</div> <div class="ident">err</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
@@ -211,7 +245,7 @@ limitations under the License.
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>Quit will exit from the CLI client</p>
+	<td class="doc"><p>Quit function will exit from the CLI client.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">Quit</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">{</div>
 	<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Magenta</div><div class="operator">(</div><div class="literal">&#34;Quitting&#34;</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
