@@ -23,8 +23,8 @@ import (
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
 )
 
-// ListOfTriggers displays list of triggers (including must-gather one)
-// gathered via REST API call to controller service
+// ListOfTriggers function displays list of triggers (including must-gather
+// one) gathered via REST API call to controller service.
 func ListOfTriggers(api restapi.API) {
 	// TODO: filter in query?
 	// try to read list of triggers and display error message if anything
@@ -51,7 +51,8 @@ func ListOfTriggers(api restapi.API) {
 	}
 }
 
-// DescribeTrigger displays additional information about selected trigger
+// DescribeTrigger function displays additional information about selected
+// trigger.
 func DescribeTrigger(api restapi.API, triggerID string) {
 	// try to read trigger idintified by its ID and display error message
 	// if anything wrong happens
@@ -89,7 +90,7 @@ func DescribeTrigger(api restapi.API, triggerID string) {
 	fmt.Printf("Acked at:      %s\n", ackedAt)
 }
 
-// AddTrigger adds new trigger for a cluster
+// AddTrigger function adds new trigger for a cluster.
 func AddTrigger(api restapi.API, username string) {
 	if username == "" {
 		fmt.Println(colorizer.Red("Not logged in"))
@@ -103,7 +104,8 @@ func AddTrigger(api restapi.API, username string) {
 	AddTriggerImpl(api, username, clusterName, reason, link)
 }
 
-// AddTriggerImpl calls REST API to add a new trigger into the database
+// AddTriggerImpl function calls REST API to add a new trigger into the
+// database.
 func AddTriggerImpl(api restapi.API, username string, clusterName string, reason string, link string) {
 	// try to add a new trigger and display error message if anything wrong
 	// happens
@@ -118,7 +120,7 @@ func AddTriggerImpl(api restapi.API, username string, clusterName string, reason
 	fmt.Println(colorizer.Blue("Trigger has been created"))
 }
 
-// DeleteTrigger deletes specified trigger
+// DeleteTrigger function deletes specified trigger.
 func DeleteTrigger(api restapi.API, triggerID string) {
 	// try to delete trigger idintified by its ID and display error message
 	// if anything wrong happens
@@ -133,7 +135,7 @@ func DeleteTrigger(api restapi.API, triggerID string) {
 	fmt.Println(colorizer.Blue("Trigger "+triggerID+" has been"), colorizer.Red(deleted))
 }
 
-// ActivateTrigger activates specified trigger
+// ActivateTrigger function activates specified trigger.
 func ActivateTrigger(api restapi.API, triggerID string) {
 	// try to activate trigger idintified by its ID and display error
 	// message if anything wrong happens

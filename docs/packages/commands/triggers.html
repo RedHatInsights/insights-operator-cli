@@ -130,8 +130,8 @@ limitations under the License.
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>ListOfTriggers displays list of triggers (including must-gather one)
-gathered via REST API call to controller service</p>
+	<td class="doc"><p>ListOfTriggers function displays list of triggers (including must-gather
+one) gathered via REST API call to controller service.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">ListOfTriggers</div><div class="operator">(</div><div class="ident">api</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">API</div><div class="operator">)</div> <div class="operator">{</div>
 </code></pre></td>
@@ -168,7 +168,8 @@ wrong happens</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>DescribeTrigger displays additional information about selected trigger</p>
+	<td class="doc"><p>DescribeTrigger function displays additional information about selected
+trigger.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">DescribeTrigger</div><div class="operator">(</div><div class="ident">api</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">API</div><div class="operator">,</div> <div class="ident">triggerID</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
 </code></pre></td>
@@ -216,7 +217,7 @@ if anything wrong happens</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>AddTrigger adds new trigger for a cluster</p>
+	<td class="doc"><p>AddTrigger function adds new trigger for a cluster.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">AddTrigger</div><div class="operator">(</div><div class="ident">api</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">API</div><div class="operator">,</div> <div class="ident">username</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
 	<div class="keyword">if</div> <div class="ident">username</div> <div class="operator">==</div> <div class="literal">&#34;&#34;</div> <div class="operator">{</div>
@@ -235,7 +236,8 @@ if anything wrong happens</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>AddTriggerImpl calls REST API to add a new trigger into the database</p>
+	<td class="doc"><p>AddTriggerImpl function calls REST API to add a new trigger into the
+database.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">AddTriggerImpl</div><div class="operator">(</div><div class="ident">api</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">API</div><div class="operator">,</div> <div class="ident">username</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">clusterName</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">reason</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">link</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
 </code></pre></td>
@@ -265,7 +267,7 @@ happens</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>DeleteTrigger deletes specified trigger</p>
+	<td class="doc"><p>DeleteTrigger function deletes specified trigger.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">DeleteTrigger</div><div class="operator">(</div><div class="ident">api</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">API</div><div class="operator">,</div> <div class="ident">triggerID</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
 </code></pre></td>
@@ -295,7 +297,7 @@ if anything wrong happens</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>ActivateTrigger activates specified trigger</p>
+	<td class="doc"><p>ActivateTrigger function activates specified trigger.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">ActivateTrigger</div><div class="operator">(</div><div class="ident">api</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">API</div><div class="operator">,</div> <div class="ident">triggerID</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
 </code></pre></td>
