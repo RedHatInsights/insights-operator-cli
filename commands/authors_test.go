@@ -24,7 +24,7 @@ import (
 )
 
 // TestCommandAuthors function checks if the command 'authors' really displays
-// list of authors to standard output
+// list of authors to the standard output.
 func TestCommandAuthors(t *testing.T) {
 	// turn off any colorization on standard output
 	configureColorizer()
