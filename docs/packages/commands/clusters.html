@@ -142,7 +142,14 @@ displayed - mainly its internal ID, an official ID, and a name.</p>
 happens</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">clusters</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">api</div><div class="operator">.</div><div class="ident">ReadListOfClusters</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check for any error</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
 </code></pre></td>
       </tr>
       
@@ -221,7 +228,14 @@ display the confirmation dialog</p>
 	<td class="doc"><p>try to delete cluster and display error if something wrong happens</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">err</div> <div class="operator">:=</div> <div class="ident">api</div><div class="operator">.</div><div class="ident">DeleteCluster</div><div class="operator">(</div><div class="ident">clusterID</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check for any error</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
 </code></pre></td>
       </tr>
       
@@ -257,7 +271,14 @@ call to insights operator controller service.</p>
 	<td class="doc"><p>try to add new cluster and display error if something wrong happens</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">err</div> <div class="operator">:=</div> <div class="ident">api</div><div class="operator">.</div><div class="ident">AddCluster</div><div class="operator">(</div><div class="ident">clusterName</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check for any error</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
 </code></pre></td>
       </tr>
       
