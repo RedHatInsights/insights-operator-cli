@@ -126,7 +126,14 @@ limitations under the License.
 	<div class="literal">&#34;testing&#34;</div><div class="operator"></div>
 <div class="operator">)</div><div class="operator"></div>
 
-<div class="keyword">func</div> <div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">,</div> <div class="ident">captured</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">err</div> <div class="ident">error</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>checkCapturedOutput function checks if the capturing of standard output was
+correct.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">checkCapturedOutput</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">,</div> <div class="ident">captured</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">err</div> <div class="ident">error</div><div class="operator">)</div> <div class="operator">{</div>
 	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unable to capture standard output&#34;</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
@@ -135,7 +142,14 @@ limitations under the License.
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
-<div class="keyword">func</div> <div class="ident">tryToFindCluster</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">,</div> <div class="ident">captured</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">clusterName</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>tryToFindCluster helper function checks if captured standard output contains
+provided cluster name or not.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">tryToFindCluster</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">,</div> <div class="ident">captured</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">clusterName</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
 	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="ident">clusterName</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find cluster:&#34;</div><div class="operator">,</div> <div class="ident">clusterName</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
