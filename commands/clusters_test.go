@@ -23,6 +23,8 @@ import (
 	"testing"
 )
 
+// checkCapturedOutput function checks if the capturing of standard output was
+// correct.
 func checkCapturedOutput(t *testing.T, captured string, err error) {
 	if err != nil {
 		t.Fatal("Unable to capture standard output", err)
@@ -32,6 +34,8 @@ func checkCapturedOutput(t *testing.T, captured string, err error) {
 	}
 }
 
+// tryToFindCluster helper function checks if captured standard output contains
+// provided cluster name or not.
 func tryToFindCluster(t *testing.T, captured string, clusterName string) {
 	if !strings.Contains(captured, clusterName) {
 		t.Fatal("Can not find cluster:", clusterName)
