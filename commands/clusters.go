@@ -29,6 +29,8 @@ func ListOfClusters(api restapi.API) {
 	// try to read list of clusters and display error if something wrong
 	// happens
 	clusters, err := api.ReadListOfClusters()
+
+	// check for any error
 	if err != nil {
 		// list of clusters operation failed for some reason
 		fmt.Println(colorizer.Red("Error reading list of clusters"))
@@ -68,6 +70,8 @@ func DeleteCluster(api restapi.API, clusterID string, askForConfirmation bool) {
 
 	// try to delete cluster and display error if something wrong happens
 	err := api.DeleteCluster(clusterID)
+
+	// check for any error
 	if err != nil {
 		// error has been detected during REST API call or during DB operation
 		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
@@ -84,6 +88,8 @@ func DeleteCluster(api restapi.API, clusterID string, askForConfirmation bool) {
 func AddCluster(api restapi.API, clusterName string) {
 	// try to add new cluster and display error if something wrong happens
 	err := api.AddCluster(clusterName)
+
+	// check for any error
 	if err != nil {
 		// error has been detected during REST API call or during DB operation
 		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
