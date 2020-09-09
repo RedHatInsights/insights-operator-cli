@@ -20,7 +20,7 @@ import (
 	"fmt"
 )
 
-// PrintAuthors function displays list of authors to standard output.  It is
+// PrintAuthors function displays list of authors to standard output. It is
 // possible to enable or disable colorized output of header via command line
 // options.
 func PrintAuthors() {
