@@ -16,6 +16,12 @@ limitations under the License.
 
 package commands
 
+// Generated documentation is available at:
+// https://godoc.org/github.com/RedHatInsights/insights-operator-cli/commands
+//
+// Documentation in literate-programming-style is available at:
+// https://redhatinsights.github.io/insights-operator-cli/packages/commands/errors.html
+
 // constants used to display various error messages
 const (
 	cannotReadConfigurationFileErrorMessage    = "Cannot read configuration file"
