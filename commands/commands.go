@@ -16,7 +16,7 @@ limitations under the License.
 
 // Package commands contains implementation of all commands that can be entered
 // by user on command line. This is the basic (and only) interface to Insights
-// Operator CLI tool.
+// Operator CLI tool that is officially available.
 //
 // Types, functions, and methods from this package are implemented in following
 // source files:
