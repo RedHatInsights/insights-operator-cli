@@ -45,3 +45,9 @@ limitations under the License.
 //
 // * triggers.go
 package commands
+
+// Generated documentation is available at:
+// https://godoc.org/github.com/RedHatInsights/insights-operator-cli/commands
+//
+// Documentation in literate-programming-style is available at:
+// https://redhatinsights.github.io/insights-operator-cli/packages/commands/commands.html
