@@ -16,6 +16,9 @@ limitations under the License.
 
 package main
 
+// Documentation in literate-programming-style is available at:
+// https://redhatinsights.github.io/insights-operator-cli/packages/export_test.html
+
 // Export for testing
 //
 // This source file contains name aliases of all package-private functions
