@@ -16,6 +16,9 @@ limitations under the License.
 
 package commands_test
 
+// Documentation in literate-programming-style is available at:
+// https://redhatinsights.github.io/insights-operator-cli/packages/commands/common_test.html
+
 import (
 	"github.com/logrusorgru/aurora"
 	"github.com/redhatinsighs/insights-operator-cli/commands"
