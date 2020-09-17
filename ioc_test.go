@@ -15,6 +15,9 @@ limitations under the License.
 */
 package main_test
 
+// Documentation in literate-programming-style is available at:
+// https://redhatinsights.github.io/insights-operator-cli/packages/ioc_test.html
+
 import (
 	"github.com/c-bata/go-prompt"
 	"github.com/logrusorgru/aurora"
