@@ -19,3 +19,9 @@ limitations under the License.
 // Insights Results Aggregator, Content Service) might be imported from (based
 // on) the common package insights-operator-utils/types.
 package types
+
+// Generated documentation is available at:
+// https://godoc.org/github.com/RedHatInsights/insights-operator-cli/types
+//
+// Documentation in literate-programming-style is available at:
+// https://redhatinsights.github.io/insights-operator-cli/packages/types/types.html
