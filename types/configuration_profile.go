@@ -16,6 +16,12 @@ limitations under the License.
 
 package types
 
+// Generated documentation is available at:
+// https://godoc.org/github.com/RedHatInsights/insights-operator-cli/types
+//
+// Documentation in literate-programming-style is available at:
+// https://redhatinsights.github.io/insights-operator-cli/packages/types/configuration_profile.html
+
 // ConfigurationProfile structure represents configuration profile record in
 // the controller service.
 //     ID: unique key
