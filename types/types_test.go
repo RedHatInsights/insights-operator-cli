@@ -18,3 +18,6 @@ limitations under the License.
 // Please note that currently the "types" package contains just declaration of
 // new data types w/o any other code. So there's no need to create unit tests.
 package types_test
+
+// Documentation in literate-programming-style is available at:
+// https://redhatinsights.github.io/insights-operator-cli/packages/types/types_test.html
