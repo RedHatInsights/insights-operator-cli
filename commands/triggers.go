@@ -99,7 +99,7 @@ func DescribeTrigger(api restapi.API, triggerID string) {
 // AddTrigger function adds new trigger for a cluster.
 func AddTrigger(api restapi.API, username string) {
 	if username == "" {
-		fmt.Println(colorizer.Red("Not logged in"))
+		fmt.Println(colorizer.Red(notLoggedIn))
 		return
 	}
 
