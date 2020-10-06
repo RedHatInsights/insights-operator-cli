@@ -131,6 +131,7 @@ limitations under the License.
 
 <div class="keyword">const</div> <div class="operator">(</div>
 	<div class="ident">communicationErrorWithServerErrorMessage</div> <div class="operator">=</div> <div class="literal">&#34;Communication error with the server %v&#34;</div><div class="operator"></div>
+	<div class="ident">unableToReadResponseBodyError</div>            <div class="operator">=</div> <div class="literal">&#34;Unable to read response body&#34;</div><div class="operator"></div>
 <div class="operator">)</div><div class="operator"></div>
 
 </code></pre></td>
@@ -160,7 +161,7 @@ method and if the call is successful read the body of response.</p>
 	<div class="keyword">defer</div> <div class="ident">closeResponseBody</div><div class="operator">(</div><div class="ident">response</div><div class="operator">)</div><div class="operator"></div>
 
 	<div class="keyword">if</div> <div class="ident">readErr</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
-		<div class="keyword">return</div> <div class="ident">nil</div><div class="operator">,</div> <div class="ident">fmt</div><div class="operator">.</div><div class="ident">Errorf</div><div class="operator">(</div><div class="literal">&#34;Unable to read response body&#34;</div><div class="operator">)</div><div class="operator"></div>
+		<div class="keyword">return</div> <div class="ident">nil</div><div class="operator">,</div> <div class="ident">fmt</div><div class="operator">.</div><div class="ident">Errorf</div><div class="operator">(</div><div class="ident">unableToReadResponseBodyError</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 
 	<div class="keyword">return</div> <div class="ident">body</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator"></div>
@@ -193,7 +194,7 @@ of response.</p>
 	<div class="keyword">defer</div> <div class="ident">closeResponseBody</div><div class="operator">(</div><div class="ident">response</div><div class="operator">)</div><div class="operator"></div>
 
 	<div class="keyword">if</div> <div class="ident">readErr</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
-		<div class="keyword">return</div> <div class="ident">fmt</div><div class="operator">.</div><div class="ident">Errorf</div><div class="operator">(</div><div class="literal">&#34;Unable to read response body&#34;</div><div class="operator">)</div><div class="operator"></div>
+		<div class="keyword">return</div> <div class="ident">fmt</div><div class="operator">.</div><div class="ident">Errorf</div><div class="operator">(</div><div class="ident">unableToReadResponseBodyError</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 	<div class="keyword">return</div> <div class="ident">parseResponse</div><div class="operator">(</div><div class="ident">body</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
