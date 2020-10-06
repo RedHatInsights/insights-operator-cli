@@ -129,6 +129,10 @@ limitations under the License.
 	<div class="literal">&#34;net/http&#34;</div><div class="operator"></div>
 <div class="operator">)</div><div class="operator"></div>
 
+<div class="keyword">const</div> <div class="operator">(</div>
+	<div class="ident">communicationErrorWithServerErrorMessage</div> <div class="operator">=</div> <div class="literal">&#34;Communication error with the server %v&#34;</div><div class="operator"></div>
+<div class="operator">)</div><div class="operator"></div>
+
 </code></pre></td>
       </tr>
       
@@ -147,7 +151,7 @@ method and if the call is successful read the body of response.</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">response</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">Get</div><div class="operator">(</div><div class="ident">url</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
-		<div class="keyword">return</div> <div class="ident">nil</div><div class="operator">,</div> <div class="ident">fmt</div><div class="operator">.</div><div class="ident">Errorf</div><div class="operator">(</div><div class="literal">&#34;Communication error with the server %v&#34;</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+		<div class="keyword">return</div> <div class="ident">nil</div><div class="operator">,</div> <div class="ident">fmt</div><div class="operator">.</div><div class="ident">Errorf</div><div class="operator">(</div><div class="ident">communicationErrorWithServerErrorMessage</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">response</div><div class="operator">.</div><div class="ident">StatusCode</div> <div class="operator">!=</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">StatusOK</div> <div class="operator">{</div>
 		<div class="keyword">return</div> <div class="ident">nil</div><div class="operator">,</div> <div class="ident">fmt</div><div class="operator">.</div><div class="ident">Errorf</div><div class="operator">(</div><div class="literal">&#34;Expected HTTP status 200 OK, got %d&#34;</div><div class="operator">,</div> <div class="ident">response</div><div class="operator">.</div><div class="ident">StatusCode</div><div class="operator">)</div><div class="operator"></div>
@@ -180,7 +184,7 @@ of response.</p>
 
 	<div class="ident">response</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">client</div><div class="operator">.</div><div class="ident">Do</div><div class="operator">(</div><div class="ident">request</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
-		<div class="keyword">return</div> <div class="ident">fmt</div><div class="operator">.</div><div class="ident">Errorf</div><div class="operator">(</div><div class="literal">&#34;Communication error with the server %v&#34;</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
+		<div class="keyword">return</div> <div class="ident">fmt</div><div class="operator">.</div><div class="ident">Errorf</div><div class="operator">(</div><div class="ident">communicationErrorWithServerErrorMessage</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">response</div><div class="operator">.</div><div class="ident">StatusCode</div> <div class="operator">!=</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">StatusOK</div> <div class="operator">&amp;&amp;</div> <div class="ident">response</div><div class="operator">.</div><div class="ident">StatusCode</div> <div class="operator">!=</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">StatusCreated</div> <div class="operator">&amp;&amp;</div> <div class="ident">response</div><div class="operator">.</div><div class="ident">StatusCode</div> <div class="operator">!=</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">StatusAccepted</div> <div class="operator">{</div>
 		<div class="keyword">return</div> <div class="ident">fmt</div><div class="operator">.</div><div class="ident">Errorf</div><div class="operator">(</div><div class="literal">&#34;Expected HTTP status 200 OK, 201 Created or 202 Accepted, got %d&#34;</div><div class="operator">,</div> <div class="ident">response</div><div class="operator">.</div><div class="ident">StatusCode</div><div class="operator">)</div><div class="operator"></div>
