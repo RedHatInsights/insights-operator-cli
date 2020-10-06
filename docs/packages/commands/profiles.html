@@ -247,7 +247,7 @@ error when something wrong happens</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">AddConfigurationProfile</div><div class="operator">(</div><div class="ident">api</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">API</div><div class="operator">,</div> <div class="ident">username</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
 	<div class="keyword">if</div> <div class="ident">username</div> <div class="operator">==</div> <div class="literal">&#34;&#34;</div> <div class="operator">{</div>
-		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="literal">&#34;Not logged in&#34;</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">notLoggedIn</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 		<div class="keyword">return</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 
