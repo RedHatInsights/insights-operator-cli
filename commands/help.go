@@ -68,8 +68,8 @@ func PrintHelp() {
 	fmt.Println(colorizer.Blue("Other commands:"))
 	fmt.Println(colorizer.Yellow("version                  "), "print version information")
 	fmt.Println(colorizer.Yellow("quit                     "), "quit the application")
-	fmt.Println(colorizer.Yellow("exit                     "), "dtto")
-	fmt.Println(colorizer.Yellow("bye                      "), "dtto")
+	fmt.Println(colorizer.Yellow("exit                     "), commandAlias)
+	fmt.Println(colorizer.Yellow("bye                      "), commandAlias)
 	fmt.Println(colorizer.Yellow("help                     "), "this help")
 	fmt.Println()
 }
