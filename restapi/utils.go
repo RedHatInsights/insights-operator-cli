@@ -28,6 +28,7 @@ import (
 
 const (
 	communicationErrorWithServerErrorMessage = "Communication error with the server %v"
+	unableToReadResponseBodyError            = "Unable to read response body"
 )
 
 // performReadRequest function try to perform HTTP request using the HTTP GET
@@ -46,7 +47,7 @@ func performReadRequest(url string) ([]byte, error) {
 	defer closeResponseBody(response)
 
 	if readErr != nil {
-		return nil, fmt.Errorf("Unable to read response body")
+		return nil, fmt.Errorf(unableToReadResponseBodyError)
 	}
 
 	return body, nil
@@ -74,7 +75,7 @@ func performWriteRequest(url string, method string, payload io.Reader) error {
 	defer closeResponseBody(response)
 
 	if readErr != nil {
-		return fmt.Errorf("Unable to read response body")
+		return fmt.Errorf(unableToReadResponseBodyError)
 	}
 	return parseResponse(body)
 }
