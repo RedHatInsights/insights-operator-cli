@@ -26,6 +26,10 @@ import (
 	"fmt"
 )
 
+const (
+	commandAlias = "alias for previous command"
+)
+
 // PrintHelp function can be used to display help on (color) terminal.
 // Colorization is optional and depends on configuration.
 func PrintHelp() {
@@ -35,7 +39,7 @@ func PrintHelp() {
 	fmt.Println(colorizer.Yellow("list clusters            "), "list all clusters known to the service")
 	fmt.Println(colorizer.Yellow("delete cluster ##        "), "delete selected cluster")
 	fmt.Println(colorizer.Yellow("add cluster              "), "create new cluster")
-	fmt.Println(colorizer.Yellow("new cluster              "), "alias for previous command")
+	fmt.Println(colorizer.Yellow("new cluster              "), commandAlias)
 	fmt.Println()
 	fmt.Println(colorizer.Blue("Configuration profiles:    "))
 	fmt.Println(colorizer.Yellow("list profiles            "), "list all profiles known to the service")
@@ -47,7 +51,7 @@ func PrintHelp() {
 	fmt.Println(colorizer.Yellow("list configurations      "), "list all configurations known to the service")
 	fmt.Println(colorizer.Yellow("describe configuration ##"), "describe cluster configuration selected by its ID")
 	fmt.Println(colorizer.Yellow("add configuration        "), "add new configuration")
-	fmt.Println(colorizer.Yellow("new configuration        "), "alias for previous command")
+	fmt.Println(colorizer.Yellow("new configuration        "), commandAlias)
 	fmt.Println(colorizer.Yellow("enable configuration ##  "), "enable cluster configuration selected by its ID")
 	fmt.Println(colorizer.Yellow("disable configuration ## "), "disable cluster configuration selected by its ID")
 	fmt.Println(colorizer.Yellow("delete configuration ##  "), "delete configuration selected by its ID")
@@ -56,7 +60,7 @@ func PrintHelp() {
 	fmt.Println(colorizer.Yellow("list triggers            "), "list all triggers")
 	fmt.Println(colorizer.Yellow("describe trigger ##      "), "describe trigger selected by its ID")
 	fmt.Println(colorizer.Yellow("add trigger              "), "add new trigger")
-	fmt.Println(colorizer.Yellow("new trigger              "), "alias for previous command")
+	fmt.Println(colorizer.Yellow("new trigger              "), commandAlias)
 	fmt.Println(colorizer.Yellow("activate trigger ##      "), "activate trigger selected by its ID")
 	fmt.Println(colorizer.Yellow("deactivate trigger ##    "), "deactivate trigger selected by its ID")
 	fmt.Println(colorizer.Yellow("delete trigger           "), "delete trigger")
