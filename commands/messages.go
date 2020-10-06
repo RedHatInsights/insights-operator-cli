@@ -27,6 +27,9 @@ const (
 	operationCancelled = "Cancelled"
 	changedAt          = "Changed at"
 
+	// user is not logged in
+	notLoggedIn = "Not logged in"
+
 	// any object (cluster, configuration, profile) has been deleted
 	deleted = "deleted"
 

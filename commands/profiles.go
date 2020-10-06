@@ -94,7 +94,7 @@ func DeleteConfigurationProfile(api restapi.API, profileID string, askForConfirm
 // AddConfigurationProfile adds the profile to database
 func AddConfigurationProfile(api restapi.API, username string) {
 	if username == "" {
-		fmt.Println(colorizer.Red("Not logged in"))
+		fmt.Println(colorizer.Red(notLoggedIn))
 		return
 	}
 

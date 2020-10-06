@@ -134,7 +134,7 @@ func DeleteClusterConfiguration(api restapi.API, configurationID string) {
 // new cluster configuration, all done via REST API call.
 func AddClusterConfiguration(api restapi.API, username string) {
 	if username == "" {
-		fmt.Println(colorizer.Red("Not logged in"))
+		fmt.Println(colorizer.Red(notLoggedIn))
 		return
 	}
 
