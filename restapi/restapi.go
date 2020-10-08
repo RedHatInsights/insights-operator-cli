@@ -17,3 +17,9 @@ limitations under the License.
 // Package restapi contains implementation of REST API interface to Insights
 // Operator Controller service.
 package restapi
+
+// Generated documentation is available at:
+// https://godoc.org/github.com/RedHatInsights/insights-operator-cli/restapi
+//
+// Documentation in literate-programming-style is available at:
+// https://redhatinsights.github.io/insights-operator-cli/packages/restapi/restapi.html
