@@ -16,5 +16,11 @@ limitations under the License.
 
 package restapi
 
+// Generated documentation is available at:
+// https://godoc.org/github.com/RedHatInsights/insights-operator-cli/restapi
+//
+// Documentation in literate-programming-style is available at:
+// https://redhatinsights.github.io/insights-operator-cli/packages/restapi/config.html
+
 // APIPrefix string is inserted before all REST API endpoint addresses
 const APIPrefix = "/api/v1/"
