@@ -16,6 +16,9 @@ limitations under the License.
 
 package main
 
+// Documentation in literate-programming-style is available at:
+// https://redhatinsights.github.io/insights-operator-cli/packages/tests/clusters_test.html
+
 import (
 	"fmt"
 	"math/rand"
