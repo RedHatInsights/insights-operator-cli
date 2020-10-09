@@ -16,6 +16,9 @@ limitations under the License.
 
 package main
 
+// Documentation in literate-programming-style is available at:
+// https://redhatinsights.github.io/insights-operator-cli/packages/tests/common_commands_test.html
+
 import (
 	"testing"
 )
