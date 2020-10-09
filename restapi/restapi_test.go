@@ -16,3 +16,6 @@ limitations under the License.
 
 // Package restapi_test contains unit tests for the restapi package.
 package restapi_test
+
+// Documentation in literate-programming-style is available at:
+// https://redhatinsights.github.io/insights-operator-cli/packages/restapi/restapi_test.html
