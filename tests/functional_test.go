@@ -23,6 +23,9 @@ limitations under the License.
 // commands.
 package main
 
+// Documentation in literate-programming-style is available at:
+// https://redhatinsights.github.io/insights-operator-cli/packages/tests/functional_test.html
+
 import (
 	"os"
 	"strings"
