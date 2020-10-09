@@ -16,6 +16,9 @@ limitations under the License.
 
 package restapi_test
 
+// Documentation in literate-programming-style is available at:
+// https://redhatinsights.github.io/insights-operator-cli/packages/restapi/api_test.html
+
 import (
 	"net/http"
 	"net/http/httptest"
