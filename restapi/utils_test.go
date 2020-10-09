@@ -16,6 +16,9 @@ limitations under the License.
 
 package restapi_test
 
+// Documentation in literate-programming-style is available at:
+// https://redhatinsights.github.io/insights-operator-cli/packages/restapi/utils_test.html
+
 import (
 	"bytes"
 	"github.com/redhatinsighs/insights-operator-cli/restapi"
