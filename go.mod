@@ -1,4 +1,4 @@
-module github.com/redhatinsighs/insights-operator-cli
+module github.com/RedHatInsights/insights-operator-cli
 
 go 1.13
 
