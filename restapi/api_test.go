@@ -1,5 +1,5 @@
 /*
-Copyright © 2020 Red Hat, Inc.
+Copyright © 2020, 2021 Red Hat, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -23,8 +23,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 
-	"github.com/redhatinsighs/insights-operator-cli/restapi"
-	"github.com/redhatinsighs/insights-operator-cli/types"
+	"github.com/RedHatInsights/insights-operator-cli/restapi"
+	"github.com/RedHatInsights/insights-operator-cli/types"
 
 	"testing"
 )
