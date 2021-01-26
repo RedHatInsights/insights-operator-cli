@@ -17,7 +17,7 @@ limitations under the License.
 package restapi
 
 // Generated documentation is available at:
-// https://godoc.org/github.com/RedHatInsights/insights-operator-cli/restapi
+// https://pkg.go.dev/github.com/RedHatInsights/insights-operator-cli/restapi
 //
 // Documentation in literate-programming-style is available at:
 // https://redhatinsights.github.io/insights-operator-cli/packages/restapi/api_impl.html

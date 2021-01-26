@@ -16,6 +16,9 @@ limitations under the License.
 
 package main
 
+// Generated documentation is available at:
+// https://pkg.go.dev/github.com/RedHatInsights/insights-operator-cli
+//
 // Documentation in literate-programming-style is available at:
 // https://RedHatInsights.github.io/insights-operator-cli/packages/export_test.html
 

@@ -19,7 +19,7 @@ limitations under the License.
 package main
 
 // Generated documentation is available at:
-// https://godoc.org/github.com/RedHatInsights/insights-operator-cli/
+// https://pkg.go.dev/github.com/RedHatInsights/insights-operator-cli
 //
 // Documentation in literate-programming-style is available at:
 // https://redhatinsights.github.io/insights-operator-cli/packages/ioc.html
