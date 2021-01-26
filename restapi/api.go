@@ -1,5 +1,5 @@
 /*
-Copyright © 2019, 2020 Red Hat, Inc.
+Copyright © 2019, 2020, 2021 Red Hat, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ package restapi
 // https://redhatinsights.github.io/insights-operator-cli/packages/restapi/api.html
 
 import (
-	"github.com/redhatinsighs/insights-operator-cli/types"
+	"github.com/RedHatInsights/insights-operator-cli/types"
 )
 
 // API represents API to the controller service. Normally it is implemented via
