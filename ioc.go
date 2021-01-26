@@ -1,5 +1,5 @@
 /*
-Copyright © 2019, 2020 Red Hat, Inc.
+Copyright © 2019, 2020, 2021 Red Hat, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -28,10 +28,10 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
+	"github.com/RedHatInsights/insights-operator-cli/commands"
+	"github.com/RedHatInsights/insights-operator-cli/restapi"
 	"github.com/c-bata/go-prompt"
 	"github.com/logrusorgru/aurora"
-	"github.com/redhatinsighs/insights-operator-cli/commands"
-	"github.com/redhatinsighs/insights-operator-cli/restapi"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/ssh/terminal"
 	"os"

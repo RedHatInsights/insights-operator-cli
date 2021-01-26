@@ -1,5 +1,5 @@
 /*
-Copyright © 2019, 2020 Red Hat, Inc.
+Copyright © 2019, 2020, 2021 Red Hat, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ package commands_test
 // https://redhatinsights.github.io/insights-operator-cli/packages/commands/license_test.html
 
 import (
-	"github.com/redhatinsighs/insights-operator-cli/commands"
+	"github.com/RedHatInsights/insights-operator-cli/commands"
 	"github.com/tisnik/go-capture"
 	"strings"
 	"testing"
