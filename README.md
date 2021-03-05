@@ -54,6 +54,8 @@ A simple CLI client for managing the Insights operator. Currently this client su
 
 ## How to build the CLI client
 
+Go version 1.14 or higher is required to build the client.
+
 Use the standard Go command:
 
 ```
