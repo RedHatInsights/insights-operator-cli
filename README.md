@@ -5,7 +5,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/RedHatInsights/insights-operator-cli)](https://goreportcard.com/report/github.com/RedHatInsights/insights-operator-cli)
 [![Build Status](https://travis-ci.org/RedHatInsights/insights-operator-cli.svg?branch=master)](https://travis-ci.org/RedHatInsights/insights-operator-cli)
 [![codecov](https://codecov.io/gh/RedHatInsights/insights-operator-cli/branch/master/graph/badge.svg)](https://codecov.io/gh/RedHatInsights/insights-operator-cli)
-[![License](https://img.shields.io/badge/license-Apache--2.0%20%2F%20MIT-%2397ca00.svg)](https://github.com/RedHatInsights/insights-operator-cli/blob/master/LICENSE)
+[![License]((https://img.shields.io/badge/license-Apache-blue)](https://github.com/RedHatInsights/insights-operator-cli/blob/master/LICENSE)
 
 ## Description
 
