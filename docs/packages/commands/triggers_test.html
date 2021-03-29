@@ -128,16 +128,32 @@ https://redhatinsights.github.io/insights-operator-cli/packages/commands/command
 </td>
 	<td class="code"><pre><code>
 <div class="keyword">import</div> <div class="operator">(</div>
-	<div class="literal">&#34;github.com/RedHatInsights/insights-operator-cli/commands&#34;</div><div class="operator"></div>
-	<div class="literal">&#34;github.com/tisnik/go-capture&#34;</div><div class="operator"></div>
 	<div class="literal">&#34;regexp&#34;</div><div class="operator"></div>
 	<div class="literal">&#34;strings&#34;</div><div class="operator"></div>
 	<div class="literal">&#34;testing&#34;</div><div class="operator"></div>
+
+	<div class="literal">&#34;github.com/tisnik/go-capture&#34;</div><div class="operator"></div>
+
+	<div class="literal">&#34;github.com/RedHatInsights/insights-operator-cli/commands&#34;</div><div class="operator"></div>
 <div class="operator">)</div><div class="operator"></div>
 
-<div class="keyword">func</div> <div class="ident">tryToFindTrigger</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">,</div> <div class="ident">captured</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">trigger</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>tryToFindTrigger is a helper function that tries to find a trigger ID in
+captured output. If trigger info is not found, the test that calls this
+function, fails.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">tryToFindTrigger</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">,</div> <div class="ident">captured</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">trigger</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
 	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="ident">trigger</div><div class="operator">)</div> <div class="operator">{</div>
-		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find trigger:&#34;</div><div class="operator">,</div> <div class="ident">trigger</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>if trigger info is not found, the test should fail</p>
+</td>
+	<td class="code"><pre><code>		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find trigger:&#34;</div><div class="operator">,</div> <div class="ident">trigger</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
@@ -146,14 +162,15 @@ https://redhatinsights.github.io/insights-operator-cli/packages/commands/command
       
       <tr class="section">
 	<td class="doc"><p>TestListOfTriggers function checks whether the non-empty list of triggers
-read via REST API is displayed correctly.</p>
+read via REST API is displayed correctly on CLI client standard output.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">TestListOfTriggers</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">)</div> <div class="operator">{</div>
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -161,7 +178,8 @@ read via REST API is displayed correctly.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform trigger-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -204,13 +222,26 @@ read via REST API is displayed correctly.</p>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Not all triggers are listed in the output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 
-	<div class="ident">expectedTriggers</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">string</div><div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>list of expected triggers to be displayed on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">expectedTriggers</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">string</div><div class="operator">{</div>
 		<div class="literal">&#34;must-gather&#34;</div><div class="operator">,</div>
 		<div class="literal">&#34;must-gather&#34;</div><div class="operator">,</div>
 		<div class="literal">&#34;must-gather&#34;</div><div class="operator">,</div>
 		<div class="literal">&#34;different-trigger&#34;</div><div class="operator">,</div>
 	<div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">for</div> <div class="ident">_</div><div class="operator">,</div> <div class="ident">expectedTrigger</div> <div class="operator">:=</div> <div class="keyword">range</div> <div class="ident">expectedTriggers</div> <div class="operator">{</div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check the actual output displayed on terminal</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">for</div> <div class="ident">_</div><div class="operator">,</div> <div class="ident">expectedTrigger</div> <div class="operator">:=</div> <div class="keyword">range</div> <div class="ident">expectedTriggers</div> <div class="operator">{</div>
 		<div class="ident">tryToFindTrigger</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">expectedTrigger</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -227,7 +258,8 @@ via REST API is displayed correctly.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -235,7 +267,8 @@ via REST API is displayed correctly.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform trigger-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -274,7 +307,14 @@ via REST API is displayed correctly.</p>
 	<td class="doc"><p>we expect two lines - title and column headers</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">numlines</div> <div class="operator">:=</div> <div class="ident">strings</div><div class="operator">.</div><div class="ident">Count</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;\n&#34;</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="ident">numlines</div> <div class="operator">&gt;</div> <div class="literal">2</div> <div class="operator">{</div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check the actual output displayed on terminal</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="ident">numlines</div> <div class="operator">&gt;</div> <div class="literal">2</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -291,7 +331,8 @@ REST API is handled correctly.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -299,7 +340,8 @@ REST API is handled correctly.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform trigger-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -325,7 +367,7 @@ REST API is handled correctly.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>test the captured output</p>
+	<td class="doc"><p>check the actual output displayed on terminal</p>
 </td>
 	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error reading list of triggers&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
@@ -344,7 +386,8 @@ and displays information about activated trigger.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -352,7 +395,8 @@ and displays information about activated trigger.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform trigger-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -378,18 +422,39 @@ and displays information about activated trigger.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>test the captured output</p>
+	<td class="doc"><p>check the actual output displayed on terminal</p>
 </td>
 	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Trigger info&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;ffffffff-ffff-ffff-ffff-ffffffffffff&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>cluster ID needs to be displayed</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;ffffffff-ffff-ffff-ffff-ffffffffffff&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find cluster ID:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;tester&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>user name needs to be displayed</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;tester&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find name of user two triggered the trigger:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
-	<div class="ident">match</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">regexp</div><div class="operator">.</div><div class="ident">MatchString</div><div class="operator">(</div><div class="literal">`Active:.*yes`</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>info about activated trigger needs to be displayed</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">match</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">regexp</div><div class="operator">.</div><div class="ident">MatchString</div><div class="operator">(</div><div class="literal">`Active:.*yes`</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
@@ -410,7 +475,8 @@ read and displays information about inactivated trigger.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -418,7 +484,8 @@ read and displays information about inactivated trigger.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform trigger-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -449,13 +516,34 @@ read and displays information about inactivated trigger.</p>
 	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Trigger info&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;ffffffff-ffff-ffff-ffff-ffffffffffff&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>cluster ID needs to be displayed</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;ffffffff-ffff-ffff-ffff-ffffffffffff&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find cluster ID:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;tester&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>user name needs to be displayed</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;tester&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find name of user two triggered the trigger:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
-	<div class="ident">match</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">regexp</div><div class="operator">.</div><div class="ident">MatchString</div><div class="operator">(</div><div class="literal">`Active:.*no`</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>info about inactivated trigger needs to be displayed</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">match</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">regexp</div><div class="operator">.</div><div class="ident">MatchString</div><div class="operator">(</div><div class="literal">`Active:.*no`</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
@@ -476,7 +564,8 @@ read and displays information about other type of trigger.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -484,7 +573,8 @@ read and displays information about other type of trigger.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform trigger-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -515,13 +605,34 @@ read and displays information about other type of trigger.</p>
 	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Trigger info&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;00000000-0000-0000-0000-000000000000&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>cluster ID needs to be displayed</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;00000000-0000-0000-0000-000000000000&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find cluster ID:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;tester&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>user name needs to be displayed</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;tester&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find name of user two triggered the trigger:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
-	<div class="ident">match</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">regexp</div><div class="operator">.</div><div class="ident">MatchString</div><div class="operator">(</div><div class="literal">`Active:.*no`</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>info about inactivated trigger needs to be displayed</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">match</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">regexp</div><div class="operator">.</div><div class="ident">MatchString</div><div class="operator">(</div><div class="literal">`Active:.*no`</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
@@ -542,7 +653,8 @@ are reported and handled.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -550,7 +662,8 @@ are reported and handled.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform trigger-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -595,7 +708,8 @@ API.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -603,7 +717,8 @@ API.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform trigger-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -648,7 +763,8 @@ registration.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -656,7 +772,8 @@ registration.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform trigger-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -700,7 +817,8 @@ registration.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -708,7 +826,8 @@ registration.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform trigger-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -753,7 +872,8 @@ registration.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -761,7 +881,8 @@ registration.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform trigger-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -805,7 +926,8 @@ registration.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -813,7 +935,8 @@ registration.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform trigger-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -858,7 +981,8 @@ command 'activate trigger'.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -866,7 +990,8 @@ command 'activate trigger'.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform trigger-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -910,7 +1035,8 @@ command 'activate trigger'.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -918,7 +1044,8 @@ command 'activate trigger'.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform trigger-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -963,7 +1090,8 @@ command 'deactivate trigger'.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -971,7 +1099,8 @@ command 'deactivate trigger'.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform trigger-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
