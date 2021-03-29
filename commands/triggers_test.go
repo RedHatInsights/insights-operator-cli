@@ -20,26 +20,34 @@ package commands_test
 // https://redhatinsights.github.io/insights-operator-cli/packages/commands/commands_test.html
 
 import (
-	"github.com/RedHatInsights/insights-operator-cli/commands"
-	"github.com/tisnik/go-capture"
 	"regexp"
 	"strings"
 	"testing"
+
+	"github.com/tisnik/go-capture"
+
+	"github.com/RedHatInsights/insights-operator-cli/commands"
 )
 
+// tryToFindTrigger is a helper function that tries to find a trigger ID in
+// captured output. If trigger info is not found, the test that calls this
+// function, fails.
 func tryToFindTrigger(t *testing.T, captured string, trigger string) {
 	if !strings.Contains(captured, trigger) {
+		// if trigger info is not found, the test should fail
 		t.Fatal("Can not find trigger:", trigger)
 	}
 }
 
 // TestListOfTriggers function checks whether the non-empty list of triggers
-// read via REST API is displayed correctly.
+// read via REST API is displayed correctly on CLI client standard output.
 func TestListOfTriggers(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform trigger-related command or query
 	restAPIMock := RestAPIMock{}
 
 	// use go-capture package to capture all writes to standard output
@@ -61,12 +69,15 @@ func TestListOfTriggers(t *testing.T) {
 		t.Fatal("Not all triggers are listed in the output:\n", captured)
 	}
 
+	// list of expected triggers to be displayed on standard output
 	expectedTriggers := []string{
 		"must-gather",
 		"must-gather",
 		"must-gather",
 		"different-trigger",
 	}
+
+	// check the actual output displayed on terminal
 	for _, expectedTrigger := range expectedTriggers {
 		tryToFindTrigger(t, captured, expectedTrigger)
 	}
@@ -76,9 +87,11 @@ func TestListOfTriggers(t *testing.T) {
 // via REST API is displayed correctly.
 func TestListOfTriggersEmptyList(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform trigger-related command or query
 	restAPIMock := RestAPIMockEmpty{}
 
 	// use go-capture package to capture all writes to standard output
@@ -96,6 +109,8 @@ func TestListOfTriggersEmptyList(t *testing.T) {
 
 	// we expect two lines - title and column headers
 	numlines := strings.Count(captured, "\n")
+
+	// check the actual output displayed on terminal
 	if numlines > 2 {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -105,9 +120,11 @@ func TestListOfTriggersEmptyList(t *testing.T) {
 // REST API is handled correctly.
 func TestListOfTriggersErrorHandling(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform trigger-related command or query
 	restAPIMock := RestAPIMockErrors{}
 
 	// use go-capture package to capture all writes to standard output
@@ -118,7 +135,7 @@ func TestListOfTriggersErrorHandling(t *testing.T) {
 	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
 
-	// test the captured output
+	// check the actual output displayed on terminal
 	if !strings.HasPrefix(captured, "Error reading list of triggers") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -128,9 +145,11 @@ func TestListOfTriggersErrorHandling(t *testing.T) {
 // and displays information about activated trigger.
 func TestDescribeActivatedTrigger(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform trigger-related command or query
 	restAPIMock := RestAPIMock{}
 
 	// use go-capture package to capture all writes to standard output
@@ -141,16 +160,22 @@ func TestDescribeActivatedTrigger(t *testing.T) {
 	// check if capture was done correctly
 	checkCapturedOutput(t, captured, err)
 
-	// test the captured output
+	// check the actual output displayed on terminal
 	if !strings.HasPrefix(captured, "Trigger info") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
+
+	// cluster ID needs to be displayed
 	if !strings.Contains(captured, "ffffffff-ffff-ffff-ffff-ffffffffffff") {
 		t.Fatal("Can not find cluster ID:\n", captured)
 	}
+
+	// user name needs to be displayed
 	if !strings.Contains(captured, "tester") {
 		t.Fatal("Can not find name of user two triggered the trigger:\n", captured)
 	}
+
+	// info about activated trigger needs to be displayed
 	match, err := regexp.MatchString(`Active:.*yes`, captured)
 	if err != nil {
 		t.Fatal(err)
@@ -164,9 +189,11 @@ func TestDescribeActivatedTrigger(t *testing.T) {
 // read and displays information about inactivated trigger.
 func TestDescribeInactivatedTrigger(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform trigger-related command or query
 	restAPIMock := RestAPIMock{}
 
 	// use go-capture package to capture all writes to standard output
@@ -181,12 +208,18 @@ func TestDescribeInactivatedTrigger(t *testing.T) {
 	if !strings.HasPrefix(captured, "Trigger info") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
+
+	// cluster ID needs to be displayed
 	if !strings.Contains(captured, "ffffffff-ffff-ffff-ffff-ffffffffffff") {
 		t.Fatal("Can not find cluster ID:\n", captured)
 	}
+
+	// user name needs to be displayed
 	if !strings.Contains(captured, "tester") {
 		t.Fatal("Can not find name of user two triggered the trigger:\n", captured)
 	}
+
+	// info about inactivated trigger needs to be displayed
 	match, err := regexp.MatchString(`Active:.*no`, captured)
 	if err != nil {
 		t.Fatal(err)
@@ -200,9 +233,11 @@ func TestDescribeInactivatedTrigger(t *testing.T) {
 // read and displays information about other type of trigger.
 func TestDescribeNonMustGatherTrigger(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform trigger-related command or query
 	restAPIMock := RestAPIMock{}
 
 	// use go-capture package to capture all writes to standard output
@@ -217,12 +252,18 @@ func TestDescribeNonMustGatherTrigger(t *testing.T) {
 	if !strings.HasPrefix(captured, "Trigger info") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
+
+	// cluster ID needs to be displayed
 	if !strings.Contains(captured, "00000000-0000-0000-0000-000000000000") {
 		t.Fatal("Can not find cluster ID:\n", captured)
 	}
+
+	// user name needs to be displayed
 	if !strings.Contains(captured, "tester") {
 		t.Fatal("Can not find name of user two triggered the trigger:\n", captured)
 	}
+
+	// info about inactivated trigger needs to be displayed
 	match, err := regexp.MatchString(`Active:.*no`, captured)
 	if err != nil {
 		t.Fatal(err)
@@ -236,9 +277,11 @@ func TestDescribeNonMustGatherTrigger(t *testing.T) {
 // are reported and handled.
 func TestDescribeTriggerErrorHandling(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform trigger-related command or query
 	restAPIMock := RestAPIMockErrors{}
 
 	// use go-capture package to capture all writes to standard output
@@ -259,9 +302,11 @@ func TestDescribeTriggerErrorHandling(t *testing.T) {
 // API.
 func TestAddTriggerImpl(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform trigger-related command or query
 	restAPIMock := RestAPIMock{}
 
 	// use go-capture package to capture all writes to standard output
@@ -282,9 +327,11 @@ func TestAddTriggerImpl(t *testing.T) {
 // registration.
 func TestAddTriggerImplErrorHandling(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform trigger-related command or query
 	restAPIMock := RestAPIMockErrors{}
 
 	// use go-capture package to capture all writes to standard output
@@ -304,9 +351,11 @@ func TestAddTriggerImplErrorHandling(t *testing.T) {
 // TestDeleteTrigger function checks. the command 'delete trigger'.
 func TestDeleteTrigger(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform trigger-related command or query
 	restAPIMock := RestAPIMock{}
 
 	// use go-capture package to capture all writes to standard output
@@ -327,9 +376,11 @@ func TestDeleteTrigger(t *testing.T) {
 // 'delete trigger'.
 func TestDeleteTriggerErrorHandling(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform trigger-related command or query
 	restAPIMock := RestAPIMockErrors{}
 
 	// use go-capture package to capture all writes to standard output
@@ -349,9 +400,11 @@ func TestDeleteTriggerErrorHandling(t *testing.T) {
 // TestActivateTrigger function checks the command 'activate trigger'.
 func TestActivateTrigger(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform trigger-related command or query
 	restAPIMock := RestAPIMock{}
 
 	// use go-capture package to capture all writes to standard output
@@ -372,9 +425,11 @@ func TestActivateTrigger(t *testing.T) {
 // command 'activate trigger'.
 func TestActivateTriggerErrorHandling(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform trigger-related command or query
 	restAPIMock := RestAPIMockErrors{}
 
 	// use go-capture package to capture all writes to standard output
@@ -394,9 +449,11 @@ func TestActivateTriggerErrorHandling(t *testing.T) {
 // TestDeactivateTrigger function checks the command 'deactivate trigger'.
 func TestDeactivateTrigger(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform trigger-related command or query
 	restAPIMock := RestAPIMock{}
 
 	// use go-capture package to capture all writes to standard output
@@ -417,9 +474,11 @@ func TestDeactivateTrigger(t *testing.T) {
 // command 'deactivate trigger'.
 func TestDeactivateTriggerErrorHandling(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform trigger-related command or query
 	restAPIMock := RestAPIMockErrors{}
 
 	// use go-capture package to capture all writes to standard output
