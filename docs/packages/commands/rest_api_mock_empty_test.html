@@ -123,6 +123,14 @@ limitations under the License.
       </tr>
       
       <tr class="section">
+	<td class="doc"><p>Mock object used by unit tests for REST API. This mocked object
+returns empty data from every method.</p>
+</td>
+	<td class="code"><pre><code>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
 	<td class="doc"><p>Documentation in literate-programming-style is available at:
 https://redhatinsights.github.io/insights-operator-cli/packages/commands/rest<em>api</em>mock<em>empty</em>test.html</p>
 </td>
@@ -135,7 +143,7 @@ https://redhatinsights.github.io/insights-operator-cli/packages/commands/rest<em
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>RestAPIMockErrors is an implementation of mocked REST API that returns empty
+	<td class="doc"><p>RestAPIMockEmpty is an implementation of mocked REST API that returns empty
 data structures in all cases.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">type</div> <div class="ident">RestAPIMockEmpty</div> <div class="keyword">struct</div> <div class="operator">{</div>
@@ -145,33 +153,75 @@ data structures in all cases.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>ReadListOfClusters reads mocked empty list of clusters via the REST API</p>
+	<td class="doc"><p>ReadListOfClusters reads mocked empty list of clusters via the REST API.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">)</div> <div class="ident">ReadListOfClusters</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">(</div><div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">Cluster</div><div class="operator">,</div> <div class="ident">error</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">clusters</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">Cluster</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">return</div> <div class="ident">clusters</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>data structure to be returned</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">clusters</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">Cluster</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with empty data structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">clusters</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>ReadListOfTriggers reads mocked empty list of triggers via the REST API</p>
+	<td class="doc"><p>ReadListOfTriggers reads mocked empty list of triggers via the REST API.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">)</div> <div class="ident">ReadListOfTriggers</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">(</div><div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">Trigger</div><div class="operator">,</div> <div class="ident">error</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">triggers</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">Trigger</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">return</div> <div class="ident">triggers</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>data structure to be returned</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">triggers</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">Trigger</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with empty data structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">triggers</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>ReadTriggerByID reads trigger identified by its ID via the REST API</p>
+	<td class="doc"><p>ReadTriggerByID reads trigger identified by its ID via the REST API.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">)</div> <div class="ident">ReadTriggerByID</div><div class="operator">(</div><div class="ident">triggerID</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">(</div><div class="operator">*</div><div class="ident">types</div><div class="operator">.</div><div class="ident">Trigger</div><div class="operator">,</div> <div class="ident">error</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">trigger</div> <div class="operator">:=</div> <div class="ident">types</div><div class="operator">.</div><div class="ident">Trigger</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">return</div> <div class="operator">&amp;</div><div class="ident">trigger</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>data structure to be returned</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">trigger</div> <div class="operator">:=</div> <div class="ident">types</div><div class="operator">.</div><div class="ident">Trigger</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with empty data structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="operator">&amp;</div><div class="ident">trigger</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
@@ -179,11 +229,25 @@ data structures in all cases.</p>
       
       <tr class="section">
 	<td class="doc"><p>ReadListOfConfigurationProfiles reads mocked empty list of configuration
-profiles via the REST API</p>
+profiles via the REST API.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">)</div> <div class="ident">ReadListOfConfigurationProfiles</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">(</div><div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">ConfigurationProfile</div><div class="operator">,</div> <div class="ident">error</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">profiles</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">ConfigurationProfile</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">return</div> <div class="ident">profiles</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>data structure to be returned</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">profiles</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">ConfigurationProfile</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with empty data structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">profiles</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
@@ -191,11 +255,25 @@ profiles via the REST API</p>
       
       <tr class="section">
 	<td class="doc"><p>ReadListOfConfigurations reads mocked empty list of configuration via the
-REST API</p>
+REST API.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">)</div> <div class="ident">ReadListOfConfigurations</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">(</div><div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">ClusterConfiguration</div><div class="operator">,</div> <div class="ident">error</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configurations</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">ClusterConfiguration</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">return</div> <div class="ident">configurations</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>data structure to be returned</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configurations</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">ClusterConfiguration</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with empty data structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">configurations</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
@@ -203,11 +281,25 @@ REST API</p>
       
       <tr class="section">
 	<td class="doc"><p>ReadConfigurationProfile access the REST API endpoint to read selected
-configuration profile</p>
+configuration profile.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">)</div> <div class="ident">ReadConfigurationProfile</div><div class="operator">(</div><div class="ident">profileID</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">(</div><div class="operator">*</div><div class="ident">types</div><div class="operator">.</div><div class="ident">ConfigurationProfile</div><div class="operator">,</div> <div class="ident">error</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">profile</div> <div class="operator">:=</div> <div class="ident">types</div><div class="operator">.</div><div class="ident">ConfigurationProfile</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">return</div> <div class="operator">&amp;</div><div class="ident">profile</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>data structure to be returned</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">profile</div> <div class="operator">:=</div> <div class="ident">types</div><div class="operator">.</div><div class="ident">ConfigurationProfile</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with empty data structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="operator">&amp;</div><div class="ident">profile</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
@@ -215,11 +307,25 @@ configuration profile</p>
       
       <tr class="section">
 	<td class="doc"><p>ReadClusterConfigurationByID access the REST API endpoint to read cluster
-configuration for cluster defined by its ID</p>
+configuration for cluster defined by its ID.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">)</div> <div class="ident">ReadClusterConfigurationByID</div><div class="operator">(</div><div class="ident">configurationID</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">(</div><div class="operator">*</div><div class="ident">string</div><div class="operator">,</div> <div class="ident">error</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configuration</div> <div class="operator">:=</div> <div class="literal">&#34;&#34;</div><div class="operator"></div>
-	<div class="keyword">return</div> <div class="operator">&amp;</div><div class="ident">configuration</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>data structure to be returned</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configuration</div> <div class="operator">:=</div> <div class="literal">&#34;&#34;</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with empty data structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="operator">&amp;</div><div class="ident">configuration</div><div class="operator">,</div> <div class="ident">nil</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
@@ -227,10 +333,17 @@ configuration for cluster defined by its ID</p>
       
       <tr class="section">
 	<td class="doc"><p>EnableClusterConfiguration access the REST API endpoint to enable existing
-cluster configuration</p>
+cluster configuration.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">)</div> <div class="ident">EnableClusterConfiguration</div><div class="operator">(</div><div class="ident">configurationID</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with empty data structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
@@ -238,10 +351,17 @@ cluster configuration</p>
       
       <tr class="section">
 	<td class="doc"><p>DisableClusterConfiguration access the REST API endpoint to disable existing
-cluster configuration</p>
+cluster configuration.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">)</div> <div class="ident">DisableClusterConfiguration</div><div class="operator">(</div><div class="ident">configurationID</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with empty data structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
@@ -249,10 +369,17 @@ cluster configuration</p>
       
       <tr class="section">
 	<td class="doc"><p>DeleteClusterConfiguration access the REST API endpoint to delete existing
-cluster configuration</p>
+cluster configuration.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">)</div> <div class="ident">DeleteClusterConfiguration</div><div class="operator">(</div><div class="ident">configurationID</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with empty data structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
@@ -260,10 +387,17 @@ cluster configuration</p>
       
       <tr class="section">
 	<td class="doc"><p>DeleteCluster access the REST API endpoint to delete/deregister existing
-cluster</p>
+cluster.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">)</div> <div class="ident">DeleteCluster</div><div class="operator">(</div><div class="ident">clusterID</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with empty data structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
@@ -271,20 +405,34 @@ cluster</p>
       
       <tr class="section">
 	<td class="doc"><p>DeleteConfigurationProfile access the REST API endpoint to delete existing
-configuration profile</p>
+configuration profile.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">)</div> <div class="ident">DeleteConfigurationProfile</div><div class="operator">(</div><div class="ident">profileID</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with empty data structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>AddCluster access the REST API endpoint to add/register new cluster</p>
+	<td class="doc"><p>AddCluster access the REST API endpoint to add/register new cluster.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">)</div> <div class="ident">AddCluster</div><div class="operator">(</div><div class="ident">name</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with empty data structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
@@ -292,10 +440,17 @@ configuration profile</p>
       
       <tr class="section">
 	<td class="doc"><p>AddConfigurationProfile access the REST API endpoint to add new
-configuration profile</p>
+configuration profile.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">)</div> <div class="ident">AddConfigurationProfile</div><div class="operator">(</div><div class="ident">username</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">description</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">configuration</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">byte</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with empty data structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
@@ -303,40 +458,68 @@ configuration profile</p>
       
       <tr class="section">
 	<td class="doc"><p>AddClusterConfiguration access the REST API endpoint to add new cluster
-configuration</p>
+configuration.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">)</div> <div class="ident">AddClusterConfiguration</div><div class="operator">(</div><div class="ident">username</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">cluster</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">reason</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">description</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">configuration</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">byte</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with empty data structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>AddTrigger access the REST API endpoint to add/register new trigger</p>
+	<td class="doc"><p>AddTrigger access the REST API endpoint to add/register new trigger.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">)</div> <div class="ident">AddTrigger</div><div class="operator">(</div><div class="ident">username</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">clusterName</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">reason</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">link</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with empty data structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>DeleteTrigger access the REST API endpoint to delete the selected trigger</p>
+	<td class="doc"><p>DeleteTrigger access the REST API endpoint to delete the selected trigger.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">)</div> <div class="ident">DeleteTrigger</div><div class="operator">(</div><div class="ident">triggerID</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with empty data structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>ActivateTrigger access the REST API endpoint to activate the selected trigger</p>
+	<td class="doc"><p>ActivateTrigger access the REST API endpoint to activate the selected trigger.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">)</div> <div class="ident">ActivateTrigger</div><div class="operator">(</div><div class="ident">triggerID</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with empty data structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
@@ -344,10 +527,17 @@ configuration</p>
       
       <tr class="section">
 	<td class="doc"><p>DeactivateTrigger access the REST API endpoint to deactivate the selected
-trigger</p>
+trigger.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">)</div> <div class="ident">DeactivateTrigger</div><div class="operator">(</div><div class="ident">triggerID</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with empty data structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">nil</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
