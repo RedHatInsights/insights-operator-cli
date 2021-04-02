@@ -123,6 +123,14 @@ limitations under the License.
       </tr>
       
       <tr class="section">
+	<td class="doc"><p>Mock object used by unit tests for REST API. This mocked object
+returns error from every method.</p>
+</td>
+	<td class="code"><pre><code>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
 	<td class="doc"><p>Documentation in literate-programming-style is available at:
 https://redhatinsights.github.io/insights-operator-cli/packages/commands/rest<em>api</em>mock<em>errors</em>test.html</p>
 </td>
@@ -149,8 +157,21 @@ errors in all cases.</p>
 	<td class="doc"><p>ReadListOfClusters returns an error as its last return value</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockErrors</div><div class="operator">)</div> <div class="ident">ReadListOfClusters</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">(</div><div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">Cluster</div><div class="operator">,</div> <div class="ident">error</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">clusters</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">Cluster</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">return</div> <div class="ident">clusters</div><div class="operator">,</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;ReadListOfClusters error&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>proper data structure that is expected as return value</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">clusters</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">Cluster</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with error structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">clusters</div><div class="operator">,</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;ReadListOfClusters error&#34;</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
@@ -160,123 +181,248 @@ errors in all cases.</p>
 	<td class="doc"><p>ReadListOfTriggers returns an error as its last return value</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockErrors</div><div class="operator">)</div> <div class="ident">ReadListOfTriggers</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">(</div><div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">Trigger</div><div class="operator">,</div> <div class="ident">error</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">triggers</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">Trigger</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">return</div> <div class="ident">triggers</div><div class="operator">,</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;ReadListofTrigger error&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>proper data structure that is expected as return value</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">triggers</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">Trigger</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with error structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">triggers</div><div class="operator">,</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;ReadListofTrigger error&#34;</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>ReadTriggerByID returns an error as its last return value</p>
+	<td class="doc"><p>ReadTriggerByID returns an error as its last return value.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockErrors</div><div class="operator">)</div> <div class="ident">ReadTriggerByID</div><div class="operator">(</div><div class="ident">triggerID</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">(</div><div class="operator">*</div><div class="ident">types</div><div class="operator">.</div><div class="ident">Trigger</div><div class="operator">,</div> <div class="ident">error</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">trigger</div> <div class="operator">:=</div> <div class="ident">types</div><div class="operator">.</div><div class="ident">Trigger</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">return</div> <div class="operator">&amp;</div><div class="ident">trigger</div><div class="operator">,</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;ReadTriggerByID error&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>proper data structure that is expected as return value</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">trigger</div> <div class="operator">:=</div> <div class="ident">types</div><div class="operator">.</div><div class="ident">Trigger</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with error structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="operator">&amp;</div><div class="ident">trigger</div><div class="operator">,</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;ReadTriggerByID error&#34;</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>ReadListOfConfigurationProfiles returns an error as its last return value</p>
+	<td class="doc"><p>ReadListOfConfigurationProfiles returns an error as its last return value.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockErrors</div><div class="operator">)</div> <div class="ident">ReadListOfConfigurationProfiles</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">(</div><div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">ConfigurationProfile</div><div class="operator">,</div> <div class="ident">error</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">profiles</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">ConfigurationProfile</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">return</div> <div class="ident">profiles</div><div class="operator">,</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;ReadListOfConfigurationProfiles error&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>proper data structure that is expected as return value</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">profiles</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">ConfigurationProfile</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with error structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">profiles</div><div class="operator">,</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;ReadListOfConfigurationProfiles error&#34;</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>ReadListOfConfigurations returns an error as its last return value</p>
+	<td class="doc"><p>ReadListOfConfigurations returns an error as its last return value.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockErrors</div><div class="operator">)</div> <div class="ident">ReadListOfConfigurations</div><div class="operator">(</div><div class="operator">)</div> <div class="operator">(</div><div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">ClusterConfiguration</div><div class="operator">,</div> <div class="ident">error</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configurations</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">ClusterConfiguration</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">return</div> <div class="ident">configurations</div><div class="operator">,</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;ReadListOfConfigurations error&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>proper data structure that is expected as return value</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configurations</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">types</div><div class="operator">.</div><div class="ident">ClusterConfiguration</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with error structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">configurations</div><div class="operator">,</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;ReadListOfConfigurations error&#34;</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>ReadConfigurationProfile returns an error as its last return value</p>
+	<td class="doc"><p>ReadConfigurationProfile returns an error as its last return value.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockErrors</div><div class="operator">)</div> <div class="ident">ReadConfigurationProfile</div><div class="operator">(</div><div class="ident">profileID</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">(</div><div class="operator">*</div><div class="ident">types</div><div class="operator">.</div><div class="ident">ConfigurationProfile</div><div class="operator">,</div> <div class="ident">error</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">profile</div> <div class="operator">:=</div> <div class="ident">types</div><div class="operator">.</div><div class="ident">ConfigurationProfile</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">return</div> <div class="operator">&amp;</div><div class="ident">profile</div><div class="operator">,</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;ReadConfigurationProfile error&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>proper data structure that is expected as return value</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">profile</div> <div class="operator">:=</div> <div class="ident">types</div><div class="operator">.</div><div class="ident">ConfigurationProfile</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with error structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="operator">&amp;</div><div class="ident">profile</div><div class="operator">,</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;ReadConfigurationProfile error&#34;</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>ReadClusterConfigurationByID returns an error as its last return value</p>
+	<td class="doc"><p>ReadClusterConfigurationByID returns an error as its last return value.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockErrors</div><div class="operator">)</div> <div class="ident">ReadClusterConfigurationByID</div><div class="operator">(</div><div class="ident">configurationID</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">(</div><div class="operator">*</div><div class="ident">string</div><div class="operator">,</div> <div class="ident">error</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">configuration</div> <div class="operator">:=</div> <div class="literal">&#34;&#34;</div><div class="operator"></div>
-	<div class="keyword">return</div> <div class="operator">&amp;</div><div class="ident">configuration</div><div class="operator">,</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;ReadClusterConfigurationByID error&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>proper data structure that is expected as return value</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configuration</div> <div class="operator">:=</div> <div class="literal">&#34;&#34;</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with error structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="operator">&amp;</div><div class="ident">configuration</div><div class="operator">,</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;ReadClusterConfigurationByID error&#34;</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>EnableClusterConfiguration returns an error as its last return value</p>
+	<td class="doc"><p>EnableClusterConfiguration returns an error as its last return value.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockErrors</div><div class="operator">)</div> <div class="ident">EnableClusterConfiguration</div><div class="operator">(</div><div class="ident">configurationID</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;EnableClusterConfiguration error&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with error structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;EnableClusterConfiguration error&#34;</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>DisableClusterConfiguration returns an error as its last return value</p>
+	<td class="doc"><p>DisableClusterConfiguration returns an error as its last return value.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockErrors</div><div class="operator">)</div> <div class="ident">DisableClusterConfiguration</div><div class="operator">(</div><div class="ident">configurationID</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;DisableClusterConfiguration error&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with error structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;DisableClusterConfiguration error&#34;</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>DeleteClusterConfiguration returns an error as its last return value</p>
+	<td class="doc"><p>DeleteClusterConfiguration returns an error as its last return value.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockErrors</div><div class="operator">)</div> <div class="ident">DeleteClusterConfiguration</div><div class="operator">(</div><div class="ident">configurationID</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;DeleteClusterConfiguration error&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with error structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;DeleteClusterConfiguration error&#34;</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>DeleteCluster returns an error as its last return value</p>
+	<td class="doc"><p>DeleteCluster returns an error as its last return value.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockErrors</div><div class="operator">)</div> <div class="ident">DeleteCluster</div><div class="operator">(</div><div class="ident">clusterID</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;DeleteCluster error&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with error structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;DeleteCluster error&#34;</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>DeleteConfigurationProfile returns an error as its last return value</p>
+	<td class="doc"><p>DeleteConfigurationProfile returns an error as its last return value.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockErrors</div><div class="operator">)</div> <div class="ident">DeleteConfigurationProfile</div><div class="operator">(</div><div class="ident">profileID</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;DeleteConfigurationProfile error&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with error structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;DeleteConfigurationProfile error&#34;</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>AddCluster returns an error as its last return value</p>
+	<td class="doc"><p>AddCluster returns an error as its last return value.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockErrors</div><div class="operator">)</div> <div class="ident">AddCluster</div><div class="operator">(</div><div class="ident">name</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;AddCluster error&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with error structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;AddCluster error&#34;</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
@@ -284,60 +430,102 @@ errors in all cases.</p>
       
       <tr class="section">
 	<td class="doc"><p>AddConfigurationProfile access the REST API endpoint to add new
-configuration profile</p>
+configuration profile.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockErrors</div><div class="operator">)</div> <div class="ident">AddConfigurationProfile</div><div class="operator">(</div><div class="ident">username</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">description</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">configuration</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">byte</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;AddConfigurationProfile error&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with error structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;AddConfigurationProfile error&#34;</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>AddClusterConfiguration returns an error as its last return value</p>
+	<td class="doc"><p>AddClusterConfiguration returns an error as its last return value.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockErrors</div><div class="operator">)</div> <div class="ident">AddClusterConfiguration</div><div class="operator">(</div><div class="ident">username</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">cluster</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">reason</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">description</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">configuration</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">byte</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;AddClusterConfiguration error&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with error structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;AddClusterConfiguration error&#34;</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>AddTrigger returns an error as its last return value</p>
+	<td class="doc"><p>AddTrigger returns an error as its last return value.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockErrors</div><div class="operator">)</div> <div class="ident">AddTrigger</div><div class="operator">(</div><div class="ident">username</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">clusterName</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">reason</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">link</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;AddTrigger error&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with error structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;AddTrigger error&#34;</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>DeleteTrigger returns an error as its last return value</p>
+	<td class="doc"><p>DeleteTrigger returns an error as its last return value.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockErrors</div><div class="operator">)</div> <div class="ident">DeleteTrigger</div><div class="operator">(</div><div class="ident">triggerID</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;DeleteTrigger error&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with error structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;DeleteTrigger error&#34;</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>ActivateTrigger returns an error as its last return value</p>
+	<td class="doc"><p>ActivateTrigger returns an error as its last return value.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockErrors</div><div class="operator">)</div> <div class="ident">ActivateTrigger</div><div class="operator">(</div><div class="ident">triggerID</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;ActivateTrigger error&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with error structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;ActivateTrigger error&#34;</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>DeactivateTrigger returns an error as its last return value</p>
+	<td class="doc"><p>DeactivateTrigger returns an error as its last return value.
+This is a mock implementation of original method.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="operator">(</div><div class="ident">api</div> <div class="ident">RestAPIMockErrors</div><div class="operator">)</div> <div class="ident">DeactivateTrigger</div><div class="operator">(</div><div class="ident">triggerID</div> <div class="ident">string</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
-	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;DeactivateTrigger error&#34;</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>return mocked response with error structure</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">return</div> <div class="ident">errors</div><div class="operator">.</div><div class="ident">New</div><div class="operator">(</div><div class="literal">&#34;DeactivateTrigger error&#34;</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
