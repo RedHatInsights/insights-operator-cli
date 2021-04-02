@@ -16,6 +16,8 @@ limitations under the License.
 
 package commands_test
 
+// Mock object used by unit tests for REST API
+
 // Documentation in literate-programming-style is available at:
 // https://redhatinsights.github.io/insights-operator-cli/packages/commands/rest_api_mock_test.html
 
@@ -23,12 +25,14 @@ import (
 	"github.com/RedHatInsights/insights-operator-cli/types"
 )
 
-// RestAPIMockErrors is an implementation of mocked REST API
+// RestAPIMock structure is an implementation of mocked REST API
 type RestAPIMock struct {
 }
 
-// ReadListOfClusters reads mocked list of clusters via the REST API
+// ReadListOfClusters reads mocked list of clusters via the REST API.
+// This is a mock implementation of original method.
 func (api RestAPIMock) ReadListOfClusters() ([]types.Cluster, error) {
+	// data structure to be returned
 	clusters := []types.Cluster{
 		{
 			ID:   0,
@@ -39,11 +43,15 @@ func (api RestAPIMock) ReadListOfClusters() ([]types.Cluster, error) {
 		{
 			ID:   1,
 			Name: "00000000-0000-0000-0000-000000000000"}}
+
+	// return mocked response
 	return clusters, nil
 }
 
-// ReadListOfTriggers reads mocked list of triggers via the REST API
+// ReadListOfTriggers reads mocked list of triggers via the REST API.
+// This is a mock implementation of original method.
 func (api RestAPIMock) ReadListOfTriggers() ([]types.Trigger, error) {
+	// data structure to be returned
 	triggers := []types.Trigger{
 		{
 			ID:          0,
@@ -90,13 +98,17 @@ func (api RestAPIMock) ReadListOfTriggers() ([]types.Trigger, error) {
 			Parameters:  "",
 			Active:      0},
 	}
+
+	// return mocked response
 	return triggers, nil
 }
 
-// ReadTriggerByID reads trigger identified by its ID via the REST API
+// ReadTriggerByID reads trigger identified by its ID via the REST API.
+// This is a mock implementation of original method.
 func (api RestAPIMock) ReadTriggerByID(triggerID string) (*types.Trigger, error) {
 	switch triggerID {
 	case "0":
+		// data structure to be returned
 		trigger := types.Trigger{
 			ID:          0,
 			Type:        "must-gather",
@@ -110,6 +122,7 @@ func (api RestAPIMock) ReadTriggerByID(triggerID string) (*types.Trigger, error)
 			Active:      1}
 		return &trigger, nil
 	case "1":
+		// data structure to be returned
 		trigger := types.Trigger{
 			ID:          1,
 			Type:        "must-gather",
@@ -123,6 +136,7 @@ func (api RestAPIMock) ReadTriggerByID(triggerID string) (*types.Trigger, error)
 			Active:      0}
 		return &trigger, nil
 	case "2":
+		// data structure to be returned
 		trigger := types.Trigger{
 			ID:          2,
 			Type:        "another-one",
@@ -137,12 +151,16 @@ func (api RestAPIMock) ReadTriggerByID(triggerID string) (*types.Trigger, error)
 		return &trigger, nil
 	}
 	trigger := types.TriggerResponse{}
+
+	// return mocked response
 	return &trigger.Trigger, nil
 }
 
 // ReadListOfConfigurationProfiles reads mocked list of configuration profiles
-// via the REST API
+// via the REST API.
+// This is a mock implementation of original method.
 func (api RestAPIMock) ReadListOfConfigurationProfiles() ([]types.ConfigurationProfile, error) {
+	// data structure to be returned
 	profiles := []types.ConfigurationProfile{
 		{
 			ID:            0,
@@ -157,11 +175,15 @@ func (api RestAPIMock) ReadListOfConfigurationProfiles() ([]types.ConfigurationP
 			ChangedBy:     "tester",
 			Description:   "another configuration profile"},
 	}
+
+	// return mocked response
 	return profiles, nil
 }
 
-// ReadListOfConfigurations reads mocked list of configuration via the REST API
+// ReadListOfConfigurations reads mocked list of configuration via the REST API.
+// This is a mock implementation of original method.
 func (api RestAPIMock) ReadListOfConfigurations() ([]types.ClusterConfiguration, error) {
+	// data structure to be returned
 	configurations := []types.ClusterConfiguration{
 		{
 			ID:            0,
@@ -188,13 +210,17 @@ func (api RestAPIMock) ReadListOfConfigurations() ([]types.ClusterConfiguration,
 			Active:        "0",
 			Reason:        "configuration3"},
 	}
+
+	// return mocked response
 	return configurations, nil
 }
 
 // ReadConfigurationProfile access the REST API endpoint to read selected
-// configuration profile
+// configuration profile.
+// This is a mock implementation of original method.
 func (api RestAPIMock) ReadConfigurationProfile(profileID string) (*types.ConfigurationProfile, error) {
 	if profileID == "0" {
+		// data structure to be returned
 		profile := types.ConfigurationProfile{
 			ID:            0,
 			Configuration: "*configuration*",
@@ -204,84 +230,116 @@ func (api RestAPIMock) ReadConfigurationProfile(profileID string) (*types.Config
 		return &profile, nil
 	}
 	profile := types.ConfigurationProfile{}
+
+	// return mocked response
 	return &profile, nil
 }
 
 // ReadClusterConfigurationByID access the REST API endpoint to read cluster
-// configuration for cluster defined by its ID
+// configuration for cluster defined by its ID.
+// This is a mock implementation of original method.
 func (api RestAPIMock) ReadClusterConfigurationByID(configurationID string) (*string, error) {
 	if configurationID == "0" {
+		// data structure to be returned
 		configuration := "configuration#0"
+
+		// return mocked response
 		return &configuration, nil
 	}
+
+	// return mocked response
 	return nil, nil
 }
 
 // EnableClusterConfiguration access the REST API endpoint to enable existing
-// cluster configuration
+// cluster configuration.
+// This is a mock implementation of original method.
 func (api RestAPIMock) EnableClusterConfiguration(configurationID string) error {
+	// return mocked response
 	return nil
 }
 
 // DisableClusterConfiguration access the REST API endpoint to disable existing
-// cluster configuration
+// cluster configuration.
+// This is a mock implementation of original method.
 func (api RestAPIMock) DisableClusterConfiguration(configurationID string) error {
+	// return mocked response
 	return nil
 }
 
 // DeleteClusterConfiguration access the REST API endpoint to delete existing
-// cluster configuration
+// cluster configuration.
+// This is a mock implementation of original method.
 func (api RestAPIMock) DeleteClusterConfiguration(configurationID string) error {
+	// return mocked response
 	return nil
 }
 
 // DeleteCluster access the REST API endpoint to delete/deregister existing
-// cluster
+// cluster.
+// This is a mock implementation of original method.
 func (api RestAPIMock) DeleteCluster(clusterID string) error {
+	// return mocked response
 	return nil
 }
 
 // DeleteConfigurationProfile access the REST API endpoint to delete existing
-// configuration profile
+// configuration profile.
+// This is a mock implementation of original method.
 func (api RestAPIMock) DeleteConfigurationProfile(profileID string) error {
+	// return mocked response
 	return nil
 }
 
-// AddCluster access the REST API endpoint to add/register new cluster
+// AddCluster access the REST API endpoint to add/register new cluster.
+// This is a mock implementation of original method.
 func (api RestAPIMock) AddCluster(name string) error {
+	// return mocked response
 	return nil
 }
 
 // AddConfigurationProfile access the REST API endpoint to add new
-// configuration profile
+// configuration profile.
+// This is a mock implementation of original method.
 func (api RestAPIMock) AddConfigurationProfile(username string, description string, configuration []byte) error {
+	// return mocked response
 	return nil
 }
 
-// AddClusterConfiguration access the REST API endpoint to add new cluster
+// AddClusterConfiguration access the REST API endpoint to add new cluster.
 // configuration
+// This is a mock implementation of original method.
 func (api RestAPIMock) AddClusterConfiguration(username string, cluster string, reason string, description string, configuration []byte) error {
+	// return mocked response
 	return nil
 }
 
-// AddTrigger access the REST API endpoint to add/register new trigger
+// AddTrigger access the REST API endpoint to add/register new trigger.
+// This is a mock implementation of original method.
 func (api RestAPIMock) AddTrigger(username string, clusterName string, reason string, link string) error {
+	// return mocked response
 	return nil
 }
 
-// DeleteTrigger access the REST API endpoint to delete the selected trigger
+// DeleteTrigger access the REST API endpoint to delete the selected trigger.
+// This is a mock implementation of original method.
 func (api RestAPIMock) DeleteTrigger(triggerID string) error {
+	// return mocked response
 	return nil
 }
 
 // ActivateTrigger access the REST API endpoint to activate the selected
-// trigger
+// trigger.
+// This is a mock implementation of original method.
 func (api RestAPIMock) ActivateTrigger(triggerID string) error {
+	// return mocked response
 	return nil
 }
 
 // DeactivateTrigger access the REST API endpoint to deactivate the selected
-// trigger
+// trigger.
+// This is a mock implementation of original method.
 func (api RestAPIMock) DeactivateTrigger(triggerID string) error {
+	// return mocked response
 	return nil
 }
