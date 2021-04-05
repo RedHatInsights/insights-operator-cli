@@ -16,6 +16,8 @@ limitations under the License.
 
 package commands_test
 
+// Unit tests checking functions for manipulation with triggers via REST API.
+
 // Documentation in literate-programming-style is available at:
 // https://redhatinsights.github.io/insights-operator-cli/packages/commands/commands_test.html
 
