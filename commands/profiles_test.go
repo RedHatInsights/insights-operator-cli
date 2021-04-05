@@ -16,6 +16,8 @@ limitations under the License.
 
 package commands_test
 
+// Unit tests checking functions for manipulation with profiles via REST API.
+
 // Documentation in literate-programming-style is available at:
 // https://redhatinsights.github.io/insights-operator-cli/packages/commands/profiles_test.html
 
@@ -26,8 +28,12 @@ import (
 	"testing"
 )
 
+// tryToFindProfile is a helper function that tries to find a given profile in
+// captured output. If profile info is not found, the test that calls this
+// function, fails.
 func tryToFindProfile(t *testing.T, captured string, profileDescription string) {
 	if !strings.Contains(captured, profileDescription) {
+		// if profile info is not found, the test should fail
 		t.Fatal("Can not find profile with description:", profileDescription)
 	}
 }
@@ -36,9 +42,11 @@ func tryToFindProfile(t *testing.T, captured string, profileDescription string) 
 // configuration profiles read via REST API is displayed correctly.
 func TestListOfProfiles(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform profile-related command or query
 	restAPIMock := RestAPIMock{}
 
 	// use go-capture package to capture all writes to standard output
@@ -60,10 +68,13 @@ func TestListOfProfiles(t *testing.T) {
 		t.Fatal("Configuration profiles are not listed in the output:\n", captured)
 	}
 
+	// list of expected profiles to be displayed on standard output
 	expectedProfiles := []string{
 		"default configuration profile",
 		"another configuration profile",
 	}
+
+	// check the actual output displayed on terminal
 	for _, expectedProfile := range expectedProfiles {
 		tryToFindProfile(t, captured, expectedProfile)
 	}
@@ -73,9 +84,11 @@ func TestListOfProfiles(t *testing.T) {
 // configuration profiles read via REST API is displayed correctly.
 func TestListOfProfilesNoProfiles(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform profile-related command or query
 	restAPIMock := RestAPIMockEmpty{}
 
 	// use go-capture package to capture all writes to standard output
@@ -93,6 +106,8 @@ func TestListOfProfilesNoProfiles(t *testing.T) {
 
 	// we expect two lines - title and column headers
 	numlines := strings.Count(captured, "\n")
+
+	// check the actual output displayed on terminal
 	if numlines > 2 {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -102,9 +117,11 @@ func TestListOfProfilesNoProfiles(t *testing.T) {
 // API is handled correctly.
 func TestListOfProfilesErrorHandling(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform profile-related command or query
 	restAPIMock := RestAPIMockErrors{}
 
 	// use go-capture package to capture all writes to standard output
@@ -125,9 +142,11 @@ func TestListOfProfilesErrorHandling(t *testing.T) {
 // displayed on CLI.
 func TestDescribeProfile(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform profile-related command or query
 	restAPIMock := RestAPIMock{}
 
 	// use go-capture package to capture all writes to standard output
@@ -142,6 +161,8 @@ func TestDescribeProfile(t *testing.T) {
 	if !strings.HasPrefix(captured, "Configuration profile") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
+
+	// configuration profile needs to be displayed
 	if !strings.Contains(captured, "*configuration*") {
 		t.Fatal("Unexpected output:\n", captured)
 	}
@@ -150,9 +171,11 @@ func TestDescribeProfile(t *testing.T) {
 // TestDescribeProfile function checks error handling of REST API.
 func TestDescribeProfileErrorHandling(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform profile-related command or query
 	restAPIMock := RestAPIMockErrors{}
 
 	// use go-capture package to capture all writes to standard output
@@ -173,9 +196,11 @@ func TestDescribeProfileErrorHandling(t *testing.T) {
 // when no error is reported by REST API.
 func TestAddConfigurationProfileImpl(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform profile-related command or query
 	restAPIMock := RestAPIMock{}
 
 	// use go-capture package to capture all writes to standard output
@@ -198,9 +223,11 @@ func TestAddConfigurationProfileImpl(t *testing.T) {
 // command 'add profile' when configuration file does not exist.
 func TestAddConfigurationProfileImplWrongConfiguration(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform profile-related command or query
 	restAPIMock := RestAPIMock{}
 
 	// use go-capture package to capture all writes to standard output
@@ -223,9 +250,11 @@ func TestAddConfigurationProfileImplWrongConfiguration(t *testing.T) {
 // 'add profile' when error is reported by REST API.
 func TestAddConfigurationProfileImplErrorHandling(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform profile-related command or query
 	restAPIMock := RestAPIMockErrors{}
 
 	// use go-capture package to capture all writes to standard output
@@ -248,9 +277,11 @@ func TestAddConfigurationProfileImplErrorHandling(t *testing.T) {
 // when no error is reported by REST API.
 func TestDeleteConfigurationProfile(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform profile-related command or query
 	restAPIMock := RestAPIMock{}
 
 	// use go-capture package to capture all writes to standard output
@@ -271,9 +302,11 @@ func TestDeleteConfigurationProfile(t *testing.T) {
 // when error is reported by REST API.
 func TestDeleteConfigurationProfileErrorHandling(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform profile-related command or query
 	restAPIMock := RestAPIMockErrors{}
 
 	// use go-capture package to capture all writes to standard output
@@ -294,9 +327,11 @@ func TestDeleteConfigurationProfileErrorHandling(t *testing.T) {
 // profile' when no error is reported by REST API.
 func TestDeleteConfigurationProfileNoConfirm(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform profile-related command or query
 	restAPIMock := RestAPIMock{}
 
 	// use go-capture package to capture all writes to standard output
@@ -317,9 +352,11 @@ func TestDeleteConfigurationProfileNoConfirm(t *testing.T) {
 // profile' when error is reported by REST API.
 func TestDeleteConfigurationProfileNoConfirmErrorHandling(t *testing.T) {
 	// turn off any colorization on standard output
+	// so we'll be able to capture pure messages w/o terminal control codes
 	configureColorizer()
 
 	// use mocked REST API instead of the real one
+	// to perform profile-related command or query
 	restAPIMock := RestAPIMockErrors{}
 
 	// use go-capture package to capture all writes to standard output
