@@ -35,18 +35,24 @@ const (
 func PrintHelp() {
 	fmt.Println(colorizer.Magenta("HELP:"))
 	fmt.Println()
+
+	// cluster manipulation commands
 	fmt.Println(colorizer.Blue("Cluster operations:        "))
 	fmt.Println(colorizer.Yellow("list clusters            "), "list all clusters known to the service")
 	fmt.Println(colorizer.Yellow("delete cluster ##        "), "delete selected cluster")
 	fmt.Println(colorizer.Yellow("add cluster              "), "create new cluster")
 	fmt.Println(colorizer.Yellow("new cluster              "), commandAlias)
 	fmt.Println()
+
+	// configuration profiles manipulation commands
 	fmt.Println(colorizer.Blue("Configuration profiles:    "))
 	fmt.Println(colorizer.Yellow("list profiles            "), "list all profiles known to the service")
 	fmt.Println(colorizer.Yellow("describe profile ##      "), "describe profile selected by its ID")
 	fmt.Println(colorizer.Yellow("add profile              "), "create new configuration profile")
 	fmt.Println(colorizer.Yellow("delete profile ##        "), "delete profile selected by its ID")
 	fmt.Println()
+
+	// cluster configuraration commands
 	fmt.Println(colorizer.Blue("Cluster configurations:    "))
 	fmt.Println(colorizer.Yellow("list configurations      "), "list all configurations known to the service")
 	fmt.Println(colorizer.Yellow("describe configuration ##"), "describe cluster configuration selected by its ID")
@@ -56,6 +62,8 @@ func PrintHelp() {
 	fmt.Println(colorizer.Yellow("disable configuration ## "), "disable cluster configuration selected by its ID")
 	fmt.Println(colorizer.Yellow("delete configuration ##  "), "delete configuration selected by its ID")
 	fmt.Println()
+
+	// must-gather triggering related commands
 	fmt.Println(colorizer.Blue("Must-gather trigger:       "))
 	fmt.Println(colorizer.Yellow("list triggers            "), "list all triggers")
 	fmt.Println(colorizer.Yellow("describe trigger ##      "), "describe trigger selected by its ID")
@@ -65,6 +73,8 @@ func PrintHelp() {
 	fmt.Println(colorizer.Yellow("deactivate trigger ##    "), "deactivate trigger selected by its ID")
 	fmt.Println(colorizer.Yellow("delete trigger           "), "delete trigger")
 	fmt.Println()
+
+	// other commands
 	fmt.Println(colorizer.Blue("Other commands:"))
 	fmt.Println(colorizer.Yellow("version                  "), "print version information")
 	fmt.Println(colorizer.Yellow("quit                     "), "quit the application")
