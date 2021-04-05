@@ -123,6 +123,13 @@ limitations under the License.
       </tr>
       
       <tr class="section">
+	<td class="doc"><p>Unit tests checking functions for manipulation with profiles via REST API.</p>
+</td>
+	<td class="code"><pre><code>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
 	<td class="doc"><p>Documentation in literate-programming-style is available at:
 https://redhatinsights.github.io/insights-operator-cli/packages/commands/profiles_test.html</p>
 </td>
@@ -134,9 +141,23 @@ https://redhatinsights.github.io/insights-operator-cli/packages/commands/profile
 	<div class="literal">&#34;testing&#34;</div><div class="operator"></div>
 <div class="operator">)</div><div class="operator"></div>
 
-<div class="keyword">func</div> <div class="ident">tryToFindProfile</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">,</div> <div class="ident">captured</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">profileDescription</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>tryToFindProfile is a helper function that tries to find a given profile in
+captured output. If profile info is not found, the test that calls this
+function, fails.</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">tryToFindProfile</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">,</div> <div class="ident">captured</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">profileDescription</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
 	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="ident">profileDescription</div><div class="operator">)</div> <div class="operator">{</div>
-		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find profile with description:&#34;</div><div class="operator">,</div> <div class="ident">profileDescription</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>if profile info is not found, the test should fail</p>
+</td>
+	<td class="code"><pre><code>		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Can not find profile with description:&#34;</div><div class="operator">,</div> <div class="ident">profileDescription</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
@@ -152,7 +173,8 @@ configuration profiles read via REST API is displayed correctly.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -160,7 +182,8 @@ configuration profiles read via REST API is displayed correctly.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform profile-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -203,11 +226,24 @@ configuration profiles read via REST API is displayed correctly.</p>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Configuration profiles are not listed in the output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 
-	<div class="ident">expectedProfiles</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">string</div><div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>list of expected profiles to be displayed on standard output</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">expectedProfiles</div> <div class="operator">:=</div> <div class="operator">[</div><div class="operator">]</div><div class="ident">string</div><div class="operator">{</div>
 		<div class="literal">&#34;default configuration profile&#34;</div><div class="operator">,</div>
 		<div class="literal">&#34;another configuration profile&#34;</div><div class="operator">,</div>
 	<div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">for</div> <div class="ident">_</div><div class="operator">,</div> <div class="ident">expectedProfile</div> <div class="operator">:=</div> <div class="keyword">range</div> <div class="ident">expectedProfiles</div> <div class="operator">{</div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check the actual output displayed on terminal</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">for</div> <div class="ident">_</div><div class="operator">,</div> <div class="ident">expectedProfile</div> <div class="operator">:=</div> <div class="keyword">range</div> <div class="ident">expectedProfiles</div> <div class="operator">{</div>
 		<div class="ident">tryToFindProfile</div><div class="operator">(</div><div class="ident">t</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">expectedProfile</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -224,7 +260,8 @@ configuration profiles read via REST API is displayed correctly.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -232,7 +269,8 @@ configuration profiles read via REST API is displayed correctly.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform profile-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockEmpty</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -271,7 +309,14 @@ configuration profiles read via REST API is displayed correctly.</p>
 	<td class="doc"><p>we expect two lines - title and column headers</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">numlines</div> <div class="operator">:=</div> <div class="ident">strings</div><div class="operator">.</div><div class="ident">Count</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;\n&#34;</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="ident">numlines</div> <div class="operator">&gt;</div> <div class="literal">2</div> <div class="operator">{</div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check the actual output displayed on terminal</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="ident">numlines</div> <div class="operator">&gt;</div> <div class="literal">2</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -288,7 +333,8 @@ API is handled correctly.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -296,7 +342,8 @@ API is handled correctly.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform profile-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -341,7 +388,8 @@ displayed on CLI.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -349,7 +397,8 @@ displayed on CLI.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform profile-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -380,7 +429,14 @@ displayed on CLI.</p>
 	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Configuration profile&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
-	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;*configuration*&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>configuration profile needs to be displayed</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;*configuration*&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -396,7 +452,8 @@ displayed on CLI.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -404,7 +461,8 @@ displayed on CLI.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform profile-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -449,7 +507,8 @@ when no error is reported by REST API.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -457,7 +516,8 @@ when no error is reported by REST API.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform profile-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -504,7 +564,8 @@ command 'add profile' when configuration file does not exist.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -512,7 +573,8 @@ command 'add profile' when configuration file does not exist.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform profile-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -559,7 +621,8 @@ command 'add profile' when configuration file does not exist.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -567,7 +630,8 @@ command 'add profile' when configuration file does not exist.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform profile-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -614,7 +678,8 @@ when no error is reported by REST API.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -622,7 +687,8 @@ when no error is reported by REST API.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform profile-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -667,7 +733,8 @@ when error is reported by REST API.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -675,7 +742,8 @@ when error is reported by REST API.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform profile-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -720,7 +788,8 @@ profile' when no error is reported by REST API.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -728,7 +797,8 @@ profile' when no error is reported by REST API.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform profile-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMock</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
@@ -773,7 +843,8 @@ profile' when error is reported by REST API.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>turn off any colorization on standard output</p>
+	<td class="doc"><p>turn off any colorization on standard output
+so we'll be able to capture pure messages w/o terminal control codes</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">configureColorizer</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 
@@ -781,7 +852,8 @@ profile' when error is reported by REST API.</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>use mocked REST API instead of the real one</p>
+	<td class="doc"><p>use mocked REST API instead of the real one
+to perform profile-related command or query</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">restAPIMock</div> <div class="operator">:=</div> <div class="ident">RestAPIMockErrors</div><div class="operator">{</div><div class="operator">}</div><div class="operator"></div>
 
