@@ -141,8 +141,8 @@ https://redhatinsights.github.io/insights-operator-cli/packages/commands/profile
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>ListOfProfiles displays list of configuration profiles gathered via REST API
-call to controller service</p>
+	<td class="doc"><p>ListOfProfiles function displays list of configuration profiles gathered via
+REST API call made to controller service.</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">ListOfProfiles</div><div class="operator">(</div><div class="ident">api</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">API</div><div class="operator">)</div> <div class="operator">{</div>
 </code></pre></td>
@@ -154,15 +154,40 @@ something wrong happens</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">profiles</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">api</div><div class="operator">.</div><div class="ident">ReadListOfConfigurationProfiles</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
-		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="literal">&#34;Error reading list of configuration profiles&#34;</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>in case of error just print the error message</p>
+</td>
+	<td class="code"><pre><code>		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="literal">&#34;Error reading list of configuration profiles&#34;</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 		<div class="keyword">return</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 
-	<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Magenta</div><div class="operator">(</div><div class="literal">&#34;List of configuration profiles&#34;</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>REST API call returns data</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Magenta</div><div class="operator">(</div><div class="literal">&#34;List of configuration profiles&#34;</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 	<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Printf</div><div class="operator">(</div><div class="literal">&#34;%4s %4s %-20s %-20s %s\n&#34;</div><div class="operator">,</div> <div class="literal">&#34;#&#34;</div><div class="operator">,</div> <div class="literal">&#34;ID&#34;</div><div class="operator">,</div> <div class="ident">changedAt</div><div class="operator">,</div> <div class="literal">&#34;Changed by&#34;</div><div class="operator">,</div> <div class="literal">&#34;Description&#34;</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">for</div> <div class="ident">i</div><div class="operator">,</div> <div class="ident">profile</div> <div class="operator">:=</div> <div class="keyword">range</div> <div class="ident">profiles</div> <div class="operator">{</div>
-		<div class="ident">changedAt</div> <div class="operator">:=</div> <div class="ident">profile</div><div class="operator">.</div><div class="ident">ChangedAt</div><div class="operator">[</div><div class="literal">0</div><div class="operator">:</div><div class="literal">19</div><div class="operator">]</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>list all profiles</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">for</div> <div class="ident">i</div><div class="operator">,</div> <div class="ident">profile</div> <div class="operator">:=</div> <div class="keyword">range</div> <div class="ident">profiles</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>update timestamps not to contain irrelevant parts</p>
+</td>
+	<td class="code"><pre><code>		<div class="ident">changedAt</div> <div class="operator">:=</div> <div class="ident">profile</div><div class="operator">.</div><div class="ident">ChangedAt</div><div class="operator">[</div><div class="literal">0</div><div class="operator">:</div><div class="literal">19</div><div class="operator">]</div><div class="operator"></div>
 		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Printf</div><div class="operator">(</div><div class="literal">&#34;%4d %4d %-20s %-20s %-s\n&#34;</div><div class="operator">,</div> <div class="ident">i</div><div class="operator">,</div> <div class="ident">profile</div><div class="operator">.</div><div class="ident">ID</div><div class="operator">,</div> <div class="ident">changedAt</div><div class="operator">,</div> <div class="ident">profile</div><div class="operator">.</div><div class="ident">ChangedBy</div><div class="operator">,</div> <div class="ident">profile</div><div class="operator">.</div><div class="ident">Description</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -171,7 +196,8 @@ something wrong happens</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>DescribeProfile displays additional information about selected profile</p>
+	<td class="doc"><p>DescribeProfile function displays additional information about selected
+profile</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">DescribeProfile</div><div class="operator">(</div><div class="ident">api</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">API</div><div class="operator">,</div> <div class="ident">profileID</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
 </code></pre></td>
@@ -183,12 +209,24 @@ error when something wrong happens</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">profile</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">api</div><div class="operator">.</div><div class="ident">ReadConfigurationProfile</div><div class="operator">(</div><div class="ident">profileID</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
-		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="literal">&#34;Error reading configuration profile&#34;</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>in case of error just print the error message</p>
+</td>
+	<td class="code"><pre><code>		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="literal">&#34;Error reading configuration profile&#34;</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 		<div class="keyword">return</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 
-	<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Magenta</div><div class="operator">(</div><div class="literal">&#34;Configuration profile&#34;</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>print the configuration profile</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Magenta</div><div class="operator">(</div><div class="literal">&#34;Configuration profile&#34;</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 	<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">profile</div><div class="operator">.</div><div class="ident">Configuration</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
@@ -196,22 +234,34 @@ error when something wrong happens</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>DeleteConfigurationProfileNoConfirm deletes the profile selected by its ID
-w/o asking for confirmation</p>
+	<td class="doc"><p>DeleteConfigurationProfileNoConfirm function deletes the configuration
+profile selected by its ID w/o asking for confirmation</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">DeleteConfigurationProfileNoConfirm</div><div class="operator">(</div><div class="ident">api</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">API</div><div class="operator">,</div> <div class="ident">profileID</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="ident">DeleteConfigurationProfile</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">profileID</div><div class="operator">,</div> <div class="ident">false</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>directly call REST API endpoint to delete configuration profile</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">DeleteConfigurationProfile</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">profileID</div><div class="operator">,</div> <div class="ident">false</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>DeleteConfigurationProfile deletes the profile selected by its ID</p>
+	<td class="doc"><p>DeleteConfigurationProfile function deletes the profile selected by its ID</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">DeleteConfigurationProfile</div><div class="operator">(</div><div class="ident">api</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">API</div><div class="operator">,</div> <div class="ident">profileID</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">askForConfirmation</div> <div class="ident">bool</div><div class="operator">)</div> <div class="operator">{</div>
 	<div class="keyword">if</div> <div class="ident">askForConfirmation</div> <div class="operator">{</div>
-		<div class="keyword">if</div> <div class="operator">!</div><div class="ident">ProceedQuestion</div><div class="operator">(</div><div class="literal">&#34;All configurations based on this profile will be deleted&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>ask user whether he/she really want to delete configuration profile</p>
+</td>
+	<td class="code"><pre><code>		<div class="keyword">if</div> <div class="operator">!</div><div class="ident">ProceedQuestion</div><div class="operator">(</div><div class="literal">&#34;All configurations based on this profile will be deleted&#34;</div><div class="operator">)</div> <div class="operator">{</div>
 			<div class="keyword">return</div><div class="operator"></div>
 		<div class="operator">}</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
@@ -225,7 +275,13 @@ error when something wrong happens</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">err</div> <div class="operator">:=</div> <div class="ident">api</div><div class="operator">.</div><div class="ident">DeleteConfigurationProfile</div><div class="operator">(</div><div class="ident">profileID</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
-		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">errorCommunicationWithServiceErrorMessage</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>in case of error just print the error message</p>
+</td>
+	<td class="code"><pre><code>		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">errorCommunicationWithServiceErrorMessage</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 		<div class="keyword">return</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
@@ -243,15 +299,27 @@ error when something wrong happens</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>AddConfigurationProfile adds the profile to database</p>
+	<td class="doc"><p>AddConfigurationProfile function adds the profile to database</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">AddConfigurationProfile</div><div class="operator">(</div><div class="ident">api</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">API</div><div class="operator">,</div> <div class="ident">username</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
-	<div class="keyword">if</div> <div class="ident">username</div> <div class="operator">==</div> <div class="literal">&#34;&#34;</div> <div class="operator">{</div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>check if user is already loged in</p>
+</td>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="ident">username</div> <div class="operator">==</div> <div class="literal">&#34;&#34;</div> <div class="operator">{</div>
 		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">notLoggedIn</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 		<div class="keyword">return</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 
-	<div class="ident">description</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="literal">&#34;description: &#34;</div><div class="operator">,</div> <div class="ident">LoginCompleter</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>ask for description of configuration profile</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">description</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="literal">&#34;description: &#34;</div><div class="operator">,</div> <div class="ident">LoginCompleter</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">description</div> <div class="operator">==</div> <div class="literal">&#34;&#34;</div> <div class="operator">{</div>
 		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">operationCancelled</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 		<div class="keyword">return</div><div class="operator"></div>
@@ -269,9 +337,21 @@ error when something wrong happens</p>
 		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 
-	<div class="ident">configurationFileName</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="ident">configurationFilePrompt</div><div class="operator">,</div> <div class="ident">ConfigFileCompleter</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>let the user select the file</p>
+</td>
+	<td class="code"><pre><code>	<div class="ident">configurationFileName</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="ident">configurationFilePrompt</div><div class="operator">,</div> <div class="ident">ConfigFileCompleter</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">configurationFileName</div> <div class="operator">==</div> <div class="literal">&#34;&#34;</div> <div class="operator">{</div>
-		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">operationCancelled</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>in case of error just print the error message</p>
+</td>
+	<td class="code"><pre><code>		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">operationCancelled</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 		<div class="keyword">return</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 
@@ -296,7 +376,13 @@ wrong happens</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">err</div> <div class="operator">=</div> <div class="ident">api</div><div class="operator">.</div><div class="ident">AddConfigurationProfile</div><div class="operator">(</div><div class="ident">username</div><div class="operator">,</div> <div class="ident">description</div><div class="operator">,</div> <div class="ident">configuration</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
-		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">errorCommunicationWithServiceErrorMessage</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>in case of error just print the error message</p>
+</td>
+	<td class="code"><pre><code>		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">errorCommunicationWithServiceErrorMessage</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 		<div class="keyword">return</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
@@ -314,7 +400,7 @@ wrong happens</p>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>AddConfigurationProfileImpl adds the profile to database</p>
+	<td class="doc"><p>AddConfigurationProfileImpl function adds the profile to database</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">AddConfigurationProfileImpl</div><div class="operator">(</div><div class="ident">api</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">API</div><div class="operator">,</div> <div class="ident">username</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">description</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">configurationFileName</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
 </code></pre></td>
@@ -341,7 +427,13 @@ wrong happens</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">err</div> <div class="operator">=</div> <div class="ident">api</div><div class="operator">.</div><div class="ident">AddConfigurationProfile</div><div class="operator">(</div><div class="ident">username</div><div class="operator">,</div> <div class="ident">description</div><div class="operator">,</div> <div class="ident">configuration</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
-		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">errorCommunicationWithServiceErrorMessage</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
+	<td class="doc"><p>in case of error just print the error message</p>
+</td>
+	<td class="code"><pre><code>		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">errorCommunicationWithServiceErrorMessage</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 		<div class="keyword">return</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
