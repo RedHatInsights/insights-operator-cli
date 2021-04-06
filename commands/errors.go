@@ -27,4 +27,11 @@ const (
 	cannotReadConfigurationFileErrorMessage    = "Cannot read configuration file"
 	cannotReadAnyConfigurationFileErrorMessage = "Cannot read any configuration file"
 	errorCommunicationWithServiceErrorMessage  = "Error communicating with the service"
+	errorReadingListOfClusters                 = "Error reading list of clusters"
+	errorReadingListOfConfigurations           = "Error reading list of configurations"
+	errorReadingClusterConfiguration           = "Error reading cluster configuration"
+	errorReadingListOfConfigurationProfiles    = "Error reading list of configuration profiles"
+	errorReadingConfigurationProfile           = "Error reading configuration profile"
+	errorReadingListOfTriggers                 = "Error reading list of triggers"
+	errorReadingSelectedTrigger                = "Error reading selected trigger"
 )
