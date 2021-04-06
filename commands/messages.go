@@ -22,7 +22,7 @@ package commands
 // Documentation in literate-programming-style is available at:
 // https://redhatinsights.github.io/insights-operator-cli/packages/commands/messages.html
 
-// various messages to be displayed to user
+// various messages to be displayed to user via command-line interface
 const (
 	operationCancelled = "Cancelled"
 	changedAt          = "Changed at"
@@ -37,5 +37,6 @@ const (
 	// etc.)
 	configurationFilePrompt = "configuration file (TAB to complete): "
 
+	// (any) condition has been met
 	conditionSet = "yes"
 )
