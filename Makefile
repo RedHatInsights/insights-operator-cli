@@ -17,6 +17,46 @@ docs/packages/%.html: %.go
 
 godoc: ${DOCFILES}
 
+fmt: ## Run go fmt -w for all sources
+	@echo "Running go formatting"
+	./gofmt.sh
+
+lint: ## Run golint
+	@echo "Running go lint"
+	./golint.sh
+
+vet: ## Run go vet. Report likely mistakes in source code
+	@echo "Running go vet"
+	./govet.sh
+
+cyclo: ## Run gocyclo
+	@echo "Running gocyclo"
+	./gocyclo.sh
+
+ineffassign: ## Run ineffassign checker
+	@echo "Running ineffassign checker"
+	./ineffassign.sh
+
+errcheck: ## Run errcheck
+	@echo "Running errcheck"
+	./goerrcheck.sh
+
+goconst: ## Run goconst checker
+	@echo "Running goconst checker"
+	./goconst.sh ${VERBOSE}
+
+gosec: ## Run gosec checker
+	@echo "Running gosec checker"
+	./gosec.sh ${VERBOSE}
+
+abcgo: ## Run ABC metrics checker
+	@echo "Run ABC metrics checker"
+	./abcgo.sh ${VERBOSE}
+
+style: fmt vet lint cyclo errcheck goconst gosec ineffassign abcgo ## Run all the formatting related commands (fmt, vet, lint, cyclo) + check shell scripts
+
+before_commit: style ## Checks done before commit
+
 help: ## Show this help screen
 	@echo 'Usage: make <OPTIONS> ... <TARGETS>'
 	@echo ''
