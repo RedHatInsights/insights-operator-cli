@@ -8,6 +8,25 @@
 ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/RedHatInsights/insights-operator-cli)
 [![License](https://img.shields.io/badge/license-Apache-blue)](https://github.com/RedHatInsights/insights-operator-cli/blob/master/LICENSE)
 
+<!-- vim-markdown-toc GFM -->
+
+* [Description](#description)
+* [Supported commands](#supported-commands)
+    * [Cluster operations:](#cluster-operations)
+    * [Configuration profiles:](#configuration-profiles)
+    * [Cluster configurations:](#cluster-configurations)
+    * [Must-gather trigger:](#must-gather-trigger)
+    * [Other commands:](#other-commands)
+* [How to build the CLI client](#how-to-build-the-cli-client)
+* [Start](#start)
+* [Configuration](#configuration)
+* [Contributing](#contributing)
+* [Testing](#testing)
+* [CI](#ci)
+* [Contribution](#contribution)
+
+<!-- vim-markdown-toc -->
+
 ## Description
 
 A simple CLI client for managing the Insights operator. Currently this client supports just basic operations to retrieve and change configuration of operator on selected cluster.
