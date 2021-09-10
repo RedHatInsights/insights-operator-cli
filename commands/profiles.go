@@ -44,7 +44,7 @@ func ListOfProfiles(api restapi.API) {
 
 	// REST API call returns data
 	fmt.Println(colorizer.Magenta("List of configuration profiles"))
-	fmt.Printf("%4s %4s %-20s %-20s %s\n", "#", "ID", changedAt, "Changed by", "Description")
+	fmt.Printf("%4s %4s %-20s %-20s %s\n", "#", "ID", changedAt, changedBy, "Description")
 
 	// list all profiles
 	for i, profile := range profiles {
