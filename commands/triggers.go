@@ -43,7 +43,7 @@ func ListOfTriggers(api restapi.API) {
 	}
 
 	fmt.Println(colorizer.Magenta("List of triggers for all clusters"))
-	fmt.Printf("%4s %4s %-16s    %-20s %-20s %-12s %-12s %s\n", "#", "ID", "Type", clusterUUID, "Triggered at", "Triggered by", "Active", "Acked at")
+	fmt.Printf("%4s %4s %-16s    %-20s %-20s %-12s %-12s %s\n", "#", "ID", "Type", clusterUUID, "Triggered at", "Triggered by", activeTrigger, "Acked at")
 	for i, trigger := range triggers {
 		var active aurora.Value
 		if trigger.Active == 1 {
