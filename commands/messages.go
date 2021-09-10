@@ -28,6 +28,8 @@ const (
 	changedAt          = "Changed at"
 	changedBy          = "Changed by"
 
+	activeTrigger = "Active"
+
 	// user is not logged in
 	notLoggedIn = "Not logged in"
 
