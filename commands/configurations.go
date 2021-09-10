@@ -35,6 +35,8 @@ import (
 // configuration files for this tool.
 const configFileDirectory = "configurations/"
 
+const configurationsDirectory = "configurations"
+
 // ListOfConfigurations function displays list of all configurations gathered
 // via REST API call to the Controller Service.
 func ListOfConfigurations(api restapi.API, filter string) {
@@ -160,7 +162,7 @@ func AddClusterConfiguration(api restapi.API, username string) {
 	}
 
 	// TODO: make the directory fully configurable
-	err := FillInConfigurationList("configurations")
+	err := FillInConfigurationList(configurationsDirectory)
 	if err != nil {
 		fmt.Println(colorizer.Red(cannotReadAnyConfigurationFileErrorMessage))
 		fmt.Println(err)
