@@ -38,6 +38,11 @@ import (
 	"strings"
 )
 
+// prompts
+const (
+	profilePrompt = "profile: "
+)
+
 // BuildVersion contains the major.minor version of the CLI client
 var BuildVersion string = "*not set*"
 
@@ -227,7 +232,7 @@ func executeFixedCommand(t string) {
 	case "new trigger":
 		commands.AddTrigger(api, username)
 	case "describe profile":
-		profile := prompt.Input("profile: ", commands.LoginCompleter)
+		profile := prompt.Input(profilePrompt, commands.LoginCompleter)
 		commands.DescribeProfile(api, profile)
 	case "describe configuration":
 		configuration := configurationPrompt()
@@ -252,7 +257,7 @@ func executeFixedCommand(t string) {
 		configuration := configurationPrompt()
 		commands.DeleteClusterConfiguration(api, configuration)
 	case "delete profile":
-		profile := prompt.Input("profile: ", commands.LoginCompleter)
+		profile := prompt.Input(profilePrompt, commands.LoginCompleter)
 		commands.DeleteConfigurationProfile(api, profile,
 			*configuration.askForConfirmation)
 	case "delete trigger":
