@@ -40,4 +40,7 @@ const (
 
 	// (any) condition has been met
 	conditionSet = "yes"
+
+	// cluster UUID
+	clusterUUID = "Cluster"
 )
