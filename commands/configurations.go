@@ -50,7 +50,7 @@ func ListOfConfigurations(api restapi.API, filter string) {
 
 	// list all configurations returned in HTTP response
 	fmt.Println(colorizer.Magenta("List of configurations for all clusters"))
-	fmt.Printf("%4s %4s %4s    %-20s %-20s %-10s %-12s %s\n", "#", "ID", "Profile", "Cluster", changedAt, changedBy, "Active", "Reason")
+	fmt.Printf("%4s %4s %4s    %-20s %-20s %-10s %-12s %s\n", "#", "ID", "Profile", clusterUUID, changedAt, changedBy, "Active", "Reason")
 	for i, configuration := range configurations {
 		// perform poor man's filtering on client side
 		if strings.Contains(configuration.Cluster, filter) {
