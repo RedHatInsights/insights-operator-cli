@@ -26,6 +26,7 @@ package commands
 const (
 	operationCancelled = "Cancelled"
 	changedAt          = "Changed at"
+	changedBy          = "Changed by"
 
 	// user is not logged in
 	notLoggedIn = "Not logged in"
