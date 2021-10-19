@@ -34,7 +34,7 @@ import (
 // tryToFindTrigger is a helper function that tries to find a trigger ID in
 // captured output. If trigger info is not found, the test that calls this
 // function, fails.
-func tryToFindTrigger(t *testing.T, captured string, trigger string) {
+func tryToFindTrigger(t *testing.T, captured, trigger string) {
 	if !strings.Contains(captured, trigger) {
 		// if trigger info is not found, the test should fail
 		t.Fatal("Can not find trigger:", trigger)
