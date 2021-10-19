@@ -29,7 +29,7 @@ import (
 
 // tryToFindConfiguration function checks if the error message about unable to
 // find configuration is displayed on standard output or not.
-func tryToFindConfiguration(t *testing.T, captured string, configuration string) {
+func tryToFindConfiguration(t *testing.T, captured, configuration string) {
 	if !strings.Contains(captured, configuration) {
 		// TODO: make the string configurable
 		t.Fatal("Can not find configuration:", configuration)
