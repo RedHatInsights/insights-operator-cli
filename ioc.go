@@ -79,7 +79,7 @@ var api restapi.API
 var colorizer aurora.Aurora
 
 // tryToLogin tries to login to service via REST API
-func tryToLogin(username string, password string) {
+func tryToLogin(username, password string) {
 	fmt.Println(colorizer.Blue("\nDone"))
 }
 
