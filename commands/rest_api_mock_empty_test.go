@@ -155,7 +155,7 @@ func (api RestAPIMockEmpty) AddCluster(name string) error {
 // AddConfigurationProfile access the REST API endpoint to add new
 // configuration profile.
 // This is a mock implementation of original method.
-func (api RestAPIMockEmpty) AddConfigurationProfile(username string, description string, configuration []byte) error {
+func (api RestAPIMockEmpty) AddConfigurationProfile(username, description string, configuration []byte) error {
 	// return mocked response with empty data structure
 	return nil
 }
@@ -163,14 +163,14 @@ func (api RestAPIMockEmpty) AddConfigurationProfile(username string, description
 // AddClusterConfiguration access the REST API endpoint to add new cluster
 // configuration.
 // This is a mock implementation of original method.
-func (api RestAPIMockEmpty) AddClusterConfiguration(username string, cluster string, reason string, description string, configuration []byte) error {
+func (api RestAPIMockEmpty) AddClusterConfiguration(username, cluster, reason, description string, configuration []byte) error {
 	// return mocked response with empty data structure
 	return nil
 }
 
 // AddTrigger access the REST API endpoint to add/register new trigger.
 // This is a mock implementation of original method.
-func (api RestAPIMockEmpty) AddTrigger(username string, clusterName string, reason string, link string) error {
+func (api RestAPIMockEmpty) AddTrigger(username, clusterName, reason, link string) error {
 	// return mocked response with empty data structure
 	return nil
 }
