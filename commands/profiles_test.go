@@ -31,7 +31,7 @@ import (
 // tryToFindProfile is a helper function that tries to find a given profile in
 // captured output. If profile info is not found, the test that calls this
 // function, fails.
-func tryToFindProfile(t *testing.T, captured string, profileDescription string) {
+func tryToFindProfile(t *testing.T, captured, profileDescription string) {
 	if !strings.Contains(captured, profileDescription) {
 		// if profile info is not found, the test should fail
 		t.Fatal("Can not find profile with description:", profileDescription)
