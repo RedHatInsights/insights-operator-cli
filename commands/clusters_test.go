@@ -39,7 +39,7 @@ func checkCapturedOutput(t *testing.T, captured string, err error) {
 
 // tryToFindCluster helper function checks if captured standard output contains
 // provided cluster name or not.
-func tryToFindCluster(t *testing.T, captured string, clusterName string) {
+func tryToFindCluster(t *testing.T, captured, clusterName string) {
 	if !strings.Contains(captured, clusterName) {
 		t.Fatal("Can not find cluster:", clusterName)
 	}

@@ -301,7 +301,7 @@ func (api RestAPIMock) AddCluster(name string) error {
 // AddConfigurationProfile access the REST API endpoint to add new
 // configuration profile.
 // This is a mock implementation of original method.
-func (api RestAPIMock) AddConfigurationProfile(username string, description string, configuration []byte) error {
+func (api RestAPIMock) AddConfigurationProfile(username, description string, configuration []byte) error {
 	// return mocked response
 	return nil
 }
@@ -309,14 +309,14 @@ func (api RestAPIMock) AddConfigurationProfile(username string, description stri
 // AddClusterConfiguration access the REST API endpoint to add new cluster.
 // configuration
 // This is a mock implementation of original method.
-func (api RestAPIMock) AddClusterConfiguration(username string, cluster string, reason string, description string, configuration []byte) error {
+func (api RestAPIMock) AddClusterConfiguration(username, cluster, reason, description string, configuration []byte) error {
 	// return mocked response
 	return nil
 }
 
 // AddTrigger access the REST API endpoint to add/register new trigger.
 // This is a mock implementation of original method.
-func (api RestAPIMock) AddTrigger(username string, clusterName string, reason string, link string) error {
+func (api RestAPIMock) AddTrigger(username, clusterName, reason, link string) error {
 	// return mocked response
 	return nil
 }

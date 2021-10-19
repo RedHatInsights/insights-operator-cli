@@ -296,7 +296,7 @@ func (api RestAPI) AddCluster(name string) error {
 
 // AddConfigurationProfile access the REST API endpoint to add new
 // configuration profile
-func (api RestAPI) AddConfigurationProfile(username string, description string, configuration []byte) error {
+func (api RestAPI) AddConfigurationProfile(username, description string, configuration []byte) error {
 	query := "username=" + url.QueryEscape(username) + "&description=" + url.QueryEscape(description)
 	// construct URL to be used to access REST API endpoint
 	url := api.controllerURL + APIPrefix + "client/profile?" + query
@@ -308,7 +308,7 @@ func (api RestAPI) AddConfigurationProfile(username string, description string, 
 
 // AddClusterConfiguration access the REST API endpoint to add new cluster
 // configuration
-func (api RestAPI) AddClusterConfiguration(username string, cluster string, reason string, description string, configuration []byte) error {
+func (api RestAPI) AddClusterConfiguration(username, cluster string, reason string, description string, configuration []byte) error {
 	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&description=" + url.QueryEscape(description)
 	// construct URL to be used to access REST API endpoint
 	url := api.controllerURL + APIPrefix + "client/cluster/" + url.PathEscape(cluster) + "/configuration/create?" + query
@@ -319,7 +319,7 @@ func (api RestAPI) AddClusterConfiguration(username string, cluster string, reas
 }
 
 // AddTrigger access the REST API endpoint to add/register new trigger
-func (api RestAPI) AddTrigger(username string, clusterName string, reason string, link string) error {
+func (api RestAPI) AddTrigger(username, clusterName, reason, link string) error {
 	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&link=" + url.QueryEscape(link)
 	// construct URL to be used to access REST API endpoint
 	url := api.controllerURL + APIPrefix + "client/cluster/" + url.PathEscape(clusterName) + "/trigger/must-gather?" + query

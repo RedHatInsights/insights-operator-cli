@@ -179,12 +179,12 @@ func AddClusterConfiguration(api restapi.API, username string) {
 	AddClusterConfigurationImpl(api, username, cluster, reason, description, configurationFileName)
 }
 
-func pathToConfigFile(directory string, filename string) string {
+func pathToConfigFile(directory, filename string) string {
 	return directory + filename
 }
 
 // AddClusterConfigurationImpl function creates a new cluster configuration.
-func AddClusterConfigurationImpl(api restapi.API, username string, cluster string, reason string, description string, configurationFileName string) {
+func AddClusterConfigurationImpl(api restapi.API, username, cluster, reason, description, configurationFileName string) {
 	// TODO: make the directory fully configurable
 	configuration, err := ioutil.ReadFile(pathToConfigFile(configFileDirectory, configurationFileName))
 	if err != nil {

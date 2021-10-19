@@ -112,7 +112,7 @@ func AddTrigger(api restapi.API, username string) {
 
 // AddTriggerImpl function calls REST API to add a new trigger into the
 // database.
-func AddTriggerImpl(api restapi.API, username string, clusterName string, reason string, link string) {
+func AddTriggerImpl(api restapi.API, username, clusterName, reason, link string) {
 	// try to add a new trigger and display error message if anything wrong
 	// happens
 	err := api.AddTrigger(username, clusterName, reason, link)

@@ -56,7 +56,7 @@ func checkSuggestionCount(t *testing.T, suggests []prompt.Suggest, expected int)
 }
 
 // checkSuggestionCount function checks the suggestion text and description.
-func checkSuggestion(t *testing.T, suggest prompt.Suggest, command string, description string) {
+func checkSuggestion(t *testing.T, suggest prompt.Suggest, command, description string) {
 	// test suggestion text by comparing it with command
 	if suggest.Text != command {
 		t.Fatal("Invalid suggestion command:", suggest.Text)

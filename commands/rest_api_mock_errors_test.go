@@ -145,21 +145,21 @@ func (api RestAPIMockErrors) AddCluster(name string) error {
 // AddConfigurationProfile access the REST API endpoint to add new
 // configuration profile.
 // This is a mock implementation of original method.
-func (api RestAPIMockErrors) AddConfigurationProfile(username string, description string, configuration []byte) error {
+func (api RestAPIMockErrors) AddConfigurationProfile(username, description string, configuration []byte) error {
 	// return mocked response with error structure
 	return errors.New("AddConfigurationProfile error")
 }
 
 // AddClusterConfiguration returns an error as its last return value.
 // This is a mock implementation of original method.
-func (api RestAPIMockErrors) AddClusterConfiguration(username string, cluster string, reason string, description string, configuration []byte) error {
+func (api RestAPIMockErrors) AddClusterConfiguration(username, cluster, reason, description string, configuration []byte) error {
 	// return mocked response with error structure
 	return errors.New("AddClusterConfiguration error")
 }
 
 // AddTrigger returns an error as its last return value.
 // This is a mock implementation of original method.
-func (api RestAPIMockErrors) AddTrigger(username string, clusterName string, reason string, link string) error {
+func (api RestAPIMockErrors) AddTrigger(username, clusterName, reason, link string) error {
 	// return mocked response with error structure
 	return errors.New("AddTrigger error")
 }

@@ -62,7 +62,7 @@ func performReadRequest(url string) ([]byte, error) {
 // performWriteRequest function try to perform HTTP request using the specified
 // HTTP method (POST, PUT, DELETE) and if the call is successful read the body
 // of response.
-func performWriteRequest(url string, method string, payload io.Reader) error {
+func performWriteRequest(url, method string, payload io.Reader) error {
 	var client http.Client
 
 	request, err := http.NewRequest(method, url, payload)
