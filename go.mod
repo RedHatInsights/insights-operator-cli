@@ -1,6 +1,6 @@
 module github.com/RedHatInsights/insights-operator-cli
 
-go 1.14
+go 1.16
 
 require (
 	github.com/ThomasRooney/gexpect v0.0.0-20161231170123-5482f0350944
