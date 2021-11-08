@@ -217,19 +217,11 @@ func executeFixedCommand(t string) {
 		clusterName := prompt.Input("clusterName: ",
 			commands.LoginCompleter)
 		commands.AddCluster(api, clusterName)
-	case "add profile":
-		fallthrough
-	case "new profile":
+	case "add profile", "new profile":
 		commands.AddConfigurationProfile(api, username)
-	case "add configuration":
-		fallthrough
-	case "new configuration":
+	case "add configuration", "new configuration":
 		commands.AddClusterConfiguration(api, username)
-	case "request must-gather":
-		fallthrough
-	case "add trigger":
-		fallthrough
-	case "new trigger":
+	case "request must-gather", "add trigger", "new trigger":
 		commands.AddTrigger(api, username)
 	case "describe profile":
 		profile := prompt.Input(profilePrompt, commands.LoginCompleter)
@@ -237,9 +229,7 @@ func executeFixedCommand(t string) {
 	case "describe configuration":
 		configuration := configurationPrompt()
 		commands.DescribeConfiguration(api, configuration)
-	case "describe must-gather":
-		fallthrough
-	case "describe trigger":
+	case "describe must-gather", "describe trigger":
 		trigger := triggerPrompt()
 		commands.DescribeTrigger(api, trigger)
 	case "enable configuration":
@@ -263,9 +253,7 @@ func executeFixedCommand(t string) {
 	case "delete trigger":
 		trigger := triggerPrompt()
 		commands.DeleteTrigger(api, trigger)
-	case "activate must-gather":
-		fallthrough
-	case "activate trigger":
+	case "activate must-gather", "activate trigger":
 		trigger := triggerPrompt()
 		commands.ActivateTrigger(api, trigger)
 	case "deactivate must-gather":
