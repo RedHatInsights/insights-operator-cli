@@ -221,11 +221,7 @@ func executeFixedCommand(t string) {
 		commands.AddConfigurationProfile(api, username)
 	case "add configuration", "new configuration":
 		commands.AddClusterConfiguration(api, username)
-	case "request must-gather":
-		fallthrough
-	case "add trigger":
-		fallthrough
-	case "new trigger":
+	case "request must-gather", "add trigger", "new trigger":
 		commands.AddTrigger(api, username)
 	case "describe profile":
 		profile := prompt.Input(profilePrompt, commands.LoginCompleter)
