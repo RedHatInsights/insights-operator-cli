@@ -253,9 +253,7 @@ func executeFixedCommand(t string) {
 	case "delete trigger":
 		trigger := triggerPrompt()
 		commands.DeleteTrigger(api, trigger)
-	case "activate must-gather":
-		fallthrough
-	case "activate trigger":
+	case "activate must-gather", "activate trigger":
 		trigger := triggerPrompt()
 		commands.ActivateTrigger(api, trigger)
 	case "deactivate must-gather":
