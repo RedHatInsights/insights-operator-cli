@@ -229,9 +229,7 @@ func executeFixedCommand(t string) {
 	case "describe configuration":
 		configuration := configurationPrompt()
 		commands.DescribeConfiguration(api, configuration)
-	case "describe must-gather":
-		fallthrough
-	case "describe trigger":
+	case "describe must-gather", "describe trigger":
 		trigger := triggerPrompt()
 		commands.DescribeTrigger(api, trigger)
 	case "enable configuration":
