@@ -219,9 +219,7 @@ func executeFixedCommand(t string) {
 		commands.AddCluster(api, clusterName)
 	case "add profile", "new profile":
 		commands.AddConfigurationProfile(api, username)
-	case "add configuration":
-		fallthrough
-	case "new configuration":
+	case "add configuration", "new configuration":
 		commands.AddClusterConfiguration(api, username)
 	case "request must-gather":
 		fallthrough
