@@ -217,9 +217,7 @@ func executeFixedCommand(t string) {
 		clusterName := prompt.Input("clusterName: ",
 			commands.LoginCompleter)
 		commands.AddCluster(api, clusterName)
-	case "add profile":
-		fallthrough
-	case "new profile":
+	case "add profile", "new profile":
 		commands.AddConfigurationProfile(api, username)
 	case "add configuration":
 		fallthrough
