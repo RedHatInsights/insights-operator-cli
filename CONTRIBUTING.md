@@ -1,5 +1,13 @@
 # Contributing
 
+<!-- vim-markdown-toc GFM -->
+
+* [General code rules](#general-code-rules)
+    * [Naming conventions](#naming-conventions)
+* [Submitting a pull request](#submitting-a-pull-request)
+
+<!-- vim-markdown-toc -->
+
 ## General code rules
 
 For docstrings we're following [Effective Go - Commentary](https://golang.org/doc/effective_go.html#commentary)
