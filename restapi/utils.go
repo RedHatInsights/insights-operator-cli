@@ -41,8 +41,7 @@ const (
 // method and if the call is successful read the body of response.
 func performReadRequest(url string) ([]byte, error) {
 	// disable "G107 (CWE-88): Potential HTTP request made with variable url"
-	// #nosec G107
-	response, err := http.Get(url)
+	response, err := http.Get(url) // #nosec G107
 	if err != nil {
 		return nil, fmt.Errorf(communicationErrorWithServerErrorMessage, err)
 	}
