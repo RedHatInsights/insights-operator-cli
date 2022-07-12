@@ -340,7 +340,7 @@ func completer(in prompt.Document) []prompt.Suggest {
 		{Text: "cluster", Description: "delete cluster and its configuration"},
 		{Text: "profile", Description: "delete configuration profile"},
 		{Text: "configuration", Description: "delete cluster configuration"},
-		{Text: "trigger", Description: "delete trigger"},
+		{Text: "trigger", Description: "delete must-gather trigger"},
 	}
 
 	// descripbe operations
