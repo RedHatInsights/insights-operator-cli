@@ -116,7 +116,7 @@ func (api RestAPI) ReadTriggerByID(triggerID string) (*types.Trigger, error) {
 	}
 	// and check for the status message in payload
 	if trigger.Status != "ok" {
-		return nil, fmt.Errorf(trigger.Status)
+		return nil, fmt.Errorf("%s", trigger.Status)
 	}
 	return &trigger.Trigger, nil
 }
