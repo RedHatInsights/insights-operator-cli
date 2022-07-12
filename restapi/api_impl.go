@@ -90,7 +90,7 @@ func (api RestAPI) ReadListOfTriggers() ([]types.Trigger, error) {
 	}
 	// and check for the status message in payload
 	if triggers.Status != "ok" {
-		return nil, fmt.Errorf(triggers.Status)
+		return nil, fmt.Errorf("%s", triggers.Status)
 	}
 	return triggers.Triggers, nil
 }
