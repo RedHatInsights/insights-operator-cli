@@ -169,7 +169,7 @@ func (api RestAPI) ReadListOfConfigurations() ([]types.ClusterConfiguration, err
 	}
 	// and check for the status message in payload
 	if configurations.Status != "ok" {
-		return nil, fmt.Errorf(configurations.Status)
+		return nil, fmt.Errorf("%s", configurations.Status)
 	}
 	return configurations.Configurations, nil
 }
