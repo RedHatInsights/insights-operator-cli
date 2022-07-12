@@ -148,7 +148,7 @@ func AddClusterConfiguration(api restapi.API, username string) {
 	}
 
 	// ask user about reason
-	reason := prompt.Input("reason: ", LoginCompleter)
+	reason := prompt.Input(reasonPrompt, LoginCompleter)
 	if reason == "" {
 		fmt.Println(colorizer.Red(operationCancelled))
 		return

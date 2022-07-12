@@ -25,4 +25,5 @@ package commands
 // prompts displayed to user
 const (
 	descriptionPrompt = "description: "
+	reasonPrompt      = "reason: "
 )

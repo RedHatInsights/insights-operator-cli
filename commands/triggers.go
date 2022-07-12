@@ -1,5 +1,5 @@
 /*
-Copyright © 2019, 2020, 2021 Red Hat, Inc.
+Copyright © 2019, 2020, 2021, 2022 Red Hat, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -104,7 +104,7 @@ func AddTrigger(api restapi.API, username string) {
 	}
 
 	clusterName := prompt.Input("cluster name: ", LoginCompleter)
-	reason := prompt.Input("reason: ", LoginCompleter)
+	reason := prompt.Input(reasonPrompt, LoginCompleter)
 	link := prompt.Input("link: ", LoginCompleter)
 
 	AddTriggerImpl(api, username, clusterName, reason, link)
