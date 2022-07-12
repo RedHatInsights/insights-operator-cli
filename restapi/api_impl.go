@@ -196,7 +196,7 @@ func (api RestAPI) ReadConfigurationProfile(profileID string) (*types.Configurat
 	}
 	// and check for the status message in payload
 	if profile.Status != "ok" {
-		return nil, fmt.Errorf(profile.Status)
+		return nil, fmt.Errorf("%s", profile.Status)
 	}
 	return &profile.Profile, nil
 }
