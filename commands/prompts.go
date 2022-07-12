@@ -23,4 +23,6 @@ package commands
 // https://redhatinsights.github.io/insights-operator-cli/packages/commands/prompts.html
 
 // prompts displayed to user
-const ()
+const (
+	descriptionPrompt = "description: "
+)

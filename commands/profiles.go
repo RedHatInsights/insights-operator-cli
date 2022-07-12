@@ -1,5 +1,5 @@
 /*
-Copyright © 2019, 2020, 2021 Red Hat, Inc.
+Copyright © 2019, 2020, 2021, 2022 Red Hat, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -111,7 +111,7 @@ func AddConfigurationProfile(api restapi.API, username string) {
 	}
 
 	// ask for description of configuration profile
-	description := prompt.Input("description: ", LoginCompleter)
+	description := prompt.Input(descriptionPrompt, LoginCompleter)
 	if description == "" {
 		fmt.Println(colorizer.Red(operationCancelled))
 		return
