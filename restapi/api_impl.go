@@ -64,7 +64,7 @@ func (api RestAPI) ReadListOfClusters() ([]types.Cluster, error) {
 	}
 	// and check for the status message in payload
 	if clusters.Status != "ok" {
-		return nil, fmt.Errorf(clusters.Status)
+		return nil, fmt.Errorf("%s", clusters.Status)
 	}
 	return clusters.Clusters, nil
 }
@@ -223,7 +223,7 @@ func (api RestAPI) ReadClusterConfigurationByID(configurationID string) (*string
 	}
 	// and check for the status message in payload
 	if configuration.Status != "ok" {
-		return nil, fmt.Errorf(configuration.Status)
+		return nil, fmt.Errorf("%s", configuration.Status)
 	}
 	return &configuration.Configuration, nil
 }
@@ -308,7 +308,7 @@ func (api RestAPI) AddConfigurationProfile(username, description string, configu
 
 // AddClusterConfiguration access the REST API endpoint to add new cluster
 // configuration
-func (api RestAPI) AddClusterConfiguration(username, cluster, reason string, description string, configuration []byte) error {
+func (api RestAPI) AddClusterConfiguration(username, cluster, reason, description string, configuration []byte) error {
 	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&description=" + url.QueryEscape(description)
 	// construct URL to be used to access REST API endpoint
 	url := api.controllerURL + APIPrefix + "client/cluster/" + url.PathEscape(cluster) + "/configuration/create?" + query

@@ -27,7 +27,7 @@ import (
 	"github.com/RedHatInsights/insights-operator-cli/restapi"
 	"github.com/c-bata/go-prompt"
 	"github.com/logrusorgru/aurora"
-	"io/ioutil"
+	"os"
 	"strings"
 )
 
@@ -186,7 +186,7 @@ func pathToConfigFile(directory, filename string) string {
 // AddClusterConfigurationImpl function creates a new cluster configuration.
 func AddClusterConfigurationImpl(api restapi.API, username, cluster, reason, description, configurationFileName string) {
 	// TODO: make the directory fully configurable
-	configuration, err := ioutil.ReadFile(pathToConfigFile(configFileDirectory, configurationFileName))
+	configuration, err := os.ReadFile(pathToConfigFile(configFileDirectory, configurationFileName))
 	if err != nil {
 		fmt.Println(colorizer.Red(cannotReadConfigurationFileErrorMessage))
 		fmt.Println(err)

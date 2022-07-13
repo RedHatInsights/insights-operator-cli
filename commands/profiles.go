@@ -26,7 +26,7 @@ import (
 	"fmt"
 	"github.com/RedHatInsights/insights-operator-cli/restapi"
 	"github.com/c-bata/go-prompt"
-	"io/ioutil"
+	"os"
 )
 
 // ListOfProfiles function displays list of configuration profiles gathered via
@@ -133,7 +133,7 @@ func AddConfigurationProfile(api restapi.API, username string) {
 	}
 
 	// TODO: make the directory fully configurable
-	configuration, err := ioutil.ReadFile(pathToConfigFile(configFileDirectory, configurationFileName))
+	configuration, err := os.ReadFile(pathToConfigFile(configFileDirectory, configurationFileName))
 	if err != nil {
 		fmt.Println(colorizer.Red(cannotReadConfigurationFileErrorMessage))
 		fmt.Println(err)
@@ -157,7 +157,7 @@ func AddConfigurationProfile(api restapi.API, username string) {
 func AddConfigurationProfileImpl(api restapi.API, username, description, configurationFileName string) {
 	// TODO: make the directory fully configurable
 	// disable "G304 (CWE-22): Potential file inclusion via variable"
-	configuration, err := ioutil.ReadFile("configurations/" + configurationFileName) // #nosec G304
+	configuration, err := os.ReadFile("configurations/" + configurationFileName) // #nosec G304
 	if err != nil {
 		fmt.Println(colorizer.Red(cannotReadConfigurationFileErrorMessage))
 		fmt.Println(err)
