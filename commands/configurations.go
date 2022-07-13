@@ -45,7 +45,7 @@ func ListOfConfigurations(api restapi.API, filter string) {
 	// wrong happens
 	configurations, err := api.ReadListOfConfigurations()
 	if err != nil {
-		fmt.Println(colorizer.Red("Error reading list of configurations"))
+		fmt.Println(colorizer.Red(ErrorReadingListOfConfigurations))
 		fmt.Println(err)
 		return
 	}

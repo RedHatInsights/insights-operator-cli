@@ -134,7 +134,7 @@ func TestListOfConfigurationsErrorHandling(t *testing.T) {
 	checkCapturedOutput(t, captured, err)
 
 	// test the captured output
-	if !strings.HasPrefix(captured, "Error reading list of configurations") {
+	if !strings.HasPrefix(captured, commands.ErrorReadingListOfConfigurations) {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
