@@ -1,5 +1,5 @@
 /*
-Copyright © 2019, 2020, 2021 Red Hat, Inc.
+Copyright © 2019, 2020, 2021, 2022 Red Hat, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ func ListOfClusters(api restapi.API) {
 	// check for any error
 	if err != nil {
 		// list of clusters operation failed for some reason
-		fmt.Println(colorizer.Red("Error reading list of clusters"))
+		fmt.Println(colorizer.Red(ErrorReadingListOfClusters))
 		fmt.Println(err)
 		return
 	}
@@ -80,7 +80,7 @@ func DeleteCluster(api restapi.API, clusterID string, askForConfirmation bool) {
 	// check for any error
 	if err != nil {
 		// error has been detected during REST API call or during DB operation
-		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
+		fmt.Println(colorizer.Red(ErrorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
@@ -98,7 +98,7 @@ func AddCluster(api restapi.API, clusterName string) {
 	// check for any error
 	if err != nil {
 		// error has been detected during REST API call or during DB operation
-		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
+		fmt.Println(colorizer.Red(ErrorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}

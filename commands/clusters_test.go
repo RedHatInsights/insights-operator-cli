@@ -1,5 +1,5 @@
 /*
-Copyright © 2019, 2020, 2021 Red Hat, Inc.
+Copyright © 2019, 2020, 2021, 2022 Red Hat, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -129,7 +129,7 @@ func TestListOfClustersErrorHandling(t *testing.T) {
 	checkCapturedOutput(t, captured, err)
 
 	// check if error message was written into standard output
-	if !strings.HasPrefix(captured, "Error reading list of clusters") {
+	if !strings.HasPrefix(captured, commands.ErrorReadingListOfClusters) {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }

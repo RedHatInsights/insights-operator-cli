@@ -45,7 +45,7 @@ func ListOfConfigurations(api restapi.API, filter string) {
 	// wrong happens
 	configurations, err := api.ReadListOfConfigurations()
 	if err != nil {
-		fmt.Println(colorizer.Red("Error reading list of configurations"))
+		fmt.Println(colorizer.Red(ErrorReadingListOfConfigurations))
 		fmt.Println(err)
 		return
 	}
@@ -75,7 +75,7 @@ func EnableClusterConfiguration(api restapi.API, configurationID string) {
 	// wrong happens
 	err := api.EnableClusterConfiguration(configurationID)
 	if err != nil {
-		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
+		fmt.Println(colorizer.Red(ErrorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
@@ -91,7 +91,7 @@ func DisableClusterConfiguration(api restapi.API, configurationID string) {
 	// wrong happens
 	err := api.DisableClusterConfiguration(configurationID)
 	if err != nil {
-		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
+		fmt.Println(colorizer.Red(ErrorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
@@ -107,7 +107,7 @@ func DescribeConfiguration(api restapi.API, clusterID string) {
 	// if something wrong happens
 	configuration, err := api.ReadClusterConfigurationByID(clusterID)
 	if err != nil {
-		fmt.Println(colorizer.Red("Error reading cluster configuration"))
+		fmt.Println(colorizer.Red(ErrorReadingClusterConfiguration))
 		fmt.Println(err)
 		return
 	}
@@ -123,7 +123,7 @@ func DeleteClusterConfiguration(api restapi.API, configurationID string) {
 	// wrong happens
 	err := api.DeleteClusterConfiguration(configurationID)
 	if err != nil {
-		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
+		fmt.Println(colorizer.Red(ErrorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
@@ -164,7 +164,7 @@ func AddClusterConfiguration(api restapi.API, username string) {
 	// TODO: make the directory fully configurable
 	err := FillInConfigurationList(configurationsDirectory)
 	if err != nil {
-		fmt.Println(colorizer.Red(cannotReadAnyConfigurationFileErrorMessage))
+		fmt.Println(colorizer.Red(CannotReadAnyConfigurationFileErrorMessage))
 		fmt.Println(err)
 	}
 
@@ -188,7 +188,7 @@ func AddClusterConfigurationImpl(api restapi.API, username, cluster, reason, des
 	// TODO: make the directory fully configurable
 	configuration, err := os.ReadFile(pathToConfigFile(configFileDirectory, configurationFileName))
 	if err != nil {
-		fmt.Println(colorizer.Red(cannotReadConfigurationFileErrorMessage))
+		fmt.Println(colorizer.Red(CannotReadConfigurationFileErrorMessage))
 		fmt.Println(err)
 		return
 	}
@@ -197,7 +197,7 @@ func AddClusterConfigurationImpl(api restapi.API, username, cluster, reason, des
 	// wrong happens
 	err = api.AddClusterConfiguration(username, cluster, reason, description, configuration)
 	if err != nil {
-		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
+		fmt.Println(colorizer.Red(ErrorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
