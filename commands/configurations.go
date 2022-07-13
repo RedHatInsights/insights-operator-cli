@@ -107,7 +107,7 @@ func DescribeConfiguration(api restapi.API, clusterID string) {
 	// if something wrong happens
 	configuration, err := api.ReadClusterConfigurationByID(clusterID)
 	if err != nil {
-		fmt.Println(colorizer.Red("Error reading cluster configuration"))
+		fmt.Println(colorizer.Red(ErrorReadingClusterConfiguration))
 		fmt.Println(err)
 		return
 	}
