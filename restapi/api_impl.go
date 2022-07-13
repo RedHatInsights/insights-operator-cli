@@ -223,7 +223,7 @@ func (api RestAPI) ReadClusterConfigurationByID(configurationID string) (*string
 	}
 	// and check for the status message in payload
 	if configuration.Status != "ok" {
-		return nil, fmt.Errorf(configuration.Status)
+		return nil, fmt.Errorf("%s", configuration.Status)
 	}
 	return &configuration.Configuration, nil
 }
