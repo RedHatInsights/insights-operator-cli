@@ -27,7 +27,6 @@ import (
 	"fmt"
 	"github.com/RedHatInsights/insights-operator-cli/types"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 )
