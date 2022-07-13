@@ -27,7 +27,6 @@ import (
 	"github.com/RedHatInsights/insights-operator-cli/restapi"
 	"github.com/c-bata/go-prompt"
 	"github.com/logrusorgru/aurora"
-	"io/ioutil"
 	"os"
 	"strings"
 )
