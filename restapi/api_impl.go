@@ -64,7 +64,7 @@ func (api RestAPI) ReadListOfClusters() ([]types.Cluster, error) {
 	}
 	// and check for the status message in payload
 	if clusters.Status != "ok" {
-		return nil, fmt.Errorf(clusters.Status)
+		return nil, fmt.Errorf("%s", clusters.Status)
 	}
 	return clusters.Clusters, nil
 }
