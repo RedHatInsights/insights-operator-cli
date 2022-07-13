@@ -1,5 +1,5 @@
 /*
-Copyright © 2020, 2021 Red Hat, Inc.
+Copyright © 2020, 2021, 2022 Red Hat, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -51,6 +51,7 @@ func mockedHTTPServer(handler func(responseWriter http.ResponseWriter, request *
 func checkURL(t *testing.T, request *http.Request, expectedURL string) {
 	if request == nil {
 		t.Error("Ptr. to request structure is nil")
+		return
 	}
 	// check the actual URL if it's the same as expected one
 	if request.URL.String() != expectedURL {
