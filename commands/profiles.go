@@ -37,7 +37,7 @@ func ListOfProfiles(api restapi.API) {
 	profiles, err := api.ReadListOfConfigurationProfiles()
 	if err != nil {
 		// in case of error just print the error message
-		fmt.Println(colorizer.Red("Error reading list of configuration profiles"))
+		fmt.Println(colorizer.Red(ErrorReadingListOfConfigurationProfiles))
 		fmt.Println(err)
 		return
 	}
