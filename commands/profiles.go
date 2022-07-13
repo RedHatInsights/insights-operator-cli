@@ -158,7 +158,7 @@ func AddConfigurationProfile(api restapi.API, username string) {
 func AddConfigurationProfileImpl(api restapi.API, username, description, configurationFileName string) {
 	// TODO: make the directory fully configurable
 	// disable "G304 (CWE-22): Potential file inclusion via variable"
-	configuration, err := ioutil.ReadFile("configurations/" + configurationFileName) // #nosec G304
+	configuration, err := os.ReadFile("configurations/" + configurationFileName) // #nosec G304
 	if err != nil {
 		fmt.Println(colorizer.Red(cannotReadConfigurationFileErrorMessage))
 		fmt.Println(err)
