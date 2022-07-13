@@ -93,7 +93,7 @@ func DeleteConfigurationProfile(api restapi.API, profileID string, askForConfirm
 	err := api.DeleteConfigurationProfile(profileID)
 	if err != nil {
 		// in case of error just print the error message
-		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
+		fmt.Println(colorizer.Red(ErrorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
@@ -120,7 +120,7 @@ func AddConfigurationProfile(api restapi.API, username string) {
 	// TODO: make the directory fully configurable
 	err := FillInConfigurationList(configurationsDirectory)
 	if err != nil {
-		fmt.Println(colorizer.Red(cannotReadAnyConfigurationFileErrorMessage))
+		fmt.Println(colorizer.Red(CannotReadAnyConfigurationFileErrorMessage))
 		fmt.Println(err)
 	}
 
@@ -135,7 +135,7 @@ func AddConfigurationProfile(api restapi.API, username string) {
 	// TODO: make the directory fully configurable
 	configuration, err := os.ReadFile(pathToConfigFile(configFileDirectory, configurationFileName))
 	if err != nil {
-		fmt.Println(colorizer.Red(cannotReadConfigurationFileErrorMessage))
+		fmt.Println(colorizer.Red(CannotReadConfigurationFileErrorMessage))
 		fmt.Println(err)
 	}
 
@@ -144,7 +144,7 @@ func AddConfigurationProfile(api restapi.API, username string) {
 	err = api.AddConfigurationProfile(username, description, configuration)
 	if err != nil {
 		// in case of error just print the error message
-		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
+		fmt.Println(colorizer.Red(ErrorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
@@ -159,7 +159,7 @@ func AddConfigurationProfileImpl(api restapi.API, username, description, configu
 	// disable "G304 (CWE-22): Potential file inclusion via variable"
 	configuration, err := os.ReadFile("configurations/" + configurationFileName) // #nosec G304
 	if err != nil {
-		fmt.Println(colorizer.Red(cannotReadConfigurationFileErrorMessage))
+		fmt.Println(colorizer.Red(CannotReadConfigurationFileErrorMessage))
 		fmt.Println(err)
 	}
 
@@ -168,7 +168,7 @@ func AddConfigurationProfileImpl(api restapi.API, username, description, configu
 	err = api.AddConfigurationProfile(username, description, configuration)
 	if err != nil {
 		// in case of error just print the error message
-		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
+		fmt.Println(colorizer.Red(ErrorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}

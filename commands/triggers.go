@@ -37,7 +37,7 @@ func ListOfTriggers(api restapi.API) {
 	// wrong happens
 	triggers, err := api.ReadListOfTriggers()
 	if err != nil {
-		fmt.Println(colorizer.Red(errorReadingListOfTriggers))
+		fmt.Println(colorizer.Red(ErrorReadingListOfTriggers))
 		fmt.Println(err)
 		return
 	}
@@ -64,7 +64,7 @@ func DescribeTrigger(api restapi.API, triggerID string) {
 	// if anything wrong happens
 	trigger, err := api.ReadTriggerByID(triggerID)
 	if err != nil {
-		fmt.Println(colorizer.Red(errorReadingSelectedTrigger))
+		fmt.Println(colorizer.Red(ErrorReadingSelectedTrigger))
 		fmt.Println(err)
 		return
 	}
@@ -117,7 +117,7 @@ func AddTriggerImpl(api restapi.API, username, clusterName, reason, link string)
 	// happens
 	err := api.AddTrigger(username, clusterName, reason, link)
 	if err != nil {
-		fmt.Println(errorCommunicationWithServiceErrorMessage)
+		fmt.Println(ErrorCommunicationWithServiceErrorMessage)
 		fmt.Println(err)
 		return
 	}
@@ -132,7 +132,7 @@ func DeleteTrigger(api restapi.API, triggerID string) {
 	// if anything wrong happens
 	err := api.DeleteTrigger(triggerID)
 	if err != nil {
-		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
+		fmt.Println(colorizer.Red(ErrorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
@@ -147,7 +147,7 @@ func ActivateTrigger(api restapi.API, triggerID string) {
 	// message if anything wrong happens
 	err := api.ActivateTrigger(triggerID)
 	if err != nil {
-		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
+		fmt.Println(colorizer.Red(ErrorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
@@ -162,7 +162,7 @@ func DeactivateTrigger(api restapi.API, triggerID string) {
 	// message if anything wrong happens
 	err := api.DeactivateTrigger(triggerID)
 	if err != nil {
-		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
+		fmt.Println(colorizer.Red(ErrorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}

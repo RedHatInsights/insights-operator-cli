@@ -24,14 +24,14 @@ package commands
 
 // constants used to display various error messages
 const (
-	cannotReadConfigurationFileErrorMessage    = "Cannot read configuration file"
-	cannotReadAnyConfigurationFileErrorMessage = "Cannot read any configuration file"
-	errorCommunicationWithServiceErrorMessage  = "Error communicating with the service"
-	errorReadingListOfClusters                 = "Error reading list of clusters"
-	errorReadingListOfConfigurations           = "Error reading list of configurations"
-	errorReadingClusterConfiguration           = "Error reading cluster configuration"
-	errorReadingListOfConfigurationProfiles    = "Error reading list of configuration profiles"
-	errorReadingConfigurationProfile           = "Error reading configuration profile"
-	errorReadingListOfTriggers                 = "Error reading list of triggers"
-	errorReadingSelectedTrigger                = "Error reading selected trigger"
+	CannotReadConfigurationFileErrorMessage    = "Cannot read configuration file"
+	CannotReadAnyConfigurationFileErrorMessage = "Cannot read any configuration file"
+	ErrorCommunicationWithServiceErrorMessage  = "Error communicating with the service"
+	ErrorReadingListOfClusters                 = "Error reading list of clusters"
+	ErrorReadingListOfConfigurations           = "Error reading list of configurations"
+	ErrorReadingClusterConfiguration           = "Error reading cluster configuration"
+	ErrorReadingListOfConfigurationProfiles    = "Error reading list of configuration profiles"
+	ErrorReadingConfigurationProfile           = "Error reading configuration profile"
+	ErrorReadingListOfTriggers                 = "Error reading list of triggers"
+	ErrorReadingSelectedTrigger                = "Error reading selected trigger"
 )

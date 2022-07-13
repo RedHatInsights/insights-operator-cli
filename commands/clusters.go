@@ -80,7 +80,7 @@ func DeleteCluster(api restapi.API, clusterID string, askForConfirmation bool) {
 	// check for any error
 	if err != nil {
 		// error has been detected during REST API call or during DB operation
-		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
+		fmt.Println(colorizer.Red(ErrorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
@@ -98,7 +98,7 @@ func AddCluster(api restapi.API, clusterName string) {
 	// check for any error
 	if err != nil {
 		// error has been detected during REST API call or during DB operation
-		fmt.Println(colorizer.Red(errorCommunicationWithServiceErrorMessage))
+		fmt.Println(colorizer.Red(ErrorCommunicationWithServiceErrorMessage))
 		fmt.Println(err)
 		return
 	}
