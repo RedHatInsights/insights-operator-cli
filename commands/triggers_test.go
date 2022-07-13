@@ -138,7 +138,7 @@ func TestListOfTriggersErrorHandling(t *testing.T) {
 	checkCapturedOutput(t, captured, err)
 
 	// check the actual output displayed on terminal
-	if !strings.HasPrefix(captured, "Error reading list of triggers") {
+	if !strings.HasPrefix(captured, commands.ErrorReadingListOfTriggers) {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }

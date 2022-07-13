@@ -37,7 +37,7 @@ func ListOfTriggers(api restapi.API) {
 	// wrong happens
 	triggers, err := api.ReadListOfTriggers()
 	if err != nil {
-		fmt.Println(colorizer.Red("Error reading list of triggers"))
+		fmt.Println(colorizer.Red(errorReadingListOfTriggers))
 		fmt.Println(err)
 		return
 	}
