@@ -26,7 +26,6 @@ import (
 	"fmt"
 	"github.com/RedHatInsights/insights-operator-cli/restapi"
 	"github.com/c-bata/go-prompt"
-	"io/ioutil"
 	"os"
 )
 
