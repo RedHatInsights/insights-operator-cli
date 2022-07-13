@@ -295,7 +295,7 @@ func TestDescribeTriggerErrorHandling(t *testing.T) {
 	checkCapturedOutput(t, captured, err)
 
 	// test the captured output
-	if !strings.HasPrefix(captured, "Error reading selected trigger") {
+	if !strings.HasPrefix(captured, commands.errorReadingSelectedTrigger) {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }

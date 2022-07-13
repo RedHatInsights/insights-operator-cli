@@ -64,7 +64,7 @@ func DescribeTrigger(api restapi.API, triggerID string) {
 	// if anything wrong happens
 	trigger, err := api.ReadTriggerByID(triggerID)
 	if err != nil {
-		fmt.Println(colorizer.Red("Error reading selected trigger"))
+		fmt.Println(colorizer.Red(errorReadingSelectedTrigger))
 		fmt.Println(err)
 		return
 	}
