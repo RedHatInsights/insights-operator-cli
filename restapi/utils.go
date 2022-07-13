@@ -76,7 +76,7 @@ func performWriteRequest(url, method string, payload io.Reader) error {
 	if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusCreated && response.StatusCode != http.StatusAccepted {
 		return fmt.Errorf("Expected HTTP status 200 OK, 201 Created or 202 Accepted, got %d", response.StatusCode)
 	}
-	body, readErr := ioutil.ReadAll(response.Body)
+	body, readErr := io.ReadAll(response.Body)
 	defer closeResponseBody(response)
 
 	if readErr != nil {
