@@ -133,7 +133,7 @@ func TestListOfProfilesErrorHandling(t *testing.T) {
 	checkCapturedOutput(t, captured, err)
 
 	// test the captured output
-	if !strings.HasPrefix(captured, ErrorReadingListOfConfigurationProfiles) {
+	if !strings.HasPrefix(captured, commands.ErrorReadingListOfConfigurationProfiles) {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
