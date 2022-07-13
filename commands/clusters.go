@@ -39,7 +39,7 @@ func ListOfClusters(api restapi.API) {
 	// check for any error
 	if err != nil {
 		// list of clusters operation failed for some reason
-		fmt.Println(colorizer.Red("Error reading list of clusters"))
+		fmt.Println(colorizer.Red(ErrorReadingListOfClusters))
 		fmt.Println(err)
 		return
 	}

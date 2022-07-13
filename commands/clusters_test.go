@@ -129,7 +129,7 @@ func TestListOfClustersErrorHandling(t *testing.T) {
 	checkCapturedOutput(t, captured, err)
 
 	// check if error message was written into standard output
-	if !strings.HasPrefix(captured, "Error reading list of clusters") {
+	if !strings.HasPrefix(captured, commands.ErrorReadingListOfClusters) {
 		t.Fatal("Unexpected output:\n", captured)
 	}
 }
