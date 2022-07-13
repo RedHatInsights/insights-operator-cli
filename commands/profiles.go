@@ -27,6 +27,7 @@ import (
 	"github.com/RedHatInsights/insights-operator-cli/restapi"
 	"github.com/c-bata/go-prompt"
 	"io/ioutil"
+	"os"
 )
 
 // ListOfProfiles function displays list of configuration profiles gathered via
@@ -133,7 +134,7 @@ func AddConfigurationProfile(api restapi.API, username string) {
 	}
 
 	// TODO: make the directory fully configurable
-	configuration, err := ioutil.ReadFile(pathToConfigFile(configFileDirectory, configurationFileName))
+	configuration, err := os.ReadFile(pathToConfigFile(configFileDirectory, configurationFileName))
 	if err != nil {
 		fmt.Println(colorizer.Red(cannotReadConfigurationFileErrorMessage))
 		fmt.Println(err)
