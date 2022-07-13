@@ -62,7 +62,7 @@ func DescribeProfile(api restapi.API, profileID string) {
 	profile, err := api.ReadConfigurationProfile(profileID)
 	if err != nil {
 		// in case of error just print the error message
-		fmt.Println(colorizer.Red("Error reading configuration profile"))
+		fmt.Println(colorizer.Red(ErrorReadingConfigurationProfile))
 		fmt.Println(err)
 		return
 	}
