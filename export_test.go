@@ -1,5 +1,5 @@
 /*
-Copyright © 2019, 2020, 2021 Red Hat, Inc.
+Copyright © 2019, 2020, 2021, 2022 Red Hat, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -32,7 +32,10 @@ package main
 // https://medium.com/@robiplus/golang-trick-export-for-test-aa16cbd7b8cd
 // to see why this trick is needed for using package internal
 // symbols (externally invisible) in unit tests.
-var Completer = completer
-var ReadConfiguration = readConfiguration
-var PrintVersion = printVersion
-var Colorizer = &colorizer
+//nolint
+var (
+	Completer         = completer
+	ReadConfiguration = readConfiguration
+	PrintVersion      = printVersion
+	Colorizer         = &colorizer
+)
