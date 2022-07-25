@@ -28,9 +28,11 @@ jobs:
         - ./golint.sh
         - ./gocyclo.sh
         - ./goerrcheck.sh
+        - ./goconst.sh
         - ./gosec.sh
         - ./abcgo.sh
         - ./ineffassign.sh
+        - ./shellcheck.sh
     - stage: unit tests
       before_script: go build
       script:
