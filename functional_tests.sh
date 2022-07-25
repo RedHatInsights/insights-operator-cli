@@ -16,6 +16,7 @@
 
 go build -race
 
+# shellcheck disable=SC2181
 if [ $? -eq 0 ]
 then
     echo "CLI client build ok"
@@ -26,6 +27,7 @@ fi
 
 go test -c -o ./functional-tests tests/*.go
 
+# shellcheck disable=SC2181
 if [ $? -eq 0 ]
 then
     echo "Functional tests build ok"

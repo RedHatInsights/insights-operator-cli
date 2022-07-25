@@ -1,4 +1,6 @@
-# Copyright 2020 Red Hat, Inc
+#!/bin/bash
+
+# Copyright 2020, 2021, 2022 Red Hat, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,4 +19,4 @@ goplantuml -recursive . > class_diagram.uml
 java -jar ~/tools/plantuml.jar class_diagram.uml
 mv class_diagram.uml doc/
 mv class_diagram.png doc/
-popd
+popd || exit
