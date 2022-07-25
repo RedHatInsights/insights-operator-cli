@@ -17,6 +17,7 @@
     * [Cluster configurations:](#cluster-configurations)
     * [Must-gather trigger:](#must-gather-trigger)
     * [Other commands:](#other-commands)
+* [BDD tests](#bdd-tests)
 * [How to build the CLI client](#how-to-build-the-cli-client)
 * [Start](#start)
 * [Configuration](#configuration)
@@ -72,6 +73,17 @@ A simple CLI client for managing the Insights operator. Currently this client su
 * **copyright**                 displays copyright notice
 * **license**                   displays license used by this project
 * **authors**                   displays list of authors
+
+
+## BDD tests
+
+Behaviour tests for this service are included in [Insights Behavioral
+Spec](https://github.com/RedHatInsights/insights-behavioral-spec) repository.
+In order to run these tests, the following steps needs to be made:
+
+1. clone the [Insights Behavioral Spec](https://github.com/RedHatInsights/insights-behavioral-spec) repository
+1. go into the cloned subdirectory `insights-behavioral-spec`
+
 
 
 ## How to build the CLI client
