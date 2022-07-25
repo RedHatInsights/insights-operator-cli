@@ -14,7 +14,8 @@
 # limitations under the License.
 
 
-go test -coverprofile coverage.out $(go list ./... | grep -v tests) $@
+# shellcheck disable=SC2046
+go test -race -covermode=atomic -coverprofile coverage.out $(go list ./... | grep -v tests) "$@"
 exit_code=$?
 
 echo "Test coverage:"
