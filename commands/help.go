@@ -71,7 +71,7 @@ func PrintHelp() {
 	fmt.Println(colorizer.Yellow("new trigger              "), commandAlias)
 	fmt.Println(colorizer.Yellow("activate trigger ##      "), "activate trigger selected by its ID")
 	fmt.Println(colorizer.Yellow("deactivate trigger ##    "), "deactivate trigger selected by its ID")
-	fmt.Println(colorizer.Yellow("delete trigger ##        "), "delete trigger")
+	fmt.Println(colorizer.Yellow("delete trigger ##        "), "delete trigger selected by its ID")
 	fmt.Println()
 
 	// other commands
