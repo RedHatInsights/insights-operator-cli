@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Copyright 2020 Red Hat, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,10 +18,11 @@ version=0.5
 time=$(date)
 go build -ldflags="-X 'main.BuildTime=$time' -X 'main.BuildVersion=$version'" .
 
+# shellcheck disable=SC2181
 if [ $? -eq 0 ]
 then
     echo "Build ok"
-    ./insights-operator-cli $@
+    ./insights-operator-cli "$@"
 else
     echo "Build failed"
 fi
