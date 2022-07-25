@@ -102,7 +102,7 @@
       <tr class="section">
 	<td class="doc"></td>
 	<td class="code"><pre><code><div class="comment">/*
-Copyright © 2019, 2020, 2021 Red Hat, Inc.
+Copyright © 2019, 2020, 2021, 2022 Red Hat, Inc.
 
 Licensed under the Apache License, Version 2.0 (the &#34;License&#34;);
 you may not use this file except in compliance with the License.
@@ -167,7 +167,7 @@ happens</p>
       <tr class="section">
 	<td class="doc"><p>list of clusters operation failed for some reason</p>
 </td>
-	<td class="code"><pre><code>		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="literal">&#34;Error reading list of clusters&#34;</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+	<td class="code"><pre><code>		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">ErrorReadingListOfClusters</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 		<div class="keyword">return</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
@@ -253,7 +253,7 @@ display the confirmation dialog</p>
       <tr class="section">
 	<td class="doc"><p>error has been detected during REST API call or during DB operation</p>
 </td>
-	<td class="code"><pre><code>		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">errorCommunicationWithServiceErrorMessage</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+	<td class="code"><pre><code>		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">ErrorCommunicationWithServiceErrorMessage</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 		<div class="keyword">return</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
@@ -296,7 +296,7 @@ call to insights operator controller service.</p>
       <tr class="section">
 	<td class="doc"><p>error has been detected during REST API call or during DB operation</p>
 </td>
-	<td class="code"><pre><code>		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">errorCommunicationWithServiceErrorMessage</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+	<td class="code"><pre><code>		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">ErrorCommunicationWithServiceErrorMessage</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 		<div class="keyword">return</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>

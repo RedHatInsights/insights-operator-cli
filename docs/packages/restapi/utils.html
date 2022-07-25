@@ -102,7 +102,7 @@
       <tr class="section">
 	<td class="doc"></td>
 	<td class="code"><pre><code><div class="comment">/*
-Copyright © 2019, 2020, 2021 Red Hat, Inc.
+Copyright © 2019, 2020, 2021, 2022 Red Hat, Inc.
 
 Licensed under the Apache License, Version 2.0 (the &#34;License&#34;);
 you may not use this file except in compliance with the License.
@@ -135,7 +135,6 @@ https://redhatinsights.github.io/insights-operator-cli/packages/restapi/utils.ht
 	<div class="literal">&#34;fmt&#34;</div><div class="operator"></div>
 	<div class="literal">&#34;github.com/RedHatInsights/insights-operator-cli/types&#34;</div><div class="operator"></div>
 	<div class="literal">&#34;io&#34;</div><div class="operator"></div>
-	<div class="literal">&#34;io/ioutil&#34;</div><div class="operator"></div>
 	<div class="literal">&#34;log&#34;</div><div class="operator"></div>
 	<div class="literal">&#34;net/http&#34;</div><div class="operator"></div>
 <div class="operator">)</div><div class="operator"></div>
@@ -158,17 +157,15 @@ method and if the call is successful read the body of response.</p>
       
       <tr class="section">
 	<td class="doc"><p>disable &quot;G107 (CWE-88): Potential HTTP request made with variable url&quot;</p>
-
-<h1>nosec G107</h1>
 </td>
-	<td class="code"><pre><code>	<div class="ident">response</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">Get</div><div class="operator">(</div><div class="ident">url</div><div class="operator">)</div><div class="operator"></div>
+	<td class="code"><pre><code>	<div class="ident">response</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">Get</div><div class="operator">(</div><div class="ident">url</div><div class="operator">)</div> <div class="operator"></div><div class="comment">// #nosec G107</div>
 	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
 		<div class="keyword">return</div> <div class="ident">nil</div><div class="operator">,</div> <div class="ident">fmt</div><div class="operator">.</div><div class="ident">Errorf</div><div class="operator">(</div><div class="ident">communicationErrorWithServerErrorMessage</div><div class="operator">,</div> <div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">response</div><div class="operator">.</div><div class="ident">StatusCode</div> <div class="operator">!=</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">StatusOK</div> <div class="operator">{</div>
 		<div class="keyword">return</div> <div class="ident">nil</div><div class="operator">,</div> <div class="ident">fmt</div><div class="operator">.</div><div class="ident">Errorf</div><div class="operator">(</div><div class="literal">&#34;Expected HTTP status 200 OK, got %d&#34;</div><div class="operator">,</div> <div class="ident">response</div><div class="operator">.</div><div class="ident">StatusCode</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
-	<div class="ident">body</div><div class="operator">,</div> <div class="ident">readErr</div> <div class="operator">:=</div> <div class="ident">ioutil</div><div class="operator">.</div><div class="ident">ReadAll</div><div class="operator">(</div><div class="ident">response</div><div class="operator">.</div><div class="ident">Body</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">body</div><div class="operator">,</div> <div class="ident">readErr</div> <div class="operator">:=</div> <div class="ident">io</div><div class="operator">.</div><div class="ident">ReadAll</div><div class="operator">(</div><div class="ident">response</div><div class="operator">.</div><div class="ident">Body</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">defer</div> <div class="ident">closeResponseBody</div><div class="operator">(</div><div class="ident">response</div><div class="operator">)</div><div class="operator"></div>
 
 	<div class="keyword">if</div> <div class="ident">readErr</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
@@ -186,7 +183,7 @@ method and if the call is successful read the body of response.</p>
 HTTP method (POST, PUT, DELETE) and if the call is successful read the body
 of response.</p>
 </td>
-	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">performWriteRequest</div><div class="operator">(</div><div class="ident">url</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">method</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">payload</div> <div class="ident">io</div><div class="operator">.</div><div class="ident">Reader</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">performWriteRequest</div><div class="operator">(</div><div class="ident">url</div><div class="operator">,</div> <div class="ident">method</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">payload</div> <div class="ident">io</div><div class="operator">.</div><div class="ident">Reader</div><div class="operator">)</div> <div class="ident">error</div> <div class="operator">{</div>
 	<div class="keyword">var</div> <div class="ident">client</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">Client</div><div class="operator"></div>
 
 	<div class="ident">request</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">NewRequest</div><div class="operator">(</div><div class="ident">method</div><div class="operator">,</div> <div class="ident">url</div><div class="operator">,</div> <div class="ident">payload</div><div class="operator">)</div><div class="operator"></div>
@@ -201,7 +198,7 @@ of response.</p>
 	<div class="keyword">if</div> <div class="ident">response</div><div class="operator">.</div><div class="ident">StatusCode</div> <div class="operator">!=</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">StatusOK</div> <div class="operator">&amp;&amp;</div> <div class="ident">response</div><div class="operator">.</div><div class="ident">StatusCode</div> <div class="operator">!=</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">StatusCreated</div> <div class="operator">&amp;&amp;</div> <div class="ident">response</div><div class="operator">.</div><div class="ident">StatusCode</div> <div class="operator">!=</div> <div class="ident">http</div><div class="operator">.</div><div class="ident">StatusAccepted</div> <div class="operator">{</div>
 		<div class="keyword">return</div> <div class="ident">fmt</div><div class="operator">.</div><div class="ident">Errorf</div><div class="operator">(</div><div class="literal">&#34;Expected HTTP status 200 OK, 201 Created or 202 Accepted, got %d&#34;</div><div class="operator">,</div> <div class="ident">response</div><div class="operator">.</div><div class="ident">StatusCode</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
-	<div class="ident">body</div><div class="operator">,</div> <div class="ident">readErr</div> <div class="operator">:=</div> <div class="ident">ioutil</div><div class="operator">.</div><div class="ident">ReadAll</div><div class="operator">(</div><div class="ident">response</div><div class="operator">.</div><div class="ident">Body</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">body</div><div class="operator">,</div> <div class="ident">readErr</div> <div class="operator">:=</div> <div class="ident">io</div><div class="operator">.</div><div class="ident">ReadAll</div><div class="operator">(</div><div class="ident">response</div><div class="operator">.</div><div class="ident">Body</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">defer</div> <div class="ident">closeResponseBody</div><div class="operator">(</div><div class="ident">response</div><div class="operator">)</div><div class="operator"></div>
 
 	<div class="keyword">if</div> <div class="ident">readErr</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
