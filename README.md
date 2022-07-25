@@ -128,7 +128,7 @@ help                 Show this help screen
 
 Behaviour tests for this service are included in [Insights Behavioral
 Spec](https://github.com/RedHatInsights/insights-behavioral-spec) repository.
-In order to run these tests, the following steps needs to be made:
+In order to run these tests, the following steps need to be made:
 
 1. clone the [Insights Behavioral Spec](https://github.com/RedHatInsights/insights-behavioral-spec) repository
 1. go into the cloned subdirectory `insights-behavioral-spec`
