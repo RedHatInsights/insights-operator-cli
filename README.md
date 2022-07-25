@@ -17,6 +17,8 @@
     * [Cluster configurations:](#cluster-configurations)
     * [Must-gather trigger:](#must-gather-trigger)
     * [Other commands:](#other-commands)
+* [Makefile targets](#makefile-targets)
+* [BDD tests](#bdd-tests)
 * [How to build the CLI client](#how-to-build-the-cli-client)
 * [Start](#start)
 * [Configuration](#configuration)
@@ -72,6 +74,65 @@ A simple CLI client for managing the Insights operator. Currently this client su
 * **copyright**                 displays copyright notice
 * **license**                   displays license used by this project
 * **authors**                   displays list of authors
+
+
+##
+
+Available targets are:
+
+clean                Run go clean
+build                Run go build
+fmt                  Run go fmt -w for all sources
+lint                 Run golint
+vet                  Run go vet. Report likely mistakes in source code
+cyclo                Run gocyclo
+ineffassign          Run ineffassign checker
+errcheck             Run errcheck
+goconst              Run goconst checker
+gosec                Run gosec checker
+abcgo                Run ABC metrics checker
+style                Run all the formatting related commands (fmt, vet, lint, cyclo) + check shell scripts
+before_commit        Checks done before commit
+help                 Show this help screen
+
+
+
+## Makefile targets
+
+List of all Makefile targets currently supported:
+
+```
+Usage: make <OPTIONS> ... <TARGETS>
+
+Available targets are:
+
+clean                Run go clean
+build                Run go build
+fmt                  Run go fmt -w for all sources
+lint                 Run golint
+vet                  Run go vet. Report likely mistakes in source code
+cyclo                Run gocyclo
+ineffassign          Run ineffassign checker
+errcheck             Run errcheck
+goconst              Run goconst checker
+gosec                Run gosec checker
+abcgo                Run ABC metrics checker
+style                Run all the formatting related commands (fmt, vet, lint, cyclo) + check shell scripts
+before_commit        Checks done before commit
+help                 Show this help screen
+```
+
+
+
+## BDD tests
+
+Behaviour tests for this service are included in [Insights Behavioral
+Spec](https://github.com/RedHatInsights/insights-behavioral-spec) repository.
+In order to run these tests, the following steps need to be made:
+
+1. clone the [Insights Behavioral Spec](https://github.com/RedHatInsights/insights-behavioral-spec) repository
+1. go into the cloned subdirectory `insights-behavioral-spec`
+
 
 
 ## How to build the CLI client
