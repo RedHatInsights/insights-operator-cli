@@ -37,6 +37,9 @@ ineffassign: ## Run ineffassign checker
 	@echo "Running ineffassign checker"
 	./ineffassign.sh
 
+shellcheck: ## Run shellcheck
+	./shellcheck.sh
+
 errcheck: ## Run errcheck
 	@echo "Running errcheck"
 	./goerrcheck.sh
@@ -53,7 +56,7 @@ abcgo: ## Run ABC metrics checker
 	@echo "Run ABC metrics checker"
 	./abcgo.sh ${VERBOSE}
 
-style: fmt vet lint cyclo errcheck goconst gosec ineffassign abcgo ## Run all the formatting related commands (fmt, vet, lint, cyclo) + check shell scripts
+style: fmt vet lint cyclo shellcheck errcheck goconst gosec ineffassign abcgo ## Run all the formatting related commands (fmt, vet, lint, cyclo) + check shell scripts
 
 before_commit: style ## Checks done before commit
 
