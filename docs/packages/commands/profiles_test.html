@@ -102,7 +102,7 @@
       <tr class="section">
 	<td class="doc"></td>
 	<td class="code"><pre><code><div class="comment">/*
-Copyright © 2019, 2020, 2021 Red Hat, Inc.
+Copyright © 2019, 2020, 2021, 2022 Red Hat, Inc.
 
 Licensed under the Apache License, Version 2.0 (the &#34;License&#34;);
 you may not use this file except in compliance with the License.
@@ -149,7 +149,7 @@ https://redhatinsights.github.io/insights-operator-cli/packages/commands/profile
 captured output. If profile info is not found, the test that calls this
 function, fails.</p>
 </td>
-	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">tryToFindProfile</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">,</div> <div class="ident">captured</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">profileDescription</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">tryToFindProfile</div><div class="operator">(</div><div class="ident">t</div> <div class="operator">*</div><div class="ident">testing</div><div class="operator">.</div><div class="ident">T</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">,</div> <div class="ident">profileDescription</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
 	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">Contains</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="ident">profileDescription</div><div class="operator">)</div> <div class="operator">{</div>
 </code></pre></td>
       </tr>
@@ -371,7 +371,7 @@ to perform profile-related command or query</p>
       <tr class="section">
 	<td class="doc"><p>test the captured output</p>
 </td>
-	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error reading list of configuration profiles&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">ErrorReadingListOfConfigurationProfiles</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
@@ -490,7 +490,7 @@ to perform profile-related command or query</p>
       <tr class="section">
 	<td class="doc"><p>test the captured output</p>
 </td>
-	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="literal">&#34;Error reading configuration profile&#34;</div><div class="operator">)</div> <div class="operator">{</div>
+	<td class="code"><pre><code>	<div class="keyword">if</div> <div class="operator">!</div><div class="ident">strings</div><div class="operator">.</div><div class="ident">HasPrefix</div><div class="operator">(</div><div class="ident">captured</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">ErrorReadingConfigurationProfile</div><div class="operator">)</div> <div class="operator">{</div>
 		<div class="ident">t</div><div class="operator">.</div><div class="ident">Fatal</div><div class="operator">(</div><div class="literal">&#34;Unexpected output:\n&#34;</div><div class="operator">,</div> <div class="ident">captured</div><div class="operator">)</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>

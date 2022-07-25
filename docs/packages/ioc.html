@@ -155,6 +155,16 @@ https://redhatinsights.github.io/insights-operator-cli/packages/ioc.html</p>
       </tr>
       
       <tr class="section">
+	<td class="doc"><p>prompts</p>
+</td>
+	<td class="code"><pre><code><div class="keyword">const</div> <div class="operator">(</div>
+	<div class="ident">profilePrompt</div> <div class="operator">=</div> <div class="literal">&#34;profile: &#34;</div><div class="operator"></div>
+<div class="operator">)</div><div class="operator"></div>
+
+</code></pre></td>
+      </tr>
+      
+      <tr class="section">
 	<td class="doc"><p>BuildVersion contains the major.minor version of the CLI client</p>
 </td>
 	<td class="code"><pre><code><div class="keyword">var</div> <div class="ident">BuildVersion</div> <div class="ident">string</div> <div class="operator">=</div> <div class="literal">&#34;*not set*&#34;</div><div class="operator"></div>
@@ -247,7 +257,7 @@ color output on terminal</p>
       <tr class="section">
 	<td class="doc"><p>tryToLogin tries to login to service via REST API</p>
 </td>
-	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">tryToLogin</div><div class="operator">(</div><div class="ident">username</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">password</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">tryToLogin</div><div class="operator">(</div><div class="ident">username</div><div class="operator">,</div> <div class="ident">password</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
 	<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Blue</div><div class="operator">(</div><div class="literal">&#34;\nDone&#34;</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 <div class="operator">}</div><div class="operator"></div>
 
@@ -470,29 +480,19 @@ parameter</p>
 		<div class="ident">clusterName</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="literal">&#34;clusterName: &#34;</div><div class="operator">,</div>
 			<div class="ident">commands</div><div class="operator">.</div><div class="ident">LoginCompleter</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">AddCluster</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">clusterName</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">case</div> <div class="literal">&#34;add profile&#34;</div><div class="operator">:</div>
-		<div class="keyword">fallthrough</div><div class="operator"></div>
-	<div class="keyword">case</div> <div class="literal">&#34;new profile&#34;</div><div class="operator">:</div>
+	<div class="keyword">case</div> <div class="literal">&#34;add profile&#34;</div><div class="operator">,</div> <div class="literal">&#34;new profile&#34;</div><div class="operator">:</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">AddConfigurationProfile</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">username</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">case</div> <div class="literal">&#34;add configuration&#34;</div><div class="operator">:</div>
-		<div class="keyword">fallthrough</div><div class="operator"></div>
-	<div class="keyword">case</div> <div class="literal">&#34;new configuration&#34;</div><div class="operator">:</div>
+	<div class="keyword">case</div> <div class="literal">&#34;add configuration&#34;</div><div class="operator">,</div> <div class="literal">&#34;new configuration&#34;</div><div class="operator">:</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">AddClusterConfiguration</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">username</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">case</div> <div class="literal">&#34;request must-gather&#34;</div><div class="operator">:</div>
-		<div class="keyword">fallthrough</div><div class="operator"></div>
-	<div class="keyword">case</div> <div class="literal">&#34;add trigger&#34;</div><div class="operator">:</div>
-		<div class="keyword">fallthrough</div><div class="operator"></div>
-	<div class="keyword">case</div> <div class="literal">&#34;new trigger&#34;</div><div class="operator">:</div>
+	<div class="keyword">case</div> <div class="literal">&#34;request must-gather&#34;</div><div class="operator">,</div> <div class="literal">&#34;add trigger&#34;</div><div class="operator">,</div> <div class="literal">&#34;new trigger&#34;</div><div class="operator">:</div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">AddTrigger</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">username</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">case</div> <div class="literal">&#34;describe profile&#34;</div><div class="operator">:</div>
-		<div class="ident">profile</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="literal">&#34;profile: &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">LoginCompleter</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">profile</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="ident">profilePrompt</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">LoginCompleter</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DescribeProfile</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">profile</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">case</div> <div class="literal">&#34;describe configuration&#34;</div><div class="operator">:</div>
 		<div class="ident">configuration</div> <div class="operator">:=</div> <div class="ident">configurationPrompt</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DescribeConfiguration</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">configuration</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">case</div> <div class="literal">&#34;describe must-gather&#34;</div><div class="operator">:</div>
-		<div class="keyword">fallthrough</div><div class="operator"></div>
-	<div class="keyword">case</div> <div class="literal">&#34;describe trigger&#34;</div><div class="operator">:</div>
+	<div class="keyword">case</div> <div class="literal">&#34;describe must-gather&#34;</div><div class="operator">,</div> <div class="literal">&#34;describe trigger&#34;</div><div class="operator">:</div>
 		<div class="ident">trigger</div> <div class="operator">:=</div> <div class="ident">triggerPrompt</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DescribeTrigger</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">trigger</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">case</div> <div class="literal">&#34;enable configuration&#34;</div><div class="operator">:</div>
@@ -510,15 +510,13 @@ parameter</p>
 		<div class="ident">configuration</div> <div class="operator">:=</div> <div class="ident">configurationPrompt</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteClusterConfiguration</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">configuration</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">case</div> <div class="literal">&#34;delete profile&#34;</div><div class="operator">:</div>
-		<div class="ident">profile</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="literal">&#34;profile: &#34;</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">LoginCompleter</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">profile</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="ident">profilePrompt</div><div class="operator">,</div> <div class="ident">commands</div><div class="operator">.</div><div class="ident">LoginCompleter</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteConfigurationProfile</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">profile</div><div class="operator">,</div>
 			<div class="operator">*</div><div class="ident">configuration</div><div class="operator">.</div><div class="ident">askForConfirmation</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">case</div> <div class="literal">&#34;delete trigger&#34;</div><div class="operator">:</div>
 		<div class="ident">trigger</div> <div class="operator">:=</div> <div class="ident">triggerPrompt</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">DeleteTrigger</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">trigger</div><div class="operator">)</div><div class="operator"></div>
-	<div class="keyword">case</div> <div class="literal">&#34;activate must-gather&#34;</div><div class="operator">:</div>
-		<div class="keyword">fallthrough</div><div class="operator"></div>
-	<div class="keyword">case</div> <div class="literal">&#34;activate trigger&#34;</div><div class="operator">:</div>
+	<div class="keyword">case</div> <div class="literal">&#34;activate must-gather&#34;</div><div class="operator">,</div> <div class="literal">&#34;activate trigger&#34;</div><div class="operator">:</div>
 		<div class="ident">trigger</div> <div class="operator">:=</div> <div class="ident">triggerPrompt</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">commands</div><div class="operator">.</div><div class="ident">ActivateTrigger</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">trigger</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">case</div> <div class="literal">&#34;deactivate must-gather&#34;</div><div class="operator">:</div>
@@ -655,7 +653,7 @@ on command line.</p>
 		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;cluster&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;delete cluster and its configuration&#34;</div><div class="operator">}</div><div class="operator">,</div>
 		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;profile&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;delete configuration profile&#34;</div><div class="operator">}</div><div class="operator">,</div>
 		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;configuration&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;delete cluster configuration&#34;</div><div class="operator">}</div><div class="operator">,</div>
-		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;trigger&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;delete trigger&#34;</div><div class="operator">}</div><div class="operator">,</div>
+		<div class="operator">{</div><div class="ident">Text</div><div class="operator">:</div> <div class="literal">&#34;trigger&#34;</div><div class="operator">,</div> <div class="ident">Description</div><div class="operator">:</div> <div class="literal">&#34;delete must-gather trigger&#34;</div><div class="operator">}</div><div class="operator">,</div>
 	<div class="operator">}</div><div class="operator"></div>
 
 </code></pre></td>

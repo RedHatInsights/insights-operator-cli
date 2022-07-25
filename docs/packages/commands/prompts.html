@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>export_test.go</title>
+<title>prompts.go</title>
 <meta charset="utf-8"/>
 <style type="text/css">body {
     background: rgb(225, 225, 225);
@@ -96,13 +96,13 @@
 <div id="docgo">
   <div id="background"></div>
   <table>
-    <thead><tr><th class="doc"><h1>export_test.go</h1></th><th class="code"></th></tr></thead>
+    <thead><tr><th class="doc"><h1>prompts.go</h1></th><th class="code"></th></tr></thead>
     <tbody>
       
       <tr class="section">
 	<td class="doc"></td>
 	<td class="code"><pre><code><div class="comment">/*
-Copyright © 2019, 2020, 2021, 2022 Red Hat, Inc.
+Copyright © 2019, 2020, 2022 Red Hat, Inc.
 
 Licensed under the Apache License, Version 2.0 (the &#34;License&#34;);
 you may not use this file except in compliance with the License.
@@ -117,40 +117,28 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */</div>
 
-<div class="keyword">package</div> <div class="ident">main</div><div class="operator"></div>
+<div class="keyword">package</div> <div class="ident">commands</div><div class="operator"></div>
 
 </code></pre></td>
       </tr>
       
       <tr class="section">
 	<td class="doc"><p>Generated documentation is available at:
-https://pkg.go.dev/github.com/RedHatInsights/insights-operator-cli</p>
+https://pkg.go.dev/github.com/RedHatInsights/insights-operator-cli/commands</p>
 
 <p>Documentation in literate-programming-style is available at:
-https://RedHatInsights.github.io/insights-operator-cli/packages/export_test.html</p>
+https://redhatinsights.github.io/insights-operator-cli/packages/commands/prompts.html</p>
 </td>
 	<td class="code"><pre><code>
 </code></pre></td>
       </tr>
       
       <tr class="section">
-	<td class="doc"><p>Export for testing</p>
-
-<p>This source file contains name aliases of all package-private functions
-that need to be called from unit tests. Aliases should start with uppercase
-letter because unit tests belong to different package.</p>
-
-<p>Please look into the following blogpost:
-https://medium.com/@robiplus/golang-trick-export-for-test-aa16cbd7b8cd
-to see why this trick is needed for using package internal
-symbols (externally invisible) in unit tests.
-nolint</p>
+	<td class="doc"><p>prompts displayed to user</p>
 </td>
-	<td class="code"><pre><code><div class="keyword">var</div> <div class="operator">(</div>
-	<div class="ident">Completer</div>         <div class="operator">=</div> <div class="ident">completer</div><div class="operator"></div>
-	<div class="ident">ReadConfiguration</div> <div class="operator">=</div> <div class="ident">readConfiguration</div><div class="operator"></div>
-	<div class="ident">PrintVersion</div>      <div class="operator">=</div> <div class="ident">printVersion</div><div class="operator"></div>
-	<div class="ident">Colorizer</div>         <div class="operator">=</div> <div class="operator">&amp;</div><div class="ident">colorizer</div><div class="operator"></div>
+	<td class="code"><pre><code><div class="keyword">const</div> <div class="operator">(</div>
+	<div class="ident">descriptionPrompt</div> <div class="operator">=</div> <div class="literal">&#34;description: &#34;</div><div class="operator"></div>
+	<div class="ident">reasonPrompt</div>      <div class="operator">=</div> <div class="literal">&#34;reason: &#34;</div><div class="operator"></div>
 <div class="operator">)</div><div class="operator"></div>
 
 </code></pre></td>

@@ -102,7 +102,7 @@
       <tr class="section">
 	<td class="doc"></td>
 	<td class="code"><pre><code><div class="comment">/*
-Copyright © 2019, 2020, 2021 Red Hat, Inc.
+Copyright © 2019, 2020, 2021, 2022 Red Hat, Inc.
 
 Licensed under the Apache License, Version 2.0 (the &#34;License&#34;);
 you may not use this file except in compliance with the License.
@@ -155,13 +155,13 @@ wrong happens</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">triggers</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">api</div><div class="operator">.</div><div class="ident">ReadListOfTriggers</div><div class="operator">(</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
-		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="literal">&#34;Error reading list of triggers&#34;</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">ErrorReadingListOfTriggers</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 		<div class="keyword">return</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
 
 	<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Magenta</div><div class="operator">(</div><div class="literal">&#34;List of triggers for all clusters&#34;</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Printf</div><div class="operator">(</div><div class="literal">&#34;%4s %4s %-16s    %-20s %-20s %-12s %-12s %s\n&#34;</div><div class="operator">,</div> <div class="literal">&#34;#&#34;</div><div class="operator">,</div> <div class="literal">&#34;ID&#34;</div><div class="operator">,</div> <div class="literal">&#34;Type&#34;</div><div class="operator">,</div> <div class="literal">&#34;Cluster&#34;</div><div class="operator">,</div> <div class="literal">&#34;Triggered at&#34;</div><div class="operator">,</div> <div class="literal">&#34;Triggered by&#34;</div><div class="operator">,</div> <div class="literal">&#34;Active&#34;</div><div class="operator">,</div> <div class="literal">&#34;Acked at&#34;</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Printf</div><div class="operator">(</div><div class="literal">&#34;%4s %4s %-16s    %-20s %-20s %-12s %-12s %s\n&#34;</div><div class="operator">,</div> <div class="literal">&#34;#&#34;</div><div class="operator">,</div> <div class="literal">&#34;ID&#34;</div><div class="operator">,</div> <div class="literal">&#34;Type&#34;</div><div class="operator">,</div> <div class="ident">clusterUUID</div><div class="operator">,</div> <div class="literal">&#34;Triggered at&#34;</div><div class="operator">,</div> <div class="literal">&#34;Triggered by&#34;</div><div class="operator">,</div> <div class="ident">activeTrigger</div><div class="operator">,</div> <div class="literal">&#34;Acked at&#34;</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">for</div> <div class="ident">i</div><div class="operator">,</div> <div class="ident">trigger</div> <div class="operator">:=</div> <div class="keyword">range</div> <div class="ident">triggers</div> <div class="operator">{</div>
 		<div class="keyword">var</div> <div class="ident">active</div> <div class="ident">aurora</div><div class="operator">.</div><div class="ident">Value</div><div class="operator"></div>
 		<div class="keyword">if</div> <div class="ident">trigger</div><div class="operator">.</div><div class="ident">Active</div> <div class="operator">==</div> <div class="literal">1</div> <div class="operator">{</div>
@@ -192,7 +192,7 @@ if anything wrong happens</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">trigger</div><div class="operator">,</div> <div class="ident">err</div> <div class="operator">:=</div> <div class="ident">api</div><div class="operator">.</div><div class="ident">ReadTriggerByID</div><div class="operator">(</div><div class="ident">triggerID</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
-		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="literal">&#34;Error reading selected trigger&#34;</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">ErrorReadingSelectedTrigger</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 		<div class="keyword">return</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
@@ -237,7 +237,7 @@ if anything wrong happens</p>
 	<div class="operator">}</div><div class="operator"></div>
 
 	<div class="ident">clusterName</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="literal">&#34;cluster name: &#34;</div><div class="operator">,</div> <div class="ident">LoginCompleter</div><div class="operator">)</div><div class="operator"></div>
-	<div class="ident">reason</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="literal">&#34;reason: &#34;</div><div class="operator">,</div> <div class="ident">LoginCompleter</div><div class="operator">)</div><div class="operator"></div>
+	<div class="ident">reason</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="ident">reasonPrompt</div><div class="operator">,</div> <div class="ident">LoginCompleter</div><div class="operator">)</div><div class="operator"></div>
 	<div class="ident">link</div> <div class="operator">:=</div> <div class="ident">prompt</div><div class="operator">.</div><div class="ident">Input</div><div class="operator">(</div><div class="literal">&#34;link: &#34;</div><div class="operator">,</div> <div class="ident">LoginCompleter</div><div class="operator">)</div><div class="operator"></div>
 
 	<div class="ident">AddTriggerImpl</div><div class="operator">(</div><div class="ident">api</div><div class="operator">,</div> <div class="ident">username</div><div class="operator">,</div> <div class="ident">clusterName</div><div class="operator">,</div> <div class="ident">reason</div><div class="operator">,</div> <div class="ident">link</div><div class="operator">)</div><div class="operator"></div>
@@ -250,7 +250,7 @@ if anything wrong happens</p>
 	<td class="doc"><p>AddTriggerImpl function calls REST API to add a new trigger into the
 database.</p>
 </td>
-	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">AddTriggerImpl</div><div class="operator">(</div><div class="ident">api</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">API</div><div class="operator">,</div> <div class="ident">username</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">clusterName</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">reason</div> <div class="ident">string</div><div class="operator">,</div> <div class="ident">link</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
+	<td class="code"><pre><code><div class="keyword">func</div> <div class="ident">AddTriggerImpl</div><div class="operator">(</div><div class="ident">api</div> <div class="ident">restapi</div><div class="operator">.</div><div class="ident">API</div><div class="operator">,</div> <div class="ident">username</div><div class="operator">,</div> <div class="ident">clusterName</div><div class="operator">,</div> <div class="ident">reason</div><div class="operator">,</div> <div class="ident">link</div> <div class="ident">string</div><div class="operator">)</div> <div class="operator">{</div>
 </code></pre></td>
       </tr>
       
@@ -260,7 +260,7 @@ happens</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">err</div> <div class="operator">:=</div> <div class="ident">api</div><div class="operator">.</div><div class="ident">AddTrigger</div><div class="operator">(</div><div class="ident">username</div><div class="operator">,</div> <div class="ident">clusterName</div><div class="operator">,</div> <div class="ident">reason</div><div class="operator">,</div> <div class="ident">link</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
-		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">errorCommunicationWithServiceErrorMessage</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">ErrorCommunicationWithServiceErrorMessage</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 		<div class="keyword">return</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
@@ -290,7 +290,7 @@ if anything wrong happens</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">err</div> <div class="operator">:=</div> <div class="ident">api</div><div class="operator">.</div><div class="ident">DeleteTrigger</div><div class="operator">(</div><div class="ident">triggerID</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
-		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">errorCommunicationWithServiceErrorMessage</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">ErrorCommunicationWithServiceErrorMessage</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 		<div class="keyword">return</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
@@ -320,7 +320,7 @@ message if anything wrong happens</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">err</div> <div class="operator">:=</div> <div class="ident">api</div><div class="operator">.</div><div class="ident">ActivateTrigger</div><div class="operator">(</div><div class="ident">triggerID</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
-		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">errorCommunicationWithServiceErrorMessage</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">ErrorCommunicationWithServiceErrorMessage</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 		<div class="keyword">return</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
@@ -350,7 +350,7 @@ message if anything wrong happens</p>
 </td>
 	<td class="code"><pre><code>	<div class="ident">err</div> <div class="operator">:=</div> <div class="ident">api</div><div class="operator">.</div><div class="ident">DeactivateTrigger</div><div class="operator">(</div><div class="ident">triggerID</div><div class="operator">)</div><div class="operator"></div>
 	<div class="keyword">if</div> <div class="ident">err</div> <div class="operator">!=</div> <div class="ident">nil</div> <div class="operator">{</div>
-		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">errorCommunicationWithServiceErrorMessage</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
+		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">colorizer</div><div class="operator">.</div><div class="ident">Red</div><div class="operator">(</div><div class="ident">ErrorCommunicationWithServiceErrorMessage</div><div class="operator">)</div><div class="operator">)</div><div class="operator"></div>
 		<div class="ident">fmt</div><div class="operator">.</div><div class="ident">Println</div><div class="operator">(</div><div class="ident">err</div><div class="operator">)</div><div class="operator"></div>
 		<div class="keyword">return</div><div class="operator"></div>
 	<div class="operator">}</div><div class="operator"></div>
