@@ -113,6 +113,7 @@ lint                 Run golint
 vet                  Run go vet. Report likely mistakes in source code
 cyclo                Run gocyclo
 ineffassign          Run ineffassign checker
+shellcheck           Run shellcheck
 errcheck             Run errcheck
 goconst              Run goconst checker
 gosec                Run gosec checker
