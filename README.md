@@ -1,5 +1,7 @@
 # Command-line client for managing Insights operator
 
+[![forthebadge made-with-go](http://ForTheBadge.com/images/badges/made-with-go.svg)](https://go.dev/)
+
 [![GoDoc](https://godoc.org/github.com/RedHatInsights/insights-operator-cli?status.svg)](https://godoc.org/github.com/RedHatInsights/insights-operator-cli)
 [![GitHub Pages](https://img.shields.io/badge/%20-GitHub%20Pages-informational)](https://redhatinsights.github.io/insights-operator-cli/)
 [![Go Report Card](https://goreportcard.com/badge/github.com/RedHatInsights/insights-operator-cli)](https://goreportcard.com/report/github.com/RedHatInsights/insights-operator-cli)
@@ -10,23 +12,23 @@
 
 <!-- vim-markdown-toc GFM -->
 
-* [Description](#description)
-* [Supported commands](#supported-commands)
-    * [Cluster operations:](#cluster-operations)
-    * [Configuration profiles:](#configuration-profiles)
-    * [Cluster configurations:](#cluster-configurations)
-    * [Must-gather trigger:](#must-gather-trigger)
-    * [Other commands:](#other-commands)
-* [Makefile targets](#makefile-targets)
-* [BDD tests](#bdd-tests)
-* [How to build the CLI client](#how-to-build-the-cli-client)
-* [Start](#start)
-* [Configuration](#configuration)
-* [Contributing](#contributing)
-* [Testing](#testing)
-* [CI](#ci)
-* [Contribution](#contribution)
-* [Package manifest](#package-manifest)
+    * [Description](#description)
+    * [Supported commands](#supported-commands)
+        * [Cluster operations:](#cluster-operations)
+        * [Configuration profiles:](#configuration-profiles)
+        * [Cluster configurations:](#cluster-configurations)
+        * [Must-gather trigger:](#must-gather-trigger)
+        * [Other commands:](#other-commands)
+    * [Makefile targets](#makefile-targets)
+    * [BDD tests](#bdd-tests)
+    * [How to build the CLI client](#how-to-build-the-cli-client)
+    * [Start](#start)
+    * [Configuration](#configuration)
+    * [Contributing](#contributing)
+    * [Testing](#testing)
+    * [CI](#ci)
+    * [Contribution](#contribution)
+    * [Package manifest](#package-manifest)
 
 <!-- vim-markdown-toc -->
 
