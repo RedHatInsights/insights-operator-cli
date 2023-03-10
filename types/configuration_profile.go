@@ -24,11 +24,12 @@ package types
 
 // ConfigurationProfile structure represents configuration profile record in
 // the controller service.
-//     ID: unique key
-//     Configuration: a JSON structure stored in a string
-//     ChangeAt: username of admin that created or updated the configuration
-//     ChangeBy: timestamp of the last configuration change
-//     Description: a string with any comment(s) about the configuration
+//
+//	ID: unique key
+//	Configuration: a JSON structure stored in a string
+//	ChangeAt: username of admin that created or updated the configuration
+//	ChangeBy: timestamp of the last configuration change
+//	Description: a string with any comment(s) about the configuration
 type ConfigurationProfile struct {
 	ID            int    `json:"id"`
 	Configuration string `json:"configuration"`
@@ -39,8 +40,9 @@ type ConfigurationProfile struct {
 
 // ConfigurationProfilesResponse structure represents response of controller
 // service to configuration profiles request.
-//     Status: status of response
-//     Profiles: list of configuration profiles
+//
+//	Status: status of response
+//	Profiles: list of configuration profiles
 type ConfigurationProfilesResponse struct {
 	Status   string                 `json:"status"`
 	Profiles []ConfigurationProfile `json:"profiles"`
@@ -48,8 +50,9 @@ type ConfigurationProfilesResponse struct {
 
 // ConfigurationProfileResponse structure represents response of controller
 // service to single configuration profile request.
-//     Status: status of response
-//     Profile: single configuration profile
+//
+//	Status: status of response
+//	Profile: single configuration profile
 type ConfigurationProfileResponse struct {
 	Status  string               `json:"status"`
 	Profile ConfigurationProfile `json:"profile"`
