@@ -24,13 +24,14 @@ package types
 
 // ClusterConfiguration structure represents cluster configuration record in
 // the controller service.
-//     ID: unique key
-//     Cluster: cluster ID (not name)
-//     Configuration: a JSON structure stored in a string
-//     ChangeAt: timestamp of the last configuration change
-//     ChangeBy: username of admin that created or updated the configuration
-//     Active: flag indicating whether the configuration is active or not
-//     Reason: a string with any comment(s) about the cluster configuration
+//
+//	ID: unique key
+//	Cluster: cluster ID (not name)
+//	Configuration: a JSON structure stored in a string
+//	ChangeAt: timestamp of the last configuration change
+//	ChangeBy: username of admin that created or updated the configuration
+//	Active: flag indicating whether the configuration is active or not
+//	Reason: a string with any comment(s) about the cluster configuration
 type ClusterConfiguration struct {
 	ID            int    `json:"id"`
 	Cluster       string `json:"cluster"`
@@ -42,8 +43,9 @@ type ClusterConfiguration struct {
 }
 
 // ClusterConfigurationsResponse represents response of controller service to cluster configuration request.
-//     Status: status of response
-//     Configurations: list of configurations
+//
+//	Status: status of response
+//	Configurations: list of configurations
 type ClusterConfigurationsResponse struct {
 	Status         string                 `json:"status"`
 	Configurations []ClusterConfiguration `json:"configuration"`

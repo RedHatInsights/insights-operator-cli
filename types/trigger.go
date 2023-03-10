@@ -23,16 +23,17 @@ package types
 // https://redhatinsights.github.io/insights-operator-cli/packages/types/trigger.html
 
 // Trigger structure represents trigger record in the controller service
-//     ID: unique key
-//     Type: ID of trigger type
-//     Cluster: cluster ID (not name)
-//     Reason: a string with any comment(s) about the trigger
-//     Link: link to any document with customer ACK with the trigger
-//     TriggeredAt: timestamp of the last configuration change
-//     TriggeredBy: username of admin that created or updated the trigger
-//     AckedAt: timestamp where the insights operator acked the trigger
-//     Parameters: parameters that needs to be pass to trigger code
-//     Active: flag indicating whether the trigger is still active or not
+//
+//	ID: unique key
+//	Type: ID of trigger type
+//	Cluster: cluster ID (not name)
+//	Reason: a string with any comment(s) about the trigger
+//	Link: link to any document with customer ACK with the trigger
+//	TriggeredAt: timestamp of the last configuration change
+//	TriggeredBy: username of admin that created or updated the trigger
+//	AckedAt: timestamp where the insights operator acked the trigger
+//	Parameters: parameters that needs to be pass to trigger code
+//	Active: flag indicating whether the trigger is still active or not
 type Trigger struct {
 	ID          int    `json:"id"`
 	Type        string `json:"type"`
@@ -48,8 +49,9 @@ type Trigger struct {
 
 // TriggersResponse structure represents response of controller service to
 // triggers request.
-//     Status: status of response
-//     Triggers: list of triggers
+//
+//	Status: status of response
+//	Triggers: list of triggers
 type TriggersResponse struct {
 	Status   string    `json:"status"`
 	Triggers []Trigger `json:"triggers"`
@@ -57,8 +59,9 @@ type TriggersResponse struct {
 
 // TriggerResponse structure represents response of controller service to
 // single trigger request.
-//     Status: status of response
-//     Trigger: single trigger
+//
+//	Status: status of response
+//	Trigger: single trigger
 type TriggerResponse struct {
 	Status  string  `json:"status"`
 	Trigger Trigger `json:"trigger"`
