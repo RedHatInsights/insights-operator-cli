@@ -23,9 +23,10 @@ package types
 // https://redhatinsights.github.io/insights-operator-cli/packages/types/cluster.html
 
 // Cluster structure represents cluster record in the controller service.
-//     ID: unique key
-//     Name: cluster GUID in the following format:
-//         c8590f31-e97e-4b85-b506-c45ce1911a12
+//
+//	ID: unique key
+//	Name: cluster GUID in the following format:
+//	    c8590f31-e97e-4b85-b506-c45ce1911a12
 type Cluster struct {
 	ID   int    `json:"id"`
 	Name string `json:"name"`
@@ -33,8 +34,9 @@ type Cluster struct {
 
 // ClustersResponse structure represents response of controller service to
 // cluster request.
-//     Status: status of response
-//     Clusters: list of clusters
+//
+//	Status: status of response
+//	Clusters: list of clusters
 type ClustersResponse struct {
 	Status   string    `json:"status"`
 	Clusters []Cluster `json:"clusters"`
