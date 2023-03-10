@@ -24,8 +24,9 @@ package types
 
 // ConfigurationResponse structure represents response of controller service to
 // configuration request.
-//     Status: status of response
-//     Configuration: JSON string of single configuration
+//
+//	Status: status of response
+//	Configuration: JSON string of single configuration
 type ConfigurationResponse struct {
 	Status        string `json:"status"`
 	Configuration string `json:"configuration"`
