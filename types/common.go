@@ -24,7 +24,8 @@ package types
 
 // Response structure represents default response of controller service to
 // different POST PUT requests.
-//     Status: status of response
+//
+//	Status: status of response
 type Response struct {
 	Status string `json:"status"`
 }
