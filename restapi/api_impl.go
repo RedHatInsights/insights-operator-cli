@@ -1,5 +1,5 @@
 /*
-Copyright © 2019, 2020, 2021, 2022 Red Hat, Inc.
+Copyright © 2019, 2020, 2021, 2022, 2023 Red Hat, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -49,10 +49,10 @@ func (api RestAPI) ReadListOfClusters() ([]types.Cluster, error) {
 	clusters := types.ClustersResponse{}
 
 	// construct URL to be used to access REST API endpoint
-	url := api.controllerURL + APIPrefix + "client/cluster"
+	serviceURL := api.controllerURL + APIPrefix + "client/cluster"
 
 	// perform REST API call and check the result
-	body, err := performReadRequest(url)
+	body, err := performReadRequest(serviceURL)
 	if err != nil {
 		return nil, err
 	}
@@ -75,10 +75,10 @@ func (api RestAPI) ReadListOfTriggers() ([]types.Trigger, error) {
 	triggers := types.TriggersResponse{}
 
 	// construct URL to be used to access REST API endpoint
-	url := api.controllerURL + APIPrefix + "client/trigger"
+	serviceURL := api.controllerURL + APIPrefix + "client/trigger"
 
 	// perform REST API call and check the result
-	body, err := performReadRequest(url)
+	body, err := performReadRequest(serviceURL)
 	if err != nil {
 		return nil, err
 	}
@@ -101,10 +101,10 @@ func (api RestAPI) ReadTriggerByID(triggerID string) (*types.Trigger, error) {
 	trigger := types.TriggerResponse{}
 
 	// construct URL to be used to access REST API endpoint
-	url := api.controllerURL + APIPrefix + "client/trigger/" + triggerID
+	serviceURL := api.controllerURL + APIPrefix + "client/trigger/" + triggerID
 
 	// perform REST API call and check the result
-	body, err := performReadRequest(url)
+	body, err := performReadRequest(serviceURL)
 	if err != nil {
 		return nil, err
 	}
@@ -128,10 +128,10 @@ func (api RestAPI) ReadListOfConfigurationProfiles() ([]types.ConfigurationProfi
 	profiles := types.ConfigurationProfilesResponse{}
 
 	// construct URL to be used to access REST API endpoint
-	url := api.controllerURL + APIPrefix + "client/profile"
+	serviceURL := api.controllerURL + APIPrefix + "client/profile"
 
 	// perform REST API call and check the result
-	body, err := performReadRequest(url)
+	body, err := performReadRequest(serviceURL)
 	if err != nil {
 		return nil, err
 	}
@@ -154,10 +154,10 @@ func (api RestAPI) ReadListOfConfigurations() ([]types.ClusterConfiguration, err
 	configurations := types.ClusterConfigurationsResponse{}
 
 	// construct URL to be used to access REST API endpoint
-	url := api.controllerURL + APIPrefix + "client/configuration"
+	serviceURL := api.controllerURL + APIPrefix + "client/configuration"
 
 	// perform REST API call and check the result
-	body, err := performReadRequest(url)
+	body, err := performReadRequest(serviceURL)
 	if err != nil {
 		return nil, err
 	}
@@ -181,10 +181,10 @@ func (api RestAPI) ReadConfigurationProfile(profileID string) (*types.Configurat
 	profile := types.ConfigurationProfileResponse{}
 
 	// construct URL to be used to access REST API endpoint
-	url := api.controllerURL + APIPrefix + "client/profile/" + profileID
+	serviceURL := api.controllerURL + APIPrefix + "client/profile/" + profileID
 
 	// perform REST API call and check the result
-	body, err := performReadRequest(url)
+	body, err := performReadRequest(serviceURL)
 	if err != nil {
 		return nil, err
 	}
@@ -208,10 +208,10 @@ func (api RestAPI) ReadClusterConfigurationByID(configurationID string) (*string
 	configuration := types.ConfigurationResponse{}
 
 	// construct URL to be used to access REST API endpoint
-	url := api.controllerURL + APIPrefix + "client/configuration/" + configurationID
+	serviceURL := api.controllerURL + APIPrefix + "client/configuration/" + configurationID
 
 	// perform REST API call and check the result
-	body, err := performReadRequest(url)
+	body, err := performReadRequest(serviceURL)
 	if err != nil {
 		return nil, err
 	}
@@ -232,10 +232,10 @@ func (api RestAPI) ReadClusterConfigurationByID(configurationID string) (*string
 // cluster configuration
 func (api RestAPI) EnableClusterConfiguration(configurationID string) error {
 	// construct URL to be used to access REST API endpoint
-	url := api.controllerURL + APIPrefix + "client/configuration/" + configurationID + "/enable"
+	serviceURL := api.controllerURL + APIPrefix + "client/configuration/" + configurationID + "/enable"
 
 	// perform REST API call and return error code
-	err := performWriteRequest(url, http.MethodPut, nil)
+	err := performWriteRequest(serviceURL, http.MethodPut, nil)
 	return err
 }
 
@@ -243,10 +243,10 @@ func (api RestAPI) EnableClusterConfiguration(configurationID string) error {
 // cluster configuration
 func (api RestAPI) DisableClusterConfiguration(configurationID string) error {
 	// construct URL to be used to access REST API endpoint
-	url := api.controllerURL + APIPrefix + "client/configuration/" + configurationID + "/disable"
+	serviceURL := api.controllerURL + APIPrefix + "client/configuration/" + configurationID + "/disable"
 
 	// perform REST API call and return error code
-	err := performWriteRequest(url, http.MethodPut, nil)
+	err := performWriteRequest(serviceURL, http.MethodPut, nil)
 	return err
 }
 
@@ -254,10 +254,10 @@ func (api RestAPI) DisableClusterConfiguration(configurationID string) error {
 // cluster configuration
 func (api RestAPI) DeleteClusterConfiguration(configurationID string) error {
 	// construct URL to be used to access REST API endpoint
-	url := api.controllerURL + APIPrefix + "client/configuration/" + configurationID
+	serviceURL := api.controllerURL + APIPrefix + "client/configuration/" + configurationID
 
 	// perform REST API call and return error code
-	err := performWriteRequest(url, http.MethodDelete, nil)
+	err := performWriteRequest(serviceURL, http.MethodDelete, nil)
 	return err
 }
 
@@ -265,10 +265,10 @@ func (api RestAPI) DeleteClusterConfiguration(configurationID string) error {
 // cluster
 func (api RestAPI) DeleteCluster(clusterID string) error {
 	// construct URL to be used to access REST API endpoint
-	url := api.controllerURL + APIPrefix + "client/cluster/" + clusterID
+	serviceURL := api.controllerURL + APIPrefix + "client/cluster/" + clusterID
 
 	// perform REST API call and return error code
-	err := performWriteRequest(url, http.MethodDelete, nil)
+	err := performWriteRequest(serviceURL, http.MethodDelete, nil)
 	return err
 }
 
@@ -276,10 +276,10 @@ func (api RestAPI) DeleteCluster(clusterID string) error {
 // configuration profile
 func (api RestAPI) DeleteConfigurationProfile(profileID string) error {
 	// construct URL to be used to access REST API endpoint
-	url := api.controllerURL + APIPrefix + "client/profile/" + profileID
+	serviceURL := api.controllerURL + APIPrefix + "client/profile/" + profileID
 
 	// perform REST API call and return error code
-	err := performWriteRequest(url, http.MethodDelete, nil)
+	err := performWriteRequest(serviceURL, http.MethodDelete, nil)
 	return err
 }
 
@@ -287,10 +287,10 @@ func (api RestAPI) DeleteConfigurationProfile(profileID string) error {
 func (api RestAPI) AddCluster(name string) error {
 	query := name
 	// construct URL to be used to access REST API endpoint
-	url := api.controllerURL + APIPrefix + "client/cluster/" + query
+	serviceURL := api.controllerURL + APIPrefix + "client/cluster/" + query
 
 	// perform REST API call and return error code
-	err := performWriteRequest(url, http.MethodPost, nil)
+	err := performWriteRequest(serviceURL, http.MethodPost, nil)
 	return err
 }
 
@@ -299,10 +299,10 @@ func (api RestAPI) AddCluster(name string) error {
 func (api RestAPI) AddConfigurationProfile(username, description string, configuration []byte) error {
 	query := "username=" + url.QueryEscape(username) + "&description=" + url.QueryEscape(description)
 	// construct URL to be used to access REST API endpoint
-	url := api.controllerURL + APIPrefix + "client/profile?" + query
+	serviceURL := api.controllerURL + APIPrefix + "client/profile?" + query
 
 	// perform REST API call and return error code
-	err := performWriteRequest(url, http.MethodPost, bytes.NewReader(configuration))
+	err := performWriteRequest(serviceURL, http.MethodPost, bytes.NewReader(configuration))
 	return err
 }
 
@@ -311,10 +311,10 @@ func (api RestAPI) AddConfigurationProfile(username, description string, configu
 func (api RestAPI) AddClusterConfiguration(username, cluster, reason, description string, configuration []byte) error {
 	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&description=" + url.QueryEscape(description)
 	// construct URL to be used to access REST API endpoint
-	url := api.controllerURL + APIPrefix + "client/cluster/" + url.PathEscape(cluster) + "/configuration/create?" + query
+	serviceURL := api.controllerURL + APIPrefix + "client/cluster/" + url.PathEscape(cluster) + "/configuration/create?" + query
 
 	// perform REST API call and return error code
-	err := performWriteRequest(url, http.MethodPost, bytes.NewReader(configuration))
+	err := performWriteRequest(serviceURL, http.MethodPost, bytes.NewReader(configuration))
 	return err
 }
 
@@ -322,20 +322,20 @@ func (api RestAPI) AddClusterConfiguration(username, cluster, reason, descriptio
 func (api RestAPI) AddTrigger(username, clusterName, reason, link string) error {
 	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&link=" + url.QueryEscape(link)
 	// construct URL to be used to access REST API endpoint
-	url := api.controllerURL + APIPrefix + "client/cluster/" + url.PathEscape(clusterName) + "/trigger/must-gather?" + query
+	serviceURL := api.controllerURL + APIPrefix + "client/cluster/" + url.PathEscape(clusterName) + "/trigger/must-gather?" + query
 
 	// perform REST API call and return error code
-	err := performWriteRequest(url, http.MethodPost, nil)
+	err := performWriteRequest(serviceURL, http.MethodPost, nil)
 	return err
 }
 
 // DeleteTrigger access the REST API endpoint to delete the selected trigger
 func (api RestAPI) DeleteTrigger(triggerID string) error {
 	// construct URL to be used to access REST API endpoint
-	url := api.controllerURL + APIPrefix + "client/trigger/" + triggerID
+	serviceURL := api.controllerURL + APIPrefix + "client/trigger/" + triggerID
 
 	// perform REST API call and return error code
-	err := performWriteRequest(url, http.MethodDelete, nil)
+	err := performWriteRequest(serviceURL, http.MethodDelete, nil)
 	return err
 }
 
@@ -343,10 +343,10 @@ func (api RestAPI) DeleteTrigger(triggerID string) error {
 // trigger
 func (api RestAPI) ActivateTrigger(triggerID string) error {
 	// construct URL to be used to access REST API endpoint
-	url := api.controllerURL + APIPrefix + "client/trigger/" + triggerID + "/activate"
+	serviceURL := api.controllerURL + APIPrefix + "client/trigger/" + triggerID + "/activate"
 
 	// perform REST API call and return error code
-	err := performWriteRequest(url, http.MethodPut, nil)
+	err := performWriteRequest(serviceURL, http.MethodPut, nil)
 	return err
 }
 
@@ -354,9 +354,9 @@ func (api RestAPI) ActivateTrigger(triggerID string) error {
 // trigger
 func (api RestAPI) DeactivateTrigger(triggerID string) error {
 	// construct URL to be used to access REST API endpoint
-	url := api.controllerURL + APIPrefix + "client/trigger/" + triggerID + "/deactivate"
+	serviceURL := api.controllerURL + APIPrefix + "client/trigger/" + triggerID + "/deactivate"
 
 	// perform REST API call and return error code
-	err := performWriteRequest(url, http.MethodPut, nil)
+	err := performWriteRequest(serviceURL, http.MethodPut, nil)
 	return err
 }
