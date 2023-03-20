@@ -32,7 +32,8 @@ package main
 // https://medium.com/@robiplus/golang-trick-export-for-test-aa16cbd7b8cd
 // to see why this trick is needed for using package internal
 // symbols (externally invisible) in unit tests.
-// nolint
+//
+// nolint // reason these symbols are just exported and not used in the module
 var (
 	Completer         = completer
 	ReadConfiguration = readConfiguration
