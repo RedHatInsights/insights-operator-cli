@@ -1,5 +1,5 @@
 /*
-Copyright © 2019, 2020, 2021 Red Hat, Inc.
+Copyright © 2019, 2020, 2021, 2022, 2023 Red Hat, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -256,9 +256,7 @@ func executeFixedCommand(t string) {
 	case "activate must-gather", "activate trigger":
 		trigger := triggerPrompt()
 		commands.ActivateTrigger(api, trigger)
-	case "deactivate must-gather":
-		fallthrough
-	case "deactivate trigger":
+	case "deactivate must-gather", "deactivate trigger":
 		trigger := triggerPrompt()
 		commands.DeactivateTrigger(api, trigger)
 	default:
