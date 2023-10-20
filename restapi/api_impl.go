@@ -36,6 +36,7 @@ const clientConfigurationEndpoint = "client/configuration"
 const clientTriggerEndpoint = "client/trigger/"
 const clientClusterEndpoint = "client/cluster/"
 const clientProfileEndpoint = "client/profile/"
+const usernameQuery = "username="
 
 // RestAPI is a structure representing instance of REST API
 type RestAPI struct {
@@ -303,7 +304,7 @@ func (api RestAPI) AddCluster(name string) error {
 // AddConfigurationProfile access the REST API endpoint to add new
 // configuration profile
 func (api RestAPI) AddConfigurationProfile(username, description string, configuration []byte) error {
-	query := "username=" + url.QueryEscape(username) + "&description=" + url.QueryEscape(description)
+	query := usernameQuery + url.QueryEscape(username) + "&description=" + url.QueryEscape(description)
 	// construct URL to be used to access REST API endpoint
 	serviceURL := api.controllerURL + APIPrefix + "client/profile?" + query
 
@@ -315,7 +316,7 @@ func (api RestAPI) AddConfigurationProfile(username, description string, configu
 // AddClusterConfiguration access the REST API endpoint to add new cluster
 // configuration
 func (api RestAPI) AddClusterConfiguration(username, cluster, reason, description string, configuration []byte) error {
-	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&description=" + url.QueryEscape(description)
+	query := usernameQuery + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&description=" + url.QueryEscape(description)
 	// construct URL to be used to access REST API endpoint
 	serviceURL := api.controllerURL + APIPrefix + clientClusterEndpoint + url.PathEscape(cluster) + "/configuration/create?" + query
 
@@ -326,7 +327,7 @@ func (api RestAPI) AddClusterConfiguration(username, cluster, reason, descriptio
 
 // AddTrigger access the REST API endpoint to add/register new trigger
 func (api RestAPI) AddTrigger(username, clusterName, reason, link string) error {
-	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&link=" + url.QueryEscape(link)
+	query := usernameQuery + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&link=" + url.QueryEscape(link)
 	// construct URL to be used to access REST API endpoint
 	serviceURL := api.controllerURL + APIPrefix + clientClusterEndpoint + url.PathEscape(clusterName) + "/trigger/must-gather?" + query
 

@@ -30,6 +30,8 @@ import (
 	"github.com/logrusorgru/aurora"
 )
 
+const triggerMessage = "Trigger "
+
 // ListOfTriggers function displays list of triggers (including must-gather
 // one) gathered via REST API call to controller service.
 func ListOfTriggers(api restapi.API) {
@@ -139,7 +141,7 @@ func DeleteTrigger(api restapi.API, triggerID string) {
 	}
 
 	// everything's ok, trigger has been deleted
-	fmt.Println(colorizer.Blue("Trigger "+triggerID+hasBeenMessage), colorizer.Red(deleted))
+	fmt.Println(colorizer.Blue(triggerMessage+triggerID+hasBeenMessage), colorizer.Red(deleted))
 }
 
 // ActivateTrigger function activates specified trigger.
@@ -154,7 +156,7 @@ func ActivateTrigger(api restapi.API, triggerID string) {
 	}
 
 	// everything's ok, trigger has been activated
-	fmt.Println(colorizer.Blue("Trigger "+triggerID+hasBeenMessage), colorizer.Green("activated"))
+	fmt.Println(colorizer.Blue(triggerMessage+triggerID+hasBeenMessage), colorizer.Green("activated"))
 }
 
 // DeactivateTrigger deactivates specified trigger
@@ -169,5 +171,5 @@ func DeactivateTrigger(api restapi.API, triggerID string) {
 	}
 
 	// everything's ok, trigger has been deactivated
-	fmt.Println(colorizer.Blue("Trigger "+triggerID+hasBeenMessage), colorizer.Green("deactivated"))
+	fmt.Println(colorizer.Blue(triggerMessage+triggerID+hasBeenMessage), colorizer.Green("deactivated"))
 }
