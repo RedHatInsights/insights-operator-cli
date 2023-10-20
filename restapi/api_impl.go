@@ -33,6 +33,7 @@ import (
 )
 
 const clientConfigurationEndpoint = "client/configuration"
+const clientTriggerEndpoint = "client/trigger/"
 
 // RestAPI is a structure representing instance of REST API
 type RestAPI struct {
@@ -78,7 +79,7 @@ func (api RestAPI) ReadListOfTriggers() ([]types.Trigger, error) {
 	triggers := types.TriggersResponse{}
 
 	// construct URL to be used to access REST API endpoint
-	serviceURL := api.controllerURL + APIPrefix + "client/trigger"
+	serviceURL := api.controllerURL + APIPrefix + clientTriggerEndpoint
 
 	// perform REST API call and check the result
 	body, err := performReadRequest(serviceURL)
@@ -104,7 +105,7 @@ func (api RestAPI) ReadTriggerByID(triggerID string) (*types.Trigger, error) {
 	trigger := types.TriggerResponse{}
 
 	// construct URL to be used to access REST API endpoint
-	serviceURL := api.controllerURL + APIPrefix + "client/trigger/" + triggerID
+	serviceURL := api.controllerURL + APIPrefix + clientTriggerEndpoint + triggerID
 
 	// perform REST API call and check the result
 	body, err := performReadRequest(serviceURL)
@@ -335,7 +336,7 @@ func (api RestAPI) AddTrigger(username, clusterName, reason, link string) error 
 // DeleteTrigger access the REST API endpoint to delete the selected trigger
 func (api RestAPI) DeleteTrigger(triggerID string) error {
 	// construct URL to be used to access REST API endpoint
-	serviceURL := api.controllerURL + APIPrefix + "client/trigger/" + triggerID
+	serviceURL := api.controllerURL + APIPrefix + clientTriggerEndpoint + triggerID
 
 	// perform REST API call and return error code
 	err := performWriteRequest(serviceURL, http.MethodDelete, nil)
@@ -346,7 +347,7 @@ func (api RestAPI) DeleteTrigger(triggerID string) error {
 // trigger
 func (api RestAPI) ActivateTrigger(triggerID string) error {
 	// construct URL to be used to access REST API endpoint
-	serviceURL := api.controllerURL + APIPrefix + "client/trigger/" + triggerID + "/activate"
+	serviceURL := api.controllerURL + APIPrefix + clientTriggerEndpoint + triggerID + "/activate"
 
 	// perform REST API call and return error code
 	err := performWriteRequest(serviceURL, http.MethodPut, nil)
@@ -357,7 +358,7 @@ func (api RestAPI) ActivateTrigger(triggerID string) error {
 // trigger
 func (api RestAPI) DeactivateTrigger(triggerID string) error {
 	// construct URL to be used to access REST API endpoint
-	serviceURL := api.controllerURL + APIPrefix + "client/trigger/" + triggerID + "/deactivate"
+	serviceURL := api.controllerURL + APIPrefix + clientTriggerEndpoint + triggerID + "/deactivate"
 
 	// perform REST API call and return error code
 	err := performWriteRequest(serviceURL, http.MethodPut, nil)
