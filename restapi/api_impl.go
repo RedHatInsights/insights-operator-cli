@@ -26,10 +26,13 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/RedHatInsights/insights-operator-cli/types"
 	"net/http"
 	"net/url"
+
+	"github.com/RedHatInsights/insights-operator-cli/types"
 )
+
+const clientConfigurationEndpoint = "client/configuration"
 
 // RestAPI is a structure representing instance of REST API
 type RestAPI struct {
@@ -208,7 +211,7 @@ func (api RestAPI) ReadClusterConfigurationByID(configurationID string) (*string
 	configuration := types.ConfigurationResponse{}
 
 	// construct URL to be used to access REST API endpoint
-	serviceURL := api.controllerURL + APIPrefix + "client/configuration/" + configurationID
+	serviceURL := api.controllerURL + APIPrefix + clientConfigurationEndpoint + configurationID
 
 	// perform REST API call and check the result
 	body, err := performReadRequest(serviceURL)
@@ -232,7 +235,7 @@ func (api RestAPI) ReadClusterConfigurationByID(configurationID string) (*string
 // cluster configuration
 func (api RestAPI) EnableClusterConfiguration(configurationID string) error {
 	// construct URL to be used to access REST API endpoint
-	serviceURL := api.controllerURL + APIPrefix + "client/configuration/" + configurationID + "/enable"
+	serviceURL := api.controllerURL + APIPrefix + clientConfigurationEndpoint + configurationID + "/enable"
 
 	// perform REST API call and return error code
 	err := performWriteRequest(serviceURL, http.MethodPut, nil)
@@ -243,7 +246,7 @@ func (api RestAPI) EnableClusterConfiguration(configurationID string) error {
 // cluster configuration
 func (api RestAPI) DisableClusterConfiguration(configurationID string) error {
 	// construct URL to be used to access REST API endpoint
-	serviceURL := api.controllerURL + APIPrefix + "client/configuration/" + configurationID + "/disable"
+	serviceURL := api.controllerURL + APIPrefix + clientConfigurationEndpoint + configurationID + "/disable"
 
 	// perform REST API call and return error code
 	err := performWriteRequest(serviceURL, http.MethodPut, nil)
@@ -254,7 +257,7 @@ func (api RestAPI) DisableClusterConfiguration(configurationID string) error {
 // cluster configuration
 func (api RestAPI) DeleteClusterConfiguration(configurationID string) error {
 	// construct URL to be used to access REST API endpoint
-	serviceURL := api.controllerURL + APIPrefix + "client/configuration/" + configurationID
+	serviceURL := api.controllerURL + APIPrefix + clientConfigurationEndpoint + configurationID
 
 	// perform REST API call and return error code
 	err := performWriteRequest(serviceURL, http.MethodDelete, nil)
