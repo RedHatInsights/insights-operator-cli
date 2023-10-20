@@ -32,7 +32,7 @@ import (
 	"github.com/RedHatInsights/insights-operator-cli/types"
 )
 
-const clientConfigurationEndpoint = "client/configuration"
+const clientConfigurationEndpoint = "client/configuration/"
 const clientTriggerEndpoint = "client/trigger/"
 const clientClusterEndpoint = "client/cluster/"
 const clientProfileEndpoint = "client/profile/"
@@ -82,7 +82,7 @@ func (api RestAPI) ReadListOfTriggers() ([]types.Trigger, error) {
 	triggers := types.TriggersResponse{}
 
 	// construct URL to be used to access REST API endpoint
-	serviceURL := api.controllerURL + APIPrefix + clientTriggerEndpoint
+	serviceURL := api.controllerURL + APIPrefix + "client/trigger"
 
 	// perform REST API call and check the result
 	body, err := performReadRequest(serviceURL)
