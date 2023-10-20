@@ -24,6 +24,7 @@ package commands
 
 import (
 	"fmt"
+
 	"github.com/RedHatInsights/insights-operator-cli/restapi"
 	"github.com/c-bata/go-prompt"
 	"github.com/logrusorgru/aurora"
@@ -138,7 +139,7 @@ func DeleteTrigger(api restapi.API, triggerID string) {
 	}
 
 	// everything's ok, trigger has been deleted
-	fmt.Println(colorizer.Blue("Trigger "+triggerID+" has been"), colorizer.Red(deleted))
+	fmt.Println(colorizer.Blue("Trigger "+triggerID+hasBeenMessage), colorizer.Red(deleted))
 }
 
 // ActivateTrigger function activates specified trigger.
@@ -153,7 +154,7 @@ func ActivateTrigger(api restapi.API, triggerID string) {
 	}
 
 	// everything's ok, trigger has been activated
-	fmt.Println(colorizer.Blue("Trigger "+triggerID+" has been"), colorizer.Green("activated"))
+	fmt.Println(colorizer.Blue("Trigger "+triggerID+hasBeenMessage), colorizer.Green("activated"))
 }
 
 // DeactivateTrigger deactivates specified trigger
@@ -168,5 +169,5 @@ func DeactivateTrigger(api restapi.API, triggerID string) {
 	}
 
 	// everything's ok, trigger has been deactivated
-	fmt.Println(colorizer.Blue("Trigger "+triggerID+" has been"), colorizer.Green("deactivated"))
+	fmt.Println(colorizer.Blue("Trigger "+triggerID+hasBeenMessage), colorizer.Green("deactivated"))
 }
