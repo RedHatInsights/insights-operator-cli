@@ -24,18 +24,21 @@ package commands
 
 import (
 	"fmt"
+	"os"
+	"strings"
+
 	"github.com/RedHatInsights/insights-operator-cli/restapi"
 	"github.com/c-bata/go-prompt"
 	"github.com/logrusorgru/aurora"
-	"os"
-	"strings"
 )
 
 // configFileDirectory constant contains path to directory containing all
 // configuration files for this tool.
 const configFileDirectory = "configurations/"
 
+const configurationChangeMsg = "Configuration "
 const configurationsDirectory = "configurations"
+const hasBeenMessage = " has been"
 
 // ListOfConfigurations function displays list of all configurations gathered
 // via REST API call to the Controller Service.
@@ -81,7 +84,7 @@ func EnableClusterConfiguration(api restapi.API, configurationID string) {
 	}
 
 	// everything's ok
-	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been"), colorizer.Green("enabled"))
+	fmt.Println(colorizer.Blue(configurationChangeMsg+configurationID+hasBeenMessage), colorizer.Green("enabled"))
 }
 
 // DisableClusterConfiguration function disables the selected cluster
@@ -97,7 +100,7 @@ func DisableClusterConfiguration(api restapi.API, configurationID string) {
 	}
 
 	// everything's ok
-	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been"), colorizer.Red("disabled"))
+	fmt.Println(colorizer.Blue(configurationChangeMsg+configurationID+hasBeenMessage), colorizer.Red("disabled"))
 }
 
 // DescribeConfiguration function displays additional information about
@@ -129,7 +132,7 @@ func DeleteClusterConfiguration(api restapi.API, configurationID string) {
 	}
 
 	// everything's ok, configuration has been deleted
-	fmt.Println(colorizer.Blue("Configuration "+configurationID+" has been"), colorizer.Red(deleted))
+	fmt.Println(colorizer.Blue(configurationChangeMsg+configurationID+hasBeenMessage), colorizer.Red(deleted))
 }
 
 // AddClusterConfiguration function asks for all information needed to create

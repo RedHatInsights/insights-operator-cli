@@ -28,6 +28,8 @@ import (
 	"github.com/RedHatInsights/insights-operator-cli/restapi"
 )
 
+const clusterMessage = "Cluster "
+
 // ListOfClusters function displays list of clusters gathered via REST API call
 // to the controller service. Just basic information about clusters are
 // displayed - mainly its internal ID, an official ID, and a name.
@@ -86,7 +88,7 @@ func DeleteCluster(api restapi.API, clusterID string, askForConfirmation bool) {
 	}
 
 	// everything's ok, cluster has been deleted
-	fmt.Println(colorizer.Blue("Cluster "+clusterID+" has been"), colorizer.Red(deleted))
+	fmt.Println(colorizer.Blue(clusterMessage+clusterID+" has been"), colorizer.Red(deleted))
 }
 
 // AddCluster function inserts new cluster info into the database via REST API
@@ -104,5 +106,5 @@ func AddCluster(api restapi.API, clusterName string) {
 	}
 
 	// everything's ok, cluster has been added
-	fmt.Println(colorizer.Blue("Cluster " + clusterName + " has been added"))
+	fmt.Println(colorizer.Blue(clusterMessage + clusterName + " has been added"))
 }
