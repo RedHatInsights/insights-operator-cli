@@ -34,6 +34,7 @@ import (
 
 const clientConfigurationEndpoint = "client/configuration"
 const clientTriggerEndpoint = "client/trigger/"
+const clientClusterEndpoint = "client/cluster/"
 
 // RestAPI is a structure representing instance of REST API
 type RestAPI struct {
@@ -269,7 +270,7 @@ func (api RestAPI) DeleteClusterConfiguration(configurationID string) error {
 // cluster
 func (api RestAPI) DeleteCluster(clusterID string) error {
 	// construct URL to be used to access REST API endpoint
-	serviceURL := api.controllerURL + APIPrefix + "client/cluster/" + clusterID
+	serviceURL := api.controllerURL + APIPrefix + clientClusterEndpoint + clusterID
 
 	// perform REST API call and return error code
 	err := performWriteRequest(serviceURL, http.MethodDelete, nil)
@@ -291,7 +292,7 @@ func (api RestAPI) DeleteConfigurationProfile(profileID string) error {
 func (api RestAPI) AddCluster(name string) error {
 	query := name
 	// construct URL to be used to access REST API endpoint
-	serviceURL := api.controllerURL + APIPrefix + "client/cluster/" + query
+	serviceURL := api.controllerURL + APIPrefix + clientClusterEndpoint + query
 
 	// perform REST API call and return error code
 	err := performWriteRequest(serviceURL, http.MethodPost, nil)
@@ -315,7 +316,7 @@ func (api RestAPI) AddConfigurationProfile(username, description string, configu
 func (api RestAPI) AddClusterConfiguration(username, cluster, reason, description string, configuration []byte) error {
 	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&description=" + url.QueryEscape(description)
 	// construct URL to be used to access REST API endpoint
-	serviceURL := api.controllerURL + APIPrefix + "client/cluster/" + url.PathEscape(cluster) + "/configuration/create?" + query
+	serviceURL := api.controllerURL + APIPrefix + clientClusterEndpoint + url.PathEscape(cluster) + "/configuration/create?" + query
 
 	// perform REST API call and return error code
 	err := performWriteRequest(serviceURL, http.MethodPost, bytes.NewReader(configuration))
@@ -326,7 +327,7 @@ func (api RestAPI) AddClusterConfiguration(username, cluster, reason, descriptio
 func (api RestAPI) AddTrigger(username, clusterName, reason, link string) error {
 	query := "username=" + url.QueryEscape(username) + "&reason=" + url.QueryEscape(reason) + "&link=" + url.QueryEscape(link)
 	// construct URL to be used to access REST API endpoint
-	serviceURL := api.controllerURL + APIPrefix + "client/cluster/" + url.PathEscape(clusterName) + "/trigger/must-gather?" + query
+	serviceURL := api.controllerURL + APIPrefix + clientClusterEndpoint + url.PathEscape(clusterName) + "/trigger/must-gather?" + query
 
 	// perform REST API call and return error code
 	err := performWriteRequest(serviceURL, http.MethodPost, nil)
