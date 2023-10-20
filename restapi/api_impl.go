@@ -35,6 +35,7 @@ import (
 const clientConfigurationEndpoint = "client/configuration"
 const clientTriggerEndpoint = "client/trigger/"
 const clientClusterEndpoint = "client/cluster/"
+const clientProfileEndpoint = "client/profile/"
 
 // RestAPI is a structure representing instance of REST API
 type RestAPI struct {
@@ -186,7 +187,7 @@ func (api RestAPI) ReadConfigurationProfile(profileID string) (*types.Configurat
 	profile := types.ConfigurationProfileResponse{}
 
 	// construct URL to be used to access REST API endpoint
-	serviceURL := api.controllerURL + APIPrefix + "client/profile/" + profileID
+	serviceURL := api.controllerURL + APIPrefix + clientProfileEndpoint + profileID
 
 	// perform REST API call and check the result
 	body, err := performReadRequest(serviceURL)
@@ -281,7 +282,7 @@ func (api RestAPI) DeleteCluster(clusterID string) error {
 // configuration profile
 func (api RestAPI) DeleteConfigurationProfile(profileID string) error {
 	// construct URL to be used to access REST API endpoint
-	serviceURL := api.controllerURL + APIPrefix + "client/profile/" + profileID
+	serviceURL := api.controllerURL + APIPrefix + clientProfileEndpoint + profileID
 
 	// perform REST API call and return error code
 	err := performWriteRequest(serviceURL, http.MethodDelete, nil)
